@@ -28,11 +28,22 @@ public class Inventory : MonoBehaviour {
 
     private void Update()
     {
-        // Update Gold UI
-        GameObject inventoryUI = GameObject.Find("Canvas").transform.Find("Inventory").gameObject;
-        if(inventoryUI.activeSelf)
-            inventoryUI.transform.Find("Gold").Find("Value").GetComponent<Text>().text = gold.ToString();
+        GameObject canvas = GameObject.Find("Canvas");
+        if (canvas == null) return;
 
+        Transform inventoryTransform = canvas.transform.Find("Inventory");
+        if (inventoryTransform == null) return;
+
+        GameObject inventoryUI = inventoryTransform.gameObject;
+        if (!inventoryUI.activeSelf) return;
+
+        Transform goldTransform = inventoryUI.transform.Find("Gold/Value");
+        if (goldTransform == null) return;
+
+        Text goldText = goldTransform.GetComponent<Text>();
+        if (goldText == null) return;
+
+        goldText.text = gold.ToString();
     }
 
     // Add a new item if enough room
