@@ -17,6 +17,9 @@ public class EnemyAi : MonoBehaviour
     private Transform player;
     private bool isChasing = false;
 
+    // Aggiungi questa variabile per sapere se sta facendo animazione damage
+    private bool isTakingDamage = false;
+
     void Start()
     {
         faceMaterial = SmileBody.GetComponent<Renderer>().materials[1];
@@ -64,6 +67,14 @@ public class EnemyAi : MonoBehaviour
 
     void Update()
     {
+        // Se sta facendo animazione damage, blocca il movimento
+        if (isTakingDamage)
+        {
+            animator.SetFloat("Speed", 0);
+            agent.isStopped = true;
+            return;
+        }
+
         if (isChasing && player != null && currentState == SlimeAnimationState.Walk)
         {
             agent.SetDestination(player.position);
@@ -80,6 +91,50 @@ public class EnemyAi : MonoBehaviour
         else if (currentState == SlimeAnimationState.Idle)
         {
             animator.SetFloat("Speed", 0);
+        }
+    }
+
+    // Funzione da chiamare quando il nemico subisce danno
+    public void TakeDamage(int damageAmount)
+    {
+        if (isTakingDamage) return; // evita sovrapposizioni
+
+        isTakingDamage = true;
+        currentState = SlimeAnimationState.Damage;
+        animator.SetTrigger("Damage");
+        SetFace(faces.damageFace);
+
+        // Dopo 0.5 secondi (durata animazione), torna a chase/attack
+        Invoke(nameof(ResumeChaseOrAttack), 0.5f);
+    }
+
+    private void ResumeChaseOrAttack()
+    {
+        isTakingDamage = false;
+
+        if (player != null)
+        {
+            // Controlla distanza per decidere se tornare in attack o walk
+            float distance = Vector3.Distance(transform.position, player.position);
+            if (distance <= 2f) // esempio: sotto 2 metri passa in attack
+            {
+                currentState = SlimeAnimationState.Attack;
+                agent.isStopped = true;
+                SetFace(faces.attackFace);
+                animator.SetTrigger("Attack");
+            }
+            else
+            {
+                currentState = SlimeAnimationState.Walk;
+                agent.isStopped = false;
+                SetFace(faces.WalkFace);
+            }
+        }
+        else
+        {
+            currentState = SlimeAnimationState.Idle;
+            SetFace(faces.Idleface);
+            agent.isStopped = true;
         }
     }
 }
