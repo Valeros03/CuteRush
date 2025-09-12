@@ -131,7 +131,7 @@ public class ShootController : MonoBehaviour
 
                 if (Physics.Raycast(rayOrigin, fpsCam.transform.forward, out hit, weaponRange))
                 {
-                    EnemyController health = hit.collider.GetComponent<EnemyController>();
+                    EnemyController health = hit.collider.GetComponentInParent<EnemyController>();
 
                     if (health != null)
                     {

@@ -80,6 +80,7 @@
      <Compile Include="Assets\Kawaii Slimes\Scripts\AI\EnemyAi.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\AI\Face.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Kawaii Slimes\Scripts\TriggerCollider.cs" />
      <Compile Include="Assets\Nokobot\Modern Guns - Handgun\_Demo Assets\SimpleShoot.cs" />
      <None Include="Assets\Kawaii Slimes\Shader\Unity-chan Shader Ver 1.2.1\Unitychan_chara_eye.shader" />
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\LowPoly Island\Credits.txt" />

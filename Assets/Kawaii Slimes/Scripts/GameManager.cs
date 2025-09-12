@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
         
         idleBut.onClick.AddListener( delegate { Idle(); } );
         walkBut.onClick.AddListener(delegate {  ChangeStateTo(SlimeAnimationState.Walk); });
-        jumpBut.onClick.AddListener(delegate { LookAtCamera(); ChangeStateTo(SlimeAnimationState.Jump); });
         attackBut.onClick.AddListener(delegate { LookAtCamera(); ChangeStateTo(SlimeAnimationState.Attack); });
         damageBut0.onClick.AddListener(delegate { LookAtCamera(); ChangeStateTo(SlimeAnimationState.Damage); mainSlime.GetComponent<EnemyAi>().damType = 0; });
         damageBut1.onClick.AddListener(delegate { LookAtCamera(); ChangeStateTo(SlimeAnimationState.Damage); mainSlime.GetComponent<EnemyAi>().damType = 1; });
@@ -22,7 +21,6 @@ public class GameManager : MonoBehaviour
     void Idle()
     {
         LookAtCamera();
-        mainSlime.GetComponent<EnemyAi>().CancelGoNextDestination();
         ChangeStateTo(SlimeAnimationState.Idle);
     }
     public void ChangeStateTo(SlimeAnimationState state)
