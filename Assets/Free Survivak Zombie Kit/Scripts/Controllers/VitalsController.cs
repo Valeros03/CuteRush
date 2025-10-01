@@ -28,37 +28,38 @@ public class VitalsController : MonoBehaviour
     private void Update()
     {
         if (currentHealth <= 0)
+        {
             currentHealth = 0;
+            //gameManager.gameOver
+        }
+        
         if (currentHealth >= maxHealth)
             currentHealth = maxHealth;
 
     }
 
-   public void Increase(int value, string type)
+   public void Increase(int value)
     {
-        if(type == "health")
-        {
-            ChangeSliderValue(value / 100f, "health");
-            currentHealth += value;
-        }
+       
+       ChangeSliderValue(value / 100f);
+       currentHealth += value;
+       
     }
 
-    public void Decrease(int value, string type)
+    public void Decrease(int value)
     {
-        if (type == "health")
-        {
-            ChangeSliderValue(-value / 100f, "health");
-            currentHealth -= value;
-        }
+       
+       ChangeSliderValue(-value / 100f);
+       currentHealth -= value;
+       
     }
 
-    public void ChangeSliderValue(float value, string type)
+    public void ChangeSliderValue(float value)
     {     
-        if(type == "health")
-        {
-            healthImage.fillAmount += value;
-            healthImage.color = Color.Lerp(emptyHealthColor, fullHealthColor, healthImage.fillAmount);
-            healthTextQty.text = currentHealth.ToString();
-        } 
+        
+        healthImage.fillAmount += value;
+        healthImage.color = Color.Lerp(emptyHealthColor, fullHealthColor, healthImage.fillAmount);
+        healthTextQty.text = currentHealth.ToString();
+         
     }
 }

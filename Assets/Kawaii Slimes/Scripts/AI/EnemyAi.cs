@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
 public enum SlimeAnimationState { Idle, Walk, Attack, Damage }
@@ -8,6 +9,8 @@ public class EnemyAi : MonoBehaviour
     public Face faces;
     public GameObject SmileBody;
     public SlimeAnimationState currentState;
+    public int Attack;
+    public float attackSpeed;
 
     public Animator animator;
     public NavMeshAgent agent;
@@ -16,6 +19,7 @@ public class EnemyAi : MonoBehaviour
     private Material faceMaterial;
     private Transform player;
     private bool isChasing = false;
+    private bool isPlayerInAttackArea = false;
 
     // Aggiungi questa variabile per sapere se sta facendo animazione damage
     private bool isTakingDamage = false;
@@ -44,6 +48,7 @@ public class EnemyAi : MonoBehaviour
             agent.isStopped = true;
             SetFace(faces.attackFace);
             animator.SetTrigger("Attack");
+            isPlayerInAttackArea = true;
         }
         else if (trigger.gameObject.name == "DetectionTrigger")
         {
@@ -58,7 +63,7 @@ public class EnemyAi : MonoBehaviour
     {
         if (trigger.gameObject.name == "AttackTrigger")
         {
-            // torna a chase se esce dall'area attack
+            isPlayerInAttackArea = false;
             currentState = SlimeAnimationState.Walk;
             agent.isStopped = false;
             SetFace(faces.WalkFace);
@@ -137,4 +142,11 @@ public class EnemyAi : MonoBehaviour
             agent.isStopped = true;
         }
     }
+
+     private void DealDamage()
+     {
+        if(isPlayerInAttackArea)
+            player.GetComponent<VitalsController>().Decrease(Attack);     
+     }
+
 }

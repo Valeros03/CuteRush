@@ -25,12 +25,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668859396262417521}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.0000001192093, z: -2.4868996e-14, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6836556466655795446}
-  m_RootOrder: 2
+  m_Father: {fileID: 949259740048503156}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &3346166099274065206
 SphereCollider:
@@ -227,12 +227,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2700125561509425713}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.0000001192093, z: -2.4868996e-14, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6836556466655795446}
-  m_RootOrder: 4
+  m_Father: {fileID: 949259740048503156}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &3933287664552758675
 CapsuleCollider:
@@ -277,7 +277,7 @@ Transform:
   m_Children:
   - {fileID: 5366634696407952385}
   m_Father: {fileID: 949259740048503156}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3222361788615903603
 GameObject:
@@ -306,6 +306,9 @@ Transform:
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 7754326290734364114}
+  - {fileID: 28192566462398512}
+  - {fileID: 69126123520356591}
   - {fileID: 6952772629355137204}
   - {fileID: 3978815195120335637}
   m_Father: {fileID: 2926823790185078136}
@@ -376,9 +379,6 @@ Transform:
   m_Children:
   - {fileID: 2926823790185078136}
   - {fileID: 2025504112150452546}
-  - {fileID: 28192566462398512}
-  - {fileID: 7754326290734364114}
-  - {fileID: 69126123520356591}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -454,6 +454,8 @@ MonoBehaviour:
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
   SmileBody: {fileID: 2493330531005505269}
   currentState: 0
+  Attack: 0
+  attackSpeed: 0
   animator: {fileID: 1792034237617615932}
   agent: {fileID: 2143184386607470344}
   damType: 0
@@ -495,12 +497,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6709232429775500057}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.0000001192093, z: -2.4868996e-14, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6836556466655795446}
-  m_RootOrder: 3
+  m_Father: {fileID: 949259740048503156}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &6733528291649513602
 SphereCollider:
@@ -557,5 +559,5 @@ Transform:
   m_Children:
   - {fileID: 7350819569189183221}
   m_Father: {fileID: 949259740048503156}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

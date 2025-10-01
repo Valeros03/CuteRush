@@ -41,13 +41,13 @@ public class Crosshair : MonoBehaviour
 
     public void IncreaseSpread(float multiplier)
     {
-        Debug.Log("Increase spread with multiplier: " + multiplier);
+   
         spread += spreadPerSecond * multiplier * Time.deltaTime;
     }
 
     public void DecreaseSpread(float multiplier)
     {
-        Debug.Log("Decrease spread with multiplier: " + multiplier);
+
         spread -= spreadPerSecond * multiplier * Time.deltaTime;
     }
 
