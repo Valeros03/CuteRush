@@ -81,7 +81,6 @@ public class EquipmentManager : MonoBehaviour {
         if (newItem.equipSlot == EquipmentSlot.Weapon)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
-            player.GetComponent<PlayerController>().armsHolder.SetActive(false);
             player.GetComponent<PlayerController>().weaponHolder.transform.Find(newItem.name).gameObject.SetActive(true);
         }      
     }
@@ -99,7 +98,6 @@ public class EquipmentManager : MonoBehaviour {
 
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.GetComponent<PlayerController>().weaponHolder.transform.Find(oldItem.name).gameObject.SetActive(false);
-            player.GetComponent<PlayerController>().armsHolder.SetActive(true);
 
         }
 	}

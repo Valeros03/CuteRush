@@ -38,19 +38,6 @@ public class InventorySlot : MonoBehaviour {
         Inventory.instance.Remove(item);  
 	}
 
-    public void Drop()
-    {
-        Debug.Log("Drop item: " + item.name);
-
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Transform dropPos = player.GetComponent<PlayerController>().dropHolder.transform;
-
-        GameObject drop = Instantiate(item.objectPrefab, dropPos);
-        drop.transform.parent = null;
-
-        Inventory.instance.Remove(item);
-    }
-
 	// Use the item
 	public void UseItem ()
 	{

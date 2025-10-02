@@ -108,6 +108,7 @@ public class EnemyAi : MonoBehaviour
         currentState = SlimeAnimationState.Damage;
         animator.SetTrigger("Damage");
         SetFace(faces.damageFace);
+        gameObject.GetComponent<EnemyController>().Damage(damageAmount); //take damage
 
         // Dopo 0.5 secondi (durata animazione), torna a chase/attack
         Invoke(nameof(ResumeChaseOrAttack), 0.5f);

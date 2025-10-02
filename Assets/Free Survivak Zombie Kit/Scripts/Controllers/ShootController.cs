@@ -19,7 +19,7 @@ public class ShootController : MonoBehaviour
     [Header("Weapon UI Settings")]
     public GameObject WeaponUI;
     public Text bulletNumberUI;
-    public Text clipNumberUI;
+    public Text granadeNumberUI;
 
     [Header("Weapon Objects")]
     public Transform gunEnd;
@@ -74,11 +74,8 @@ public class ShootController : MonoBehaviour
         if (WeaponUI.activeSelf)
         {
             bulletNumberUI.text = string.Format("Bullets {0}/{1}", bulletsLeft, bulletsPerClip);
-            clipNumberUI.text = string.Format("Clips {0}/{1}", numberOfClips, maxNumberOfClips);
+            granadeNumberUI.text = string.Format("Clips {0}/{1}", numberOfClips, maxNumberOfClips);
         }
-
-        if (playerController.inventory.activeSelf)
-            return;
 
         if (playerController.currentMotion == PlayerController.motionstate.idle)
         {

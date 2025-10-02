@@ -8,14 +8,9 @@ public class ItemPickup : MonoBehaviour {
     {
         if (playerCollider.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player found item: " + item.name);
 
             if (Input.GetKeyDown(KeyCode.P))
             {
-                // Open inventory before pick up iten for prevent null objects bugs
-                playerCollider.gameObject.GetComponent<PlayerController>().inventory.SetActive(true);
-
-                // Pick up item
                 PickUp();
             }
         }
@@ -24,9 +19,7 @@ public class ItemPickup : MonoBehaviour {
 	// Pick up the item
 	void PickUp ()
 	{
-		Debug.Log("Pick up " + item.name);
-		Inventory.instance.Add(item);	// Add to inventory
-
+        //Qua serve la logica per determinare se è salute o munizioni o granate
 		Destroy(gameObject);	// Destroy item from scene
 	}
 

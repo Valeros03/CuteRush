@@ -16,9 +16,7 @@ public class AimDownSights : MonoBehaviour
 
     void Update()
     {
-        if (playerController.inventory.activeSelf)
-            return;
-
+       
         if (Input.GetMouseButton(1))
         {
             transform.localPosition = Vector3.Lerp(transform.localPosition, aimPosition, Time.deltaTime * smoothAim);

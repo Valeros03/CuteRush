@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TheDeveloperTrain.SciFiGuns;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Animation")]
-    public Animator handsAnim;
 
     [Header("Speed System")]
     public float walkSpeed = 5.0f;
@@ -41,10 +40,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("GameObjects")]
     public GameObject camera;
-    public GameObject armsHolder;
     public GameObject weaponHolder;
-    public GameObject dropHolder;
-    public GameObject inventory;
+
 
     // Private Variables
     private Vector3 moveDirection;
@@ -57,10 +54,12 @@ public class PlayerController : MonoBehaviour
     private bool punching;
     private bool playerControl;
     private Crosshair crosshairScript;
+    private Gun gun;
 
     // Use this for initialization
     void Start()
     {
+        gun = weaponHolder.GetComponentInChildren<Gun>();
         currentMotion = motionstate.idle;
         moveDirection = Vector3.zero;
         grounded = false;
@@ -82,8 +81,6 @@ public class PlayerController : MonoBehaviour
 
         if (inputX == 0 && inputY == 0)
         {
-            handsAnim.SetBool("idle", true);
-            handsAnim.SetBool("running", false);
             currentMotion = motionstate.idle;
         }
 
@@ -102,8 +99,6 @@ public class PlayerController : MonoBehaviour
             {
                 bool running = Input.GetButton("Run");
                 speed = running ? runSpeed : walkSpeed;
-                handsAnim.SetBool("running", running);
-                handsAnim.SetBool("idle", false);
 
                 if (running)
                 {
@@ -120,8 +115,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonUp("Run"))
             {
                 currentMotion = PlayerController.motionstate.idle;
-                handsAnim.SetBool("running", false);
-                handsAnim.SetBool("idle", true);
+             
             }
 
             if (!toggleSneak)
@@ -140,15 +134,26 @@ public class PlayerController : MonoBehaviour
             moveDirection = new Vector3(inputX * inputModifyFactor, 0, inputY * inputModifyFactor);
             moveDirection = myTransform.TransformDirection(moveDirection) * speed;
 
-            if (!Input.GetButton("Jump"))
-            {
-                //anim.SetBool("Jump", false);
-            }
-            else
+            if (Input.GetButton("Jump"))
             {
                 moveDirection.y = jumpSpeed;
                 crosshairScript.IncreaseSpread(10f);
                 currentMotion = motionstate.jumping;
+            }
+
+            if (Input.GetButton("Fire1"))
+            {
+                if (gun != null)
+                {
+                    gun.Shoot();
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                if (gun != null)
+                {
+                    gun.Reload();
+                }
             }
         }
         else
@@ -173,40 +178,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(inventoryKey))
-        {
-            if (!inventory.activeSelf)
-                inventory.SetActive(false);             
-            else
-                inventory.SetActive(true);
-                          
-            GameObject ghost_tooltip = GameObject.Find("Standard Tooltip(Clone)");
-            if (ghost_tooltip != null)
-                Destroy(ghost_tooltip);
-        }
-                   
-        if (inventory.activeSelf)
-        {
-            DisableController();
-        }
-        else
-        {
-            EnableController();
-        }
 
         if (toggleRun && grounded && Input.GetButtonDown("Run"))
             speed = (speed == walkSpeed ? runSpeed : walkSpeed);
 
-        if (Input.GetButtonUp("Crouch"))
-        {
-            crouching = !crouching;
-            //anim.SetBool("Crouch", crouching);
-        }
-    }
-
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        //print(hit.point);
     }
 
     void FallingDamageAlert(float fallDistance)
@@ -214,15 +189,4 @@ public class PlayerController : MonoBehaviour
         print("Ouch! Fell " + fallDistance + " units!");
     }
 
-    void EnableController()
-    {
-        camera.GetComponent<MouseLook>().enabled = true;
-        Cursor.visible = false;
-    }
-
-    void DisableController()
-    {
-        camera.GetComponent<MouseLook>().enabled = false;
-        Cursor.visible = true;
-    }
 }
