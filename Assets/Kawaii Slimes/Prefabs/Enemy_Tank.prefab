@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 4205452506317957232}
   - component: {fileID: 8993619735545547831}
   m_Layer: 0
-  m_Name: Slime_03
+  m_Name: Enemy_Tank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -375,7 +375,7 @@ Transform:
   m_GameObject: {fileID: 6173172085731050060}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 2926823790185078136}
   - {fileID: 2025504112150452546}

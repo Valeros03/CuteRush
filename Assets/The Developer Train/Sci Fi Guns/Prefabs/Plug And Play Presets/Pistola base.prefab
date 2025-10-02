@@ -325,7 +325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7872303905389184005
 Transform:
   m_ObjectHideFlags: 0
@@ -500,15 +500,14 @@ MonoBehaviour:
   isReloading: 0
   damage: 10
   range: 100
-  firePoint: {fileID: 0}
+  firePoint: {fileID: 4625643918831965447}
   hitLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   tracer: {fileID: 174680115784635392}
-  tracerDuration: 0.05
+  tracerDuration: 0.2
   WeaponUI: {fileID: 0}
   bulletNumberUI: {fileID: 0}
-  granadeNumberUI: {fileID: 0}
 --- !u!114 &1598808227221156016
 MonoBehaviour:
   m_ObjectHideFlags: 0

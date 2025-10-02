@@ -60,7 +60,6 @@ namespace TheDeveloperTrain.SciFiGuns
         [Header("Weapon UI Settings")]
         public GameObject WeaponUI;
         public Text bulletNumberUI;
-        public Text granadeNumberUI;
 
         void Start()
         {
@@ -73,7 +72,7 @@ namespace TheDeveloperTrain.SciFiGuns
             if (WeaponUI.activeSelf)
             {
                 bulletNumberUI.text = string.Format("Bullets {0}/{1}", currentBulletCount, currentMagLeft);
-                //granadeNumberUI.text = string.Format("Clips {0}/{1}", numberOfGranade, maxNumberOfGranade);
+              
             }
 
             if (tracer != null && tracer.enabled)
@@ -141,7 +140,7 @@ namespace TheDeveloperTrain.SciFiGuns
                    
                     tracer.enabled = true;
                     tracer.SetPosition(0, firePoint.position);
-                    tracer.SetPosition(1, hit.point*-1);
+                    tracer.SetPosition(1, hit.point);
                     tracerTimer = tracerDuration;
                 }
             }
