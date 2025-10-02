@@ -257,7 +257,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3753674478239046379}
   m_LocalRotation: {x: 0.00000003774895, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.18333644, z: 0.2254}
+  m_LocalPosition: {x: 0, y: 0.125, z: -0.593}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4625643918831965447}
@@ -470,9 +470,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8388502902427339659}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -0.081, y: -0.15, z: -0.618}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 1001607564718781817}
   - {fileID: 8665995661395143520}
@@ -480,7 +480,7 @@ Transform:
   - {fileID: 7872303905389184005}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &6100500056878088951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,14 +500,12 @@ MonoBehaviour:
   isReloading: 0
   damage: 10
   range: 100
-  firePoint: {fileID: 4625643918831965447}
+  firePoint: {fileID: 8665995661395143520}
   hitLayers:
     serializedVersion: 2
     m_Bits: 512
   tracer: {fileID: 174680115784635392}
   tracerDuration: 0.2
-  WeaponUI: {fileID: 0}
-  bulletNumberUI: {fileID: 0}
 --- !u!114 &1598808227221156016
 MonoBehaviour:
   m_ObjectHideFlags: 0

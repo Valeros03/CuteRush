@@ -57,14 +57,25 @@ namespace TheDeveloperTrain.SciFiGuns
         public float tracerDuration = 0.05f; // tempo in cui la linea resta visibile
         private float tracerTimer;
 
-        [Header("Weapon UI Settings")]
-        public GameObject WeaponUI;
-        public Text bulletNumberUI;
+        //UI Settings
+        private GameObject WeaponUI;
+        private Text bulletNumberUI;
 
         void Start()
         {
             currentBulletCount = stats.magazineSize;
             currentMagLeft = stats.totalAmmo;
+
+            if (WeaponUI == null)
+            {
+                WeaponUI = GameObject.Find("Canvas/WeaponUI");
+                Debug.Log(WeaponUI);
+            }
+
+            if (bulletNumberUI == null && WeaponUI != null)
+            {
+                bulletNumberUI = WeaponUI.transform.Find("Ammo").GetComponent<Text>();
+            }
         }
 
         void Update()

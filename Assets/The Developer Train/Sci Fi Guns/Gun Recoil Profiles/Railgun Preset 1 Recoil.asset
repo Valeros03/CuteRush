@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d4a022087bb8e40911a6cd1b855052, type: 3}
   m_Name: Railgun Preset 1 Recoil
   m_EditorClassIdentifier: 
-  movementAmplitude: 1.28
+  movementAmplitude: 0.65
   rotationAmplitude: 10
   maxMovementOffset: 1.16
   maxRotationOffset: 6
