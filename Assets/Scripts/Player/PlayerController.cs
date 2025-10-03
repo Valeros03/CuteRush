@@ -40,7 +40,11 @@ public class PlayerController : MonoBehaviour
 
     [Header("GameObjects")]
     public GameObject camera;
-    public GameObject weaponHolder;
+    [SerializeField] private GameObject weaponHolder;
+    [SerializeField] private GameObject granadeHolder;
+
+    [SerializeField] private Animator weaponAnimator;   // animatore dell'arma
+    [SerializeField] private Animator granadeAnimator;
 
 
     // Private Variables
@@ -55,6 +59,7 @@ public class PlayerController : MonoBehaviour
     private bool playerControl;
     private Crosshair crosshairScript;
     private Gun gun;
+    
 
     // Use this for initialization
     void Start()
@@ -155,6 +160,10 @@ public class PlayerController : MonoBehaviour
                     gun.Reload();
                 }
             }
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                HandleGranadeEquipe();
+            }
         }
         else
         {
@@ -189,4 +198,56 @@ public class PlayerController : MonoBehaviour
         print("Ouch! Fell " + fallDistance + " units!");
     }
 
+
+    void HandleGranadeEquipe()
+    {
+        if (!granadeHolder.activeSelf)
+        {
+            // ---- EQUIPAGGIA LA GRANATA ----
+            if (weaponAnimator != null)
+            {
+                weaponAnimator.SetTrigger("PosaArma"); // arma si abbassa
+            }
+
+            StartCoroutine(SwitchToGranade());
+        }
+        else
+        {
+            // ---- TORNA ALL'ARMA ----
+            if (granadeAnimator != null)
+            {
+                granadeAnimator.SetTrigger("PosaGranata"); // granata si abbassa
+            }
+
+            StartCoroutine(SwitchToWeapon());
+        }
+    }
+
+    IEnumerator SwitchToGranade()
+    {
+        // tempo animazione abbassamento arma
+        yield return new WaitForSeconds(0.5f);
+
+        weaponHolder.transform.GetChild(0).gameObject.SetActive(false);
+        granadeHolder.SetActive(true);
+
+        if (granadeAnimator != null)
+        {
+            granadeAnimator.SetTrigger("PrendiGranata"); // granata si alza
+        }
+    }
+
+    IEnumerator SwitchToWeapon()
+    {
+        // tempo animazione abbassamento granata
+        yield return new WaitForSeconds(0.5f);
+
+        granadeHolder.SetActive(false);
+        weaponHolder.transform.GetChild(0).gameObject.SetActive(true);
+
+        if (weaponAnimator != null)
+        {
+            weaponAnimator.SetTrigger("EquipaggiaArma"); // arma si alza
+        }
+    }
 }

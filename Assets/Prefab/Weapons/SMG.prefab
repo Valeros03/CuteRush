@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7495118709315054163}
   - component: {fileID: 3522338704440287360}
   - component: {fileID: 8079439400444992049}
+  - component: {fileID: 2334294399730490371}
   m_Layer: 0
   m_Name: SMG
   m_TagString: Untagged
@@ -76,6 +77,25 @@ MonoBehaviour:
   handedness: 0
   profile: {fileID: 11400000, guid: 36580af867a065e4d83a20686e8b89e4, type: 2}
   stackRecoil: 1
+--- !u!95 &2334294399730490371
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755511403919433321}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 15474782aefa6c944a3291aa0f3e7d40, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2633637685222062345
 GameObject:
   m_ObjectHideFlags: 0

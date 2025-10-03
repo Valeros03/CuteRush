@@ -98,6 +98,7 @@ namespace TheDeveloperTrain.SciFiGuns
 
         public void Shoot()
         {
+            if(!gameObject.activeSelf) { return; }
 
             if (currentBulletCount > 0 && !isReloading && !IsInShotCooldown)
             {
@@ -172,6 +173,7 @@ namespace TheDeveloperTrain.SciFiGuns
 
         public void Reload()
         {
+            if (!gameObject.activeSelf) { return; }
             StartCoroutine(nameof(ReloadGun));
         }
 
