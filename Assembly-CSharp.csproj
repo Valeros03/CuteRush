@@ -105,6 +105,7 @@
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\Shaders\WaterShaded.shader" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\NiloZOffset.hlsl" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\NiloOutlineUtil.hlsl" />
+     <None Include="Assets\FireIceProjectileExplosion\Shader\S_ParticleAdd.shader" />
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Shaders\Shaders\LowPolyPBRShader.shader" />
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Shaders\Shaders\LowPolyUnlitShader.shader" />
      <None Include="Assets\Kawaii Slimes\Cameras\CameraGuidelines.txt" />

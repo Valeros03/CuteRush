@@ -18,6 +18,6 @@ MonoBehaviour:
   shootDelay: 0.1
   bulletSpeed: 200
   fireRate: 6
-  fireMode: 0
+  fireMode: 1
   burstCount: 1
   burstInterval: 0.0001
