@@ -1,0 +1,33 @@
+{
+    "name": "Player",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "e996b7f3-3720-440c-b8c5-c47ee6ef0b1d",
+            "actions": [
+                {
+                    "name": "EquipGranade",
+                    "type": "Button",
+                    "id": "4d78ea4b-7083-4fa0-9db2-63e55a71caa3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "258a29c7-3397-4072-8a27-23e62674d953",
+                    "path": "<Keyboard>/g",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipGranade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -61,10 +61,13 @@ namespace TheDeveloperTrain.SciFiGuns
         private GameObject WeaponUI;
         private Text bulletNumberUI;
 
+        private PlayerController player;
+
         void Start()
         {
             currentBulletCount = stats.magazineSize;
             currentMagLeft = stats.totalAmmo;
+            player = GetComponentInParent<PlayerController>();
 
             if (WeaponUI == null)
             {
@@ -227,6 +230,13 @@ namespace TheDeveloperTrain.SciFiGuns
             IsInShotCooldown = false;
         }
 
+        private void EquipGranade()
+        {
+            player.SwitchToGranade();
+        }
+
     }
+
+    
 
 }

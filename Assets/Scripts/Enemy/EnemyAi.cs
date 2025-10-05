@@ -116,8 +116,9 @@ public class EnemyAi : MonoBehaviour
 
     private void ResumeChaseOrAttack()
     {
-        isTakingDamage = false;
 
+        isTakingDamage = false;
+        if (!gameObject.activeInHierarchy) return;
         if (player != null)
         {
             // Controlla distanza per decidere se tornare in attack o walk

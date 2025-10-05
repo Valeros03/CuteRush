@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TheDeveloperTrain.SciFiGuns;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -35,13 +35,10 @@ public class PlayerController : MonoBehaviour
     public float fallingDamageLimit = 10.0f;
     private bool grounded;
 
-    [Header("Input System")]
-    public KeyCode inventoryKey = new KeyCode();
-
     [Header("GameObjects")]
     public GameObject camera;
     [SerializeField] private GameObject weaponHolder;
-    [SerializeField] private GameObject granadeHolder;
+    [SerializeField] private GameObject granade;
 
     [SerializeField] private Animator weaponAnimator;   // animatore dell'arma
     [SerializeField] private Animator granadeAnimator;
@@ -59,7 +56,10 @@ public class PlayerController : MonoBehaviour
     private bool playerControl;
     private Crosshair crosshairScript;
     private Gun gun;
-    
+
+    private PlayerControl controls; // classe generata
+
+
 
     // Use this for initialization
     void Start()
@@ -77,6 +77,15 @@ public class PlayerController : MonoBehaviour
         // Lock cursor
         Cursor.visible = false;
     }
+
+    private void Awake()
+    {
+        controls = new PlayerControl();
+        controls.Player.EquipGranade.performed += HandleGranadeEquipe;
+    }
+
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
 
     private void FixedUpdate()
     {
@@ -153,17 +162,7 @@ public class PlayerController : MonoBehaviour
                     gun.Shoot();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                if (gun != null)
-                {
-                    gun.Reload();
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                HandleGranadeEquipe();
-            }
+            
         }
         else
         {
@@ -191,6 +190,14 @@ public class PlayerController : MonoBehaviour
         if (toggleRun && grounded && Input.GetButtonDown("Run"))
             speed = (speed == walkSpeed ? runSpeed : walkSpeed);
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (gun != null)
+            {
+                gun.Reload();
+            }
+        }
+
     }
 
     void FallingDamageAlert(float fallDistance)
@@ -199,17 +206,16 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void HandleGranadeEquipe()
+    void HandleGranadeEquipe(InputAction.CallbackContext context)
     {
-        if (!granadeHolder.activeSelf)
-        {
-            // ---- EQUIPAGGIA LA GRANATA ----
+        if (!context.performed) { return; }
+
+        if (!granade.activeSelf)
+        { 
             if (weaponAnimator != null)
             {
-                weaponAnimator.SetTrigger("PosaArma"); // arma si abbassa
+                weaponAnimator.SetTrigger("PosaArma");
             }
-
-            StartCoroutine(SwitchToGranade());
         }
         else
         {
@@ -218,36 +224,29 @@ public class PlayerController : MonoBehaviour
             {
                 granadeAnimator.SetTrigger("PosaGranata"); // granata si abbassa
             }
-
-            StartCoroutine(SwitchToWeapon());
         }
     }
 
-    IEnumerator SwitchToGranade()
+    public void SwitchToGranade()
     {
-        // tempo animazione abbassamento arma
-        yield return new WaitForSeconds(0.5f);
-
+      
         weaponHolder.transform.GetChild(0).gameObject.SetActive(false);
-        granadeHolder.SetActive(true);
+        granade.SetActive(true);
 
         if (granadeAnimator != null)
         {
+            granade.transform.SetParent(granade.GetComponentInParent<Transform>());
+            granade.transform.localPosition = new Vector3(-0.352f, -0.664f, 0.011f);
+            granade.transform.localRotation = Quaternion.identity;
             granadeAnimator.SetTrigger("PrendiGranata"); // granata si alza
         }
     }
 
-    IEnumerator SwitchToWeapon()
+    public void SwitchToWeapon()
     {
-        // tempo animazione abbassamento granata
-        yield return new WaitForSeconds(0.5f);
+        granade.SetActive(false);
+        gun.gameObject.SetActive(true);
 
-        granadeHolder.SetActive(false);
-        weaponHolder.transform.GetChild(0).gameObject.SetActive(true);
-
-        if (weaponAnimator != null)
-        {
-            weaponAnimator.SetTrigger("EquipaggiaArma"); // arma si alza
-        }
+       
     }
 }
