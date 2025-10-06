@@ -60,7 +60,6 @@ public class PlayerController : MonoBehaviour
     private PlayerControl controls; // classe generata
 
 
-
     // Use this for initialization
     void Start()
     {
@@ -78,6 +77,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
     }
 
+    
     private void Awake()
     {
         controls = new PlayerControl();

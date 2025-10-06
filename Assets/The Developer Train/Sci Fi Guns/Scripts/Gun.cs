@@ -63,6 +63,9 @@ namespace TheDeveloperTrain.SciFiGuns
 
         private PlayerController player;
 
+        [SerializeField] private AnimationClip recoilClip;
+
+
         void Start()
         {
             currentBulletCount = stats.magazineSize;
@@ -79,7 +82,25 @@ namespace TheDeveloperTrain.SciFiGuns
             {
                 bulletNumberUI = WeaponUI.transform.Find("Ammo").GetComponent<Text>();
             }
+
+            SetRecoilSpeed();
+            
         }
+
+        private void SetRecoilSpeed()
+        {
+            float fireInterval = 60f / stats.fireRate; 
+            float clipLength = recoilClip.length;
+
+           
+            float animSpeed = clipLength / fireInterval;
+
+     
+            animSpeed = Mathf.Clamp(animSpeed, 0.5f, 8f);
+
+            gameObject.GetComponent<Animator>().SetFloat("RecoilSpeed", 1/animSpeed);
+        }
+
 
         void Update()
         {
@@ -105,6 +126,7 @@ namespace TheDeveloperTrain.SciFiGuns
 
             if (currentBulletCount > 0 && !isReloading && !IsInShotCooldown)
             {
+                
                 IsInShotCooldown = true;
                 onGunShootingStart?.Invoke();
                 foreach (var particleSystem in gunParticleSystems)
@@ -115,8 +137,11 @@ namespace TheDeveloperTrain.SciFiGuns
                 {
                     currentBulletCount--;
 
+                    gameObject.GetComponent<Animator>().SetBool("Shooting", true);
+
                     Invoke(nameof(SpawnBullet), stats.shootDelay);
                     StartCoroutine(nameof(ResetGunShotCooldown));
+
 
 
                     if (currentBulletCount == 0)
@@ -136,7 +161,7 @@ namespace TheDeveloperTrain.SciFiGuns
         {
             RaycastHit hit;
 
-
+            
             // spara un raggio davanti
             if (Physics.Raycast(firePoint.position, firePoint.forward * -1, out hit, range, hitLayers))
             {
@@ -207,11 +232,14 @@ namespace TheDeveloperTrain.SciFiGuns
         {
             yield return new WaitForSeconds(1 / stats.fireRate - stats.shootDelay);
             IsInShotCooldown = false;
+            gameObject.GetComponent<Animator>().SetBool("Shooting", false);
         }
         private IEnumerator FireBulletsInBurst()
         {
-            yield return new WaitForSeconds(stats.shootDelay);
+            gameObject.GetComponent<Animator>().SetBool("Shooting", true);
 
+            yield return new WaitForSeconds(stats.shootDelay);
+            
             for (int i = 0; i < stats.burstCount; i++)
             {
                 SpawnBullet();
@@ -225,6 +253,8 @@ namespace TheDeveloperTrain.SciFiGuns
                 yield return new WaitForSeconds(stats.burstInterval);
 
             }
+
+            gameObject.GetComponent<Animator>().SetBool("Shooting", false);
             onLastBulletShotInBurst?.Invoke();
             yield return new WaitForSeconds(1 / stats.fireRate - (stats.shootDelay + (stats.burstCount * stats.burstInterval)));
             IsInShotCooldown = false;
