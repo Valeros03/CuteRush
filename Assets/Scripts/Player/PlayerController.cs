@@ -155,13 +155,7 @@ public class PlayerController : MonoBehaviour
                 currentMotion = motionstate.jumping;
             }
 
-            if (Input.GetButton("Fire1"))
-            {
-                if (gun != null)
-                {
-                    gun.Shoot();
-                }
-            }
+            
             
         }
         else
@@ -197,6 +191,13 @@ public class PlayerController : MonoBehaviour
                 gun.Reload();
             }
         }
+        if (Input.GetButton("Fire1"))
+        {
+            if (gun != null)
+            {
+                gun.Shoot();
+            }
+        }
 
     }
 
@@ -230,7 +231,10 @@ public class PlayerController : MonoBehaviour
     public void SwitchToGranade()
     {
       
-        weaponHolder.transform.GetChild(0).gameObject.SetActive(false);
+        //disabilita logica e body dell'arma
+        gun.gameObject.GetComponent<Gun>().enabled = false;
+        gun.transform.GetChild(0).gameObject.SetActive(false);
+
         granade.SetActive(true);
 
         if (granadeAnimator != null)
@@ -245,8 +249,15 @@ public class PlayerController : MonoBehaviour
     public void SwitchToWeapon()
     {
         granade.SetActive(false);
-        gun.gameObject.SetActive(true);
 
-       
+        gun.gameObject.GetComponent<Gun>().enabled = true;
+        gun.transform.GetChild(0).gameObject.SetActive(true);
+
+        if (weaponAnimator != null)
+        {
+            weaponAnimator.SetTrigger("EquipaggiaArma"); // granata si alza
+        }
+
+
     }
 }

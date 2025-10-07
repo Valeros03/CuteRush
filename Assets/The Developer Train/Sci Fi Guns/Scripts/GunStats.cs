@@ -6,7 +6,8 @@ namespace TheDeveloperTrain.SciFiGuns
     public enum FireMode
     {
         Single = 0,
-        Burst = 1
+        Burst = 1,
+        charge = 2
     }
 
 

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7495118709315054163}
   - component: {fileID: 3522338704440287360}
-  - component: {fileID: 8079439400444992049}
   - component: {fileID: 2334294399730490371}
   m_Layer: 0
   m_Name: SMG
@@ -26,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 755511403919433321}
-  m_LocalRotation: {x: 0, y: 0.70264995, z: -0.7115357, w: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0.03, y: -0.308, z: 0.219}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
@@ -36,7 +35,7 @@ Transform:
   - {fileID: 6206908391052064653}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90.72, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &3522338704440287360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,23 +59,9 @@ MonoBehaviour:
   hitLayers:
     serializedVersion: 2
     m_Bits: 512
-  tracer: {fileID: 0}
+  tracer: {fileID: 7378615310817722096}
   tracerDuration: 0.05
---- !u!114 &8079439400444992049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 755511403919433321}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fe4700a2e5e2064f80c3746fc6390dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handedness: 0
-  profile: {fileID: 11400000, guid: 36580af867a065e4d83a20686e8b89e4, type: 2}
-  stackRecoil: 1
+  recoilClip: {fileID: 7400000, guid: f9f983b082e070b4fb7115e338206952, type: 2}
 --- !u!95 &2334294399730490371
 Animator:
   serializedVersion: 3
@@ -90,7 +75,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 15474782aefa6c944a3291aa0f3e7d40, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
