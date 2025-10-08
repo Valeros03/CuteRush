@@ -26,16 +26,7 @@ namespace TheDeveloperTrain.SciFiGuns
 
                     glowManager.speed = 1 / stats.shootDelay;
                 }
-                else if (stats.fireMode == FireMode.Burst)
-                {
-                    float delayBetweenFirstShotInBurstAndLast = (stats.burstCount - 1) * stats.burstInterval;
-                    float chargingTime = stats.shootDelay;
-                    float dischargingTime = ((1 / stats.fireRate) - chargingTime) - (delayBetweenFirstShotInBurstAndLast);
-
-                    glowManager.chargingDischargingSpeedRatio = (chargingTime + delayBetweenFirstShotInBurstAndLast) / dischargingTime;
-
-                    glowManager.speed = 1 / (stats.shootDelay + delayBetweenFirstShotInBurstAndLast);
-                }
+                
             }
 
             foreach (ParticleSystem particleSystem in gun.gunParticleSystems)
@@ -45,10 +36,7 @@ namespace TheDeveloperTrain.SciFiGuns
                 {
                     main.duration = stats.shootDelay;
                 }
-                else if (gun.stats.fireMode == FireMode.Burst)
-                {
-                    main.duration = stats.shootDelay + ((stats.burstCount - 1) * stats.burstInterval);
-                }
+               
             }
         }
     }

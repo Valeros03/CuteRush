@@ -21,7 +21,9 @@ namespace TheDeveloperTrain.SciFiGuns
         /// How much the gun rotates (in degrees) when firing a single shot.
         /// </summary>
         [Tooltip("How much the gun rotates (in degrees) when firing a single shot.")]
-        public float rotationAmplitude = 2f;
+        public float rotationAmplitudeVertical = 2f;
+        public float rotationAmplitudeHorizontal = 1.0f;
+        
 
 
         [Header("Offset Limits")]
@@ -36,7 +38,8 @@ namespace TheDeveloperTrain.SciFiGuns
         /// The maximum total rotation (in degrees) the gun can reach from stacking recoil.
         /// </summary>
         [Tooltip("The maximum total rotation (in degrees) the gun can reach from stacking recoil.")]
-        public float maxRotationOffset = 6f;
+        public float maxRotationOffsetVertical = 6f;
+        public float maxRotationOffsetHorizontal = 6f;
 
 
         [Header("Timing")]

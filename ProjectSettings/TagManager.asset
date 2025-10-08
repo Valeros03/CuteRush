@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Weapon
   - Pickup
+  - HitBox
   layers:
   - Default
   - TransparentFX

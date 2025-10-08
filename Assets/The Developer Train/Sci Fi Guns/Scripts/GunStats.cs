@@ -6,7 +6,7 @@ namespace TheDeveloperTrain.SciFiGuns
     public enum FireMode
     {
         Single = 0,
-        Burst = 1,
+        Auto = 1,
         charge = 2
     }
 
@@ -33,6 +33,9 @@ namespace TheDeveloperTrain.SciFiGuns
         [Tooltip("The max amount of bullets that can be loaded in the gun at any given time.")]
         public int magazineSize = 10;
 
+        [Header("Damage & Range")]
+        public float damage = 0f;
+        public float range = 0f;
 
         [Header("Timings & Speed")]
 
@@ -67,17 +70,6 @@ namespace TheDeveloperTrain.SciFiGuns
         [Tooltip("The type of shooting the gun will use. Single is one shot and then cooldown, Burst is a few shots fired closely together and then cooldown")]
         public FireMode fireMode = FireMode.Single;
 
-        /// <summary>
-        /// The number of bullets Fired in quick succession as part of each burst
-        /// </summary>
-        [Tooltip("The number of bullets Fired in quick succession as part of each burst")]
-        public int burstCount = 1;
-
-        /// <summary>
-        /// The interval between bullets as part of a single burst
-        /// </summary>
-        [Tooltip("The interval between bullets as part of a single burst")]
-        public float burstInterval = 0f;
 
         private void OnValidate()
         {
@@ -86,31 +78,16 @@ namespace TheDeveloperTrain.SciFiGuns
             reloadDuration = Mathf.Max(0f, reloadDuration);
             shootDelay = Mathf.Max(0f, shootDelay);
             bulletSpeed = Mathf.Max(0f, bulletSpeed);
-            burstCount = Mathf.Max(1, burstCount);
-            burstInterval = Mathf.Max(0.0001f, burstInterval);
+            
             fireRate = Mathf.Max(0.0001f, fireRate);
 
             float fireCycleTime = 1 / fireRate;
-            float totalBurstTime = (burstCount - 1) * burstInterval;
-
+            
             if (shootDelay >= fireCycleTime)
             {
                 shootDelay = fireCycleTime - 0.0001f;
             }
 
-            if (fireMode == FireMode.Burst)
-            {
-                if (shootDelay + totalBurstTime >= fireCycleTime)
-                {
-                    burstInterval = (fireCycleTime - shootDelay) / (burstCount - 1);
-                    burstInterval = Mathf.Max(burstInterval, 0.0001f);
-                }
-
-                if (burstCount > magazineSize)
-                {
-                    burstCount = magazineSize;
-                }
-            }
         }
 
     }

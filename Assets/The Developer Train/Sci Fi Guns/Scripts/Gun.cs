@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,9 +38,6 @@ namespace TheDeveloperTrain.SciFiGuns
         /// Called when the bullet is actually created, AKA after the shoot delay.
         /// </summary>
         public Action onBulletShot;
-
-        public Action onLastBulletShotInBurst;
-
         public Action onGunReloadStart;
 
         /// <summary>
@@ -47,8 +46,6 @@ namespace TheDeveloperTrain.SciFiGuns
         public Action onGunShootingStart;
 
         [Header("Settings")]
-        public int damage = 10;
-        public float range = 100f;           // distanza massima
         public Transform firePoint;          // punto da cui parte il raycast
         public LayerMask hitLayers;          // layer colpibili (es. Enemy)
 
@@ -62,9 +59,6 @@ namespace TheDeveloperTrain.SciFiGuns
         private Text bulletNumberUI;
 
         private PlayerController player;
-
-        [SerializeField] private AnimationClip recoilClip;
-        [SerializeField] private bool constantRecoilTime;
 
         void Start()
         {
@@ -83,23 +77,9 @@ namespace TheDeveloperTrain.SciFiGuns
                 bulletNumberUI = WeaponUI.transform.Find("Ammo").GetComponent<Text>();
             }
 
-            SetRecoilSpeed();
+            
         }
 
-        private void SetRecoilSpeed()
-        {
-            if (constantRecoilTime) return;
-
-            float fireInterval = 60f / stats.fireRate; 
-            float clipLength = recoilClip.length;
-
-           
-            float animSpeed = clipLength / fireInterval;
-
-     
-            animSpeed = Mathf.Clamp(animSpeed, 0.5f, 8f);
-            gameObject.GetComponent<Animator>().SetFloat("RecoilSpeed", 1/animSpeed);
-        }
 
 
         void Update()
@@ -120,74 +100,107 @@ namespace TheDeveloperTrain.SciFiGuns
             }
         }
 
-        private IEnumerator HandleShot()
-        {
-            IsInShotCooldown = true;
-            gameObject.GetComponent<Animator>().SetBool("Shooting", true);
 
-            yield return new WaitForSeconds(stats.shootDelay); // tempo di caricamento
-            SpawnBullet();
+        public void Shoot() { 
 
-            yield return new WaitForSeconds(1f / stats.fireRate - stats.shootDelay); // tempo tra colpi
-            IsInShotCooldown = false;
-            gameObject.GetComponent<Animator>().SetBool("Shooting", false);
-        }
+            if (!gameObject.activeSelf || !enabled) { return; }
+            if (currentBulletCount > 0 && !isReloading && !IsInShotCooldown) 
+            { 
+                
+                onGunShootingStart?.Invoke();
 
 
-        public void Shoot()
-        {
-            if (!gameObject.activeSelf || currentBulletCount <= 0 || isReloading || IsInShotCooldown)
-                return;
+                foreach (var particleSystem in gunParticleSystems) { particleSystem.Play(); }
 
-            currentBulletCount--;
-            onGunShootingStart?.Invoke();
-            foreach (var ps in gunParticleSystems) ps.Play();
+                IsInShotCooldown = true;
+                currentBulletCount--;
 
-            StartCoroutine(HandleShot());
+                if (stats.fireMode == FireMode.Single) 
+                {
 
-            if (currentBulletCount == 0)
+                    
+                    Invoke(nameof(SpawnBullet), stats.shootDelay);
+                    StartCoroutine(nameof(ResetGunShotCooldown));
+                    
+
+                } else if (stats.fireMode == FireMode.Auto) 
+                {
+                    
+                    StartCoroutine(nameof(FireBulletAuto));
+
+                } else if (stats.fireMode == FireMode.charge)
+                {
+                    StartCoroutine(nameof(FireInCharge));
+
+                }
+
+
+            }else if (currentBulletCount <= 0)
+            {
                 Reload();
+            }
         }
-
 
         private void SpawnBullet()
         {
             RaycastHit hit;
-            gameObject.GetComponent<Animator>().SetBool("Shooting", true);
-            // spara un raggio davanti
-            if (Physics.Raycast(firePoint.position, firePoint.forward * -1, out hit, range, hitLayers))
-            {
-                
+            Camera cam = Camera.main;
+            Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // centro dello schermo
 
-                // se il nemico ha uno script con TakeDamage
+            Vector3 targetPoint;
+
+            
+            if (Physics.Raycast(ray, out hit, stats.range, hitLayers))
+            {
+                targetPoint = hit.point;
+            }
+            else
+            {
+                targetPoint = ray.GetPoint(stats.range);
+            }
+
+            Vector3 direction = (targetPoint - firePoint.position).normalized;
+            direction = Quaternion.Euler(UnityEngine.Random.Range(-0.5f, 0.5f), UnityEngine.Random.Range(-0.5f, 0.5f), 0) * direction;
+
+
+            
+            if (Physics.Raycast(firePoint.position, direction, out hit, stats.range, hitLayers))
+            {
                 EnemyAi enemy = hit.collider.GetComponentInParent<EnemyAi>();
+                Vector3 shotDir = (hit.point - firePoint.position).normalized;
                 if (enemy != null)
                 {
-                    enemy.TakeDamage(damage);
+                    enemy.TakeDamage(stats.damage, shotDir, hit.point);
+                   
                 }
-                
-                // disegna il tracer fino al punto colpito
+
                 if (tracer != null)
                 {
-                   
                     tracer.enabled = true;
-                    tracer.SetPosition(0, firePoint.position);
-                    tracer.SetPosition(1, hit.point);
+                    Vector3 start = firePoint.position;
+                    Vector3 offset = Vector3.zero;
+                    if ((targetPoint - start).magnitude < 5f)
+                        offset = (cam.transform.position - start).normalized * 0.1f; // sposta un po' il tracer
+                    tracer.SetPosition(0, start + offset);
+                    tracer.SetPosition(1, targetPoint);
                     tracerTimer = tracerDuration;
                 }
             }
             else
             {
-                // tracer che va "in aria" se non colpisce nulla
                 if (tracer != null)
                 {
-                    
                     tracer.enabled = true;
-                    tracer.SetPosition(0, firePoint.position);
-                    tracer.SetPosition(1, firePoint.position + firePoint.forward*-1 * range);
+                    Vector3 start = firePoint.position;
+                    Vector3 offset = Vector3.zero;
+                    if ((targetPoint - start).magnitude < 5f)
+                        offset = (cam.transform.position - start).normalized * 0.1f; // sposta un po' il tracer
+                    tracer.SetPosition(0, start + offset);
+                    tracer.SetPosition(1, targetPoint);
                     tracerTimer = tracerDuration;
                 }
             }
+
             onBulletShot?.Invoke();
             
         }
@@ -225,34 +238,24 @@ namespace TheDeveloperTrain.SciFiGuns
         {
             yield return new WaitForSeconds(1 / stats.fireRate - stats.shootDelay);
             IsInShotCooldown = false;
-            gameObject.GetComponent<Animator>().SetBool("Shooting", false);
-
 
         }
-        private IEnumerator FireBulletsInBurst()
+        private IEnumerator FireBulletAuto()
         {
-           
+
+            yield return new WaitForSeconds(1 / stats.fireRate - stats.shootDelay);
+            SpawnBullet();
+            IsInShotCooldown = false;
+            
+        }
+
+        private IEnumerator FireInCharge()
+        {
 
             yield return new WaitForSeconds(stats.shootDelay);
-            
-            for (int i = 0; i < stats.burstCount; i++)
-            {
-                SpawnBullet();
-                currentBulletCount--;
-                if (currentBulletCount == 0)
-                {
-                    Reload();
-                    break;
-                }
-                onBulletShot?.Invoke();
-                yield return new WaitForSeconds(stats.burstInterval);
+            SpawnBullet();
+            StartCoroutine(nameof(ResetGunShotCooldown));
 
-            }
-
-            
-            onLastBulletShotInBurst?.Invoke();
-            yield return new WaitForSeconds(1 / stats.fireRate - (stats.shootDelay + (stats.burstCount * stats.burstInterval)));
-            IsInShotCooldown = false;
         }
 
         private void EquipGranade()

@@ -1,13 +1,15 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TheDeveloperTrain.SciFiGuns
 {
     public class RecoilController : MonoBehaviour
     {
         public enum Handedness { Right, Left }
+
         [Tooltip("Affects the lateral direction of the recoil jolt")]
         public Handedness handedness = Handedness.Right;
 
+        [Tooltip("Recoil configuration profile")]
         public RecoilProfile profile;
 
         [Tooltip("If true, recoil offsets stack per shot. Otherwise, each shot resets recoil.")]
@@ -27,8 +29,6 @@ namespace TheDeveloperTrain.SciFiGuns
         private Vector3 originalPosition;
         private Quaternion originalRotation;
 
-        
-
         private Gun gun;
 
         private void Start()
@@ -36,7 +36,7 @@ namespace TheDeveloperTrain.SciFiGuns
             originalPosition = transform.localPosition;
             originalRotation = transform.localRotation;
 
-            gun = GetComponent<Gun>();
+            gun = transform.parent.GetComponent<Gun>();
             if (gun != null)
                 gun.onBulletShot += StartRecoil;
         }
@@ -77,22 +77,21 @@ namespace TheDeveloperTrain.SciFiGuns
             transform.localRotation = originalRotation * currentRotationOffset;
         }
 
-
         private void StartRecoil()
         {
             float sideJoltDirection = handedness == Handedness.Left ? -1f : 1f;
 
-            // Position offset
-            Vector3 newPosOffset = -Vector3.forward * profile.movementAmplitude;
+            // Position offset (indietro)
+            Vector3 newPosOffset = Vector3.forward * profile.movementAmplitude;
 
             // Rotation offset
             Quaternion newRotOffset = Quaternion.Euler(
-                -profile.rotationAmplitude,
-                Random.Range(0.25f, 0.5f) * profile.rotationAmplitude * sideJoltDirection,
-                Random.Range(-0.2f, 0.2f) * profile.rotationAmplitude * sideJoltDirection
+                profile.rotationAmplitudeVertical, // vertical recoil (pitch)
+                Random.Range(0.25f, 0.5f) * profile.rotationAmplitudeHorizontal * sideJoltDirection, // yaw
+                Random.Range(-0.2f, 0.2f) * profile.rotationAmplitudeHorizontal * sideJoltDirection   // roll
             );
 
-            // Apply or stack
+            // Apply or stack recoil
             if (stackRecoil)
             {
                 targetPositionOffset += newPosOffset;
@@ -108,9 +107,15 @@ namespace TheDeveloperTrain.SciFiGuns
             targetPositionOffset = Vector3.ClampMagnitude(targetPositionOffset, profile.maxMovementOffset);
 
             Vector3 euler = targetRotationOffset.eulerAngles;
-            euler.x = Mathf.Clamp(ClampAngle(euler.x), -profile.maxRotationOffset, profile.maxRotationOffset);
-            euler.y = Mathf.Clamp(ClampAngle(euler.y), -profile.maxRotationOffset, profile.maxRotationOffset);
-            euler.z = Mathf.Clamp(ClampAngle(euler.z), -profile.maxRotationOffset, profile.maxRotationOffset);
+
+            // prendi solo una frazione piccola per la rotazione verticale dell'arma
+            float weaponVerticalFraction = 0.05f; // 5% del vero rinculo verticale
+            euler.x = Mathf.Clamp(ClampAngle(euler.x) * weaponVerticalFraction, -profile.maxRotationOffsetVertical, profile.maxRotationOffsetVertical);
+
+            // la rotazione laterale (y e z) rimane invariata
+            euler.y = Mathf.Clamp(ClampAngle(euler.y), -profile.maxRotationOffsetHorizontal, profile.maxRotationOffsetHorizontal);
+            euler.z = Mathf.Clamp(ClampAngle(euler.z), -profile.maxRotationOffsetHorizontal, profile.maxRotationOffsetHorizontal);
+
             targetRotationOffset = Quaternion.Euler(euler);
 
             recoilTimer = 0f;
@@ -119,7 +124,8 @@ namespace TheDeveloperTrain.SciFiGuns
 
         private float ClampAngle(float angle)
         {
-            if (angle > 180f) angle -= 360f;
+            if (angle > 180f)
+                angle -= 360f;
             return angle;
         }
     }
