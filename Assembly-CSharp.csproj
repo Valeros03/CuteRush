@@ -55,7 +55,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AudioGunController.cs" />
+     <Compile Include="Assets\AudioPlayerController.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioManager.cs" />
+     <Compile Include="Assets\CuteRush kit\Audio\Script\AudioPlayerController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\CameraRecoil.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\Crosshair.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\MouseLook.cs" />
@@ -103,6 +106,7 @@
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\LowPoly Island\Credits.txt" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\NiloInvLerpRemap.hlsl" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\SimpleURPToonLitOutlineExample.shader" />
+     <None Include="Assets\ShootingSound\ReadMe.txt" />
      <None Include="Assets\Nokobot\Modern Guns - Handgun\README.txt" />
      <None Include="Assets\Kawaii Slimes\Shader\Unity-chan Shader Ver 1.2.1\readme.txt" />
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\Shaders\WaterShaded.shader" />

@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     {
         idle,
         running,
+        walking,
         jumping
     }
     [Header("Motion System")]
@@ -49,15 +50,18 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Transform myTransform;
     private float speed;
-    private RaycastHit hit;
     private float fallStartLevel;
     private bool falling;
-    private bool punching;
+
     private bool playerControl;
     private Crosshair crosshairScript;
     private Gun gun;
 
     private PlayerControl controls; // classe generata
+
+    private Vector3 lastFootstepPos;
+    private float footstepDistance = 2f; // distanza tra un passo e l'altro
+
 
 
     // Use this for initialization
@@ -76,6 +80,7 @@ public class PlayerController : MonoBehaviour
         // Lock cursor
         Cursor.visible = false;
         AudioManager.Instance.PlayMusic("InGameSong");
+        AudioManager.Instance.PlayAmbient("Spaceship Engine Light");
     }
 
     
@@ -114,7 +119,7 @@ public class PlayerController : MonoBehaviour
             {
                 bool running = Input.GetButton("Run");
                 speed = running ? runSpeed : walkSpeed;
-
+                
                 if (running)
                 {
                     currentMotion = motionstate.running;
@@ -130,6 +135,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonUp("Run"))
             {
                 currentMotion = PlayerController.motionstate.idle;
+                
              
             }
 
@@ -174,6 +180,19 @@ public class PlayerController : MonoBehaviour
                 moveDirection = myTransform.TransformDirection(moveDirection);
             }
         }
+
+        if (grounded && (inputX != 0 || inputY != 0) && !Input.GetButton("Run") && currentMotion != motionstate.walking)
+        {
+            currentMotion = motionstate.walking; // nuova voce da aggiungere
+            gameObject.GetComponent<AudioPlayerController>().PlayFootstep();
+
+        }
+        else if(currentMotion != motionstate.walking)
+        {
+            currentMotion = motionstate.idle;
+            gameObject.GetComponent<AudioPlayerController>().StopFootstep();
+        }
+
 
         grounded = (controller.Move(moveDirection * Time.deltaTime) & CollisionFlags.Below) != 0;
         moveDirection.y -= gravity * Time.deltaTime;

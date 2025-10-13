@@ -148,7 +148,7 @@ namespace TheDeveloperTrain.SciFiGuns
             Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); // centro dello schermo
 
             Vector3 targetPoint;
-
+            gameObject.GetComponent<AudioGunController>().PlayShoot();
             
             if (Physics.Raycast(ray, out hit, stats.range, hitLayers))
             {
