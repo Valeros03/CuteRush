@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
         // Lock cursor
         Cursor.visible = false;
+        AudioManager.Instance.PlayMusic("InGameSong");
     }
 
     

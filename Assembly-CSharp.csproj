@@ -55,17 +55,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CameraRecoil.cs" />
+     <Compile Include="Assets\CuteRush kit\Audio\Script\AudioManager.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Camera\CameraRecoil.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\Crosshair.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\MouseLook.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemyAi.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemyController.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemyHitRecoil.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerControl.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\VitalsController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\Granade.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\GrandeThrower.cs" />
-     <Compile Include="Assets\EnemyHitRecoil.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Survival Essentials\Example\Scripts\AnimatedFire.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\Scripts\LowPolyWater.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Textures &amp; Sprites\UI\Radial Slider UI\Scripts\RadialSlider.cs" />
