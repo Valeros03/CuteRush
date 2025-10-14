@@ -47,8 +47,11 @@ public class GrandeThrower : MonoBehaviour
     void UpdateArrivingPoint()
     {
         Vector3 startPos = transform.position;
+        
+
 
         Vector3 dir = Quaternion.Euler(playerMouseLook.transform.eulerAngles.x, playerMouseLook.transform.eulerAngles.y, 0f) * Vector3.forward;
+        startPos = transform.position + dir * 0.5f + Vector3.up * 0.5f;
         Vector3 velocity = dir * granadeSpeed;
 
         // Calcolo del punto di arrivo
@@ -150,13 +153,8 @@ public class GrandeThrower : MonoBehaviour
 
         spawnPos = transform.position + horizontalDir * 0.5f + Vector3.up * 0.5f;
 
-        // componi la velocità iniziale dato l'angolo di lancio
-        float angleDeg = playerMouseLook.transform.eulerAngles.x;
-        if (angleDeg > 180f) angleDeg -= 360f; // converti in [-180, 180]
-        float angleRad = angleDeg * Mathf.Deg2Rad;
-        float vy = granadeSpeed * Mathf.Sin(angleRad);            // componente verticale
-        float vxz = granadeSpeed * Mathf.Cos(angleRad);           // componente nella direzione orizzontale
-        Vector3 initialVelocity = horizontalDir * vxz + Vector3.down * vy;
+        Vector3 dir = Quaternion.Euler(playerMouseLook.transform.eulerAngles.x, playerMouseLook.transform.eulerAngles.y, 0f) * Vector3.forward;
+        Vector3 initialVelocity = dir * granadeSpeed;
 
         // Instanzia la granata
         GameObject g = Instantiate(grenadePrefab, spawnPos, Quaternion.identity);
