@@ -69,7 +69,6 @@ namespace TheDeveloperTrain.SciFiGuns
             if (WeaponUI == null)
             {
                 WeaponUI = GameObject.Find("Canvas/WeaponUI");
-                Debug.Log(WeaponUI);
             }
 
             if (bulletNumberUI == null && WeaponUI != null)

@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 
+
     [Header("Speed System")]
     public float walkSpeed = 5.0f;
     public float sneakSpeed = 2.5f;
@@ -14,12 +15,13 @@ public class PlayerController : MonoBehaviour
     public float crouchWalkSpeed = 3.5f;
     public float crouchRunSpeed = 6.5f;
     public float crouchSneakSpeed = 1f;
-    public float jumpSpeed = 6.0f;
+    public float jumpForce = 6.0f;
     public bool limitDiagonalSpeed = true;
     public bool toggleRun = false;
     public bool toggleSneak = false;
     public bool airControl = false;
     public bool crouching = false;
+
 
     public enum motionstate
     {
@@ -28,20 +30,30 @@ public class PlayerController : MonoBehaviour
         walking,
         jumping
     }
+
     [Header("Motion System")]
     public motionstate currentMotion;
 
     [Header("Gravity system")]
     public float gravity = 10.0f;
     public float fallingDamageLimit = 10.0f;
+    [SerializeField] private float groundedCheckDistance = 0.2f; // distanza max per considerare "a terra"
+    [SerializeField] private float groundRayOffset = 0.1f;       // offset verso l'alto per il raycast
+    [SerializeField] private int ungroundedFramesToFall = 3;     // quanti FixedUpdate consecutivi senza terra per dichiarare "in aria"
+    [SerializeField] private int groundedFramesToLand = 3;      // quanti FixedUpdate consecutivi con terra per dichiarare "atterrato"
+    [SerializeField] private float slopeMaxAngleForGround = 60f; // opzionale: inclinazione massima considerata "pavimento"
+    [SerializeField] private float fallMultiplier = 2f; // rende la discesa più veloce (più realistica)
     private bool grounded;
+    private int ungroundedFrames = 0;
+    private int groundedFrames = 0;
+    private float verticalVelocity = 0f;
 
     [Header("GameObjects")]
     public GameObject camera;
     [SerializeField] private GameObject weaponHolder;
     [SerializeField] private GameObject granade;
 
-    [SerializeField] private Animator weaponAnimator;   // animatore dell'arma
+    private Animator weaponAnimator;   // animatore dell'arma
     [SerializeField] private Animator granadeAnimator;
 
 
@@ -59,9 +71,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerControl controls; // classe generata
 
-    private Vector3 lastFootstepPos;
-    private float footstepDistance = 2f; // distanza tra un passo e l'altro
-
+    private bool footstepsActive = false;
 
 
     // Use this for initialization
@@ -76,7 +86,7 @@ public class PlayerController : MonoBehaviour
         myTransform = transform;
         speed = walkSpeed;
         crosshairScript = transform.Find("CameraHolder").transform.Find("FPSCamera").GetComponent<Crosshair>();
-
+        weaponAnimator = transform.Find("CameraHolder").Find("FPSCamera").Find("WeaponHolder").GetComponentInChildren<Animator>();
         // Lock cursor
         Cursor.visible = false;
         AudioManager.Instance.PlayMusic("InGameSong");
@@ -88,6 +98,7 @@ public class PlayerController : MonoBehaviour
     {
         controls = new PlayerControl();
         controls.Player.EquipGranade.performed += HandleGranadeEquipe;
+        
     }
 
     private void OnEnable() => controls.Enable();
@@ -99,103 +110,141 @@ public class PlayerController : MonoBehaviour
         float inputY = Input.GetAxis("Vertical");
         float inputModifyFactor = (inputX != 0.0f && inputY != 0.0f && limitDiagonalSpeed) ? 0.6701f : 1.0f;
 
-        if (inputX == 0 && inputY == 0)
+        // --- MOVIMENTO ORIZZONTALE ---
+        Vector3 move = new Vector3(inputX * inputModifyFactor, 0, inputY * inputModifyFactor);
+        move = myTransform.TransformDirection(move);
+
+        float targetSpeed = walkSpeed;
+        bool running = Input.GetButton("Run");
+        if (running)
         {
-            currentMotion = motionstate.idle;
-        }
-
-        if (grounded)
-        {
-            if (falling)
-            {
-                falling = false;
-                if (myTransform.position.y < (fallStartLevel - fallingDamageLimit))
-                {
-                    FallingDamageAlert(fallStartLevel - myTransform.position.y);
-                }
-            }
-
-            if (!toggleRun)
-            {
-                bool running = Input.GetButton("Run");
-                speed = running ? runSpeed : walkSpeed;
-                
-                if (running)
-                {
-                    currentMotion = motionstate.running;
-                    crosshairScript.IncreaseSpread(0.5f);
-                }
-                else
-                {
-                    if (crosshairScript.spread != crosshairScript.minSpread)
-                        crosshairScript.DecreaseSpread(2f);
-                }
-            }
-
-            if (Input.GetButtonUp("Run"))
-            {
-                currentMotion = PlayerController.motionstate.idle;
-                
-             
-            }
-
-            if (!toggleSneak)
-            {
-                bool sneaking = Input.GetButton("Sneak");
-                speed = sneaking ? sneakSpeed : speed;
-                //anim.SetBool("sneaking", sneaking);
-            }
-
-            if (crouching)
-            {
-                speed = Input.GetButton("Run") ? crouchRunSpeed : crouchWalkSpeed;
-                speed = Input.GetButton("Sneak") ? crouchSneakSpeed : speed;
-            }
-
-            moveDirection = new Vector3(inputX * inputModifyFactor, 0, inputY * inputModifyFactor);
-            moveDirection = myTransform.TransformDirection(moveDirection) * speed;
-
-            if (Input.GetButton("Jump"))
-            {
-                moveDirection.y = jumpSpeed;
-                crosshairScript.IncreaseSpread(10f);
-                currentMotion = motionstate.jumping;
-            }
-
-            
-            
+            targetSpeed = runSpeed;
+            gameObject.GetComponent<AudioPlayerController>().runMode();
         }
         else
+        {
+            gameObject.GetComponent<AudioPlayerController>().walkMode();
+        }
+        move *= targetSpeed;
+
+        // --- SALTO ---
+        if (grounded && Input.GetButtonDown("Jump"))
+        {
+            verticalVelocity = jumpForce;
+            falling = false;
+            currentMotion = motionstate.jumping;
+            crosshairScript.IncreaseSpread(2f);
+            
+        }
+
+        // --- GRAVITÀ / DISCESA ---
+        if (!grounded)
+        {
+            if (verticalVelocity > 0 && !Input.GetButton("Jump"))
+            {
+                // rilascio del tasto → discesa più rapida
+                verticalVelocity -= gravity * fallMultiplier * Time.deltaTime;
+            }
+            else
+            {
+                verticalVelocity -= gravity * Time.deltaTime;
+            }
+        }
+        else
+        {
+            // quando è a terra, mantieni una leggera spinta verso il basso
+            if (verticalVelocity < 0)
+                verticalVelocity = -0.1f;
+        }
+
+        // --- COMBINAZIONE MOVIMENTO ---
+        move.y = verticalVelocity;
+
+        // --- MUOVI PERSONAGGIO ---
+        CollisionFlags flags = controller.Move(move * Time.deltaTime);
+
+        // --- RAYCAST + Isteresi Ground Check ---
+        bool hasBelowFlag = (flags & CollisionFlags.Below) != 0;
+
+        RaycastHit hit;
+        bool rayHit = Physics.Raycast(myTransform.position + Vector3.up * groundRayOffset, Vector3.down, out hit, groundedCheckDistance + groundRayOffset);
+
+        bool groundDetected = false;
+        if (hasBelowFlag)
+        {
+            groundDetected = true;
+        }
+        else if (rayHit)
+        {
+            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+            if (slopeAngle <= slopeMaxAngleForGround)
+                groundDetected = true;
+        }
+
+        if (groundDetected)
+        {
+            groundedFrames++;
+            ungroundedFrames = 0;
+        }
+        else
+        {
+            ungroundedFrames++;
+            groundedFrames = 0;
+        }
+
+        // --- TRANSIZIONE DA TERRA A CADUTA ---
+        // Se siamo appena saltati, verticalVelocity > 0 → ignoriamo il check di caduta
+        if (!groundDetected && ungroundedFrames >= ungroundedFramesToFall)
         {
             if (!falling)
             {
                 falling = true;
                 fallStartLevel = myTransform.position.y;
-            }
 
-            if (airControl && playerControl)
+            }
+            grounded = false;
+
+        }
+
+
+        // --- TRANSIZIONE DA CADUTA A TERRA ---
+        if (groundDetected && groundedFrames >= groundedFramesToLand)
+        {
+            
+            if (falling)
             {
-                moveDirection.x = inputX * speed * inputModifyFactor;
-                moveDirection.z = inputY * speed * inputModifyFactor;
-                moveDirection = myTransform.TransformDirection(moveDirection);
+                currentMotion = motionstate.idle;
+                crosshairScript.DecreaseSpread(2f);
             }
+
+            falling = false;
+            grounded = true;
+            groundedFrames = groundedFramesToLand;
+            ungroundedFrames = 0;
+
+            if (currentMotion == motionstate.jumping)
+                currentMotion = motionstate.idle;
         }
 
-        if (grounded && (inputX != 0 || inputY != 0) && !Input.GetButton("Run") && currentMotion != motionstate.walking)
-        {
-            currentMotion = motionstate.walking; // nuova voce da aggiungere
-            gameObject.GetComponent<AudioPlayerController>().PlayFootstep();
 
-        }
-        else if(currentMotion != motionstate.walking)
+        // --- AUDIO E STATI ---
+        float moveThreshold = 0.1f;
+        bool isMoving = (Mathf.Abs(inputX) > moveThreshold || Mathf.Abs(inputY) > moveThreshold);
+
+        // Attiva i passi solo al cambio di stato
+        if (grounded && isMoving && !footstepsActive)
         {
+            currentMotion = motionstate.walking;
+            gameObject.GetComponentInChildren<AudioPlayerController>().PlayFootstep();
+            footstepsActive = true;
+        }
+        else if ((!grounded || !isMoving) && footstepsActive)
+        {
+            
             currentMotion = motionstate.idle;
-            gameObject.GetComponent<AudioPlayerController>().StopFootstep();
+            gameObject.GetComponentInChildren<AudioPlayerController>().StopFootstep();
+            footstepsActive = false;
         }
-
-
-        grounded = (controller.Move(moveDirection * Time.deltaTime) & CollisionFlags.Below) != 0;
-        moveDirection.y -= gravity * Time.deltaTime;
     }
 
     void Update()
@@ -217,13 +266,26 @@ public class PlayerController : MonoBehaviour
             {
                 gun.Shoot();
             }
+            
+        }
+        if (Input.GetButtonDown("Fire1")) {
+
+            if (granade.activeInHierarchy)
+            {
+                granade.GetComponent<GrandeThrower>().Activation();
+            }
+
+        }else if (Input.GetButtonUp("Fire1"))
+        {
+            if (granade.activeInHierarchy)
+            {
+                granade.GetComponent<GrandeThrower>().ThrowGrenade();
+                SwitchToWeapon();
+                
+            }
         }
 
-    }
-
-    void FallingDamageAlert(float fallDistance)
-    {
-        print("Ouch! Fell " + fallDistance + " units!");
+        
     }
 
 
@@ -270,8 +332,9 @@ public class PlayerController : MonoBehaviour
 
     public void SwitchToWeapon()
     {
+        granade.transform.Find("Granade").gameObject.SetActive(true);
         granade.SetActive(false);
-
+        
         gun.enabled = true;
         gun.transform.Find("Tracer").gameObject.SetActive(true);
         gun.transform.GetChild(0).gameObject.SetActive(true);

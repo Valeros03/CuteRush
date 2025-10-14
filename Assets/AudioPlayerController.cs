@@ -19,5 +19,14 @@ public class AudioPlayerController : MonoBehaviour
         footstepSource.Stop();
     }
 
+    public void runMode()
+    {
+        footstepSource.pitch = 1.2f;
+    }
+    public void walkMode()
+    {
+        footstepSource.pitch = 1f;
+    }
+
 }
 
