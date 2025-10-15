@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-namespace TheDeveloperTrain.SciFiGuns
-{
-    public class GunChargeOverTime : MonoBehaviour
+public class GunChargeOverTime : MonoBehaviour
     {
-        private Gun gun;
+        private GunBase gun;
 
         /// <summary>
         /// the intensity of the glow of the glowing substances when at rest
@@ -40,7 +38,7 @@ namespace TheDeveloperTrain.SciFiGuns
 
         private void Start()
         {
-            gun = GetComponentInParent<Gun>();
+            gun = GetComponentInParent<GunBase>();
             Material[] materials = GetComponent<Renderer>().materials;
             material = materials.ElementAt(indexOfGlowMaterial);
 
@@ -115,4 +113,3 @@ namespace TheDeveloperTrain.SciFiGuns
             }
         }
     }
-}

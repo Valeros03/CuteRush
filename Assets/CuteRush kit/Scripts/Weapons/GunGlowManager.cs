@@ -1,11 +1,8 @@
 using System.Linq;
 using UnityEngine;
-
-namespace TheDeveloperTrain.SciFiGuns
-{
-    public class GunGlowManager : MonoBehaviour
+public class GunGlowManager : MonoBehaviour
     {
-        private Gun gun;
+        private GunBase gun;
 
         [SerializeField] private float glowBaseIntensity = 0.2f;
         [SerializeField] private float glowMaxIntensity = 2f;
@@ -25,7 +22,7 @@ namespace TheDeveloperTrain.SciFiGuns
 
         private void Start()
         {
-            gun = GetComponentInParent<Gun>();
+            gun = GetComponentInParent<GunBase>();
             Material[] materials = GetComponent<Renderer>().materials;
             material = materials.Last();
             gun.onGunShootingStart += OnGunShootingStart;
@@ -68,4 +65,4 @@ namespace TheDeveloperTrain.SciFiGuns
                 gun.onGunShootingStart -= OnGunShootingStart;
         }
     }
-}
+

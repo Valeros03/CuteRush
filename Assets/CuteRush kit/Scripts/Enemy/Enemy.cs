@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public enum SlimeAnimationState { Idle, Walk, Attack, Damage }
 
-public class EnemyAi : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public Face faces;
     public GameObject SmileBody;
@@ -171,7 +171,7 @@ public class EnemyAi : MonoBehaviour
         if(isPlayerInAttackArea)
             player.GetComponent<VitalsController>().Decrease(Attack);     
      }
-
+    
 
     public void Damage(float damageAmount)
     {

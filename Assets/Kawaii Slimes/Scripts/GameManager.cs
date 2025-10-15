@@ -14,9 +14,9 @@ public class GameManager : MonoBehaviour
         idleBut.onClick.AddListener( delegate { Idle(); } );
         walkBut.onClick.AddListener(delegate {  ChangeStateTo(SlimeAnimationState.Walk); });
         attackBut.onClick.AddListener(delegate { LookAtCamera(); ChangeStateTo(SlimeAnimationState.Attack); });
-        damageBut0.onClick.AddListener(delegate { LookAtCamera(); ChangeStateTo(SlimeAnimationState.Damage); mainSlime.GetComponent<EnemyAi>().damType = 0; });
-        damageBut1.onClick.AddListener(delegate { LookAtCamera(); ChangeStateTo(SlimeAnimationState.Damage); mainSlime.GetComponent<EnemyAi>().damType = 1; });
-        damageBut2.onClick.AddListener(delegate { LookAtCamera(); ChangeStateTo(SlimeAnimationState.Damage); mainSlime.GetComponent<EnemyAi>().damType = 2; });
+        damageBut0.onClick.AddListener(delegate { LookAtCamera(); ChangeStateTo(SlimeAnimationState.Damage); mainSlime.GetComponent<Enemy>().damType = 0; });
+        damageBut1.onClick.AddListener(delegate { LookAtCamera(); ChangeStateTo(SlimeAnimationState.Damage); mainSlime.GetComponent<Enemy>().damType = 1; });
+        damageBut2.onClick.AddListener(delegate { LookAtCamera(); ChangeStateTo(SlimeAnimationState.Damage); mainSlime.GetComponent<Enemy>().damType = 2; });
     }
     void Idle()
     {
@@ -26,9 +26,9 @@ public class GameManager : MonoBehaviour
     public void ChangeStateTo(SlimeAnimationState state)
     {
        if (mainSlime == null) return;    
-       if (state == mainSlime.GetComponent<EnemyAi>().currentState) return;
+       if (state == mainSlime.GetComponent<Enemy>().currentState) return;
 
-       mainSlime.GetComponent<EnemyAi>().currentState = state ;
+       mainSlime.GetComponent<Enemy>().currentState = state ;
     }
     void LookAtCamera()
     {

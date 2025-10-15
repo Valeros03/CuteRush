@@ -1,17 +1,14 @@
 using UnityEngine;
 
-namespace TheDeveloperTrain.SciFiGuns
-{
-
-    public class GunDynamicAnimationSpeedAdjustment : MonoBehaviour
+public class GunDynamicAnimationSpeedAdjustment : MonoBehaviour
     {
-        private Gun gun;
+        private GunBase gun;
         private GunGlowManager[] gunGlowManagers;
         private GunStats stats;
 
         void Start()
         {
-            gun = GetComponent<Gun>();
+            gun = GetComponent<GunBase>();
             gunGlowManagers = GetComponentsInChildren<GunGlowManager>();
             stats = gun.stats;
             foreach (GunGlowManager glowManager in gunGlowManagers)
@@ -40,4 +37,3 @@ namespace TheDeveloperTrain.SciFiGuns
             }
         }
     }
-}

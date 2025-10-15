@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
     private bool playerControl;
     private Crosshair crosshairScript;
-    private Gun gun;
+    private GunBase gun;
 
     private PlayerControl controls; // classe generata
 
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        gun = weaponHolder.GetComponentInChildren<Gun>();
+        gun = weaponHolder.GetComponentInChildren<GunBase>();
         currentMotion = motionstate.idle;
         moveDirection = Vector3.zero;
         grounded = false;
@@ -257,14 +257,14 @@ public class PlayerController : MonoBehaviour
         {
             if (gun != null)
             {
-                gun.Reload();
+                gun.StartReload();
             }
         }
         if (Input.GetButton("Fire1"))
         {
             if (gun != null)
             {
-                gun.Shoot();
+                gun.TryShoot();
             }
             
         }
@@ -286,7 +286,7 @@ public class PlayerController : MonoBehaviour
             if (gun.gameObject.activeInHierarchy)
             {
                 if(gun.stats.fireMode == FireMode.Single)
-                    gun.resetSingleShot();
+                    gun.ResetSingleShot();
             }
         }
 

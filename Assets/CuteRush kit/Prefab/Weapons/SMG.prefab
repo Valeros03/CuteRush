@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7495118709315054163}
-  - component: {fileID: 3522338704440287360}
   - component: {fileID: 2334294399730490371}
   - component: {fileID: 7372352410499267425}
   - component: {fileID: 8739092372985437239}
+  - component: {fileID: 3347603403134878085}
   m_Layer: 0
   m_Name: SMG
   m_TagString: Untagged
@@ -37,29 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &3522338704440287360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 755511403919433321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 439b213289c8fbb489b075bcd5dc02f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gunParticleSystems: []
-  muzzleTransform: {fileID: 8260155734764276120}
-  stats: {fileID: 11400000, guid: c10183dd5b8a9c74b9dd5f9ca29ec3ab, type: 2}
-  currentBulletCount: 0
-  isReloading: 0
-  firePoint: {fileID: 4411560545149077071}
-  hitLayers:
-    serializedVersion: 2
-    m_Bits: 512
-  tracer: {fileID: 7378615310817722096}
-  tracerDuration: 0.05
 --- !u!95 &2334294399730490371
 Animator:
   serializedVersion: 3
@@ -192,6 +169,29 @@ MonoBehaviour:
   ShootClips:
   - {fileID: 8300000, guid: 4310474905e266640852f43bd609a1a4, type: 3}
   Recharge: {fileID: 8300000, guid: 805da20df04b72f45b83e70b9f9befdd, type: 3}
+  GunCharging: {fileID: 0}
+--- !u!114 &3347603403134878085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755511403919433321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b732a7a795e94045a8bbb2d6bb9b046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunParticleSystems: []
+  firePoint: {fileID: 4411560545149077071}
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  tracer: {fileID: 7378615310817722096}
+  tracerDuration: 0.05
+  stats: {fileID: 11400000, guid: c10183dd5b8a9c74b9dd5f9ca29ec3ab, type: 2}
+  currentBulletCount: 0
+  isReloading: 0
 --- !u!1 &4787169507164838053
 GameObject:
   m_ObjectHideFlags: 0

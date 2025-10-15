@@ -38,7 +38,7 @@ public class Granade : MonoBehaviour
         {
 
             // Se è un nemico/apply damage
-            EnemyAi enemy = nearby.GetComponentInParent<EnemyAi>();
+            Enemy enemy = nearby.GetComponentInParent<Enemy>();
             
             if (enemy != null)
             {

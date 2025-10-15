@@ -503,7 +503,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4625643918831965447}
-  - component: {fileID: 6100500056878088951}
+  - component: {fileID: 7431484324357586908}
   - component: {fileID: 4036693511600571435}
   - component: {fileID: 3837914804021574036}
   - component: {fileID: 4792911739500385081}
@@ -530,7 +530,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &6100500056878088951
+--- !u!114 &7431484324357586908
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -539,20 +539,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 8388502902427339659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 439b213289c8fbb489b075bcd5dc02f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 35c8cb0f13da2804c94204e344d8de1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gunParticleSystems: []
   muzzleTransform: {fileID: 8665995661395143520}
-  stats: {fileID: 11400000, guid: 607a682fdf44adc4cb83aefec22d3e82, type: 2}
-  currentBulletCount: 0
-  isReloading: 0
   firePoint: {fileID: 8665995661395143520}
   hitLayers:
     serializedVersion: 2
     m_Bits: 512
   tracer: {fileID: 174680115784635392}
-  tracerDuration: 0.08
+  tracerDuration: 0.05
+  weaponUI: {fileID: 0}
+  bulletNumberUIText: {fileID: 0}
+  stats: {fileID: 11400000, guid: 607a682fdf44adc4cb83aefec22d3e82, type: 2}
+  currentBulletCount: 0
+  isReloading: 0
+  shotCooldownOverride: 0
 --- !u!95 &4036693511600571435
 Animator:
   serializedVersion: 3

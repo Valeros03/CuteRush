@@ -17,7 +17,7 @@ MonoBehaviour:
   damage: 3
   range: 40
   reloadDuration: 1.2
-  shootDelay: 0.1
+  shootDelay: 0
   bulletSpeed: 200
   fireRate: 4
   fireMode: 1

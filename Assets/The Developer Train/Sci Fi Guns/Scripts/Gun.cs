@@ -162,7 +162,7 @@ namespace TheDeveloperTrain.SciFiGuns
             
             if (Physics.Raycast(firePoint.position, direction, out hit, stats.range, hitLayers))
             {
-                EnemyAi enemy = hit.collider.GetComponentInParent<EnemyAi>();
+                Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
                 Vector3 shotDir = (hit.point - firePoint.position).normalized;
                 if (enemy != null)
                 {

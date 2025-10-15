@@ -2,13 +2,13 @@
 
 public class TriggerCollider : MonoBehaviour
 {
-    public EnemyAi enemyAi; // riferimento al genitore
+    public Enemy enemy; // riferimento al genitore
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            enemyAi.HandleTriggerEnter(this, other); // passa anche il collider del player
+            enemy.HandleTriggerEnter(this, other); // passa anche il collider del player
         }
     }
 
@@ -16,7 +16,7 @@ public class TriggerCollider : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            enemyAi.HandleTriggerExit(this, other); // opzionale
+            enemy.HandleTriggerExit(this, other); // opzionale
         }
     }
 }

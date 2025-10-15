@@ -1,7 +1,6 @@
 using UnityEngine;
 
-namespace TheDeveloperTrain.SciFiGuns
-{
+
     /// <summary>
     /// A ScriptableObject defining recoil behavior for a gun.
     /// Includes position and rotation jolts, duration, and curve settings for both recoil and recovery.
@@ -71,4 +70,3 @@ namespace TheDeveloperTrain.SciFiGuns
         [Tooltip("Controls the interpolation shape of the recovery back to the original state. X = time (0-1), Y = strength (1-0).")]
         public AnimationCurve recoveryCurve = AnimationCurve.EaseInOut(0, 1, 1, 0);
     }
-}

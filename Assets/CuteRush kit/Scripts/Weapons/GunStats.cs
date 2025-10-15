@@ -1,7 +1,5 @@
 using UnityEngine;
 
-namespace TheDeveloperTrain.SciFiGuns
-{
 
     public enum FireMode
     {
@@ -91,4 +89,4 @@ namespace TheDeveloperTrain.SciFiGuns
         }
 
     }
-}
+

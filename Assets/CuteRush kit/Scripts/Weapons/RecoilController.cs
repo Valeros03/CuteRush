@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
-namespace TheDeveloperTrain.SciFiGuns
-{
-    public class RecoilController : MonoBehaviour
+
+public class RecoilController : MonoBehaviour
     {
         public enum Handedness { Right, Left }
 
@@ -29,14 +28,14 @@ namespace TheDeveloperTrain.SciFiGuns
         private Vector3 originalPosition;
         private Quaternion originalRotation;
 
-        private Gun gun;
+        private GunBase gun;
 
         private void Start()
         {
             originalPosition = transform.localPosition;
             originalRotation = transform.localRotation;
 
-            gun = transform.parent.GetComponent<Gun>();
+            gun = transform.parent.GetComponent<GunBase>();
             if (gun != null)
                 gun.onBulletShot += StartRecoil;
         }
@@ -128,5 +127,4 @@ namespace TheDeveloperTrain.SciFiGuns
                 angle -= 360f;
             return angle;
         }
-    }
 }

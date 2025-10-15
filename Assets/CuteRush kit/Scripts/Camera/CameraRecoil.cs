@@ -1,22 +1,21 @@
 ﻿using UnityEngine;
 
-namespace TheDeveloperTrain.SciFiGuns
+
+public class CameraRecoil : MonoBehaviour
 {
-    public class CameraRecoil : MonoBehaviour
-    {
        
         private float currentRecoil = 0f;
         private float targetRecoil = 0f;
         private float recoverySpeed = 0f;
 
 
-        private Gun gun;
+        private GunBase gun;
         private RecoilController recoilController;
 
         void Start()
         {
             // trova il gun nel parent
-            gun = GetComponentInChildren<Gun>();
+            gun = GetComponentInChildren<GunBase>();
             recoilController = GetComponentInChildren<RecoilController>();
             if (gun != null)
                 gun.onBulletShot += ApplyRecoil;
@@ -42,5 +41,5 @@ namespace TheDeveloperTrain.SciFiGuns
             targetRecoil += recoilController.profile.rotationAmplitudeVertical;
             targetRecoil = Mathf.Clamp(targetRecoil, 0f, recoilController.profile.maxRotationOffsetVertical); // limite cumulativo
         }
-    }
 }
+
