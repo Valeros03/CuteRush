@@ -283,6 +283,11 @@ public class PlayerController : MonoBehaviour
                 SwitchToWeapon();
                 
             }
+            if (gun.gameObject.activeInHierarchy)
+            {
+                if(gun.stats.fireMode == FireMode.Single)
+                    gun.resetSingleShot();
+            }
         }
 
         

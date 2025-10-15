@@ -505,6 +505,8 @@ GameObject:
   - component: {fileID: 4625643918831965447}
   - component: {fileID: 6100500056878088951}
   - component: {fileID: 4036693511600571435}
+  - component: {fileID: 3837914804021574036}
+  - component: {fileID: 4792911739500385081}
   m_Layer: 0
   m_Name: Pistola base
   m_TagString: Untagged
@@ -545,16 +547,12 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 607a682fdf44adc4cb83aefec22d3e82, type: 2}
   currentBulletCount: 0
   isReloading: 0
-  damage: 10
-  range: 100
   firePoint: {fileID: 8665995661395143520}
   hitLayers:
     serializedVersion: 2
     m_Bits: 512
   tracer: {fileID: 174680115784635392}
   tracerDuration: 0.08
-  recoilClip: {fileID: 7400000, guid: 82d412b8219140f4f8b16cdf30988101, type: 2}
-  constantRecoilTime: 0
 --- !u!95 &4036693511600571435
 Animator:
   serializedVersion: 3
@@ -574,3 +572,119 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!82 &3837914804021574036
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8388502902427339659}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 1648795119453403640, guid: 0d975340c1cc6744f889db6da526914f,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0.37
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &4792911739500385081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8388502902427339659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f4fc4aedce2a7b49a52c3944c39847d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GunSource: {fileID: 3837914804021574036}
+  ShootClips:
+  - {fileID: 8300000, guid: 5ff5bd936a30a904da907f35c8dd382e, type: 3}
+  - {fileID: 8300000, guid: de812cfb519929c4aad9d296f655c81d, type: 3}
+  - {fileID: 8300000, guid: e70eb034c8ae4fe42b00d809716998e4, type: 3}
+  Recharge: {fileID: 8300000, guid: c4f24bb3e1531b44796fc33c46287cea, type: 3}
+  GunCharging: {fileID: 0}

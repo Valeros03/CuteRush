@@ -16,7 +16,7 @@ MonoBehaviour:
   magazineSize: 24
   damage: 5
   range: 50
-  reloadDuration: 3
+  reloadDuration: 1.5
   shootDelay: 0
   bulletSpeed: 50
   fireRate: 4

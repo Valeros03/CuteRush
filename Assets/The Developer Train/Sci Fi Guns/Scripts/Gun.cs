@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -116,10 +117,7 @@ namespace TheDeveloperTrain.SciFiGuns
                 if (stats.fireMode == FireMode.Single) 
                 {
 
-                    
-                    Invoke(nameof(SpawnBullet), stats.shootDelay);
-                    StartCoroutine(nameof(ResetGunShotCooldown));
-                    
+                    SpawnBullet();
 
                 } else if (stats.fireMode == FireMode.Auto) 
                 {
@@ -217,8 +215,10 @@ namespace TheDeveloperTrain.SciFiGuns
             {
                 onGunReloadStart?.Invoke();
                 isReloading = true;
-                GetComponent<AudioGunController>().PlayRecharge();
                 GetComponent<Animator>().SetTrigger("Recharge");
+                yield return new WaitForSeconds(stats.reloadDuration - GetComponent<AudioGunController>().Recharge.length);
+                GetComponent<AudioGunController>().PlayRecharge();
+                
 
                 yield return new WaitForSeconds(stats.reloadDuration);
                 if (currentMagLeft != 0)
@@ -236,6 +236,11 @@ namespace TheDeveloperTrain.SciFiGuns
                 }
                 isReloading = false;
             }
+        }
+
+        public void resetSingleShot() //to simulate single shoot weapons
+        {
+            IsInShotCooldown = false;
         }
         private IEnumerator ResetGunShotCooldown()
         {
