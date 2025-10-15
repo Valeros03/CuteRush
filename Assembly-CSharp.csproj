@@ -55,8 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\AudioGunController.cs" />
-     <Compile Include="Assets\AudioPlayerController.cs" />
+     <Compile Include="Assets\CuteRush kit\Audio\Script\AudioGunController.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioManager.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioPlayerController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\CameraRecoil.cs" />

@@ -112,7 +112,6 @@ namespace TheDeveloperTrain.SciFiGuns
                 foreach (var particleSystem in gunParticleSystems) { particleSystem.Play(); }
 
                 IsInShotCooldown = true;
-                currentBulletCount--;
 
                 if (stats.fireMode == FireMode.Single) 
                 {
@@ -201,13 +200,15 @@ namespace TheDeveloperTrain.SciFiGuns
             }
 
             onBulletShot?.Invoke();
-            
+            currentBulletCount--;
+
         }
 
         public void Reload()
         {
             if (!gameObject.activeSelf) { return; }
-            StartCoroutine(nameof(ReloadGun));
+            if (currentBulletCount < stats.magazineSize)
+                 StartCoroutine(nameof(ReloadGun));
         }
 
         private IEnumerator ReloadGun()
@@ -216,6 +217,9 @@ namespace TheDeveloperTrain.SciFiGuns
             {
                 onGunReloadStart?.Invoke();
                 isReloading = true;
+                GetComponent<AudioGunController>().PlayRecharge();
+                GetComponent<Animator>().SetTrigger("Recharge");
+
                 yield return new WaitForSeconds(stats.reloadDuration);
                 if (currentMagLeft != 0)
                 {
@@ -250,10 +254,13 @@ namespace TheDeveloperTrain.SciFiGuns
 
         private IEnumerator FireInCharge()
         {
-
+            GetComponent<AudioGunController>().PlayCharge();
             yield return new WaitForSeconds(stats.shootDelay);
-            SpawnBullet();
-            StartCoroutine(nameof(ResetGunShotCooldown));
+            if (gameObject.transform.GetChild(0).gameObject.activeInHierarchy) //il player potrebbe aver switchato alla granata
+            {
+                SpawnBullet();
+            }
+            StartCoroutine(nameof(ResetGunShotCooldown)); // sta fuori dall'if altrimenti non disabiliterebbe il IsInShootCooldown 
 
         }
 

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Railgun Preset 1
   m_EditorClassIdentifier: 
   totalAmmo: 48
-  magazineSize: 12
+  magazineSize: 2
   damage: 40
   range: 100
-  reloadDuration: 2
-  shootDelay: 4
+  reloadDuration: 4
+  shootDelay: 3
   bulletSpeed: 6000
-  fireRate: 0.1
+  fireRate: 0.3
   fireMode: 2

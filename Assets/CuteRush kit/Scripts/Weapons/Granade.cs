@@ -29,7 +29,7 @@ public class Granade : MonoBehaviour
 
         // Attiva l'effetto dell'esplosione
         explosionEffect.SetActive(true);
-        
+        GetComponent<AudioSource>().Play();
 
         // Trova oggetti colpiti nell’area
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);

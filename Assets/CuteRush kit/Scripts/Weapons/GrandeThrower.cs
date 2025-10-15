@@ -117,6 +117,8 @@ public class GrandeThrower : MonoBehaviour
         arrivingPoint.gameObject.SetActive(false);
         GranadeCount--;
 
+        player.GetComponent<AudioPlayerController>().playThrow();
+
         Vector3 spawnPos;
         if (transform.position != null)
             spawnPos = transform.position;
