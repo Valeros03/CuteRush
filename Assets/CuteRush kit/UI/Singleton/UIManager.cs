@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         InventoryPlayer.OnInventoryChanged -= UpdateInventoryUI;
+        VitalsController.OnHealthChange += UpdateHealth;
     }
 
     public void UpdateInventoryUI(int medikitCount, int grenadeCount)

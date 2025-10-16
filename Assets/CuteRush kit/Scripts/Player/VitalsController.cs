@@ -11,7 +11,7 @@ public class VitalsController : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
 
-    public static Action<int> OnHealthChange;
+    public static event Action<int> OnHealthChange;
     public void Start()
     {
         // Health start settings
@@ -35,12 +35,14 @@ public class VitalsController : MonoBehaviour
     {
 
        currentHealth += value;
+       OnHealthChange?.Invoke(currentHealth);
        
     }
 
     public void Decrease(int value)
     {
-       currentHealth -= value;       
+       currentHealth -= value;
+       OnHealthChange?.Invoke(currentHealth);
     }
 
   

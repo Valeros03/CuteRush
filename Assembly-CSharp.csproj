@@ -67,8 +67,12 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Consumabili\Mags.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Consumabili\Medkit.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\Enemy.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemyBullet.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemyController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemyHitRecoil.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Enemy\HybridEnemy.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Enemy\MeleeEnemy.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Enemy\RangedEnemy.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Interface\IPickable.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\InventoryPlayer.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerControl.cs" />

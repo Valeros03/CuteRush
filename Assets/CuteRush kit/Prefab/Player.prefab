@@ -317,7 +317,6 @@ GameObject:
   - component: {fileID: 704433402146984151}
   - component: {fileID: 8215951900633074400}
   - component: {fileID: 8982360985122313298}
-  - component: {fileID: 7439743854841362579}
   m_Layer: 8
   m_Name: Marker
   m_TagString: Untagged
@@ -385,19 +384,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &7439743854841362579
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4023250757063895225}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4517699527493780806
 GameObject:
   m_ObjectHideFlags: 0
