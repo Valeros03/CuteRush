@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55771c3ba348a3e45b499adee1a1185c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAi: {fileID: 5846193992706186581}
+  enemy: {fileID: 5846193992706186581}
 --- !u!1 &1758517340920823382
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55771c3ba348a3e45b499adee1a1185c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAi: {fileID: 5846193992706186581}
+  enemy: {fileID: 5846193992706186581}
 --- !u!1001 &7663887863309284581
 PrefabInstance:
   m_ObjectHideFlags: 0

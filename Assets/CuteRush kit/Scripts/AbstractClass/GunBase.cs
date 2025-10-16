@@ -116,7 +116,7 @@ public abstract class GunBase : MonoBehaviour
     // Classe concreta implementa questa funzione
     protected abstract void Shoot();
 
-    protected void SpawnBulletVisualsAndRaycast()
+    protected virtual void SpawnBulletVisualsAndRaycast()
     {
         // logica consolidata di raycast, tracers, danno, suoni, decremento ammo, eventi
         if (mainCamera == null) mainCamera = Camera.main;
@@ -136,7 +136,6 @@ public abstract class GunBase : MonoBehaviour
             targetPoint = ray.GetPoint(stats.range);
         }
 
-        // direzione con un piccolo spread
         Vector3 direction = (targetPoint - firePoint.position).normalized;
 
         if (Physics.Raycast(firePoint.position, direction, out hit, stats.range, hitLayers))
@@ -159,7 +158,7 @@ public abstract class GunBase : MonoBehaviour
         onBulletShot?.Invoke();
     }
 
-    private void DrawTracer(Vector3 start, Vector3 end)
+    protected void DrawTracer(Vector3 start, Vector3 end)
     {
         if (tracer == null) return;
         tracer.enabled = true;
@@ -225,5 +224,12 @@ public abstract class GunBase : MonoBehaviour
     private void EquipGranade()
     {
         player.SwitchToGranade();
+    }
+
+    public virtual void addMag()
+    {
+        if (currentMagLeft * stats.magazineSize >= stats.totalAmmo) return;
+        currentMagLeft++;
+
     }
 }

@@ -8,7 +8,6 @@ public class GrandeThrower : MonoBehaviour
     [SerializeField] PlayerController player;
     [SerializeField] float granadeSpeed;
     [SerializeField] float gravity;
-    [SerializeField] int GranadeCount;
     public GameObject grenadePrefab;
 
     public LayerMask collisionMask; // layer di terreno + ostacoli
@@ -17,26 +16,11 @@ public class GrandeThrower : MonoBehaviour
     private MouseLook playerMouseLook;
     private Transform arrivingPoint;
 
-    //UI Settings
-    private GameObject GranadeUI;
-    private Text bulletNumberUI;
-
     void Start()
     {
         playerMouseLook = player.GetComponentInChildren<MouseLook>();
         arrivingPoint = transform.Find("ArrivingPoint");
 
-        if (GranadeUI == null)
-        {
-            GranadeUI = GameObject.Find("Canvas/WeaponUI");
-        }
-
-        if (bulletNumberUI == null && GranadeUI != null)
-        {
-            bulletNumberUI = GranadeUI.transform.Find("Granade").GetComponent<Text>();
-        }
-
-        bulletNumberUI.text = string.Format("Granate {0}", GranadeCount);
     }
 
     void Update()
@@ -99,11 +83,6 @@ public class GrandeThrower : MonoBehaviour
         return pos;
     }
 
-    public int GetGranadeCount()
-    {
-        return GranadeCount;
-    }
-
     public void Activation()
     {
 
@@ -115,7 +94,6 @@ public class GrandeThrower : MonoBehaviour
     {
 
         arrivingPoint.gameObject.SetActive(false);
-        GranadeCount--;
 
         player.GetComponent<AudioPlayerController>().playThrow();
 
@@ -176,7 +154,7 @@ public class GrandeThrower : MonoBehaviour
        
     }
 
-public void EquipGun()
+    public void EquipGun()
     {
         player.SwitchToWeapon();
     }

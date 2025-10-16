@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Railgun Preset 1
   m_EditorClassIdentifier: 
   totalAmmo: 48
-  magazineSize: 2
+  magazineSize: 4
   damage: 40
   range: 100
   reloadDuration: 4

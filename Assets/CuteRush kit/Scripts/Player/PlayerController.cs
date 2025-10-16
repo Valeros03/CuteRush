@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
 
     private Animator weaponAnimator;   // animatore dell'arma
     [SerializeField] private Animator granadeAnimator;
+    [SerializeField] private InventoryPlayer inventory;
 
 
     // Private Variables
@@ -72,6 +73,7 @@ public class PlayerController : MonoBehaviour
     private PlayerControl controls; // classe generata
 
     private bool footstepsActive = false;
+    
 
 
     // Use this for initialization
@@ -348,7 +350,20 @@ public class PlayerController : MonoBehaviour
         {
             weaponAnimator.SetTrigger("EquipaggiaArma"); // granata si alza
         }
+    }
 
+    public void addMedkit()
+    {
+        inventory.addMedkit();
+    }
 
+    public void addGrenade()
+    {
+        inventory.addGrenade();
+    }
+    
+    public void addAmmo()
+    {
+        gun.addMag();
     }
 }
