@@ -60,6 +60,7 @@
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioPlayerController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\AbstractClass\GunBase.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\AbstractClass\PickableItem.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Bootstrapper.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\CameraRecoil.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\Crosshair.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\MouseLook.cs" />
@@ -84,6 +85,9 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\RecoilController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\RecoilProfile.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\SingleShotGun.cs" />
+     <Compile Include="Assets\CuteRush kit\UI\Abstract\UIPanel.cs" />
+     <Compile Include="Assets\CuteRush kit\UI\Scripts\HUD.cs" />
+     <Compile Include="Assets\CuteRush kit\UI\Singleton\UIManager.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Survival Essentials\Example\Scripts\AnimatedFire.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\Scripts\LowPolyWater.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Textures &amp; Sprites\UI\Radial Slider UI\Scripts\RadialSlider.cs" />

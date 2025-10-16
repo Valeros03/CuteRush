@@ -4,4 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/First.unity
+    guid: 670f5e1a2bcffc445915046409234a3b
+  - enabled: 1
+    path: Assets/CuteRush kit/UI/UI_Scene.unity
+    guid: b684c4664e1a2a54b8079f0b04744c6c
+  m_configObjects: {}

@@ -128,8 +128,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3290250874017093500}
-  m_LocalRotation: {x: -0.37801266, y: 0.5975839, z: -0.5975839, w: -0.37801266}
-  m_LocalPosition: {x: 0.15, y: 27, z: 0.1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.15, y: 26.72, z: 0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6216532115693788942}
@@ -160,7 +160,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -679,10 +679,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 100
-  healthImage: {fileID: 0}
-  healthTextQty: {fileID: 0}
-  fullHealthColor: {r: 1, g: 0, b: 0, a: 1}
-  emptyHealthColor: {r: 0.5283019, g: 0, b: 0, a: 1}
 --- !u!114 &5235147366029142948
 MonoBehaviour:
   m_ObjectHideFlags: 0

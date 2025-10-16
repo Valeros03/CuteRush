@@ -10,18 +10,12 @@ public class VitalsController : MonoBehaviour
     [Header("[Health Settings]")]
     public int maxHealth;
     public int currentHealth;
-    public Image healthImage;
-    public Text healthTextQty;
-    public Color fullHealthColor;
-    public Color emptyHealthColor;
 
+    public static Action<int> OnHealthChange;
     public void Start()
     {
         // Health start settings
         currentHealth = maxHealth;
-        healthImage.fillAmount = maxHealth / 100;
-        healthImage.color = fullHealthColor;
-        healthTextQty.text = maxHealth.ToString();
 
     }
 
@@ -30,7 +24,6 @@ public class VitalsController : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            //gameManager.gameOver
         }
         
         if (currentHealth >= maxHealth)
@@ -40,26 +33,15 @@ public class VitalsController : MonoBehaviour
 
    public void Increase(int value)
     {
-       
-       ChangeSliderValue(value / 100f);
+
        currentHealth += value;
        
     }
 
     public void Decrease(int value)
     {
-       
-       ChangeSliderValue(-value / 100f);
-       currentHealth -= value;
-       
+       currentHealth -= value;       
     }
 
-    public void ChangeSliderValue(float value)
-    {     
-        
-        healthImage.fillAmount += value;
-        healthImage.color = Color.Lerp(emptyHealthColor, fullHealthColor, healthImage.fillAmount);
-        healthTextQty.text = currentHealth.ToString();
-         
-    }
+  
 }
