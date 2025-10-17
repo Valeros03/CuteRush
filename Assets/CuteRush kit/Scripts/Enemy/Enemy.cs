@@ -1,190 +1,277 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
-public enum SlimeAnimationState { Idle, Walk, Attack, Damage }
+public enum AIState
+{
+    Dormant,
+    Chasing,
+    Returning
+}
 
 public abstract class Enemy : MonoBehaviour
 {
+    [Header("AI Behavior")]
+    public float aggroRange = 15f;
+
     [Header("Base Enemy Settings")]
     public float currentHealth = 3f;
     public int attackDamage = 1;
     public float attackSpeed = 1f;
     public float chaseSpeed = 3.5f;
     public float rotationSpeed = 5f;
-
-    [Header("References")]
-    public Animator animator;
-    public NavMeshAgent agent;
-    public GameObject SmileBody;
+    public float flinchDuration = 0.3f;
     public Face faces;
+    public GameObject SlimeBody;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] protected EnemyHitRecoil hitRecoil;
 
-    [Header("Attack Range Settings")]
-    public float attackRange = 3f;     // Distanza massima per attaccare
-    public float minDistance = 2f;     // Distanza minima per non avvicinarsi troppo
-
-
+    protected NavMeshAgent agent;
     protected Transform player;
-    protected Material faceMaterial;
+    protected Animator animator;
 
     protected bool isDead;
     protected bool isTakingDamage;
     protected bool isPlayerInAttackArea;
     protected bool isChasing;
 
-   
+    private AIState currentState = AIState.Dormant;
+    private Vector3 homePosition;
+    private float maxLeashRangeSqr;
+    protected Material faceMaterial;
+    private Coroutine flinchCoroutine;
 
-    public SlimeAnimationState currentState;
+
+    protected virtual void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+
+      
+        if (SlimeBody != null) faceMaterial = SlimeBody.GetComponent<Renderer>().materials[1];
+
+        animator.SetFloat("AttackSpeed", attackSpeed);
+    }
 
     protected virtual void Start()
     {
-        faceMaterial = SmileBody.GetComponent<Renderer>().materials[1];
-        agent.speed = chaseSpeed;
-        SetFace(faces.Idleface);
-        currentState = SlimeAnimationState.Idle;
-
-        // trova il player una volta
+   
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
-        if (player != null)
+
+        // E la configurazione (che ora può usare 'agent' in sicurezza)
+        SphereCollider aggroTrigger = GetComponent<SphereCollider>();
+        if (aggroTrigger != null && aggroTrigger.isTrigger)
+            aggroTrigger.radius = aggroRange;
+        else
+            Debug.LogWarning($"Nemico {name} non ha uno SphereCollider (Trigger) per l'aggro range.");
+
+        if (agent != null)
         {
-            StartChasing();
+            agent.speed = chaseSpeed;
+            agent.angularSpeed = rotationSpeed * 100f;
         }
+    }
+
+    public void Initialize(Vector3 homePos, float leashRange)
+    {
+        homePosition = homePos;
+        maxLeashRangeSqr = leashRange * leashRange;
+        SetState(AIState.Dormant);
     }
 
     protected virtual void Update()
     {
-        if (isDead || player == null) return;
-
-        if (isTakingDamage)
+     
+        if (isDead || player == null || isTakingDamage)
         {
-            animator.SetFloat("Speed", 0);
-            agent.isStopped = true;
             return;
         }
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        // Se dentro il range d’attacco ma non troppo vicino
-        if (distanceToPlayer <= attackRange)
+        if (agent == null || !agent.isOnNavMesh)
         {
-            agent.isStopped = true;
-            FacePlayer();
-            currentState = SlimeAnimationState.Attack;
-            animator.SetTrigger("Attack");
-            SetFace(faces.attackFace);
             return;
         }
 
-        // Se fuori range -> insegue
-        if (isChasing)
+
+        switch (currentState)
         {
-            agent.isStopped = false;
-            agent.SetDestination(player.position);
-            animator.SetFloat("Speed", agent.velocity.magnitude);
-            SetFace(faces.WalkFace);
-            FacePlayer();
-            currentState = SlimeAnimationState.Walk;
+            case AIState.Dormant:
+                Debug.Log("Dormant");
+                break;
+            case AIState.Chasing:
+                HandleChasingState();
+                break;
+            case AIState.Returning:
+                Debug.Log("Returning");
+                HandleReturningState();
+                break;
         }
     }
-    private void FacePlayer()
+
+    protected abstract void PerformChaseLogic();
+
+    protected abstract void PerformAttack();
+
+    private void HandleChasingState()
     {
-        Vector3 dir = (player.position - transform.position).normalized;
-        dir.y = 0; // evita rotazione verticale
-        if (dir != Vector3.zero)
+        float distFromHomeSqr = (transform.position - homePosition).sqrMagnitude;
+        if (distFromHomeSqr > maxLeashRangeSqr)
         {
-            Quaternion lookRot = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * rotationSpeed);
+            SetState(AIState.Returning);
+        }
+        else
+        {
+            PerformChaseLogic();
         }
     }
 
+    private void HandleReturningState()
+    {
+        agent.SetDestination(homePosition);
+        agent.isStopped = false;
+        animator.SetFloat("Speed", agent.velocity.magnitude);
 
-    protected void SetFace(Texture tex) => faceMaterial.SetTexture("_MainTex", tex);
+        if (!agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 1f)
+        {
+            SetState(AIState.Dormant);
+        }
+    }
 
-    public virtual void HandleTriggerEnter(TriggerCollider trigger, Collider playerCollider)
+    private void SetState(AIState newState)
+    {
+        currentState = newState;
+        
+        switch (currentState)
+        {
+            case AIState.Dormant:
+                if (agent.isOnNavMesh) agent.isStopped = true;
+                animator.SetFloat("Speed", 0);
+                SetFace(faces.Idleface);
+                break;
+            case AIState.Chasing:
+                if (agent.isOnNavMesh) agent.isStopped = false;
+                break;
+            case AIState.Returning:
+                if (agent.isOnNavMesh) agent.isStopped = false;
+                SetFace(faces.Idleface);
+                break;
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (currentState == AIState.Dormant && other.CompareTag("Player"))
+        {
+            SetState(AIState.Chasing);
+        }
+    }
+
+    protected void SetFace(Texture tex)
+    {
+        if (faceMaterial != null && tex != null)
+            faceMaterial.SetTexture("_MainTex", tex);
+    }
+
+    public virtual void TakeDamage(float damageAmount, Vector3 shotDirection, Vector3 hitPoint)
     {
         if (isDead) return;
-        player = playerCollider.transform;
 
-        if (trigger.gameObject.name == "AttackTrigger")
-        {
-            agent.isStopped = true;
-            currentState = SlimeAnimationState.Attack;
-            SetFace(faces.attackFace);
-            animator.SetTrigger("Attack");
-            isPlayerInAttackArea = true;
-        }
-    }
-
-    public virtual void HandleTriggerExit(TriggerCollider trigger, Collider playerCollider)
-    {
-        if (trigger.gameObject.name == "AttackTrigger")
-        {
-            isPlayerInAttackArea = false;
-            agent.isStopped = false;
-            currentState = SlimeAnimationState.Walk;
-            SetFace(faces.WalkFace);
-        }
-    }
-
-    public void TakeDamage(float dmg, Vector3 shotDir, Vector3 hitPoint)
-    {
-        if (isDead) return;
         isTakingDamage = true;
+        currentHealth -= damageAmount;
 
-        currentHealth -= dmg;
-        currentState = SlimeAnimationState.Damage;
         SetFace(faces.damageFace);
 
         if (currentHealth <= 0)
         {
-            Die(shotDir, hitPoint);
+            Die(shotDirection, hitPoint);
         }
         else
         {
-            GetComponentInChildren<EnemyHitRecoil>()?.ApplyHit(shotDir);
-            Invoke(nameof(ResumeChaseOrAttack), 0.5f);
+            if (flinchCoroutine != null)
+            {
+                StopCoroutine(flinchCoroutine);
+            }
+            // Avvia il NUOVO flinch e salva un riferimento
+            flinchCoroutine = StartCoroutine(DamageFlinchRoutine(shotDirection, hitPoint));
         }
     }
 
-    protected virtual void ResumeChaseOrAttack()
+    protected virtual IEnumerator DamageFlinchRoutine(Vector3 shotDirection, Vector3 hitPoint)
     {
+
+        if (agent.isOnNavMesh && agent.enabled)
+        {
+            agent.isStopped = true;
+        }
+
+        if (animator != null)
+        {
+            animator.enabled = false;
+           
+        }
+
+        if (hitRecoil != null)
+        {
+            hitRecoil.ApplyHit(shotDirection, hitPoint);
+        }
+
+
+
+        yield return new WaitForSeconds(flinchDuration);
+
         isTakingDamage = false;
-        if (isDead) return;
+        flinchCoroutine = null;
+        if (isDead) yield break; 
 
-        if (isPlayerInAttackArea)
+        if (agent.isOnNavMesh && agent.enabled && currentState != AIState.Dormant)
         {
-            currentState = SlimeAnimationState.Attack;
-            animator.SetTrigger("Attack");
+            agent.isStopped = false;
+        }
+        
+        if (animator != null)
+        {
+            animator.enabled = true;
+            animator.Play("Locomotion", -1, 0f);
+            animator.SetFloat("Speed", 0f);
+
+        }
+
+    }
+
+    protected virtual void Die(Vector3 shotDirection, Vector3 hitPoint)
+    {
+        if (isDead) return; 
+        isDead = true;
+
+        if (flinchCoroutine != null)
+        {
+            StopCoroutine(flinchCoroutine);
+            flinchCoroutine = null;
+        }
+
+
+        StopAllCoroutines();
+        isTakingDamage = false;
+
+        foreach (Collider col in GetComponents<Collider>())
+            col.enabled = false;
+
+        if (hitRecoil != null)
+        {
+            hitRecoil.DieAndRagdoll(shotDirection, hitPoint);
         }
         else
         {
-            currentState = SlimeAnimationState.Walk;
-            agent.isStopped = false;
-            SetFace(faces.WalkFace);
+            animator.SetTrigger("Die");
+            if (agent.isOnNavMesh)
+            {
+                agent.isStopped = true;
+                agent.enabled = false;
+            }
         }
+
+        Destroy(gameObject, 5f);
     }
 
-    protected virtual void StartChasing()
-    {
-        isChasing = true;
-        currentState = SlimeAnimationState.Walk;
-        agent.isStopped = false;
-        SetFace(faces.WalkFace);
-    }
-
-    protected virtual void Die(Vector3 shotDir, Vector3 hitPoint)
-    {
-        isDead = true;
-        GetComponentInChildren<EnemyHitRecoil>()?.DieAndRagdoll(shotDir, hitPoint);
-        StartCoroutine(DisableAfterDelay(1.5f));
-    }
-
-    private IEnumerator DisableAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        gameObject.SetActive(false);
-    }
-
-    // --- da implementare nei figli ---
-    protected abstract void PerformAttack();
 }
+

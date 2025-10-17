@@ -73,6 +73,7 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\HybridEnemy.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\MeleeEnemy.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\RangedEnemy.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Enemy\SpawnManager.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Interface\IPickable.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\InventoryPlayer.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerControl.cs" />

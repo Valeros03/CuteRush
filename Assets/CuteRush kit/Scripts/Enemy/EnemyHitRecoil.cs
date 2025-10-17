@@ -33,6 +33,7 @@ public class EnemyHitRecoil : MonoBehaviour
 
     [SerializeField] private Animator animator;
     [SerializeField] private UnityEngine.AI.NavMeshAgent agent;
+    private Transform rootTransform;
 
     private void Start()
     {
@@ -45,6 +46,7 @@ public class EnemyHitRecoil : MonoBehaviour
         if (ragdollRigidbodies == null || ragdollRigidbodies.Length == 0)
             ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
 
+        rootTransform = transform.parent;
     }
 
     private void Update()
@@ -64,20 +66,30 @@ public class EnemyHitRecoil : MonoBehaviour
         }
     }
 
-    public void ApplyHit(Vector3 hitDirection)
+    public void ApplyHit(Vector3 hitDirection, Vector3 hitPoint)
     {
-        // direzione inversa rispetto al colpo (spinta all'indietro)
+     
         Vector3 recoilDir = -hitDirection.normalized;
+        Vector3 localRecoilDir = rootTransform.InverseTransformDirection(recoilDir);
+        targetPosOffset = localRecoilDir * recoilForce;
 
-        // offset di posizione e rotazione
-        targetPosOffset = recoilDir * recoilForce;
-        targetRotOffset = Quaternion.Euler(
-            Random.Range(-rotationForce, rotationForce),
-            Random.Range(-rotationForce, rotationForce),
-            Random.Range(-rotationForce, rotationForce)
-        );
 
-        // reset e avvio animazione
+  
+        Vector3 hitVector = transform.InverseTransformPoint(hitPoint);
+        Vector3 primaryAxis = Vector3.Cross(hitVector.normalized, localRecoilDir.normalized);
+
+        float randomRotationStrength = Random.Range(rotationForce * 0.7f, rotationForce * 1.3f);
+
+
+        Quaternion primaryRotation = Quaternion.AngleAxis(randomRotationStrength, primaryAxis);
+
+
+        float randomWobble = Random.Range(-rotationForce * 0.5f, rotationForce * 0.5f);
+        Quaternion wobbleRotation = Quaternion.AngleAxis(randomWobble, rootTransform.up); 
+
+
+        targetRotOffset = primaryRotation * wobbleRotation;
+
         t = 0f;
         isRecoiling = true;
     }

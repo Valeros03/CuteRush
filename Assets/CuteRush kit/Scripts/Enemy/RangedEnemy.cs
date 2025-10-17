@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.AI; // Assicurati di avere questo!
+using UnityEngine.AI; 
 
 public class RangedEnemy : Enemy
 {
     [Header("Ranged Settings")]
+    public int rangedAttackDamage;
     public GameObject projectilePrefab;
     public Transform firePoint;
     public float projectileForce = 10f;
-
-    [Header("AI Behavior")]
-    public float minRetreatDistance = 5f; // Distanza minima: se il player è più vicino, scappa
-    public float idealAttackRange = 10f;  // Distanza ideale: l'agente si fermerà qui
-    public float attackCooldown = 2f;
+    public float rangeAttackdistance = 10f; //distanza 
+    public float attackCooldown = 2f; //allunga l'attesa prima del successivo colpo esclude il tempo dell'animazione
 
     
     [Header("Pooling")]
@@ -21,87 +19,59 @@ public class RangedEnemy : Enemy
     private List<GameObject> bulletPool;
 
     private float lastAttackTime;
+    private bool isAttacking;
 
     protected override void Start()
     {
-        base.Start();
+        base.Start(); 
 
         InitializeBulletPool();
 
-      
         if (agent != null)
         {
-            agent.stoppingDistance = idealAttackRange;
+            agent.stoppingDistance = rangeAttackdistance;
         }
     }
 
+    protected override void PerformChaseLogic()
+    {
+        
+
+        float distanceSqr = (transform.position - player.position).sqrMagnitude;
+        float rangeAttackdistanceSqr = rangeAttackdistance * rangeAttackdistance;
+
+        agent.SetDestination(player.position);
+
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            
+            if (Time.time - lastAttackTime > attackCooldown)
+            {
+                lastAttackTime = Time.time;
+                agent.isStopped = true;
+                FacePlayer();
+                SetFace(faces.attackFace);
+                animator.SetTrigger("Attack");
+                isAttacking = true;
+            }
+        }
+        else if(isAttacking == false)
+        {
+            agent.isStopped = false;
+            SetFace(faces.WalkFace);
+        }
+
+        animator.SetFloat("Speed", agent.velocity.magnitude);
+    }
     void InitializeBulletPool()
     {
         bulletPool = new List<GameObject>();
         for (int i = 0; i < bulletPoolSize; i++)
         {
             GameObject bullet = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            bullet.GetComponent<EnemyBullet>().damage = rangedAttackDamage;
             bullet.SetActive(false);
             bulletPool.Add(bullet);
-        }
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        if (isDead || player == null)
-        {
-            if (agent != null && agent.isOnNavMesh) agent.isStopped = true;
-            return;
-        }
-
-        HandleAI();
-    }
-
-    void HandleAI()
-    {
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        if (distance < minRetreatDistance)
-        {
-            // 1. Player troppo vicino: RITIRATI
-            Retreat();
-        }
-        else
-        {
-            // 2. Player a distanza di sicurezza: INSEGUI e ATTACCA
-            ChaseAndAttack(distance);
-        }
-
-        animator.SetFloat("Speed", agent.velocity.magnitude);
-    }
-
-    void Retreat()
-    {
-        if (!agent.isOnNavMesh) return;
-
-        Vector3 dirAwayFromPlayer = (transform.position - player.position).normalized;
-
-        Vector3 retreatPosition = transform.position + dirAwayFromPlayer * 10f;
-
-        agent.SetDestination(retreatPosition);
-        agent.isStopped = false;
-    }
-
-    void ChaseAndAttack(float distance)
-    {
-        if (!agent.isOnNavMesh) return;
-
-        agent.SetDestination(player.position);
-        agent.isStopped = false;
-
-       
-        if (distance <= idealAttackRange && agent.velocity.magnitude < 0.1f)
-        {
-            // Siamo fermi e pronti a sparare
-            agent.isStopped = true; // Fermati del tutto per sparare
-            FacePlayer();
-            PerformAttack();
         }
     }
 
@@ -114,14 +84,9 @@ public class RangedEnemy : Enemy
 
     protected override void PerformAttack()
     {
-        if (Time.time - lastAttackTime < attackCooldown) return;
-
-        lastAttackTime = Time.time;
-
-        animator.SetTrigger("Attack"); 
-        SetFace(faces.attackFace); 
-
+       
         FireProjectile();
+        isAttacking = false;
     }
 
     void FireProjectile()
@@ -137,7 +102,7 @@ public class RangedEnemy : Enemy
         if (rb != null)
         {
             rb.velocity = Vector3.zero; 
-            Vector3 dir = (player.position + Vector3.up * 1.2f - firePoint.position).normalized;
+            Vector3 dir = (player.position + Vector3.up * 0.5f - firePoint.position).normalized;
 
             rb.AddForce(dir * projectileForce, ForceMode.VelocityChange);
         }

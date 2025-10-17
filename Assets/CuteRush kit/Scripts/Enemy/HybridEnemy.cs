@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.AI;
 
 public class HybridEnemy : Enemy
 {
@@ -11,19 +12,20 @@ public class HybridEnemy : Enemy
     public GameObject bulletPrefab;
     public Transform firePoint;
 
-    
     [Header("Pooling")]
-    public int bulletPoolSize = 5; 
+    public int bulletPoolSize = 5;
     private List<GameObject> bulletPool;
-    
-
     private float lastAttackTime;
-
 
     protected override void Start()
     {
-        base.Start(); 
+        base.Start();
         InitializeBulletPool();
+
+        if (agent != null)
+        {
+            agent.stoppingDistance = meleeRange;
+        }
     }
 
     void InitializeBulletPool()
@@ -34,21 +36,44 @@ public class HybridEnemy : Enemy
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             bullet.SetActive(false);
             bulletPool.Add(bullet);
-
         }
     }
 
-    protected override void Update()
+    protected override void PerformChaseLogic()
     {
-        base.Update();
-        if (isDead || player == null) return;
+        if (!agent.isOnNavMesh) return;
 
-        PerformAttack();
-        ChasePlayer();
+        agent.SetDestination(player.position);
+
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        if (distance <= rangedRange && distance > meleeRange)
+        {
+            agent.isStopped = true;
+            FacePlayer();
+            PerformAttack();
+        }
+        
+        else if (distance <= meleeRange && agent.velocity.magnitude < 0.1f)
+        {
+            agent.isStopped = true; // Rimani fermo
+            FacePlayer();
+            PerformAttack(); // Chiama il "grilletto"
+        }
+
+        else
+        {
+            agent.isStopped = false; // Continua a muoverti
+        }
+
+        // Aggiorna l'animazione
+        animator.SetFloat("Speed", agent.velocity.magnitude);
     }
 
     protected override void PerformAttack()
     {
+        if (Time.time - lastAttackTime < attackCooldown) return;
+
         float distance = Vector3.Distance(transform.position, player.position);
 
         if (distance <= meleeRange)
@@ -63,44 +88,37 @@ public class HybridEnemy : Enemy
 
     void TryMeleeAttack()
     {
-        if (Time.time - lastAttackTime < attackCooldown) return;
-
         lastAttackTime = Time.time;
         animator.SetTrigger("Attack");
         SetFace(faces.attackFace);
 
-        if (Vector3.Distance(transform.position, player.position) <= meleeRange)
-        {
-            player.GetComponent<VitalsController>().Decrease(attackDamage);
-        }
+        player.GetComponent<VitalsController>().Decrease(attackDamage);
     }
 
     void TryRangedAttack()
     {
-        if (Time.time - lastAttackTime < attackCooldown) return;
-
+       
         GameObject bullet = GetPooledBullet();
-        if (bullet == null) return;
+        if (bullet == null) return; // Non ci sono proiettili
 
         lastAttackTime = Time.time;
         animator.SetTrigger("Shoot");
         SetFace(faces.attackFace);
 
-        
+        // Posiziona e spara
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;
         bullet.SetActive(true);
 
-        
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.velocity = Vector3.zero;
             Vector3 dir = (player.position + Vector3.up * 1.2f - firePoint.position).normalized;
-            rb.velocity = dir * 15f; 
+            rb.velocity = dir * 15f;
         }
-        
     }
+
 
     GameObject GetPooledBullet()
     {
@@ -111,14 +129,14 @@ public class HybridEnemy : Enemy
                 return bullet;
             }
         }
-        // Se arrivi qui, tutti i proiettili sono già attivi (in volo)
         return null;
     }
-    // ---------------------------
 
-    void ChasePlayer()
+    void FacePlayer()
     {
-        agent.SetDestination(player.position);
-        animator.SetFloat("Speed", agent.velocity.magnitude);
+        Vector3 direction = (player.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * agent.angularSpeed);
     }
+
 }
