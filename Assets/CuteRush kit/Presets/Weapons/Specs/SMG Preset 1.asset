@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalAmmo: 300
   magazineSize: 60
-  damage: 0
+  damage: 2
   range: 40
   reloadDuration: 1.2
   shootDelay: 0

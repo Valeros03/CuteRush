@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 686662088658189740}
   - component: {fileID: 1628531659483778407}
   - component: {fileID: 8805525507809415491}
-  m_Layer: 0
+  - component: {fileID: 9027317427426254363}
+  m_Layer: 11
   m_Name: FireBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,6 +64,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &9027317427426254363
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5123798614293869143}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.25
+  m_Height: 0.64
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &3405400220250697911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129,6 +144,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FireBullet_body
+      objectReference: {fileID: 0}
+    - target: {fileID: 8594694776280570416, guid: 5fbe217ef40bc5848ac709e62c23c602,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fbe217ef40bc5848ac709e62c23c602, type: 3}

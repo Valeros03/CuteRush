@@ -280,6 +280,7 @@ public abstract class Enemy : MonoBehaviour
             StopCoroutine(flinchCoroutine);
             flinchCoroutine = null;
         }
+
         isTakingDamage = false; 
 
         
@@ -300,7 +301,7 @@ public abstract class Enemy : MonoBehaviour
             animator.SetTrigger("Die");
         }
 
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 3f);
     }
 
 }

@@ -44,12 +44,12 @@ public class RangedEnemy : Enemy
 
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            
+
+            agent.isStopped = true;
+            FacePlayer();
             if (Time.time - lastAttackTime > attackCooldown)
             {
                 lastAttackTime = Time.time;
-                agent.isStopped = true;
-                FacePlayer();
                 SetFace(faces.attackFace);
                 animator.SetTrigger("Attack");
                 isAttacking = true;
@@ -102,7 +102,7 @@ public class RangedEnemy : Enemy
         if (rb != null)
         {
             rb.velocity = Vector3.zero; 
-            Vector3 dir = (player.position + Vector3.up * 0.5f - firePoint.position).normalized;
+            Vector3 dir = (player.position + Vector3.up * 0.4f - firePoint.position).normalized;
 
             rb.AddForce(dir * projectileForce, ForceMode.VelocityChange);
         }

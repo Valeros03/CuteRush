@@ -17,6 +17,7 @@ public class EnemyBullet : MonoBehaviour
         {
             collision.gameObject.GetComponent<VitalsController>().Decrease(damage);
         }
+
         Deactivate();
     }
 

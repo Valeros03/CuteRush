@@ -1,22 +1,29 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.AI;
+using System.Collections.Generic;
+using System.Collections;
 
 public class HybridEnemy : Enemy
 {
     [Header("Hybrid Settings")]
     public float meleeRange = 2f;
-    public float rangedRange = 10f;
-    public float attackCooldown = 1.5f;
+    public float rangedRange = 15f;
+    public float facingTolerance = 15.0f;
+
+    [Header("Ranged Attack Specifics")]
+    public float rangedAttackCooldown = 2.0f;
     public GameObject bulletPrefab;
     public Transform firePoint;
+    public float projectileForce = 15f;
+    public int rangedAttackDamage = 1; 
+
 
     [Header("Pooling")]
     public int bulletPoolSize = 5;
     private List<GameObject> bulletPool;
-    private float lastAttackTime;
+    private float lastRangedAttackTime;
 
+    
     protected override void Start()
     {
         base.Start();
@@ -31,9 +38,19 @@ public class HybridEnemy : Enemy
     void InitializeBulletPool()
     {
         bulletPool = new List<GameObject>();
+        if (bulletPrefab == null)
+        {
+            Debug.LogError($"Bullet Prefab not assigned on {name}!", this);
+            return;
+        }
         for (int i = 0; i < bulletPoolSize; i++)
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            EnemyBullet bulletScript = bullet.GetComponent<EnemyBullet>();
+            if (bulletScript != null)
+            {
+                bulletScript.damage = rangedAttackDamage;
+            }
             bullet.SetActive(false);
             bulletPool.Add(bullet);
         }
@@ -43,82 +60,94 @@ public class HybridEnemy : Enemy
     {
         if (!agent.isOnNavMesh) return;
 
-        agent.SetDestination(player.position);
+      
+        float distanceSqr = (transform.position - player.position).sqrMagnitude;
+        float meleeRangeSqr = meleeRange * meleeRange;
+        float rangedRangeSqr = rangedRange * rangedRange;
 
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        if (distance <= rangedRange && distance > meleeRange)
+    
+        if (distanceSqr <= meleeRangeSqr * 1.1f)
         {
             agent.isStopped = true;
             FacePlayer();
-            PerformAttack();
-        }
-        
-        else if (distance <= meleeRange && agent.velocity.magnitude < 0.1f)
-        {
-            agent.isStopped = true; // Rimani fermo
-            FacePlayer();
-            PerformAttack(); // Chiama il "grilletto"
-        }
+            animator.SetFloat("Speed", 0f); 
 
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+            {
+                SetFace(faces.attackFace);
+                animator.SetTrigger("Attack");
+            }
+        }
+        else if (distanceSqr <= rangedRangeSqr * 1.1f)
+        {
+            agent.isStopped = false; 
+            agent.SetDestination(player.position);
+            animator.SetFloat("Speed", agent.velocity.magnitude);
+
+            if (Time.time - lastRangedAttackTime >= rangedAttackCooldown)
+            {
+                Vector3 directionToPlayer = (player.position - transform.position).normalized;
+                float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+
+                if (angleToPlayer > facingTolerance)
+                {
+                    return; 
+                }
+                lastRangedAttackTime = Time.time;
+                animator.SetTrigger("Shoot");
+            }
+
+        }
         else
         {
-            agent.isStopped = false; // Continua a muoverti
+            agent.isStopped = false;
+            agent.SetDestination(player.position);
+            SetFace(faces.WalkFace);
+            animator.SetFloat("Speed", agent.velocity.magnitude);
         }
-
-        // Aggiorna l'animazione
-        animator.SetFloat("Speed", agent.velocity.magnitude);
     }
 
     protected override void PerformAttack()
     {
-        if (Time.time - lastAttackTime < attackCooldown) return;
-
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        if (distance <= meleeRange)
+        if (Vector3.Distance(transform.position, player.position) <= meleeRange + 0.4f) 
         {
-            TryMeleeAttack();
-        }
-        else if (distance <= rangedRange)
-        {
-            TryRangedAttack();
+            player.GetComponent<VitalsController>()?.Decrease(attackDamage);
         }
     }
 
-    void TryMeleeAttack()
-    {
-        lastAttackTime = Time.time;
-        animator.SetTrigger("Attack");
-        SetFace(faces.attackFace);
+    
+  
 
-        player.GetComponent<VitalsController>().Decrease(attackDamage);
-    }
-
-    void TryRangedAttack()
+    void FireProjectile()
     {
-       
         GameObject bullet = GetPooledBullet();
-        if (bullet == null) return; // Non ci sono proiettili
+        if (bullet == null) return;
 
-        lastAttackTime = Time.time;
-        animator.SetTrigger("Shoot");
-        SetFace(faces.attackFace);
-
-        // Posiziona e spara
         bullet.transform.position = firePoint.position;
-        bullet.transform.rotation = firePoint.rotation;
+        bullet.transform.rotation = firePoint.rotation; 
+       
+        SetFace(faces.attackFace);
         bullet.SetActive(true);
+
+        StartCoroutine(nameof(faceShootAnimate));
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.velocity = Vector3.zero;
-            Vector3 dir = (player.position + Vector3.up * 1.2f - firePoint.position).normalized;
-            rb.velocity = dir * 15f;
+            Vector3 targetPoint = player.position + Vector3.up * 0.5f;
+            Vector3 dir = (targetPoint - firePoint.position).normalized;
+            rb.AddForce(dir * projectileForce, ForceMode.VelocityChange);
         }
+        
     }
 
+    IEnumerator faceShootAnimate()
+    {
+        SetFace(faces.attackFace);
+        yield return new WaitForSeconds(0.3f);
+        SetFace(faces.WalkFace);
+    }
 
     GameObject GetPooledBullet()
     {
@@ -129,14 +158,23 @@ public class HybridEnemy : Enemy
                 return bullet;
             }
         }
-        return null;
+        return null; 
+    }
+
+   
+    public void TriggerMeleeDamage() 
+    {
+
+        if (Vector3.Distance(transform.position, player.position) <= meleeRange + 0.5f)
+        {
+            player.GetComponent<VitalsController>()?.Decrease(attackDamage);
+        }
     }
 
     void FacePlayer()
     {
         Vector3 direction = (player.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * agent.angularSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * agent.angularSpeed * 0.1f); 
     }
-
 }

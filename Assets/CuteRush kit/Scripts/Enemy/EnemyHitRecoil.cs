@@ -100,25 +100,4 @@ public class EnemyHitRecoil : MonoBehaviour
         transform.localRotation = originalRot * currentRotOffset;
     }
 
-
-    public void DieAndRagdoll(Vector3 shotDirection, Vector3 hitPoint)
-    {
-        if (isDead) return;
-        isDead = true;
-
-        animator.enabled = false;
-        if (agent) agent.enabled = false;
-
-        foreach (var rb in ragdollRigidbodies)
-        {
-            rb.isKinematic = false;
-            rb.detectCollisions = true;
-            // applica una spinta vicino al punto d'impatto per effetto più realistico
-            rb.AddForceAtPosition(shotDirection * ragdollForce, hitPoint, ForceMode.Impulse);
-            // piccolo torque casuale
-            Vector3 torque = Random.onUnitSphere * ragdollTorque;
-            rb.AddTorque(torque, ForceMode.Impulse);
-        }
-
-    }
 }
