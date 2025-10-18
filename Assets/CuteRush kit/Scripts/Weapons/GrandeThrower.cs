@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class GrandeThrower : MonoBehaviour
 {
-    [SerializeField] PlayerController player;
-    [SerializeField] float granadeSpeed;
-    [SerializeField] float gravity;
+    [SerializeField] private PlayerController player;
+    [SerializeField] private float granadeSpeed;
+    [SerializeField] private float gravity;
     public GameObject grenadePrefab;
+    public float damage;
 
-    public LayerMask collisionMask; // layer di terreno + ostacoli
-    public int trajectorySteps = 50; // precisione del campionamento
+    public LayerMask collisionMask;
+    public int trajectorySteps = 50; 
 
     private MouseLook playerMouseLook;
     private Transform arrivingPoint;
@@ -38,10 +39,8 @@ public class GrandeThrower : MonoBehaviour
         startPos = transform.position + dir * 0.5f + Vector3.up * 0.5f;
         Vector3 velocity = dir * granadeSpeed;
 
-        // Calcolo del punto di arrivo
         Vector3 hitPoint = SimulateTrajectory(startPos, velocity, gravity, trajectorySteps, collisionMask);
 
-        // Aggiorna il marker
         if (arrivingPoint != null)
         {
             arrivingPoint.position = hitPoint + Vector3.up * 0.2f;
@@ -53,24 +52,20 @@ public class GrandeThrower : MonoBehaviour
     {
         Vector3 pos = startPos;
         Vector3 vel = velocity;
-        float timeStep = 0.1f; // quanto “avanza” il tempo ogni passo
+        float timeStep = 0.1f;
 
         for (int i = 0; i < steps; i++)
         {
             Vector3 nextPos = pos + vel * timeStep;
             vel += Vector3.down * gravity * timeStep;
 
-            // Controllo collisione tra pos e nextPos
             if (Physics.Linecast(pos, nextPos, out RaycastHit hit, mask))
             {
-                // 💥 Collisione trovata prima di arrivare a terra
                 return hit.point;
             }
 
-            // Controllo se attraversa il piano y = 0 (terra)
             if (pos.z > 0 && nextPos.z <= 0)
             {
-                // Calcolo preciso di dove taglia il piano
                 float t = pos.z / (pos.z - nextPos.z);
                 Vector3 groundHit = Vector3.Lerp(pos, nextPos, t);
                 return groundHit;
@@ -79,7 +74,6 @@ public class GrandeThrower : MonoBehaviour
             pos = nextPos;
         }
 
-        // Se non trova nulla, restituisci ultima posizione (fuori range)
         return pos;
     }
 
@@ -101,18 +95,15 @@ public class GrandeThrower : MonoBehaviour
         if (transform.position != null)
             spawnPos = transform.position;
         else if (arrivingPoint != null)
-            spawnPos = arrivingPoint.position + Vector3.up * 0.2f; // piccolo offset sopra il terreno
+            spawnPos = arrivingPoint.position + Vector3.up * 0.2f; 
         else
             spawnPos = transform.position + transform.forward * 0.5f;
 
-        // Calcola la direzione orizzontale verso il punto di arrivo (o dalla camera)
         Vector3 horizontalDir;
         if (arrivingPoint != null)
         {
-            // Delta tra punto di arrivo e spawn
             Vector3 delta = arrivingPoint.position - spawnPos;
 
-            // Proietta sul piano orizzontale (y = 0)
             delta.y = 0f;
 
             if (delta.sqrMagnitude > 0.001f)
@@ -136,16 +127,15 @@ public class GrandeThrower : MonoBehaviour
         Vector3 dir = Quaternion.Euler(playerMouseLook.transform.eulerAngles.x, playerMouseLook.transform.eulerAngles.y, 0f) * Vector3.forward;
         Vector3 initialVelocity = dir * granadeSpeed;
 
-        // Instanzia la granata
         GameObject g = Instantiate(grenadePrefab, spawnPos, Quaternion.identity);
+        g.GetComponent<Granade>().maxDamage = damage;
         Rigidbody rb = g.GetComponent<Rigidbody>();
         if (rb == null)
         {
-            Debug.LogError("Grenade prefab needs a Rigidbody component!");
+
             return;
         }
 
-        // Impostazioni fisiche utili
         rb.velocity = initialVelocity;
         rb.useGravity = true;
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;

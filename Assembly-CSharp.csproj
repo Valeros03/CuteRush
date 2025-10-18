@@ -125,6 +125,7 @@
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\SimpleURPToonLitOutlineExample.shader" />
      <None Include="Assets\ShootingSound\ReadMe.txt" />
      <None Include="Assets\Nokobot\Modern Guns - Handgun\README.txt" />
+     <None Include="Assets\Piloto Studio\Campfire And Torches Pack\ReadMe.txt" />
      <None Include="Assets\Kawaii Slimes\Shader\Unity-chan Shader Ver 1.2.1\readme.txt" />
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\Shaders\WaterShaded.shader" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\NiloZOffset.hlsl" />
@@ -132,9 +133,11 @@
      <None Include="Assets\FireIceProjectileExplosion\Shader\S_ParticleAdd.shader" />
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Shaders\Shaders\LowPolyPBRShader.shader" />
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Shaders\Shaders\LowPolyUnlitShader.shader" />
+     <None Include="Assets\Piloto Studio\Shaders\ToonyShader\Toony Prop.shader" />
      <None Include="Assets\Kawaii Slimes\Cameras\CameraGuidelines.txt" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\SimpleURPToonLitOutlineExample_Shared.hlsl" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\SimpleURPToonLitOutlineExample_LightingEquation.hlsl" />
+     <None Include="Assets\Piloto Studio\Shaders\UberFX.shader" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/Uni/SGD/CuteRush/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

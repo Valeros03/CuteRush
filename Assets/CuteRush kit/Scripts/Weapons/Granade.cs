@@ -4,51 +4,59 @@ using UnityEditor;
 
 public class Granade : MonoBehaviour
 {
-    public float delay = 3f;             // secondi prima di esplodere
-    public float radius = 5f;            // raggio esplosione
-    public float explosionForce = 700f;  // forza dell’esplosione
+    public float delay = 3f;             
+    public float radius = 5f;            
+    public float explosionForce = 700f;
+    [SerializeField] private AudioSource audioSource;
 
-    private GameObject explosionEffect;  // riferimento al figlio
+    public float maxDamage;
+    private GameObject explosionEffect;
+    
 
     void Start()
     {
-        // Recupera il figlio (l'esplosione)
         explosionEffect = transform.Find("Explosion").gameObject;
-
-        // Assicuriamoci che sia spento all'inizio
         explosionEffect.SetActive(false);
-
-        // Avvia la coroutine che gestisce il timer
         StartCoroutine(ExplodeAfterDelay());
     }
 
     IEnumerator ExplodeAfterDelay()
     {
-        // Attendi il tempo di delay
         yield return new WaitForSeconds(delay);
 
-        // Attiva l'effetto dell'esplosione
-        explosionEffect.SetActive(true);
-        GetComponent<AudioSource>().Play();
+        if (explosionEffect != null) explosionEffect.SetActive(true);
+        if (audioSource != null) audioSource.Play();
 
-        // Trova oggetti colpiti nell’area
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
 
-        foreach (Collider nearby in colliders)
+        foreach (Collider nearbyCollider in colliders)
         {
 
-            // Se è un nemico/apply damage
-            Enemy enemy = nearby.GetComponentInParent<Enemy>();
-            
-            if (enemy != null)
+            Enemy enemy = nearbyCollider.GetComponentInParent<Enemy>();
+
+            if (enemy != null && !enemy.isDead)
             {
-                enemy.TakeDamage(50, Vector3.zero, Vector3.zero); //andrebbe take damage, bisogna calcolare il danno in base alla distanza, la direzione e verso del danno
+
+                Debug.Log("Enemy colpito");
+                float distance = Vector3.Distance(transform.position, enemy.transform.position);
+
+                float damageMultiplier = Mathf.Clamp01(1.0f - (distance / radius));
+
+                float calculatedDamage = maxDamage * damageMultiplier;
+
+                Vector3 direction = (enemy.transform.position - transform.position).normalized;
+
+                direction += Vector3.up * 0.2f;
+                direction.Normalize(); 
+
+                Vector3 hitPoint = enemy.transform.position;
+              
+                enemy.TakeDamage(Mathf.CeilToInt(calculatedDamage), direction, hitPoint);
             }
+
         }
-
-        // Aspetta un attimo per lasciare visibile l'effetto
-        yield return new WaitForSeconds(1f);
+        
+        yield return new WaitForSeconds(2f); 
         Destroy(gameObject);
-
     }
 }

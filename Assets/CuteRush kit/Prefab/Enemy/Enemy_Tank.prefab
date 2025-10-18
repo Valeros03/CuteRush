@@ -565,7 +565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad278cbb17036df4fab18863e5e2226c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroRange: 5
+  personalTriggerRadius: 15
   currentHealth: 3
   attackDamage: 10
   attackSpeed: 1
@@ -573,11 +573,10 @@ MonoBehaviour:
   rotationSpeed: 5
   flinchDuration: 0.3
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
+  isDead: 0
   SlimeBody: {fileID: 2493330531005505269}
   rb: {fileID: 5136934779930517625}
   hitRecoil: {fileID: 4476350014240686094}
-  attackRange: 2
-  minDistance: 0
   meleeRange: 1.5
 --- !u!135 &3361318816062773775
 SphereCollider:
@@ -590,7 +589,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 15
+  m_Radius: 30
   m_Center: {x: 0, y: 0.36, z: 0}
 --- !u!1 &7982578250917972926
 GameObject:

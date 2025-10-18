@@ -99,6 +99,8 @@ MonoBehaviour:
   delay: 3
   radius: 1
   explosionForce: 700
+  audioSource: {fileID: 6168747737686223563}
+  maxDamage: 0
 --- !u!23 &8002360109549070754
 MeshRenderer:
   m_ObjectHideFlags: 0
