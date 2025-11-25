@@ -74,6 +74,7 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\MeleeEnemy.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\RangedEnemy.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\SpawnManager.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Interface\Interactable.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Interface\IPickable.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\InventoryPlayer.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerControl.cs" />
@@ -104,6 +105,7 @@
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Items\Consumable.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Items\Item.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Utils\AimDownSights.cs" />
+     <Compile Include="Assets\GateController.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\AbstractTargetFollower.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\FreeLookCam.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\PivotBasedCameraRig.cs" />

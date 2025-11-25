@@ -43,4 +43,31 @@ public class UIManager : MonoBehaviour
         HUD.UpdateHealth(health);
 
     }
+
+    public void ShowInteract(string item)
+    {
+        HUD.ShowInteract(item);
+
+    }
+    public void ShowPickUp(string item)
+    {
+        HUD.ShowPickUp(item);
+
+    }
+
+    public void ShowNotOpenable()
+    {
+        HUD.ShowNotOpenable();
+    }
+
+
+    public void HideInteract() 
+    {
+        HUD.HideInteract();
+    }
+
+    public void HidePickUp()
+    {
+        HUD.HidePickUp();
+    }
 }

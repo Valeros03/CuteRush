@@ -1306,6 +1306,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6103323662588561427, guid: 95e1f8e80605eb74e89658e5a939fc08,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b759d3b825a64064988e07bbed79e12a, type: 2}
+    - target: {fileID: 6954411319248925873, guid: 95e1f8e80605eb74e89658e5a939fc08,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7235080162520801053, guid: 95e1f8e80605eb74e89658e5a939fc08,
         type: 3}
       propertyPath: m_StaticEditorFlags
