@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface Interactable
 {
-    void Interact(PlayerController player);
+    void Interact();
     void OnTriggerEnter(Collider collider);
 }

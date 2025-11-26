@@ -199,12 +199,15 @@ MonoBehaviour:
   firePoint: {fileID: 2652320870055566807}
   hitLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 4096
   tracer: {fileID: 1260718630491508141}
   tracerDuration: 0.05
   stats: {fileID: 11400000, guid: 44f855b0e19d460478fc61fa2185d31c, type: 2}
   currentBulletCount: 0
   isReloading: 0
+  sphereRadius: 0.3
+  penetrationFalloff: 0.75
+  maxPenetrations: 5
 --- !u!1 &335665844829175034
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public abstract class Enemy : MonoBehaviour
     public float personalTriggerRadius = 15f; // Raggio dello SphereCollider
 
     [Header("Base Enemy Settings")]
-    public float currentHealth = 3f;
+    public float maxHealth = 3f;
     public int attackDamage = 1;
     public float attackSpeed = 1f;
     public float chaseSpeed = 3.5f;
@@ -38,6 +38,8 @@ public abstract class Enemy : MonoBehaviour
     protected bool isPlayerInAttackArea;
     protected bool isChasing;
 
+    protected float currentHealth;
+
     private AIState currentState = AIState.Dormant;
     private Vector3 homePosition;
     protected Material faceMaterial;
@@ -51,6 +53,7 @@ public abstract class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         hitRecoil = GetComponentInChildren<EnemyHitRecoil>();
+        currentHealth = maxHealth;
 
         if (SlimeBody != null)
         {
@@ -73,7 +76,47 @@ public abstract class Enemy : MonoBehaviour
         if (rb != null) rb.isKinematic = true;
     }
 
- 
+    public void OnEnable()
+    {
+        // 1. Reset Statistiche base
+        currentHealth = maxHealth;
+        isDead = false;
+        isTakingDamage = false;
+        isPlayerInPersonalTrigger = false;
+        flinchCoroutine = null; // Reset riferimento coroutine
+
+        // 2. Reset Collider
+        foreach (Collider col in GetComponents<Collider>())
+        {
+            if (!col.isTrigger) col.enabled = true;
+        }
+
+        // 3. Reset Grafica (Faccia)
+        // Se hai facce diverse per idle/walk, metti quella di default qui
+        if (faces.Idleface != null) SetFace(faces.Idleface);
+
+        // 4. Reset Animator
+        if (animator != null)
+        {
+            animator.enabled = true; // Assicurati che sia acceso!
+            animator.Rebind(); // Resetta tutti i parametri e lo stato all'inizio
+            animator.SetFloat("AttackSpeed", attackSpeed); // Reimposta parametri custom
+        }
+
+        // 5. Reset NavMeshAgent
+        if (agent != null)
+        {
+            agent.enabled = true;       // Riattiva il componente
+            agent.isStopped = false;    // Sblocca il movimento
+            agent.ResetPath();          // Pulisci vecchi percorsi
+            agent.velocity = Vector3.zero; // Ferma inerzia residua
+        }
+
+        // Reset dello stato della Macchina a Stati
+        SetState(AIState.Dormant);
+    }
+
+
     public void Initialize(Vector3 homePos, SpawnManager manager) 
     {
         homePosition = homePos;
@@ -208,6 +251,14 @@ public abstract class Enemy : MonoBehaviour
     {
         if (isDead) return;
 
+        // Se stavo già subendo danno, devo resettare l'animator prima di applicare il nuovo danno
+        if (isTakingDamage && flinchCoroutine != null)
+        {
+            StopCoroutine(flinchCoroutine);
+            if (animator != null) animator.enabled = true; // Riattivo preventivamente
+            if (agent != null && agent.isOnNavMesh) agent.isStopped = false;
+        }
+
         isTakingDamage = true;
         currentHealth -= damageAmount;
 
@@ -275,34 +326,48 @@ public abstract class Enemy : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
+        // Ferma il flinch se è in corso
         if (flinchCoroutine != null)
         {
             StopCoroutine(flinchCoroutine);
             flinchCoroutine = null;
         }
 
-        isTakingDamage = false; 
+        isTakingDamage = false;
 
-        
+        // Disabilita collider
         foreach (Collider col in GetComponents<Collider>())
         {
             if (!col.isTrigger)
                 col.enabled = false;
         }
-       
+
+        // Ferma l'agente
         if (agent != null && agent.enabled)
         {
             agent.isStopped = true;
-            agent.enabled = false; 
+            agent.enabled = false;
         }
 
+        // --- CORREZIONE QUI ---
         if (animator != null)
         {
+            // IMPORTANTE: Se stavi flinchando, l'animator era spento. 
+            // Devi riaccenderlo ORA per poter suonare l'animazione di morte.
+            animator.enabled = true;
             animator.SetTrigger("Die");
         }
 
-        Destroy(gameObject, 3f);
+        StartCoroutine(DisableAfterTime(3f));
     }
+
+    protected IEnumerator DisableAfterTime(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        gameObject.SetActive(false);
+    }
+
+
 
 }
 

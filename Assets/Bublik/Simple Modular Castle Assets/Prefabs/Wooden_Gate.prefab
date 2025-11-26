@@ -127,8 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aaa985223721de468bf2e0fc2aa2ec1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  isOpenable: 0
+  animator: {fileID: 6103323662588561427}
+  isOpenable: 1
 --- !u!65 &6954411319248925873
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -152,10 +152,10 @@ Animator:
   m_GameObject: {fileID: 2277512601048801753}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b759d3b825a64064988e07bbed79e12a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1

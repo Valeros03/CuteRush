@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GateController : MonoBehaviour, Interactable
+public class GateController : InteractableItem
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private AudioClip open;
+    [SerializeField] private AudioClip close;
+    [SerializeField] private AudioSource source;
+
     private bool bOpen;
     public bool isOpenable; //gestita dall'esterno serve a gestire il timer prima di poter rientrare
-    public void Interact(PlayerController player)
+    public override void Interact()
     {
         toggleGate();
     }
-    public void OnTriggerEnter(Collider other)
+    public override void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -21,16 +25,6 @@ public class GateController : MonoBehaviour, Interactable
                 UIManager.Instance.ShowInteract("aprire il cancello");
         }
     }
-
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            UIManager.Instance.HideInteract();
-        }
-    }
-
-
 
     public void CloseGate() //chiamata dall'esterno quando il player esce dal gate
     {
@@ -47,15 +41,22 @@ public class GateController : MonoBehaviour, Interactable
             UIManager.Instance.ShowNotOpenable();
             return;
         }
+
         if(bOpen)
         {
             bOpen = false;
+            source.clip = close;
+            source.Play();
             animator.SetTrigger("Close");
+            
         }
         else
         {
             bOpen=true;
+            source.clip = open;
+            source.Play();
             animator.SetTrigger("Open");
+            
         }
     }
 }

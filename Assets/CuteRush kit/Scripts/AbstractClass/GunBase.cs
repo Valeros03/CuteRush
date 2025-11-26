@@ -66,7 +66,7 @@ public abstract class GunBase : MonoBehaviour
         // fallback UI find (solo se non impostato dall'inspector)
         if (weaponUI == null)
         {
-            weaponUI = GameObject.Find("Canvas/WeaponUI");
+            weaponUI = GameObject.Find("Canvas/HUD/WeaponUI");
         }
 
         if (bulletNumberUIText == null && weaponUI != null)

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7350819569189183221}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Bone.003_R_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5366634696407952385}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Bone.003_L_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2025504112150452546}
   - component: {fileID: 6128666845846308324}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Slime_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 69126123520356591}
   - component: {fileID: 3933287664552758675}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: HitCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3398802552419909974}
   - component: {fileID: 8408182350949667127}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: HeadCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6952772629355137204}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Bone.003_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 949259740048503156}
   - component: {fileID: 5136934779930517625}
   - component: {fileID: 3516194357279573546}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -566,7 +566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personalTriggerRadius: 15
-  currentHealth: 3
+  maxHealth: 3
   attackDamage: 10
   attackSpeed: 1
   chaseSpeed: 3.5
@@ -600,7 +600,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3978815195120335637}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: Bone.003_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}

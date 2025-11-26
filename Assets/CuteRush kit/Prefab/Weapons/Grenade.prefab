@@ -101,6 +101,9 @@ MonoBehaviour:
   explosionForce: 700
   audioSource: {fileID: 6168747737686223563}
   maxDamage: 0
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!23 &8002360109549070754
 MeshRenderer:
   m_ObjectHideFlags: 0

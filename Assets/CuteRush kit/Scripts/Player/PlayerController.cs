@@ -73,8 +73,8 @@ public class PlayerController : MonoBehaviour
     private PlayerControl controls; // classe generata
 
     private bool footstepsActive = false;
-    
 
+    private InteractableItem interact;
 
     // Use this for initialization
     void Start()
@@ -270,6 +270,13 @@ public class PlayerController : MonoBehaviour
             }
             
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if(interact != null)
+            {
+                interact.Interact();
+            }
+        }
         if (Input.GetButtonDown("Fire1")) {
 
             if (granade.activeInHierarchy)
@@ -365,5 +372,14 @@ public class PlayerController : MonoBehaviour
     public void addAmmo()
     {
         gun.addMag();
+    }
+
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<InteractableItem>())
+        {
+            interact = other.gameObject.GetComponent<InteractableItem>();
+        }
     }
 }

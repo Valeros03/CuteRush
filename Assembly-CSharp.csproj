@@ -59,6 +59,7 @@
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioManager.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioPlayerController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\AbstractClass\GunBase.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\AbstractClass\InteractableItem.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\AbstractClass\PickableItem.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Bootstrapper.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\CameraRecoil.cs" />
@@ -121,6 +122,7 @@
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Scripts\Bullet.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Scripts\Gun.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Scripts\Railgun2Rails.cs" />
+     <Compile Include="Assets\Totem.cs" />
      <None Include="Assets\Kawaii Slimes\Shader\Unity-chan Shader Ver 1.2.1\Unitychan_chara_eye.shader" />
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\LowPoly Island\Credits.txt" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\NiloInvLerpRemap.hlsl" />
