@@ -359,6 +359,50 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void EquipWeapon(GameObject newWeaponPrefab)
+    {
+        if (granade.activeInHierarchy)
+        {
+            SwitchToWeapon();
+        }
+
+        if (gun != null)
+        {
+            Destroy(gun.gameObject);
+        }
+
+        GameObject newWeapon = Instantiate(newWeaponPrefab, weaponHolder.transform);
+        newWeapon.transform.localPosition = Vector3.zero;
+        newWeapon.transform.localRotation = Quaternion.identity;
+
+        gun = newWeapon.GetComponent<GunBase>();
+        weaponAnimator = newWeapon.GetComponent<Animator>();
+
+        gun.enabled = true;
+        Transform tracer = gun.transform.Find("Tracer");
+        if (tracer != null) tracer.gameObject.SetActive(true);
+
+        
+        CameraRecoil camRecoil = transform.GetComponentInChildren<CameraRecoil>();
+        RecoilController newRecoilCtrl = newWeapon.GetComponentInChildren<RecoilController>();
+
+        if (camRecoil != null && newRecoilCtrl != null)
+        {
+            camRecoil.SetNewWeapon(gun, newRecoilCtrl);
+        }
+    }
+
+    // Metodo di supporto per far sapere allo Spawner che arma abbiamo in mano
+    public string GetCurrentWeaponName()
+    {
+        if (gun != null)
+        {
+            // Rimuoviamo la scritta "(Clone)" che Unity aggiunge quando istanzia i prefab
+            return gun.gameObject.name.Replace("(Clone)", "").Trim();
+        }
+        return "";
+    }
+
     public void addMedkit()
     {
         inventory.addMedkit();

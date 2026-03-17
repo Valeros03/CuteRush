@@ -94,6 +94,7 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\SingleShotGun.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\World\GateController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\World\Totem.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\World\WeaponSpawner.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Abstract\UIPanel.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\HUD.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Singleton\UIManager.cs" />
@@ -388,12 +389,6 @@
  </Reference>
  <Reference Include="Unity.Analytics.Tracker">
  <HintPath>D:/Uni/SGD/CuteRush/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.iOS.Extensions.Xcode">
- <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.21f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.iOS.Extensions.Common">
- <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.21f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.21f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

@@ -64,6 +64,7 @@ public abstract class GunBase : MonoBehaviour
         currentMagLeft = stats.totalAmmo;
 
         // fallback UI find (solo se non impostato dall'inspector)
+
         if (weaponUI == null)
         {
             weaponUI = GameObject.Find("Canvas/HUD/WeaponUI");
@@ -78,11 +79,13 @@ public abstract class GunBase : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (weaponUI != null && weaponUI.activeSelf && bulletNumberUIText != null)
+        if (player != null)
         {
-            bulletNumberUIText.text = $"Bullets {currentBulletCount}/{currentMagLeft}";
+            if (weaponUI != null && weaponUI.activeSelf && bulletNumberUIText != null)
+            {
+                bulletNumberUIText.text = $"Bullets {currentBulletCount}/{currentMagLeft}";
+            }
         }
-
         if (tracer != null && tracer.enabled)
         {
             tracerTimer -= Time.deltaTime;
