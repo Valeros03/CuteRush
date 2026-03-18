@@ -7,38 +7,45 @@ public class VitalsController : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
 
-    public static event Action<int> OnHealthChange;
+    public static event Action<int, int> OnHealthChange;
+
+    // Riferimento al nostro nuovo manager dell'audio
+    private AudioPlayerController audioController;
 
     public void Start()
     {
-        // Impostiamo la salute iniziale e aggiorniamo subito l'interfaccia
         currentHealth = maxHealth;
-        OnHealthChange?.Invoke(currentHealth);
+
+        // Cerca in automatico lo script AudioPlayerController attaccato allo stesso oggetto
+        audioController = GetComponent<AudioPlayerController>();
+
+        OnHealthChange?.Invoke(currentHealth, maxHealth);
     }
 
     public void Increase(int value)
     {
         currentHealth += value;
-
-        // Blocchiamo la vita al tetto massimo
         if (currentHealth > maxHealth) currentHealth = maxHealth;
 
-        OnHealthChange?.Invoke(currentHealth);
+        OnHealthChange?.Invoke(currentHealth, maxHealth);
     }
 
-    public void Decrease(int value, Vector3 damageSourcePosition)
+    public void Decrease(int value, Vector3 damageSourcePosition, bool isPhysical = false)
     {
         currentHealth -= value;
-
-        // Evitiamo che la vita vada in negativo
         if (currentHealth < 0) currentHealth = 0;
 
-        OnHealthChange?.Invoke(currentHealth);
+        OnHealthChange?.Invoke(currentHealth, maxHealth);
 
-        // Richiamiamo l'UI Manager per far apparire l'arco rosso!
         if (UIManager.Instance != null)
         {
             UIManager.Instance.ShowDamageIndicator(damageSourcePosition);
+        }
+
+        // Diciamo all'AudioController di fare il suo lavoro!
+        if (audioController != null)
+        {
+            audioController.PlayDamageSound(isPhysical);
         }
     }
 }

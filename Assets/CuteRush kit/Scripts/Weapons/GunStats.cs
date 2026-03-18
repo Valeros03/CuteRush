@@ -8,11 +8,6 @@ using UnityEngine;
         charge = 2
     }
 
-
-    /// <summary>
-    /// A Scriptable Object defining the shooting behaviour of a gun, storing the relavent stats.
-    /// Includes data like magazine size, reload duration, burst/single fire mode, fire rate, and more
-    /// </summary>
     [CreateAssetMenu(fileName = "GunData", menuName = "SciFiGuns/Gun Stats", order = 1)]
     public class GunStats : ScriptableObject
     {
@@ -68,8 +63,16 @@ using UnityEngine;
         [Tooltip("The type of shooting the gun will use. Single is one shot and then cooldown, Burst is a few shots fired closely together and then cooldown")]
         public FireMode fireMode = FireMode.Single;
 
+        [Header("Bloom & Precisione")]
+        [Tooltip("La dimensione base del Bloom (spread) dell'arma.")]
+        public float baseBloomSpread = 0.01f; // Valore piccolo per armi precise
 
-        private void OnValidate()
+        [Header("Crosshair Dynamic Bloom")]
+        [Tooltip("L'ammontare di kick (allargamento) visivo della crosshair per ogni sparo.")]
+        public float crosshairShootBloomKick = 50.0f; // Più alto per SMG, più basso per pistole
+
+
+    private void OnValidate()
         {
             totalAmmo = Mathf.Max(0, totalAmmo);
             magazineSize = Mathf.Max(1, magazineSize);

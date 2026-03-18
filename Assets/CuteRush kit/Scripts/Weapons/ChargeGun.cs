@@ -108,19 +108,27 @@ public class ChargeGun : GunBase
             }
             else
             {
-                // muro o ostacolo → ferma il colpo
                 break;
             }
         }
 
-        // Aggiornamento ammo e callback
         currentBulletCount--;
         onBulletShot?.Invoke();
     }
 
-    public override void addMag()
+    public override bool addMag()
     {
-        if (currentMagLeft * stats.magazineSize >= stats.totalAmmo) return;
-        currentMagLeft += 2;
+        if (currentMagLeft >= stats.totalAmmo)
+        {
+            return false;
+        }
+        currentMagLeft += (stats.magazineSize * 2);
+
+        if (currentMagLeft > stats.totalAmmo)
+        {
+            currentMagLeft = stats.totalAmmo;
+        }
+
+        return true;
     }
 }

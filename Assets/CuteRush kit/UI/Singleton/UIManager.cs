@@ -7,7 +7,6 @@ public class UIManager : MonoBehaviour
 
     [Header("UI Panel")]
     [SerializeField] private HUD HUD;
-    
 
     private void Awake()
     {
@@ -38,10 +37,9 @@ public class UIManager : MonoBehaviour
         HUD.UpdateInventory(medikitCount, grenadeCount);
     }
 
-    public void UpdateHealth(int health)
+    public void UpdateHealth(int currentHealth, int maxHealth)
     {
-        HUD.UpdateHealth(health);
-
+        HUD.UpdateHealth(currentHealth, maxHealth);
     }
 
     public void ShowInteract(string item)

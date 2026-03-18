@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4008215833032701893}
   - component: {fileID: 8159531470944557575}
   - component: {fileID: 8937992645614771247}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 1066260424272961101}
   - component: {fileID: 469270873427521384}
   - component: {fileID: 7801990065718607315}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2798049569726067097}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Trigger pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 8665995661395143520}
   - component: {fileID: 3985307878334761062}
   - component: {fileID: 2231947611115422610}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7038726069120740330}
   - component: {fileID: 1575595687633415490}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7872303905389184005}
   - component: {fileID: 174680115784635392}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Tracer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +507,7 @@ GameObject:
   - component: {fileID: 4036693511600571435}
   - component: {fileID: 3837914804021574036}
   - component: {fileID: 4792911739500385081}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Pistola base
   m_TagString: Untagged
   m_Icon: {fileID: 0}

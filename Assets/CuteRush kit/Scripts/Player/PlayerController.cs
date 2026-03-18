@@ -112,7 +112,6 @@ public class PlayerController : MonoBehaviour
         float inputY = Input.GetAxis("Vertical");
         float inputModifyFactor = (inputX != 0.0f && inputY != 0.0f && limitDiagonalSpeed) ? 0.6701f : 1.0f;
 
-        // --- MOVIMENTO ORIZZONTALE ---
         Vector3 move = new Vector3(inputX * inputModifyFactor, 0, inputY * inputModifyFactor);
         move = myTransform.TransformDirection(move);
 
@@ -135,7 +134,6 @@ public class PlayerController : MonoBehaviour
             verticalVelocity = jumpForce;
             falling = false;
             currentMotion = motionstate.jumping;
-            crosshairScript.IncreaseSpread(2f);
             
         }
 
@@ -216,7 +214,6 @@ public class PlayerController : MonoBehaviour
             if (falling)
             {
                 currentMotion = motionstate.idle;
-                crosshairScript.DecreaseSpread(2f);
             }
 
             falling = false;
@@ -232,6 +229,12 @@ public class PlayerController : MonoBehaviour
         // --- AUDIO E STATI ---
         float moveThreshold = 0.1f;
         bool isMoving = (Mathf.Abs(inputX) > moveThreshold || Mathf.Abs(inputY) > moveThreshold);
+
+        if (crosshairScript != null)
+        {
+            crosshairScript.isMoving = isMoving;
+            crosshairScript.isJumping = !grounded; // Se non sei a terra, sei in aria/salto!
+        }
 
         // Attiva i passi solo al cambio di stato
         if (grounded && isMoving && !footstepsActive)

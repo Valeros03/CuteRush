@@ -64,6 +64,8 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Bootstrapper.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\CameraRecoil.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\Crosshair.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Camera\LowHealthController.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Camera\LowHealthLink.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\MouseLook.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Consumabili\Mags.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Consumabili\Medkit.cs" />
@@ -93,12 +95,13 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\RecoilProfile.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\SingleShotGun.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\World\GateController.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\World\HologramAmmoTotem.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\World\Totem.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\World\WeaponSpawner.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Abstract\UIPanel.cs" />
+     <Compile Include="Assets\CuteRush kit\UI\Scripts\DamageIndicator.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\HUD.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Singleton\UIManager.cs" />
-     <Compile Include="Assets\DamageIndicator.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Survival Essentials\Example\Scripts\AnimatedFire.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\Scripts\LowPolyWater.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Textures &amp; Sprites\UI\Radial Slider UI\Scripts\RadialSlider.cs" />
@@ -116,6 +119,7 @@
      <Compile Include="Assets\Kawaii Slimes\Scripts\AI\Face.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\GameManager.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\TriggerCollider.cs" />
+     <Compile Include="Assets\LowHealth\LowHealthDirectAccess.cs" />
      <Compile Include="Assets\Nokobot\Modern Guns - Handgun\_Demo Assets\SimpleShoot.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\Camera Controller.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\Demo Gun Shooter.cs" />
@@ -135,9 +139,11 @@
      <None Include="Assets\Kawaii Slimes\Shader\Unity-chan Shader Ver 1.2.1\readme.txt" />
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\Shaders\WaterShaded.shader" />
      <None Include="Assets\CuteRush kit\Materials\HologramCode.shader" />
+     <None Include="Assets\LowHealth\ReadMe.txt" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\NiloZOffset.hlsl" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\NiloOutlineUtil.hlsl" />
      <None Include="Assets\FireIceProjectileExplosion\Shader\S_ParticleAdd.shader" />
+     <None Include="Assets\CuteRush kit\UI\LowHealthShader.shader" />
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Shaders\Shaders\LowPolyPBRShader.shader" />
      <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Shaders\Shaders\LowPolyUnlitShader.shader" />
      <None Include="Assets\Piloto Studio\Shaders\ToonyShader\Toony Prop.shader" />

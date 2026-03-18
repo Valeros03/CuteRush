@@ -31,11 +31,19 @@ public class HUD : UIPanel
     private static string default_pickup = "Premi F per raccogliere ";
 
 
-    public void UpdateHealth(int val)
-   {
-        healthImage.fillAmount += val;
-        healthImage.color = Color.Lerp(emptyHealthColor, fullHealthColor, healthImage.fillAmount);
-        healthText.text = val.ToString();
+    public void UpdateHealth(int currentHealth, int maxHealth)
+    {
+        // 1. Calcoliamo la percentuale esatta (è fondamentale usare i float per avere i decimali!)
+        float healthPercentage = (float)currentHealth / (float)maxHealth;
+
+        // 2. Impostiamo il fillAmount (usando = e non +=)
+        healthImage.fillAmount = healthPercentage;
+
+        // 3. Facciamo sfumare il colore in base alla percentuale
+        healthImage.color = Color.Lerp(emptyHealthColor, fullHealthColor, healthPercentage);
+
+        // 4. Aggiorniamo il testo
+        healthText.text = currentHealth.ToString();
     }
 
     public void UpdateInventory(int medikitCount, int grenadeCount)

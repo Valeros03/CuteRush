@@ -83,7 +83,7 @@ public abstract class Enemy : MonoBehaviour
         isDead = false;
         isTakingDamage = false;
         isPlayerInPersonalTrigger = false;
-        flinchCoroutine = null; // Reset riferimento coroutine
+        flinchCoroutine = null;
 
         // 2. Reset Collider
         foreach (Collider col in GetComponents<Collider>())
@@ -92,24 +92,34 @@ public abstract class Enemy : MonoBehaviour
         }
 
         // 3. Reset Grafica (Faccia)
-        // Se hai facce diverse per idle/walk, metti quella di default qui
         if (faces.Idleface != null) SetFace(faces.Idleface);
 
-        // 4. Reset Animator
+
+
+        // 4. Reset Animator (IL FIX MAGICO È QUI)
         if (animator != null)
         {
-            animator.enabled = true; // Assicurati che sia acceso!
-            animator.Rebind(); // Resetta tutti i parametri e lo stato all'inizio
-            animator.SetFloat("AttackSpeed", attackSpeed); // Reimposta parametri custom
+            animator.enabled = true;
+
+            // A. Cancella manualmente i Trigger per evitare loop fantasma
+            animator.ResetTrigger("Die");
+            animator.ResetTrigger("Attack");
+            animator.ResetTrigger("Shoot");
+
+            // B. Forza l'Animator allo stato di default bypassando le transizioni
+            animator.Play("Locomotion", 0, 0f);
+
+            animator.SetFloat("AttackSpeed", attackSpeed);
+            animator.SetFloat("Speed", 0f);
         }
 
         // 5. Reset NavMeshAgent
         if (agent != null)
         {
-            agent.enabled = true;       // Riattiva il componente
-            agent.isStopped = false;    // Sblocca il movimento
-            agent.ResetPath();          // Pulisci vecchi percorsi
-            agent.velocity = Vector3.zero; // Ferma inerzia residua
+            agent.enabled = true;
+            agent.isStopped = false;
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
         }
 
         // Reset dello stato della Macchina a Stati

@@ -12,8 +12,8 @@ public abstract class GunBase : MonoBehaviour
     public ParticleSystem[] gunParticleSystems;
 
     [Header("Settings")]
-    public Transform firePoint;          // punto da cui parte il raycast
-    public LayerMask hitLayers;          // layer colpibili (es. Enemy)
+    public Transform firePoint;        
+    public LayerMask hitLayers;          
 
     [Header("Effects")]
     public LineRenderer tracer;
@@ -37,33 +37,39 @@ public abstract class GunBase : MonoBehaviour
     [HideInInspector] public bool isReloading = false;
     public bool IsInShotCooldown { get; protected set; } = false;
 
-    // Events
     public Action onBulletShot;
     public Action onGunReloadStart;
     public Action onGunShootingStart;
 
 
     private PlayerController player;
+    private Crosshair crosshair; 
+
     protected virtual void Awake()
     {
         audioController = GetComponent<AudioGunController>();
         animator = GetComponent<Animator>();
         mainCamera = Camera.main;
         player = GetComponentInParent<PlayerController>();
+
+        crosshair = FindObjectOfType<Crosshair>();
     }
 
     protected virtual void Start()
     {
         if (stats == null)
         {
-            Debug.LogError($"{name}: stats non assegnate!");
             return;
         }
 
         currentBulletCount = stats.magazineSize;
         currentMagLeft = stats.totalAmmo;
 
-        // fallback UI find (solo se non impostato dall'inspector)
+
+        if (crosshair != null)
+        {
+            crosshair.LoadGunSettings(stats);
+        }
 
         if (weaponUI == null)
         {
@@ -94,7 +100,6 @@ public abstract class GunBase : MonoBehaviour
         }
     }
 
-    // PUBLIC API: chiamato dall'input / player
     public void TryShoot()
     {
         if (!gameObject.activeSelf || !enabled) return;
@@ -108,57 +113,59 @@ public abstract class GunBase : MonoBehaviour
         {
             onGunShootingStart?.Invoke();
 
-            // effetti visuali
             foreach (var ps in gunParticleSystems) if (ps != null) ps.Play();
 
-            // delega al comportamento concreto
             Shoot();
         }
     }
 
-    // Classe concreta implementa questa funzione
     protected abstract void Shoot();
 
     protected virtual void SpawnBulletVisualsAndRaycast()
     {
-        // logica consolidata di raycast, tracers, danno, suoni, decremento ammo, eventi
         if (mainCamera == null) mainCamera = Camera.main;
         if (mainCamera == null) return;
 
-        RaycastHit hit;
-        Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        Vector3 targetPoint;
         audioController?.PlayShoot();
+
+        Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+        Crosshair crosshair = FindObjectOfType<Crosshair>();
+        if (crosshair != null)
+        {
+            float bloomFactor = crosshair.spread / 2000f;
+            Vector3 randomOffset = mainCamera.transform.right * UnityEngine.Random.Range(-bloomFactor, bloomFactor) +
+                                   mainCamera.transform.up * UnityEngine.Random.Range(-bloomFactor, bloomFactor);
+            ray.direction = (ray.direction + randomOffset).normalized;
+        }
+
+        RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, stats.range, hitLayers))
         {
-            targetPoint = hit.point;
-        }
-        else
-        {
-            targetPoint = ray.GetPoint(stats.range);
-        }
-
-        Vector3 direction = (targetPoint - firePoint.position).normalized;
-
-        if (Physics.Raycast(firePoint.position, direction, out hit, stats.range, hitLayers))
-        {
             var enemy = hit.collider.GetComponentInParent<Enemy>();
-            Vector3 shotDir = (hit.point - firePoint.position).normalized;
+
             if (enemy != null)
             {
-                enemy.TakeDamage(stats.damage, shotDir, hit.point);
+                enemy.TakeDamage(stats.damage, ray.direction, hit.point);
             }
 
+         
             DrawTracer(firePoint.position, hit.point);
         }
         else
         {
+            Vector3 targetPoint = ray.GetPoint(stats.range);
             DrawTracer(firePoint.position, targetPoint);
         }
 
         currentBulletCount--;
         onBulletShot?.Invoke();
+
+        if (crosshair != null)
+        {
+            crosshair.ApplyShootKick();
+        }
     }
 
     protected void DrawTracer(Vector3 start, Vector3 end)
@@ -173,7 +180,6 @@ public abstract class GunBase : MonoBehaviour
         tracerTimer = tracerDuration;
     }
 
-    // RELOAD
     public void StartReload()
     {
         if (!gameObject.activeSelf || isReloading) return;
@@ -196,12 +202,11 @@ public abstract class GunBase : MonoBehaviour
         }
         else
         {
-            // se reloadDuration <= audioDelay, suona comunque e aspetta reloadDuration
+
             audioController?.PlayRecharge();
             yield return new WaitForSeconds(stats.reloadDuration);
         }
 
-        // refill
         if (currentMagLeft > 0)
         {
             int needed = stats.magazineSize - currentBulletCount;
@@ -213,7 +218,6 @@ public abstract class GunBase : MonoBehaviour
         isReloading = false;
     }
 
-    // helper coroutine per cooldown
     protected IEnumerator ShotCooldownCoroutine(float cooldown)
     {
         IsInShotCooldown = true;
@@ -221,7 +225,6 @@ public abstract class GunBase : MonoBehaviour
         IsInShotCooldown = false;
     }
 
-    // metodo per resettare manualmente single-shot (es. input release)
     public virtual void ResetSingleShot() { IsInShotCooldown = false; }
 
     private void EquipGranade()
@@ -229,10 +232,20 @@ public abstract class GunBase : MonoBehaviour
         player.SwitchToGranade();
     }
 
-    public virtual void addMag()
+    public virtual bool addMag()
     {
-        if (currentMagLeft * stats.magazineSize >= stats.totalAmmo) return;
-        currentMagLeft++;
+        if (currentMagLeft >= stats.totalAmmo)
+        {
+            return false;
+        }
 
+        currentMagLeft += stats.magazineSize;
+
+        if (currentMagLeft > stats.totalAmmo)
+        {
+            currentMagLeft = stats.totalAmmo;
+        }
+
+        return true;
     }
 }

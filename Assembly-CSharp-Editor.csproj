@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\Scripts\Editor\GeneratePlane.cs" />
+     <Compile Include="Assets\LowHealth\Internal\Editor\LowHealthControllerEditor.cs" />
+     <Compile Include="Assets\LowHealth\Internal\Editor\LowHealthDirectAccessEditor.cs" />
  <Reference Include="UnityEditor.TestRunner">
  <HintPath>D:/Uni/SGD/CuteRush/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
  </Reference>

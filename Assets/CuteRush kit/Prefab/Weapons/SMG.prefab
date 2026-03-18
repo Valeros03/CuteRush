@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7372352410499267425}
   - component: {fileID: 8739092372985437239}
   - component: {fileID: 3347603403134878085}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SMG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4411560545149077071}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: shootingPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 6236665313446873894}
   - component: {fileID: 2005664948182158496}
   - component: {fileID: 5194663621493971927}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +385,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8260155734764276120}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -416,13 +416,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6206908391052064653}
   - component: {fileID: 7378615310817722096}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Tracer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6206908391052064653
 Transform:
   m_ObjectHideFlags: 0

@@ -21,3 +21,5 @@ MonoBehaviour:
   bulletSpeed: 50
   fireRate: 4
   fireMode: 0
+  baseBloomSpread: 0.1
+  crosshairShootBloomKick: 50

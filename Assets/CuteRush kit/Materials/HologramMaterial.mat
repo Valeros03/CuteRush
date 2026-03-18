@@ -24,4 +24,4 @@ Material:
     - _ScanFrequency: 50
     - _ScanSpeed: 1
     m_Colors:
-    - _MainColor: {r: 0, g: 1, b: 1, a: 1}
+    - _MainColor: {r: 0.08962262, g: 1, b: 0.22844207, a: 1}

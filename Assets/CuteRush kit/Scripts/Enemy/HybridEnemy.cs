@@ -75,23 +75,36 @@ public class HybridEnemy : Enemy
         }
         else if (distanceSqr <= rangedRangeSqr * 1.1f)
         {
-            agent.isStopped = false; 
+            agent.isStopped = false;
             agent.SetDestination(player.position);
             animator.SetFloat("Speed", agent.velocity.magnitude);
 
+            // 1. Il nemico cerca SEMPRE di mirarti lentamente mentre è a questa distanza
+            FacePlayer();
+
+            // 2. Il tempo di ricarica è passato? È pronto a sparare?
             if (Time.time - lastRangedAttackTime >= rangedAttackCooldown)
             {
+                // Calcoliamo la direzione ignorando l'asse Y (così non si confonde se salti)
                 Vector3 directionToPlayer = (player.position - transform.position).normalized;
-                float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+                directionToPlayer.y = 0;
 
+                Vector3 currentForward = transform.forward;
+                currentForward.y = 0;
+
+                float angleToPlayer = Vector3.Angle(currentForward, directionToPlayer);
+
+                // 3. Se l'angolo è ancora troppo largo, INTERROMPIAMO. 
+                // Non spara, ma il FacePlayer() qui sopra continuerà a farlo girare!
                 if (angleToPlayer > facingTolerance)
                 {
-                    return; 
+                    return; // Aspetta di essere allineato
                 }
+
+                // 4. Appena l'angolo scende sotto la tolleranza... FUOCO!
                 lastRangedAttackTime = Time.time;
                 animator.SetTrigger("Shoot");
             }
-
         }
         else
         {
@@ -106,7 +119,7 @@ public class HybridEnemy : Enemy
     {
         if (Vector3.Distance(transform.position, player.position) <= meleeRange + 0.4f) 
         {
-            player.GetComponent<VitalsController>()?.Decrease(attackDamage, transform.position);
+            player.GetComponent<VitalsController>()?.Decrease(attackDamage, transform.position, true);
         }
     }
 
@@ -161,7 +174,13 @@ public class HybridEnemy : Enemy
     void FacePlayer()
     {
         Vector3 direction = (player.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * agent.angularSpeed * 0.1f); 
+        // Azzeriamo la Y così il nemico ruota solo sul proprio asse senza piegarsi in avanti/indietro
+        direction.y = 0;
+
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+        // Usiamo una velocità fissa e dolce (es. 5f) invece dei 120-360 del NavMeshAgent!
+        float smoothAimSpeed = 5.0f;
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * smoothAimSpeed);
     }
 }
