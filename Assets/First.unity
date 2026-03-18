@@ -4570,6 +4570,12 @@ PrefabInstance:
       propertyPath: timeSpawn
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
+        type: 3}
+      propertyPath: enemyPrefab
+      value: 
+      objectReference: {fileID: 6688149642241925542, guid: 11eed2dfd1329ab4db9e7f27b8e628b7,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 639edc5ac3d28c84b98d7f4b619e53c5, type: 3}
 --- !u!1001 &791167640448036922

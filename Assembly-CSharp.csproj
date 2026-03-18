@@ -98,6 +98,7 @@
      <Compile Include="Assets\CuteRush kit\UI\Abstract\UIPanel.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\HUD.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Singleton\UIManager.cs" />
+     <Compile Include="Assets\DamageIndicator.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Survival Essentials\Example\Scripts\AnimatedFire.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\Scripts\LowPolyWater.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Textures &amp; Sprites\UI\Radial Slider UI\Scripts\RadialSlider.cs" />

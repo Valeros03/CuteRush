@@ -18,10 +18,19 @@ public class HUD : UIPanel
     [SerializeField] private Text PickUpText;
     [SerializeField] private Text NotOpenable;
 
+    [Header("Damage Indicator")]
+    [SerializeField] private GameObject damageIndicatorPrefab;
+    [SerializeField] private Transform damageIndicatorContainer;
+
+   
+    [SerializeField] private float mergeAngleThreshold = 40f;
+
+    private List<DamageIndicator> activeIndicators = new List<DamageIndicator>();
+
     private static string default_interact = "Premi F per ";
     private static string default_pickup = "Premi F per raccogliere ";
 
-    //PUO' ESSERE USATO COME SETTER
+
     public void UpdateHealth(int val)
    {
         healthImage.fillAmount += val;
@@ -29,7 +38,6 @@ public class HUD : UIPanel
         healthText.text = val.ToString();
     }
 
-    //PUO' ESSERE USATO COME SETTER
     public void UpdateInventory(int medikitCount, int grenadeCount)
     {
         if (medikitText != null)
@@ -72,6 +80,57 @@ public class HUD : UIPanel
         NotOpenable.gameObject.SetActive(true);
         yield return new WaitForSeconds(3);
         NotOpenable.gameObject.SetActive(false);
+    }
+
+    public void ShowDamageIndicator(Vector3 enemyPos)
+    {
+        if (damageIndicatorPrefab == null) return;
+        Transform parent = damageIndicatorContainer != null ? damageIndicatorContainer : transform;
+
+        Transform camTrans = Camera.main.transform;
+        Vector3 relDir = enemyPos - camTrans.position;
+        float xRel = Vector3.Dot(relDir, camTrans.right);
+        float yRel = Vector3.Dot(relDir, camTrans.forward);
+        float angleDeg = Mathf.Atan2(xRel, yRel) * Mathf.Rad2Deg;
+
+        
+        DamageIndicator matchFound = null;
+        foreach (var ind in activeIndicators)
+        {
+            if (ind == null) continue; 
+
+  
+            float diff = Mathf.Abs(Mathf.DeltaAngle(ind.GetCurrentZRotation(), -angleDeg));
+            if (diff < mergeAngleThreshold)
+            {
+                matchFound = ind;
+                break;
+            }
+        }
+
+        if (matchFound != null)
+        {
+            
+            matchFound.Refresh(enemyPos);
+        }
+        else
+        {
+  
+            GameObject indicatorGO = Instantiate(damageIndicatorPrefab, parent);
+            RectTransform rect = indicatorGO.GetComponent<RectTransform>();
+            rect.anchoredPosition = Vector2.zero;
+
+            DamageIndicator newInd = indicatorGO.GetComponent<DamageIndicator>();
+            newInd.Initialize(enemyPos);
+
+            activeIndicators.Add(newInd);
+        }
+    }
+
+    void Update()
+    {
+        
+        activeIndicators.RemoveAll(x => x == null);
     }
 
 }

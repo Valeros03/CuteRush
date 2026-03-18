@@ -30,7 +30,7 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         InventoryPlayer.OnInventoryChanged -= UpdateInventoryUI;
-        VitalsController.OnHealthChange += UpdateHealth;
+        VitalsController.OnHealthChange -= UpdateHealth; 
     }
 
     public void UpdateInventoryUI(int medikitCount, int grenadeCount)
@@ -69,5 +69,10 @@ public class UIManager : MonoBehaviour
     public void HidePickUp()
     {
         HUD.HidePickUp();
+    }
+
+    public void ShowDamageIndicator(Vector3 damageSourcePos)
+    {
+        HUD.ShowDamageIndicator(damageSourcePos);
     }
 }

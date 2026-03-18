@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.UNetWeaver;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class VitalsController : MonoBehaviour
 {
@@ -12,38 +8,37 @@ public class VitalsController : MonoBehaviour
     public int currentHealth;
 
     public static event Action<int> OnHealthChange;
+
     public void Start()
     {
-        // Health start settings
+        // Impostiamo la salute iniziale e aggiorniamo subito l'interfaccia
         currentHealth = maxHealth;
-
+        OnHealthChange?.Invoke(currentHealth);
     }
 
-    private void Update()
+    public void Increase(int value)
     {
-        if (currentHealth <= 0)
+        currentHealth += value;
+
+        // Blocchiamo la vita al tetto massimo
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+
+        OnHealthChange?.Invoke(currentHealth);
+    }
+
+    public void Decrease(int value, Vector3 damageSourcePosition)
+    {
+        currentHealth -= value;
+
+        // Evitiamo che la vita vada in negativo
+        if (currentHealth < 0) currentHealth = 0;
+
+        OnHealthChange?.Invoke(currentHealth);
+
+        // Richiamiamo l'UI Manager per far apparire l'arco rosso!
+        if (UIManager.Instance != null)
         {
-            currentHealth = 0;
+            UIManager.Instance.ShowDamageIndicator(damageSourcePosition);
         }
-        
-        if (currentHealth >= maxHealth)
-            currentHealth = maxHealth;
-
     }
-
-   public void Increase(int value)
-    {
-
-       currentHealth += value;
-       OnHealthChange?.Invoke(currentHealth);
-       
-    }
-
-    public void Decrease(int value)
-    {
-       currentHealth -= value;
-       OnHealthChange?.Invoke(currentHealth);
-    }
-
-  
 }

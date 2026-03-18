@@ -69,7 +69,7 @@ public class RangedEnemy : Enemy
         for (int i = 0; i < bulletPoolSize; i++)
         {
             GameObject bullet = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-            bullet.GetComponent<EnemyBullet>().damage = rangedAttackDamage;
+            
             bullet.SetActive(false);
             bulletPool.Add(bullet);
         }
@@ -92,21 +92,19 @@ public class RangedEnemy : Enemy
     void FireProjectile()
     {
         GameObject bullet = GetPooledBullet();
-        if (bullet == null) return; 
+        if (bullet == null) return;
 
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;
         bullet.SetActive(true);
 
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.velocity = Vector3.zero; 
-            Vector3 dir = (player.position + Vector3.up * 0.4f - firePoint.position).normalized;
+        // LA MAGIA DELLA SEMPLIFICAZIONE:
+        Vector3 dir = (player.position + Vector3.up * 0.4f - firePoint.position).normalized;
 
-            rb.AddForce(dir * projectileForce, ForceMode.VelocityChange);
-        }
+        // Passiamo direzione, danno e forza direttamente allo script del proiettile!
+        bullet.GetComponent<EnemyBullet>().Fire(dir, rangedAttackDamage, projectileForce, transform.position);
     }
+
     GameObject GetPooledBullet()
     {
         foreach (GameObject bullet in bulletPool)

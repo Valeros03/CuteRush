@@ -53,7 +53,7 @@ public class MeleeEnemy : Enemy
         
         if (Vector3.Distance(transform.position, player.position) <= meleeRange + 0.5f) // Tolleranza
         {
-            player.GetComponent<VitalsController>()?.Decrease(attackDamage);
+            player.GetComponent<VitalsController>()?.Decrease(attackDamage, transform.position);
         }
     }
 

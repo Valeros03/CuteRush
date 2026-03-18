@@ -40,17 +40,12 @@ public class HybridEnemy : Enemy
         bulletPool = new List<GameObject>();
         if (bulletPrefab == null)
         {
-            Debug.LogError($"Bullet Prefab not assigned on {name}!", this);
             return;
         }
         for (int i = 0; i < bulletPoolSize; i++)
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            EnemyBullet bulletScript = bullet.GetComponent<EnemyBullet>();
-            if (bulletScript != null)
-            {
-                bulletScript.damage = rangedAttackDamage;
-            }
+            // Non impostiamo i danni qui
             bullet.SetActive(false);
             bulletPool.Add(bullet);
         }
@@ -111,12 +106,10 @@ public class HybridEnemy : Enemy
     {
         if (Vector3.Distance(transform.position, player.position) <= meleeRange + 0.4f) 
         {
-            player.GetComponent<VitalsController>()?.Decrease(attackDamage);
+            player.GetComponent<VitalsController>()?.Decrease(attackDamage, transform.position);
         }
     }
 
-    
-  
 
     void FireProjectile()
     {
@@ -124,22 +117,16 @@ public class HybridEnemy : Enemy
         if (bullet == null) return;
 
         bullet.transform.position = firePoint.position;
-        bullet.transform.rotation = firePoint.rotation; 
-       
+        bullet.transform.rotation = firePoint.rotation;
+
         SetFace(faces.attackFace);
         bullet.SetActive(true);
 
         StartCoroutine(nameof(faceShootAnimate));
+        Vector3 targetPoint = player.position + Vector3.up * 0.5f;
+        Vector3 dir = (targetPoint - firePoint.position).normalized;
 
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.velocity = Vector3.zero;
-            Vector3 targetPoint = player.position + Vector3.up * 0.5f;
-            Vector3 dir = (targetPoint - firePoint.position).normalized;
-            rb.AddForce(dir * projectileForce, ForceMode.VelocityChange);
-        }
-        
+        bullet.GetComponent<EnemyBullet>().Fire(dir, rangedAttackDamage, projectileForce, transform.position);
     }
 
     IEnumerator faceShootAnimate()
@@ -167,7 +154,7 @@ public class HybridEnemy : Enemy
 
         if (Vector3.Distance(transform.position, player.position) <= meleeRange + 0.5f)
         {
-            player.GetComponent<VitalsController>()?.Decrease(attackDamage);
+            player.GetComponent<VitalsController>()?.Decrease(attackDamage, transform.position);
         }
     }
 
