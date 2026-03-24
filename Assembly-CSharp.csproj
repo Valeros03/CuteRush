@@ -110,9 +110,9 @@
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\InventorySlot.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\InventoryUI.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\ItemPickup.cs" />
-     <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Items\Consumable.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Items\Item.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Utils\AimDownSights.cs" />
+     <Compile Include="Assets\HologramMedkitTotem.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\AbstractTargetFollower.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\FreeLookCam.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\PivotBasedCameraRig.cs" />
@@ -121,6 +121,7 @@
      <Compile Include="Assets\Kawaii Slimes\Scripts\TriggerCollider.cs" />
      <Compile Include="Assets\LowHealth\LowHealthDirectAccess.cs" />
      <Compile Include="Assets\Nokobot\Modern Guns - Handgun\_Demo Assets\SimpleShoot.cs" />
+     <Compile Include="Assets\PlayerUpgrades.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\Camera Controller.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\Demo Gun Shooter.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\GunRotation.cs" />

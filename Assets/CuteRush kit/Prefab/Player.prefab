@@ -703,6 +703,8 @@ GameObject:
   - component: {fileID: 7717119379729018350}
   - component: {fileID: 3362827368680789125}
   - component: {fileID: 5235147366029142948}
+  - component: {fileID: 1765206146628877648}
+  - component: {fileID: 3161444735021384749}
   - component: {fileID: 1975340631707950693}
   - component: {fileID: 1132385638958913079}
   m_Layer: 0
@@ -802,6 +804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 100
+  medKitHeal: 50
 --- !u!114 &5235147366029142948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -826,6 +829,40 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3341f42dd318f2a4db21a5d852422d2c, type: 3}
   fireHitSound: {fileID: 8300000, guid: 3001c38e6f653de48a193b3739af5ff8, type: 3}
   soundCooldown: 0.08
+  healSound: {fileID: 8300000, guid: 91b1675665955af48839010755baf41c, type: 3}
+--- !u!114 &1765206146628877648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6705402075998324148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73293e62b2e8f304e8f71d90033181c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3161444735021384749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6705402075998324148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3484ed68d8ac0345a1f8e8903a0646e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedLevel: 1
+  jumpLevel: 1
+  medkitLevel: 1
+  maxSpeedLevel: 5
+  maxJumpLevel: 3
+  maxMedkitLevel: 4
+  extraSpeedPerLevel: 1
+  extraJumpPerLevel: 1.5
+  extraHealingPerLevel: 5
 --- !u!82 &1975340631707950693
 AudioSource:
   m_ObjectHideFlags: 0

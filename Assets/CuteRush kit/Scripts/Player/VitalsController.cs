@@ -6,6 +6,7 @@ public class VitalsController : MonoBehaviour
     [Header("[Health Settings]")]
     public int maxHealth;
     public int currentHealth;
+    public int medKitHeal = 50;
 
     public static event Action<int, int> OnHealthChange;
 
@@ -16,13 +17,18 @@ public class VitalsController : MonoBehaviour
     {
         currentHealth = maxHealth;
 
-        // Cerca in automatico lo script AudioPlayerController attaccato allo stesso oggetto
         audioController = GetComponent<AudioPlayerController>();
 
         OnHealthChange?.Invoke(currentHealth, maxHealth);
     }
 
-    public void Increase(int value)
+    public void UseMedikit()
+    {
+        Increase(medKitHeal);
+        audioController.PlayHealSound();
+    }
+
+    private void Increase(int value)
     {
         currentHealth += value;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
@@ -42,7 +48,6 @@ public class VitalsController : MonoBehaviour
             UIManager.Instance.ShowDamageIndicator(damageSourcePosition);
         }
 
-        // Diciamo all'AudioController di fare il suo lavoro!
         if (audioController != null)
         {
             audioController.PlayDamageSound(isPhysical);

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Leguar.LowHealth;
 
-[RequireComponent(typeof(LowHealthController))]
 public class LowHealthLink : MonoBehaviour
 {
     private LowHealthController cameraEffect;

@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
     private bool footstepsActive = false;
 
     private InteractableItem interact;
+    
 
     // Use this for initialization
     void Start()
@@ -280,6 +281,14 @@ public class PlayerController : MonoBehaviour
                 interact.Interact();
             }
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if(inventory.removeMedkit())
+            {
+                GetComponent<VitalsController>().UseMedikit();
+            }
+
+        }
         if (Input.GetButtonDown("Fire1")) {
 
             if (granade.activeInHierarchy)
@@ -321,18 +330,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // ---- TORNA ALL'ARMA ----
             if (granadeAnimator != null)
             {
-                granadeAnimator.SetTrigger("PosaGranata"); // granata si abbassa
+                granadeAnimator.SetTrigger("PosaGranata");
             }
         }
     }
 
     public void SwitchToGranade()
     {
-      
-        //disabilita logica e body dell'arma
         
         gun.transform.GetChild(0).gameObject.SetActive(false);
 
@@ -395,20 +401,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Metodo di supporto per far sapere allo Spawner che arma abbiamo in mano
     public string GetCurrentWeaponName()
     {
         if (gun != null)
         {
-            // Rimuoviamo la scritta "(Clone)" che Unity aggiunge quando istanzia i prefab
             return gun.gameObject.name.Replace("(Clone)", "").Trim();
         }
         return "";
     }
 
-    public void addMedkit()
+    public bool addMedkit()
     {
-        inventory.addMedkit();
+        return inventory.addMedkit();
     }
 
     public void addGrenade()

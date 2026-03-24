@@ -19,6 +19,9 @@ public class AudioPlayerController : MonoBehaviour
     public float soundCooldown = 0.08f;
     private float lastSoundTime;
 
+    [Header("Heal Sound")]
+    public AudioClip healSound;
+
     void Awake()
     {
         sfxDict = new Dictionary<string, AudioClip>();
@@ -58,6 +61,11 @@ public class AudioPlayerController : MonoBehaviour
             playerSource.clip = sfxDict["throwGranade"];
             playerSource.Play();
         }
+    }
+
+    public void PlayHealSound()
+    {
+        playerSource.PlayOneShot(healSound);
     }
 
     // --- NUOVO METODO PER I DANNI ---
