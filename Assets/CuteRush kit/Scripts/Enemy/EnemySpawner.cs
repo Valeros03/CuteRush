@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.AI; // Necessario per gestire NavMeshAgent
+using UnityEngine.AI;
 using System.Collections;
 
-public class SpawnManager : MonoBehaviour
+public class EnemySpawner : BaseSpawner
 {
     [Header("Spawn Settings")]
     public GameObject enemyPrefab;
     public int numberOfEnemies = 10;
     public float spawnRadius = 5f;
-    public float timeSpawn = 1f; // Tempo di attesa per il respawn
 
     [Header("Area Settings")]
     [Tooltip("Raggio dell'area controllata da questo spawner.")]
@@ -20,7 +19,7 @@ public class SpawnManager : MonoBehaviour
 
     private List<Enemy> spawnedEnemies = new List<Enemy>();
     private SphereCollider areaTrigger;
-    private Coroutine spawnCorutine;
+    private Coroutine spawnCoroutine;
 
     void Awake()
     {
@@ -29,22 +28,20 @@ public class SpawnManager : MonoBehaviour
         areaTrigger.radius = spawnerAreaRadius;
 
         playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
-        if (playerTransform == null) Debug.LogError("SpawnManager: Player non trovato!", this);
+        if (playerTransform == null) Debug.LogError("EnemySpawner: Player non trovato!", this);
     }
 
     void Start()
     {
         if (playerTransform != null)
         {
-            // Spawn iniziale
             for (int i = 0; i < numberOfEnemies; i++)
             {
                 CreateNewEnemy();
             }
 
             CheckInitialPlayerPosition();
-            spawnCorutine = StartCoroutine(RespawnRoutine());
-
+            spawnCoroutine = StartCoroutine(RespawnRoutine());
         }
     }
 
@@ -52,63 +49,47 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(timeSpawn);
+            // Usiamo il valore ereditato dal BaseSpawner
+            yield return new WaitForSeconds(spawnCooldown);
             TryRespawnOneEnemy();
-         
         }
     }
 
     public void StopSpawn()
     {
-        StopCoroutine(spawnCorutine);
+        StopCoroutine(spawnCoroutine);
     }
 
     void TryRespawnOneEnemy()
     {
-        // Cerca nella lista un nemico che è stato disattivato (morto)
         foreach (Enemy enemy in spawnedEnemies)
         {
-            if (!enemy.gameObject.activeInHierarchy) // Trovato un nemico morto
+            if (!enemy.gameObject.activeInHierarchy)
             {
-                // 1. Calcola nuova posizione
                 Vector3 newPos;
                 if (GetRandomNavMeshPosition(out newPos))
                 {
-                    // 2. Sposta il nemico
                     NavMeshAgent agent = enemy.GetComponent<NavMeshAgent>();
-                    if (agent != null)
-                    {
-                        // IMPORTANTE: Se c'è un NavMeshAgent, devi usare Warp!
-                        agent.Warp(newPos);
-                    }
-                    else
-                    {
-                        enemy.transform.position = newPos;
-                    }
+                    if (agent != null) agent.Warp(newPos);
+                    else enemy.transform.position = newPos;
 
-                    // 3. Riattiva l'oggetto
                     enemy.gameObject.SetActive(true);
-
-                  
                     break;
                 }
             }
         }
     }
 
-    // Ho estratto la logica della posizione per non ripeterla
     bool GetRandomNavMeshPosition(out Vector3 result)
     {
         Vector3 randomPos = Random.insideUnitSphere * spawnRadius;
         randomPos += transform.position;
-
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomPos, out hit, spawnRadius, 1))
         {
             result = hit.position;
             return true;
         }
-
         result = Vector3.zero;
         return false;
     }
@@ -123,13 +104,14 @@ public class SpawnManager : MonoBehaviour
 
             if (enemyScript != null)
             {
+                // NOTA: Se il tuo script Enemy si aspetta ancora "SpawnManager", ricordati 
+                // di cambiargli il tipo in "EnemySpawner" dentro Enemy.cs!
                 enemyScript.Initialize(transform.position, this);
                 spawnedEnemies.Add(enemyScript);
             }
         }
     }
 
-    // --- Gestione Trigger (Invariata) ---
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player")) IsPlayerInArea = true;

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class InteractableItem : MonoBehaviour, Interactable
 {
+    public string interactText = "Interagisci";
+    [Tooltip("Se falso, l'oggetto non reagirà al giocatore")]
+    public bool isInteractable = true;
 
     public virtual void OnTriggerEnter(Collider other)
     {
@@ -23,7 +26,7 @@ public abstract class InteractableItem : MonoBehaviour, Interactable
 
     public virtual void ShowInteraction()
     {
-        UIManager.Instance.ShowInteract("Interagire");
+        UIManager.Instance.ShowInteract(interactText);
     }
 
     public virtual void HideInteraction()

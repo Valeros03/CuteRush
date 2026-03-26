@@ -20,9 +20,19 @@ public class GateController : InteractableItem
         if (other.gameObject.CompareTag("Player"))
         {
             if(bOpen)
-                UIManager.Instance.ShowInteract("chiudere il cancello");
+               interactText = "chiudere il cancello";
             else
-                UIManager.Instance.ShowInteract("aprire il cancello");
+                interactText = "aprire il cancello";
+
+            ShowInteraction();
+        }
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            HideInteraction();
         }
     }
 

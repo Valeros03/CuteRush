@@ -5,5 +5,4 @@ using UnityEngine;
 public interface Interactable
 {
     void Interact();
-    void OnTriggerEnter(Collider collider);
 }

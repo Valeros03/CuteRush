@@ -58,8 +58,10 @@
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioGunController.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioManager.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioPlayerController.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\AbstractClass\BaseSpawner.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\AbstractClass\GunBase.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\AbstractClass\InteractableItem.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\AbstractClass\ItemSpawner.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\AbstractClass\PickableItem.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Bootstrapper.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\CameraRecoil.cs" />
@@ -73,15 +75,16 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemyBullet.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemyController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemyHitRecoil.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemySpawner.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\HybridEnemy.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\MeleeEnemy.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\RangedEnemy.cs" />
-     <Compile Include="Assets\CuteRush kit\Scripts\Enemy\SpawnManager.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Interface\Interactable.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Interface\IPickable.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\InventoryPlayer.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerControl.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerController.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerUpgrades.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\VitalsController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\AutoGun.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\ChargeGun.cs" />
@@ -94,9 +97,10 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\RecoilController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\RecoilProfile.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\SingleShotGun.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\World\Bonfire.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\World\GateController.cs" />
-     <Compile Include="Assets\CuteRush kit\Scripts\World\HologramAmmoTotem.cs" />
-     <Compile Include="Assets\CuteRush kit\Scripts\World\Totem.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\World\MagSpawner.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\World\MedkitSpawner.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\World\WeaponSpawner.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Abstract\UIPanel.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\DamageIndicator.cs" />
@@ -112,7 +116,6 @@
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\ItemPickup.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Items\Item.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Utils\AimDownSights.cs" />
-     <Compile Include="Assets\HologramMedkitTotem.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\AbstractTargetFollower.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\FreeLookCam.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\PivotBasedCameraRig.cs" />
@@ -121,7 +124,6 @@
      <Compile Include="Assets\Kawaii Slimes\Scripts\TriggerCollider.cs" />
      <Compile Include="Assets\LowHealth\LowHealthDirectAccess.cs" />
      <Compile Include="Assets\Nokobot\Modern Guns - Handgun\_Demo Assets\SimpleShoot.cs" />
-     <Compile Include="Assets\PlayerUpgrades.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\Camera Controller.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\Demo Gun Shooter.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\GunRotation.cs" />

@@ -31,7 +31,7 @@ public abstract class Enemy : MonoBehaviour
     protected NavMeshAgent agent;
     protected Transform player;
     protected Animator animator;
-    protected SpawnManager mySpawnManager;
+    protected EnemySpawner mySpawnManager;
 
 
     protected bool isTakingDamage;
@@ -127,7 +127,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
 
-    public void Initialize(Vector3 homePos, SpawnManager manager) 
+    public void Initialize(Vector3 homePos, EnemySpawner manager) 
     {
         homePosition = homePos;
         mySpawnManager = manager; 
