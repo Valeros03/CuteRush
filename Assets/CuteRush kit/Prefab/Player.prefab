@@ -830,6 +830,8 @@ MonoBehaviour:
   fireHitSound: {fileID: 8300000, guid: 3001c38e6f653de48a193b3739af5ff8, type: 3}
   soundCooldown: 0.08
   healSound: {fileID: 8300000, guid: 91b1675665955af48839010755baf41c, type: 3}
+  goldSound: {fileID: 8300000, guid: fa997d06fec73f04b8f51894c4e572e1, type: 3}
+  pickupSound: {fileID: 8300000, guid: da94ae3b663d65d479e5cc2233043cb4, type: 3}
 --- !u!114 &1765206146628877648
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -32,20 +32,24 @@ public class Granade : MonoBehaviour
     }
 
     private void OnCollisionEnter(Collision collision)
-    {
-        // Se è già esplosa, ignoriamo
+    { 
         if (rb.isKinematic || hasExploded) return;
 
-        
         if (collision.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
         {
             return;
         }
 
-   
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.isKinematic = true;
+
+        Collider myCollider = GetComponent<Collider>();
+        if (myCollider != null)
+        {
+            myCollider.enabled = false;
+        }
+        transform.SetParent(collision.transform, true);
     }
 
     IEnumerator ExplodeAfterDelay()

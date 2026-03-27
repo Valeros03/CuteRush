@@ -97,13 +97,16 @@ public abstract class Enemy : MonoBehaviour
         if (animator != null)
         {
             animator.enabled = true;
+            animator.Rebind();
 
+            // 1. SVUOTA LA MEMORIA: Cancella il trigger di morte rimasto appeso!
             animator.ResetTrigger("Die");
-            animator.ResetTrigger("Attack");
-            animator.ResetTrigger("Shoot");
 
+            // 2. FORZA LA STATE MACHINE: Riportala al blocco iniziale 
+            // (Assicurati che "Locomotion" sia il nome esatto del tuo blocco di partenza)
             animator.Play("Locomotion", 0, 0f);
 
+            animator.Update(0f);
             animator.SetFloat("AttackSpeed", attackSpeed);
             animator.SetFloat("Speed", 0f);
         }

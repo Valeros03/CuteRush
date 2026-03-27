@@ -22,6 +22,12 @@ public class AudioPlayerController : MonoBehaviour
     [Header("Heal Sound")]
     public AudioClip healSound;
 
+    [Header("Gold Sound")]
+    public AudioClip goldSound;
+
+    [Header("Pickup Sound")]
+    public AudioClip pickupSound;
+
     void Awake()
     {
         sfxDict = new Dictionary<string, AudioClip>();
@@ -68,10 +74,18 @@ public class AudioPlayerController : MonoBehaviour
         playerSource.PlayOneShot(healSound);
     }
 
-    // --- NUOVO METODO PER I DANNI ---
+    public void PlayGoldSound()
+    {
+        playerSource.PlayOneShot(goldSound);
+    }
+
+    public void PlayPickupSound()
+    {
+        playerSource.PlayOneShot(pickupSound);
+    }
+
     public void PlayDamageSound(bool isPhysical)
     {
-        // Controllo Anti-Spam (Cooldown)
         if (Time.time - lastSoundTime >= soundCooldown)
         {
             lastSoundTime = Time.time;
@@ -80,14 +94,12 @@ public class AudioPlayerController : MonoBehaviour
             {
                 if (isPhysical && physicalHitSounds != null && physicalHitSounds.Length > 0)
                 {
-                    // Danno Fisico: Variazione casuale del suono + Pitch normale
                     int randomIndex = Random.Range(0, physicalHitSounds.Length);
                     playerSource.pitch = 1f;
                     playerSource.PlayOneShot(physicalHitSounds[randomIndex]);
                 }
                 else if (!isPhysical && fireHitSound != null)
                 {
-                    // Danno Fuoco: Suono fisso + Variazione casuale del pitch
                     playerSource.pitch = Random.Range(0.85f, 1.15f);
                     playerSource.PlayOneShot(fireHitSound);
                 }

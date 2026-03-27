@@ -398,7 +398,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Rig
+    path: Rig/Bone
   m_PositionCurves: []
   m_ScaleCurves:
   - curve:
@@ -434,7 +434,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Rig
+    path: Rig/Bone
   m_FloatCurves: []
   m_PPtrCurves: []
   m_SampleRate: 60
@@ -445,14 +445,14 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 4153411545
+      path: 2388617862
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 4153411545
+      path: 2388617862
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -514,7 +514,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: Rig
+    path: Rig/Bone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -902,7 +902,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: Rig
+    path: Rig/Bone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1290,7 +1290,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: Rig
+    path: Rig/Bone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1327,7 +1327,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: Rig
+    path: Rig/Bone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1364,7 +1364,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: Rig
+    path: Rig/Bone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1401,7 +1401,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: Rig
+    path: Rig/Bone
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves:
@@ -1411,8 +1411,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
-    path: Rig
+    attribute: m_LocalEulerAngles.x
+    path: Rig/Bone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1422,7 +1422,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Rig
+    path: Rig/Bone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1431,8 +1431,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: Rig
+    attribute: m_LocalEulerAngles.z
+    path: Rig/Bone
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0

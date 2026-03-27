@@ -90,7 +90,6 @@ public class PlayerController : MonoBehaviour
         speed = walkSpeed;
         crosshairScript = transform.Find("CameraHolder").transform.Find("FPSCamera").GetComponent<Crosshair>();
         weaponAnimator = transform.Find("CameraHolder").Find("FPSCamera").Find("WeaponHolder").GetComponentInChildren<Animator>();
-        // Lock cursor
         Cursor.visible = false;
         AudioManager.Instance.PlayMusic("InGameSong");
         AudioManager.Instance.PlayAmbient("Spaceship Engine Light");
@@ -129,7 +128,6 @@ public class PlayerController : MonoBehaviour
         }
         move *= targetSpeed;
 
-        // --- SALTO ---
         if (grounded && Input.GetButtonDown("Jump"))
         {
             verticalVelocity = jumpForce;
@@ -138,12 +136,10 @@ public class PlayerController : MonoBehaviour
             
         }
 
-        // --- GRAVITÀ / DISCESA ---
         if (!grounded)
         {
             if (verticalVelocity > 0 && !Input.GetButton("Jump"))
             {
-                // rilascio del tasto → discesa più rapida
                 verticalVelocity -= gravity * fallMultiplier * Time.deltaTime;
             }
             else
@@ -153,18 +149,14 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // quando è a terra, mantieni una leggera spinta verso il basso
             if (verticalVelocity < 0)
                 verticalVelocity = -0.1f;
         }
 
-        // --- COMBINAZIONE MOVIMENTO ---
         move.y = verticalVelocity;
 
-        // --- MUOVI PERSONAGGIO ---
         CollisionFlags flags = controller.Move(move * Time.deltaTime);
 
-        // --- RAYCAST + Isteresi Ground Check ---
         bool hasBelowFlag = (flags & CollisionFlags.Below) != 0;
 
         RaycastHit hit;
@@ -193,8 +185,6 @@ public class PlayerController : MonoBehaviour
             groundedFrames = 0;
         }
 
-        // --- TRANSIZIONE DA TERRA A CADUTA ---
-        // Se siamo appena saltati, verticalVelocity > 0 → ignoriamo il check di caduta
         if (!groundDetected && ungroundedFrames >= ungroundedFramesToFall)
         {
             if (!falling)
@@ -208,7 +198,6 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        // --- TRANSIZIONE DA CADUTA A TERRA ---
         if (groundDetected && groundedFrames >= groundedFramesToLand)
         {
             
@@ -227,17 +216,15 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        // --- AUDIO E STATI ---
         float moveThreshold = 0.1f;
         bool isMoving = (Mathf.Abs(inputX) > moveThreshold || Mathf.Abs(inputY) > moveThreshold);
 
         if (crosshairScript != null)
         {
             crosshairScript.isMoving = isMoving;
-            crosshairScript.isJumping = !grounded; // Se non sei a terra, sei in aria/salto!
+            crosshairScript.isJumping = !grounded;
         }
 
-        // Attiva i passi solo al cambio di stato
         if (grounded && isMoving && !footstepsActive)
         {
             currentMotion = motionstate.walking;
@@ -412,20 +399,29 @@ public class PlayerController : MonoBehaviour
 
     public bool addMedkit()
     {
+        GetComponent<AudioPlayerController>().PlayPickupSound();
         return inventory.addMedkit();
     }
 
     public bool addGrenade()
     {
+        GetComponent<AudioPlayerController>().PlayPickupSound();
         return inventory.addGrenade();
     }
     public void addGold(int value)
     {
+        GetComponent<AudioPlayerController>().PlayGoldSound();
         inventory.addCoin(value); 
     }
     public bool addAmmo()
     {
+        GetComponent<AudioPlayerController>().PlayPickupSound();
         return gun.addMag();
+    }
+
+    public bool removeGrenade()
+    {
+        return inventory.removeGrenade();
     }
 
 

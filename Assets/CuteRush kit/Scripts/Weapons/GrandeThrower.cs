@@ -54,6 +54,8 @@ public class GrandeThrower : MonoBehaviour
 
     public void ThrowGrenade()
     {
+
+        player.removeGrenade();
         arrivingPoint.gameObject.SetActive(false);
         player.GetComponent<AudioPlayerController>().playThrow();
 

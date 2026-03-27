@@ -160,13 +160,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   granadeSpeed: 10
-  gravity: 10
-  GranadeCount: 0
+  explosionRadius: 5
   grenadePrefab: {fileID: 8002360109549070783, guid: 87fdb2e6c68ce454fae4faec5baf0893,
     type: 3}
+  damage: 0
   collisionMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 5120
   trajectorySteps: 50
 --- !u!1 &6931111039682048281
 GameObject:
