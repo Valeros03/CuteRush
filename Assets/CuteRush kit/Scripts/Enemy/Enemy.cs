@@ -47,6 +47,8 @@ public abstract class Enemy : MonoBehaviour
     private bool isPlayerInPersonalTrigger = false;
 
 
+    private GameObject itemDropPrefab;
+
     protected virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -78,42 +80,34 @@ public abstract class Enemy : MonoBehaviour
 
     public void OnEnable()
     {
-        // 1. Reset Statistiche base
         currentHealth = maxHealth;
         isDead = false;
         isTakingDamage = false;
         isPlayerInPersonalTrigger = false;
         flinchCoroutine = null;
 
-        // 2. Reset Collider
         foreach (Collider col in GetComponents<Collider>())
         {
             if (!col.isTrigger) col.enabled = true;
         }
 
-        // 3. Reset Grafica (Faccia)
         if (faces.Idleface != null) SetFace(faces.Idleface);
 
 
-
-        // 4. Reset Animator (IL FIX MAGICO È QUI)
         if (animator != null)
         {
             animator.enabled = true;
 
-            // A. Cancella manualmente i Trigger per evitare loop fantasma
             animator.ResetTrigger("Die");
             animator.ResetTrigger("Attack");
             animator.ResetTrigger("Shoot");
 
-            // B. Forza l'Animator allo stato di default bypassando le transizioni
             animator.Play("Locomotion", 0, 0f);
 
             animator.SetFloat("AttackSpeed", attackSpeed);
             animator.SetFloat("Speed", 0f);
         }
 
-        // 5. Reset NavMeshAgent
         if (agent != null)
         {
             agent.enabled = true;
@@ -122,7 +116,6 @@ public abstract class Enemy : MonoBehaviour
             agent.velocity = Vector3.zero;
         }
 
-        // Reset dello stato della Macchina a Stati
         SetState(AIState.Dormant);
     }
 
@@ -261,11 +254,11 @@ public abstract class Enemy : MonoBehaviour
     {
         if (isDead) return;
 
-        // Se stavo già subendo danno, devo resettare l'animator prima di applicare il nuovo danno
+       
         if (isTakingDamage && flinchCoroutine != null)
         {
             StopCoroutine(flinchCoroutine);
-            if (animator != null) animator.enabled = true; // Riattivo preventivamente
+            if (animator != null) animator.enabled = true;
             if (agent != null && agent.isOnNavMesh) agent.isStopped = false;
         }
 
@@ -330,13 +323,17 @@ public abstract class Enemy : MonoBehaviour
 
     }
 
+    public void SetDropItem(GameObject dropPrefab)
+    {
+        itemDropPrefab = dropPrefab;
+    }
+
 
     protected virtual void Die(Vector3 shotDirection, Vector3 hitPoint)
     {
         if (isDead) return;
         isDead = true;
 
-        // Ferma il flinch se è in corso
         if (flinchCoroutine != null)
         {
             StopCoroutine(flinchCoroutine);
@@ -345,35 +342,40 @@ public abstract class Enemy : MonoBehaviour
 
         isTakingDamage = false;
 
-        // Disabilita collider
         foreach (Collider col in GetComponents<Collider>())
         {
-            if (!col.isTrigger)
-                col.enabled = false;
+            if (!col.isTrigger) col.enabled = false;
         }
 
-        // Ferma l'agente
         if (agent != null && agent.enabled)
         {
             agent.isStopped = true;
             agent.enabled = false;
         }
 
-        // --- CORREZIONE QUI ---
         if (animator != null)
         {
-            // IMPORTANTE: Se stavi flinchando, l'animator era spento. 
-            // Devi riaccenderlo ORA per poter suonare l'animazione di morte.
             animator.enabled = true;
             animator.SetTrigger("Die");
         }
 
+        
         StartCoroutine(DisableAfterTime(3f));
     }
 
     protected IEnumerator DisableAfterTime(float delay)
     {
+     
         yield return new WaitForSeconds(delay);
+
+        
+        if (itemDropPrefab != null)
+        {
+          
+            Instantiate(itemDropPrefab, transform.position + Vector3.up * 0.5f, itemDropPrefab.transform.rotation);
+            itemDropPrefab = null;
+        }
+
         gameObject.SetActive(false);
     }
 

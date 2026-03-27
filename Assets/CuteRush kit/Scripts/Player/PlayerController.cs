@@ -419,7 +419,10 @@ public class PlayerController : MonoBehaviour
     {
         inventory.addGrenade();
     }
-    
+    public void addGold(int value)
+    {
+        inventory.addCoin(value); 
+    }
     public void addAmmo()
     {
         gun.addMag();
@@ -431,6 +434,12 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.GetComponent<InteractableItem>())
         {
             interact = other.gameObject.GetComponent<InteractableItem>();
+        }
+        IPickable pickable = other.gameObject.GetComponent<IPickable>();
+
+        if (pickable != null)
+        {
+            pickable.Pickup(this);
         }
     }
 }

@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using System.Collections;
 
+
+[System.Serializable]
+public struct LootDrop
+{
+    public GameObject itemPrefab;
+    [Tooltip("Peso o probabilità (es: Moneta=70, Medikit=20)")]
+    public float dropWeight;
+}
+
 public class EnemySpawner : BaseSpawner
 {
     [Header("Spawn Settings")]
@@ -13,6 +22,10 @@ public class EnemySpawner : BaseSpawner
     [Header("Area Settings")]
     [Tooltip("Raggio dell'area controllata da questo spawner.")]
     public float spawnerAreaRadius = 30f;
+
+    [Header("Loot Settings (First Spawn Only)")]
+    [Tooltip("Inserisci qui i Prefab dei PickableItem (monete, medikit, colpi). Verranno distribuiti a caso.")]
+    public List<LootDrop> possibleDrops;
 
     private Transform playerTransform;
     public bool IsPlayerInArea { get; private set; }
@@ -104,12 +117,42 @@ public class EnemySpawner : BaseSpawner
 
             if (enemyScript != null)
             {
-                // NOTA: Se il tuo script Enemy si aspetta ancora "SpawnManager", ricordati 
-                // di cambiargli il tipo in "EnemySpawner" dentro Enemy.cs!
                 enemyScript.Initialize(transform.position, this);
+
+                GameObject drop = GetRandomWeightedDrop();
+                if (drop != null)
+                {
+                    enemyScript.SetDropItem(drop);
+                }
+
                 spawnedEnemies.Add(enemyScript);
             }
         }
+    }
+
+    private GameObject GetRandomWeightedDrop()
+    {
+        if (possibleDrops == null || possibleDrops.Count == 0) return null;
+
+        float totalWeight = 0f;
+        foreach (LootDrop drop in possibleDrops)
+        {
+            totalWeight += drop.dropWeight;
+        }
+
+        float randomValue = Random.Range(0f, totalWeight);
+        float currentSum = 0f;
+
+        foreach (LootDrop drop in possibleDrops)
+        {
+            currentSum += drop.dropWeight;
+            if (randomValue <= currentSum)
+            {
+                return drop.itemPrefab;
+            }
+        }
+
+        return null; 
     }
 
     void OnTriggerEnter(Collider other)

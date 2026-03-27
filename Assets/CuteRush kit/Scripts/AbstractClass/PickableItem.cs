@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class PickableItem<T> : MonoBehaviour, IPickable
 {
-    public T Value { get; private set; }
-    public virtual void OnPickup(PlayerController player)
+    public T Value { get; protected set; }
+    public virtual void Pickup(PlayerController player)
     {
         ApplyEffect(player);
         Destroy(gameObject);
