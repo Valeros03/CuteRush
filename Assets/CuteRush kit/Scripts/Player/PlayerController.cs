@@ -318,7 +318,7 @@ public class PlayerController : MonoBehaviour
     void HandleGranadeEquipe(InputAction.CallbackContext context)
     {
         if (!context.performed) { return; }
-        
+        if (inventory.getGrenadeCount()<=0) { return; }
         if (!granade.activeSelf)
         { 
             if (weaponAnimator != null)
@@ -364,7 +364,7 @@ public class PlayerController : MonoBehaviour
 
         if (weaponAnimator != null)
         {
-            weaponAnimator.SetTrigger("EquipaggiaArma"); // granata si alza
+            weaponAnimator.SetTrigger("EquipaggiaArma");
         }
     }
 
@@ -415,18 +415,19 @@ public class PlayerController : MonoBehaviour
         return inventory.addMedkit();
     }
 
-    public void addGrenade()
+    public bool addGrenade()
     {
-        inventory.addGrenade();
+        return inventory.addGrenade();
     }
     public void addGold(int value)
     {
         inventory.addCoin(value); 
     }
-    public void addAmmo()
+    public bool addAmmo()
     {
-        gun.addMag();
+        return gun.addMag();
     }
+
 
 
     public void OnTriggerEnter(Collider other)

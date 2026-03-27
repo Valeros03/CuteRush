@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mags : PickableItem<int>
+public class GrenadeDrop : PickableItem<int>
 {
-    
+
     public override void ApplyEffect(PlayerController player)
     {
-        if (!player.addAmmo())
+        if (!player.addGrenade())
         {
-            player.addGold(5);
+            player.addGold(10);
         }
     }
 }

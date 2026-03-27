@@ -51,6 +51,19 @@ MonoBehaviour:
   numberOfEnemies: 1
   spawnRadius: 5
   spawnerAreaRadius: 30
+  possibleDrops:
+  - itemPrefab: {fileID: 3342363926870468380, guid: 37c14e00b27c0334194f379053503db0,
+      type: 3}
+    dropWeight: 60
+  - itemPrefab: {fileID: 8273954821704617215, guid: 041bbd78f249d0c4da006162fa03adf4,
+      type: 3}
+    dropWeight: 25
+  - itemPrefab: {fileID: 8894929602490817040, guid: 61af79675ff15ff4cacb563168c407f5,
+      type: 3}
+    dropWeight: 10
+  - itemPrefab: {fileID: 6537550541085758301, guid: 56482f554cf6c8243a5c13324b84c758,
+      type: 3}
+    dropWeight: 5
 --- !u!135 &270362570199547993
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -55,7 +55,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Coin.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioGunController.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioManager.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioPlayerController.cs" />
@@ -70,6 +69,8 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\LowHealthController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\LowHealthLink.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Camera\MouseLook.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Consumabili\Coin.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Consumabili\GrenadeDrop.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Consumabili\Mags.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Consumabili\Medkit.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\Enemy.cs" />

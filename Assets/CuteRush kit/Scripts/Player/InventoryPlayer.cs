@@ -10,12 +10,10 @@ public class InventoryPlayer : MonoBehaviour
     private static int MaxMedkit = 10;
     private static int MaxGrenade = 10;
 
-    // Il tuo evento è perfetto: passa due int (medikit, granate)
     public static event Action<int, int> OnInventoryChanged;
 
     private void Start()
     {
-        // All'avvio del gioco, "urliamo" all'HUD i valori iniziali (es. 0 e 0)
         OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount);
     }
 
@@ -29,13 +27,11 @@ public class InventoryPlayer : MonoBehaviour
         return GrenadeCount;
     }
 
-    // --- MEDIKIT ---
     public bool addMedkit()
     {
         if (MedkitCount < MaxMedkit)
         {
             MedkitCount++;
-            // INVIO L'AGGIORNAMENTO ALL'HUD!
             OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount);
             return true;
         }
@@ -47,41 +43,34 @@ public class InventoryPlayer : MonoBehaviour
         if (MedkitCount > 0)
         {
             MedkitCount--;
-            // INVIO L'AGGIORNAMENTO ALL'HUD!
             OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount);
             return true;
         }
         return false;
     }
 
-    // --- GRANATE ---
-    // TRASFORMATO IN BOOL per farlo funzionare con il Totem!
     public bool addGrenade()
     {
         if (GrenadeCount < MaxGrenade)
         {
             GrenadeCount++;
-            // INVIO L'AGGIORNAMENTO ALL'HUD!
             OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount);
             return true;
         }
         return false;
     }
 
-    // TRASFORMATO IN BOOL per sicurezza futura
     public bool removeGrenade()
     {
         if (GrenadeCount > 0)
         {
             GrenadeCount--;
-            // INVIO L'AGGIORNAMENTO ALL'HUD!
             OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount);
             return true;
         }
         return false;
     }
 
-    // --- MONETE ---
     public void addCoin()
     {
         coins++;
