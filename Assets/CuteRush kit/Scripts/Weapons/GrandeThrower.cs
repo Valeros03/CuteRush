@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class GrandeThrower : MonoBehaviour
 {
-    [SerializeField] private PlayerController player;
+    [SerializeField] private PlayerCombat combat;
+    [SerializeField] private PlayerInteraction interaction;
+    [SerializeField] private AudioPlayerController audioPlayer;
     [SerializeField] private float granadeSpeed;
     public float explosionRadius = 5f;
     public GameObject grenadePrefab;
@@ -19,7 +21,11 @@ public class GrandeThrower : MonoBehaviour
 
     void Start()
     {
-        playerMouseLook = player.GetComponentInChildren<MouseLook>();
+        if (combat == null) combat = GetComponentInParent<PlayerCombat>();
+        if (interaction == null) interaction = GetComponentInParent<PlayerInteraction>();
+        if (audioPlayer == null) audioPlayer = GetComponentInParent<AudioPlayerController>();
+
+        playerMouseLook = GetComponentInParent<MouseLook>();
         arrivingPoint = transform.Find("ArrivingPoint");
 
     }
@@ -54,14 +60,14 @@ public class GrandeThrower : MonoBehaviour
 
     public void ThrowGrenade()
     {
+        if (interaction != null) interaction.removeGrenade();
 
-        player.removeGrenade();
         arrivingPoint.gameObject.SetActive(false);
-        player.GetComponent<AudioPlayerController>().playThrow();
+
+        if (audioPlayer != null) audioPlayer.playThrow();
 
         if (Camera.main == null) return;
 
-        // USIAMO GLI STESSI IDENTICI VALORI DELLA SIMULAZIONE!
         Vector3 spawnPos = Camera.main.transform.position + Camera.main.transform.forward * 0.5f;
         Vector3 initialVelocity = Camera.main.transform.forward * granadeSpeed;
 
@@ -71,7 +77,6 @@ public class GrandeThrower : MonoBehaviour
         if (granadeScript != null)
         {
             granadeScript.maxDamage = damage;
-            // SINCRONIZZA IL DANNO: Passiamo il raggio esatto alla granata!
             granadeScript.radius = 1.25f;
         }
 
@@ -128,11 +133,14 @@ public class GrandeThrower : MonoBehaviour
         transform.Find("Granade").gameObject.SetActive(false);
     }
 
-   
+
 
     public void EquipGun()
     {
-        player.SwitchToWeapon();
+        if (combat != null)
+        {
+            combat.SwitchToWeapon();
+        }
     }
 
 }

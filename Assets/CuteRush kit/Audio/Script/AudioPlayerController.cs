@@ -38,7 +38,6 @@ public class AudioPlayerController : MonoBehaviour
         playerSource = GetComponent<AudioSource>();
     }
 
-    // --- METODI ESISTENTI ---
     public void PlayFootstep()
     {
         footstepSource.clip = runingLoop;

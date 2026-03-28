@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IPickable
 {
-    void Pickup(PlayerController player);
+    void Pickup(PlayerInteraction player);
 
 }

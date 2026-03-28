@@ -13,7 +13,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Audio Mixer")]
     public AudioMixer mixer;
-    // I nomi dei parametri esposti nel Mixer
+
     private const string MUSIC_VOL_PARAM = "MusicVol";
     private const string SFX_VOL_PARAM = "SFXVol";
     private const string AMBIENT_VOL_PARAM = "AmbientVol";
@@ -29,7 +29,6 @@ public class AudioManager : MonoBehaviour
 
     void Awake()
     {
-        // Singleton pattern
         if (Instance == null)
         {
             Instance = this;
@@ -54,7 +53,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // 🎵 Riproduci musica
     public void PlayMusic(string trackName, bool loop = true)
     {
         if (musicDict.TryGetValue(trackName, out AudioClip clip))
@@ -69,7 +67,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // 🔊 Riproduci effetto sonoro
     public void PlaySFX(string clipName)
     {
         if (sfxDict.TryGetValue(clipName, out AudioClip clip))
@@ -82,7 +79,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // 🌫️ Riproduci suono ambientale
     public void PlayAmbient(string ambientName, bool loop = true)
     {
         if (ambientDict.TryGetValue(ambientName, out AudioClip clip))
@@ -97,8 +93,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // 🔈 Controllo volumi tramite AudioMixer
-    // (conversione lineare -> decibel)
     public void SetMusicVolume(float linear)
     {
         mixer.SetFloat(MUSIC_VOL_PARAM, LinearToDecibel(linear));
@@ -114,10 +108,8 @@ public class AudioManager : MonoBehaviour
         mixer.SetFloat(AMBIENT_VOL_PARAM, LinearToDecibel(linear));
     }
 
-    // 🔁 Conversione helper
     private float LinearToDecibel(float linear)
     {
-        // Evita -∞ quando linear è 0
         return Mathf.Log10(Mathf.Clamp(linear, 0.0001f, 1f)) * 20f;
     }
 }

@@ -62,7 +62,6 @@ public class EnemySpawner : BaseSpawner
     {
         while (true)
         {
-            // Usiamo il valore ereditato dal BaseSpawner
             yield return new WaitForSeconds(spawnCooldown);
             TryRespawnOneEnemy();
         }

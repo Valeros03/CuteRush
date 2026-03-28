@@ -10,7 +10,7 @@ public class GateController : InteractableItem
     [SerializeField] private AudioSource source;
 
     private bool bOpen;
-    public bool isOpenable; //gestita dall'esterno serve a gestire il timer prima di poter rientrare
+    public bool isOpenable;
     public override void Interact()
     {
         toggleGate();
@@ -36,7 +36,7 @@ public class GateController : InteractableItem
         }
     }
 
-    public void CloseGate() //chiamata dall'esterno quando il player esce dal gate
+    public void CloseGate()
     {
         bOpen = false;
         animator.SetTrigger("Close");

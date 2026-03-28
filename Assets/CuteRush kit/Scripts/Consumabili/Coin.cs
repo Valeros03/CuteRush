@@ -10,7 +10,7 @@ public class Coin : PickableItem<int>
         Value = UnityEngine.Random.Range(10, 50);
     }
 
-    public override void ApplyEffect(PlayerController player)
+    public override void ApplyEffect(PlayerInteraction player)
     {
         player.addGold(Value);
     }

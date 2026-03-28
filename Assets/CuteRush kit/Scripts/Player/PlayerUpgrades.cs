@@ -22,8 +22,7 @@ public class PlayerUpgrades : MonoBehaviour
     [Tooltip("Quanta salute in più cura il medikit per ogni livello? (o capacità massima dello zaino)")]
     public int extraHealingPerLevel = 5;
 
-    // Riferimenti agli altri script del player
-    private PlayerController playerController;
+    private PlayerMovement movement;
     private VitalsController vitalsController;
 
     private float baseWalkSpeed;
@@ -33,16 +32,16 @@ public class PlayerUpgrades : MonoBehaviour
 
     void Awake()
     {
-        playerController = GetComponent<PlayerController>();
+        movement = GetComponent<PlayerMovement>();
         vitalsController = GetComponent<VitalsController>();
 
-        if (playerController != null)
+        if (movement != null)
         {
-            baseWalkSpeed = playerController.walkSpeed;
-            baseRunSpeed = playerController.runSpeed;
-            baseJumpForce = playerController.jumpForce;
+            baseWalkSpeed = movement.walkSpeed;
+            baseRunSpeed = movement.runSpeed;
+            baseJumpForce = movement.jumpForce;
         }
-        if(vitalsController != null)
+        if (vitalsController != null)
         {
             baseMedkitHeal = vitalsController.medKitHeal;
         }
@@ -55,12 +54,11 @@ public class PlayerUpgrades : MonoBehaviour
 
     private void UpdatePlayerStats()
     {
-        if (playerController == null) return;
+        if (movement == null) return;
 
-        playerController.walkSpeed = baseWalkSpeed + (speedLevel * extraSpeedPerLevel);
-        playerController.runSpeed = baseRunSpeed + (speedLevel * extraSpeedPerLevel);
-
-        playerController.jumpForce = baseJumpForce + (jumpLevel * extraJumpPerLevel);
+        movement.walkSpeed = baseWalkSpeed + (speedLevel * extraSpeedPerLevel);
+        movement.runSpeed = baseRunSpeed + (speedLevel * extraSpeedPerLevel);
+        movement.jumpForce = baseJumpForce + (jumpLevel * extraJumpPerLevel);
         vitalsController.medKitHeal = baseMedkitHeal + (medkitLevel * extraHealingPerLevel);
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Mags : PickableItem<int>
 {
     
-    public override void ApplyEffect(PlayerController player)
+    public override void ApplyEffect(PlayerInteraction player)
     {
         if (!player.addAmmo())
         {

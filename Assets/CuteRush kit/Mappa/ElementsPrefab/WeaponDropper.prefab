@@ -9833,7 +9833,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 1.2, z: 1.2}
+  m_Size: {x: 1.5, y: 1.5, z: 1.5}
   m_Center: {x: -0.0046129227, y: 0.39, z: 0}
 --- !u!114 &4911963889305948136
 MonoBehaviour:
@@ -9847,6 +9847,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c4b6aa776017e439edc8de446faa9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactText: Interagisci
+  isInteractable: 1
   respawnTime: 90
   spawnPoint: {fileID: 4911963887501974254}
   availableWeapons:

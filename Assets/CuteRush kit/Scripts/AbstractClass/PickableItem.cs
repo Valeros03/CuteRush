@@ -5,12 +5,12 @@ using UnityEngine;
 public abstract class PickableItem<T> : MonoBehaviour, IPickable
 {
     public T Value { get; protected set; }
-    public virtual void Pickup(PlayerController player)
+    public virtual void Pickup(PlayerInteraction player)
     {
         ApplyEffect(player);
         Destroy(gameObject);
     }
 
-    public abstract void ApplyEffect(PlayerController player);
+    public abstract void ApplyEffect(PlayerInteraction player);
 
 }

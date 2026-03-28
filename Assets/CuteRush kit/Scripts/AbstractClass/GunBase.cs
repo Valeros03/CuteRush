@@ -41,8 +41,7 @@ public abstract class GunBase : MonoBehaviour
     public Action onGunReloadStart;
     public Action onGunShootingStart;
 
-
-    private PlayerController player;
+    private PlayerCombat combat;
     private Crosshair crosshair; 
 
     protected virtual void Awake()
@@ -50,7 +49,7 @@ public abstract class GunBase : MonoBehaviour
         audioController = GetComponent<AudioGunController>();
         animator = GetComponent<Animator>();
         mainCamera = Camera.main;
-        player = GetComponentInParent<PlayerController>();
+        combat = GetComponentInParent<PlayerCombat>();
 
         crosshair = FindObjectOfType<Crosshair>();
     }
@@ -85,7 +84,7 @@ public abstract class GunBase : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (player != null)
+        if (combat != null)
         {
             if (weaponUI != null && weaponUI.activeSelf && bulletNumberUIText != null)
             {
@@ -229,7 +228,10 @@ public abstract class GunBase : MonoBehaviour
 
     private void EquipGranade()
     {
-        player.SwitchToGranade();
+        if (combat != null)
+        {
+            combat.SwitchToGranade();
+        }
     }
 
     public virtual bool addMag()

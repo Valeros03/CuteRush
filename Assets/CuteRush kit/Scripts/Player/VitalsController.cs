@@ -10,7 +10,6 @@ public class VitalsController : MonoBehaviour
 
     public static event Action<int, int> OnHealthChange;
 
-    // Riferimento al nostro nuovo manager dell'audio
     private AudioPlayerController audioController;
 
     public void Start()

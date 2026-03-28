@@ -5,12 +5,18 @@ public class Bootstrapper : MonoBehaviour
 {
     void Awake()
     {
-        // ✅ Controlla se la scena della UI ("UI_Scene") è già caricata
         if (SceneManager.GetSceneByName("UI_Scene").isLoaded == false)
         {
-            // 🔄 Se non è caricata, la carica in modo "Additive"
             SceneManager.LoadScene("UI_Scene", LoadSceneMode.Additive);
         }
+    }
 
+    void Start()
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayMusic("InGameSong");
+            AudioManager.Instance.PlayAmbient("Spaceship Engine Light");
+        }
     }
 }

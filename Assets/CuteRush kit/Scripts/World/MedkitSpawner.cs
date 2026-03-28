@@ -4,7 +4,7 @@ public class MedkitSpawner : ItemSpawner
 {
     protected override bool TryGiveItem(GameObject player)
     {
-        PlayerController pc = player.GetComponent<PlayerController>();
+        PlayerInteraction pc = player.GetComponent<PlayerInteraction>();
 
         if (pc != null)
         {

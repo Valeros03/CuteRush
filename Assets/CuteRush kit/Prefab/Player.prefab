@@ -56,7 +56,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60
+  field of view: 50
   orthographic: 0
   orthographic size: 5
   m_Depth: 1
@@ -526,7 +526,7 @@ GameObject:
   - component: {fileID: 8021042720169808981}
   m_Layer: 0
   m_Name: FPSCamera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -579,7 +579,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 6711
+    m_Bits: 15927
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -700,11 +700,14 @@ GameObject:
   m_Component:
   - component: {fileID: 6216532115693788942}
   - component: {fileID: 6125130965030605737}
-  - component: {fileID: 7717119379729018350}
   - component: {fileID: 3362827368680789125}
   - component: {fileID: 5235147366029142948}
   - component: {fileID: 1765206146628877648}
   - component: {fileID: 3161444735021384749}
+  - component: {fileID: 7726861994258034351}
+  - component: {fileID: 1677488756101838857}
+  - component: {fileID: 9152430220701511058}
+  - component: {fileID: 7062287489736547444}
   - component: {fileID: 1975340631707950693}
   - component: {fileID: 1132385638958913079}
   m_Layer: 0
@@ -748,48 +751,10 @@ CharacterController:
   m_Height: 0
   m_Radius: 0.33
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.24, z: 0}
---- !u!114 &7717119379729018350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6705402075998324148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fdcfc25ede60004b94906bcaa8a2d92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSpeed: 5
-  sneakSpeed: 2.5
-  runSpeed: 8
-  crouchWalkSpeed: 3.5
-  crouchRunSpeed: 6.5
-  crouchSneakSpeed: 1
-  jumpForce: 6
-  limitDiagonalSpeed: 1
-  toggleRun: 0
-  toggleSneak: 0
-  airControl: 0
-  crouching: 0
-  currentMotion: 0
-  gravity: 10
-  fallingDamageLimit: 10
-  groundedCheckDistance: 0.2
-  groundRayOffset: 0.1
-  ungroundedFramesToFall: 3
-  groundedFramesToLand: 3
-  slopeMaxAngleForGround: 60
-  fallMultiplier: 2
-  camera: {fileID: 6366963147054738894}
-  weaponHolder: {fileID: 2154651484375962001}
-  granade: {fileID: 982431314523552870}
-  granadeAnimator: {fileID: 6771078901174438062}
-  inventory: {fileID: 4710223315112322415}
 --- !u!114 &3362827368680789125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -865,6 +830,71 @@ MonoBehaviour:
   extraSpeedPerLevel: 1
   extraJumpPerLevel: 1.5
   extraHealingPerLevel: 5
+--- !u!114 &7726861994258034351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6705402075998324148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b9cde2d66fbd94f9ad69676aa36907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1677488756101838857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6705402075998324148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12466699b948e2b4a94beb619be7f35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 5
+  runSpeed: 8
+  jumpForce: 6
+  limitDiagonalSpeed: 1
+  toggleRun: 0
+  currentMotion: 0
+  gravity: 10
+  groundedCheckDistance: 0.2
+  groundRayOffset: 0.1
+  ungroundedFramesToFall: 3
+  groundedFramesToLand: 3
+  slopeMaxAngleForGround: 60
+--- !u!114 &9152430220701511058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6705402075998324148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b4ad5a12bd71b418e1f728ba6d554e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponHolder: {fileID: 2154651484375962001}
+  granade: {fileID: 982431314523552870}
+  granadeAnimator: {fileID: 6771078901174438062}
+  inventory: {fileID: 4710223315112322415}
+--- !u!114 &7062287489736547444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6705402075998324148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74d0a6bc4747a9d4faa8509b74691c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 4710223315112322415}
 --- !u!82 &1975340631707950693
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1081,7 +1111,37 @@ PrefabInstance:
         type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 7717119379729018350}
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242620137725972270, guid: bcf431c2de348e649bbe9653f64bd255,
+        type: 3}
+      propertyPath: trajectorySteps
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242620137725972270, guid: bcf431c2de348e649bbe9653f64bd255,
+        type: 3}
+      propertyPath: damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6242620137725972270, guid: bcf431c2de348e649bbe9653f64bd255,
+        type: 3}
+      propertyPath: combat
+      value: 
+      objectReference: {fileID: 9152430220701511058}
+    - target: {fileID: 6242620137725972270, guid: bcf431c2de348e649bbe9653f64bd255,
+        type: 3}
+      propertyPath: interaction
+      value: 
+      objectReference: {fileID: 7062287489736547444}
+    - target: {fileID: 6242620137725972270, guid: bcf431c2de348e649bbe9653f64bd255,
+        type: 3}
+      propertyPath: audioPlayer
+      value: 
+      objectReference: {fileID: 5235147366029142948}
+    - target: {fileID: 6242620137725972270, guid: bcf431c2de348e649bbe9653f64bd255,
+        type: 3}
+      propertyPath: explosionRadius
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6931111039682048281, guid: bcf431c2de348e649bbe9653f64bd255,
         type: 3}
       propertyPath: m_Layer
