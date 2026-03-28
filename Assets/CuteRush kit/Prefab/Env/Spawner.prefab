@@ -51,6 +51,7 @@ MonoBehaviour:
   numberOfEnemies: 1
   spawnRadius: 5
   spawnerAreaRadius: 30
+  shutdownDuration: 15
   possibleDrops:
   - itemPrefab: {fileID: 3342363926870468380, guid: 37c14e00b27c0334194f379053503db0,
       type: 3}
@@ -92,7 +93,14 @@ MonoBehaviour:
   interactText: "Spegnere il fal\xF2"
   isInteractable: 1
   linkedSpawner: {fileID: 270362570199547995}
-  fireParticles: {fileID: 6776436099767205931}
+  allFireParticleSystems:
+  - {fileID: 6776436099311223005}
+  - {fileID: 6776436100564425687}
+  - {fileID: 6776436100008104996}
+  - {fileID: 6776436100150150845}
+  - {fileID: 6776436099767205925}
+  activeColor: {r: 1, g: 0.46893442, b: 0, a: 1}
+  shutdownColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &270362570927514202
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -160,6 +168,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6758277865997296888, guid: e4f26a2795077c749a9c01f2c33c797d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6758277866677335664, guid: e4f26a2795077c749a9c01f2c33c797d,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -174,6 +187,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758277866677335667, guid: e4f26a2795077c749a9c01f2c33c797d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6758277866677335678, guid: e4f26a2795077c749a9c01f2c33c797d,
         type: 3}
@@ -190,6 +208,21 @@ PrefabInstance:
       propertyPath: ShapeModule.m_Scale.z
       value: 1.35
       objectReference: {fileID: 0}
+    - target: {fileID: 6758277867037418136, guid: e4f26a2795077c749a9c01f2c33c797d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758277867037418137, guid: e4f26a2795077c749a9c01f2c33c797d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758277867037418137, guid: e4f26a2795077c749a9c01f2c33c797d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.55
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8354247559045932773, guid: e4f26a2795077c749a9c01f2c33c797d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e4f26a2795077c749a9c01f2c33c797d, type: 3}
@@ -205,9 +238,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 270362570927514202}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6776436099767205931 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6758277866421494385, guid: e4f26a2795077c749a9c01f2c33c797d,
+--- !u!198 &6776436099767205925 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6758277866421494399, guid: e4f26a2795077c749a9c01f2c33c797d,
+    type: 3}
+  m_PrefabInstance: {fileID: 270362570927514202}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6776436100150150845 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6758277865997296871, guid: e4f26a2795077c749a9c01f2c33c797d,
+    type: 3}
+  m_PrefabInstance: {fileID: 270362570927514202}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6776436100564425687 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6758277866161748365, guid: e4f26a2795077c749a9c01f2c33c797d,
+    type: 3}
+  m_PrefabInstance: {fileID: 270362570927514202}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6776436099311223005 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6758277867037418119, guid: e4f26a2795077c749a9c01f2c33c797d,
+    type: 3}
+  m_PrefabInstance: {fileID: 270362570927514202}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6776436100008104996 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6758277866677335678, guid: e4f26a2795077c749a9c01f2c33c797d,
     type: 3}
   m_PrefabInstance: {fileID: 270362570927514202}
   m_PrefabAsset: {fileID: 0}

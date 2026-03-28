@@ -83,6 +83,12 @@ public class AudioPlayerController : MonoBehaviour
         playerSource.PlayOneShot(pickupSound);
     }
 
+    public void DeathSound()
+    {
+        StopFootstep();
+        footstepSource.Stop();
+    }
+
     public void PlayDamageSound(bool isPhysical)
     {
         if (Time.time - lastSoundTime >= soundCooldown)

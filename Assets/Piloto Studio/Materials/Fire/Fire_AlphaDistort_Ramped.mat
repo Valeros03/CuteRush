@@ -241,7 +241,7 @@ Material:
     - _SpeedDirNoiseMainTex: {r: 0, g: 0, b: 0, a: 0}
     - _SpeedDirSubAlphaMask: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
-    - _Tint_01: {r: 0.9811321, g: 0.3918393, b: 0, a: 0.3019608}
+    - _Tint_01: {r: 0.764151, g: 0.23792188, b: 0.06127627, a: 0.3019608}
     - _Tint_02: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 0.3764706}
     - _VertexMaskLinearGradient: {r: 1, g: 1, b: 1, a: 1}
     - _VertexMaskUVScaleOffset: {r: 1, g: 1, b: 0, a: 0}

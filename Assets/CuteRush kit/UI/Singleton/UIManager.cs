@@ -19,22 +19,38 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(transform.root.gameObject);
         HUD.Show();
     }
+    public void ShowMessage(string message)
+    {
+        HUD.ShowMessage(message);
+    }
+
+    public void ShowMessage(string message, Color color)
+    {
+        HUD.ShowMessage(message, color);
+    }
 
     private void OnEnable()
     {
         InventoryPlayer.OnInventoryChanged += UpdateInventoryUI;
+        GameManager.Instance.OnScoreChange += UpdateScore;
         VitalsController.OnHealthChange += UpdateHealth;
     }
 
     private void OnDisable()
     {
         InventoryPlayer.OnInventoryChanged -= UpdateInventoryUI;
+        GameManager.Instance.OnScoreChange -= UpdateScore;
         VitalsController.OnHealthChange -= UpdateHealth; 
     }
 
-    public void UpdateInventoryUI(int medikitCount, int grenadeCount)
+    public void UpdateScore(int score)
     {
-        HUD.UpdateInventory(medikitCount, grenadeCount);
+        HUD.UpdateScore(score);
+    }
+
+    public void UpdateInventoryUI(int medikitCount, int grenadeCount, int gold)
+    {
+        HUD.UpdateInventory(medikitCount, grenadeCount, gold);
     }
 
     public void UpdateHealth(int currentHealth, int maxHealth)
@@ -53,12 +69,6 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void ShowNotOpenable()
-    {
-        HUD.ShowNotOpenable();
-    }
-
-
     public void HideInteract() 
     {
         HUD.HideInteract();
@@ -73,4 +83,6 @@ public class UIManager : MonoBehaviour
     {
         HUD.ShowDamageIndicator(damageSourcePos);
     }
+
+    
 }

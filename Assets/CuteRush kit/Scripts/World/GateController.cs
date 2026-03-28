@@ -48,7 +48,7 @@ public class GateController : InteractableItem
     {
         if (!isOpenable)
         {
-            UIManager.Instance.ShowNotOpenable();
+            UIManager.Instance.ShowMessage("Il cancello non può essere aperto");
             return;
         }
 

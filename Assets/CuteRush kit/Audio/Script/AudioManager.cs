@@ -53,6 +53,16 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void StopAmbient()
+    {
+        ambientSource.Stop();
+    }
+
+    public void StopMusic()
+    {
+        musicSource.Stop();
+    }
+
     public void PlayMusic(string trackName, bool loop = true)
     {
         if (musicDict.TryGetValue(trackName, out AudioClip clip))

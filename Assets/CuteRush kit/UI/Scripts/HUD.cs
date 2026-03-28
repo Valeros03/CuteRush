@@ -16,13 +16,21 @@ public class HUD : UIPanel
 
     [SerializeField] private Text InteractText;
     [SerializeField] private Text PickUpText;
-    [SerializeField] private Text NotOpenable;
+    [SerializeField] private Text messageText;
+
+    public float displayDuration = 3f;
+    public float fadeDuration = 1f;
+
+    [SerializeField] private Text Score;
+    [SerializeField] private Text Gold;
 
     [Header("Damage Indicator")]
     [SerializeField] private GameObject damageIndicatorPrefab;
     [SerializeField] private Transform damageIndicatorContainer;
 
-   
+    private Coroutine messageCoroutine;
+
+
     [SerializeField] private float mergeAngleThreshold = 40f;
 
     private List<DamageIndicator> activeIndicators = new List<DamageIndicator>();
@@ -30,29 +38,73 @@ public class HUD : UIPanel
     private static string default_interact = "Premi F per ";
     private static string default_pickup = "Premi F per raccogliere ";
 
+    private string lastMessage = "";
+    private int lastColor = 0;
+
 
     public void UpdateHealth(int currentHealth, int maxHealth)
     {
-        // 1. Calcoliamo la percentuale esatta (è fondamentale usare i float per avere i decimali!)
         float healthPercentage = (float)currentHealth / (float)maxHealth;
-
-        // 2. Impostiamo il fillAmount (usando = e non +=)
         healthImage.fillAmount = healthPercentage;
-
-        // 3. Facciamo sfumare il colore in base alla percentuale
         healthImage.color = Color.Lerp(emptyHealthColor, fullHealthColor, healthPercentage);
-
-        // 4. Aggiorniamo il testo
         healthText.text = currentHealth.ToString();
     }
 
-    public void UpdateInventory(int medikitCount, int grenadeCount)
+    public void UpdateScore(int score)
+    {
+        Score.text = score.ToString();
+    }
+
+    public void UpdateInventory(int medikitCount, int grenadeCount, int gold)
     {
         if (medikitText != null)
             medikitText.text = medikitCount.ToString();
         if (grenadeText != null)
             grenadeText.text = grenadeCount.ToString();
+        if (Gold != null)
+            Gold.text = gold.ToString();
     }
+
+    public void ShowMessage(string message)
+    {
+        ShowMessage(message, Color.white);
+    }
+
+    public void ShowMessage(string message, Color color)
+    {
+        if (messageCoroutine != null)
+        {
+            StopCoroutine(messageCoroutine);
+        }
+        messageCoroutine = StartCoroutine(HandleMessageRoutine(message, color));
+    }
+
+    private IEnumerator HandleMessageRoutine(string msg, Color col)
+    {
+        col.a = 1f;
+
+        messageText.text = msg;
+        messageText.color = col;
+        messageText.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(displayDuration);
+
+        float elapsed = 0f;
+        Color currentColor = messageText.color;
+
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float newAlpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
+            currentColor.a = newAlpha;
+            messageText.color = currentColor;
+
+            yield return null;
+        }
+
+        messageText.gameObject.SetActive(false);
+    }
+
 
     public void ShowInteract(string item)
     {
@@ -76,18 +128,6 @@ public class HUD : UIPanel
     {
         PickUpText.text = default_pickup;
         PickUpText.gameObject.SetActive(false);
-    }
-
-    public void ShowNotOpenable()
-    {
-        StartCoroutine(nameof(ShowOpen));
-    }
-
-    IEnumerator ShowOpen()
-    {
-        NotOpenable.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3);
-        NotOpenable.gameObject.SetActive(false);
     }
 
     public void ShowDamageIndicator(Vector3 enemyPos)
@@ -137,7 +177,6 @@ public class HUD : UIPanel
 
     void Update()
     {
-        
         activeIndicators.RemoveAll(x => x == null);
     }
 

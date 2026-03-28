@@ -20,19 +20,20 @@ public class EnemySpawner : BaseSpawner
     public float spawnRadius = 5f;
 
     [Header("Area Settings")]
-    [Tooltip("Raggio dell'area controllata da questo spawner.")]
     public float spawnerAreaRadius = 30f;
 
-    [Header("Loot Settings (First Spawn Only)")]
-    [Tooltip("Inserisci qui i Prefab dei PickableItem (monete, medikit, colpi). Verranno distribuiti a caso.")]
+    [Header("Shutdown Settings")]
+    public float shutdownDuration = 15f;
+
+    public bool isShutDown { get; private set; }
+
+    [Header("Loot Settings")]
     public List<LootDrop> possibleDrops;
 
     private Transform playerTransform;
     public bool IsPlayerInArea { get; private set; }
-
     private List<Enemy> spawnedEnemies = new List<Enemy>();
     private SphereCollider areaTrigger;
-    private Coroutine spawnCoroutine;
 
     void Awake()
     {
@@ -41,7 +42,7 @@ public class EnemySpawner : BaseSpawner
         areaTrigger.radius = spawnerAreaRadius;
 
         playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
-        if (playerTransform == null) Debug.LogError("EnemySpawner: Player non trovato!", this);
+        if (playerTransform == null);
     }
 
     void Start()
@@ -52,9 +53,8 @@ public class EnemySpawner : BaseSpawner
             {
                 CreateNewEnemy();
             }
-
             CheckInitialPlayerPosition();
-            spawnCoroutine = StartCoroutine(RespawnRoutine());
+            StartCoroutine(RespawnRoutine());
         }
     }
 
@@ -63,13 +63,28 @@ public class EnemySpawner : BaseSpawner
         while (true)
         {
             yield return new WaitForSeconds(spawnCooldown);
-            TryRespawnOneEnemy();
+
+            if (!isShutDown)
+            {
+                TryRespawnOneEnemy();
+            }
         }
     }
 
     public void StopSpawn()
     {
-        StopCoroutine(spawnCoroutine);
+        if (isShutDown)
+        {
+            return;
+        }
+        isShutDown = true;
+        StartCoroutine(LogicCooldownRoutine());
+    }
+
+    private IEnumerator LogicCooldownRoutine()
+    {
+        yield return new WaitForSeconds(shutdownDuration);
+        isShutDown = false;
     }
 
     void TryRespawnOneEnemy()
