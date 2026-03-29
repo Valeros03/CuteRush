@@ -34,13 +34,21 @@ public class UIManager : MonoBehaviour
         InventoryPlayer.OnInventoryChanged += UpdateInventoryUI;
         GameManager.Instance.OnScoreChange += UpdateScore;
         VitalsController.OnHealthChange += UpdateHealth;
+
+        InventoryPlayer.OnMaxAcidoBoricoChanged += SetupMaxAcidoBars;
+        InventoryPlayer.OnAcidoBoricoChanged += UpdateAcidoCharges;
+        InventoryPlayer.OnAcidoRechargeProgress += UpdateAcidoProgress;
     }
 
     private void OnDisable()
     {
         InventoryPlayer.OnInventoryChanged -= UpdateInventoryUI;
         GameManager.Instance.OnScoreChange -= UpdateScore;
-        VitalsController.OnHealthChange -= UpdateHealth; 
+        VitalsController.OnHealthChange -= UpdateHealth;
+
+        InventoryPlayer.OnMaxAcidoBoricoChanged -= SetupMaxAcidoBars;
+        InventoryPlayer.OnAcidoBoricoChanged -= UpdateAcidoCharges;
+        InventoryPlayer.OnAcidoRechargeProgress -= UpdateAcidoProgress;
     }
 
     public void UpdateScore(int score)
@@ -84,5 +92,20 @@ public class UIManager : MonoBehaviour
         HUD.ShowDamageIndicator(damageSourcePos);
     }
 
-    
+    public void SetupMaxAcidoBars(int maxBars)
+    {
+        HUD.SetupMaxAcidoBars(maxBars);
+    }
+
+    public void UpdateAcidoCharges(int charges)
+    {
+        HUD.UpdateAcidoCharges(charges);
+    }
+
+    public void UpdateAcidoProgress(float progress)
+    {
+        HUD.UpdateAcidoProgress(progress);
+    }
+
+
 }

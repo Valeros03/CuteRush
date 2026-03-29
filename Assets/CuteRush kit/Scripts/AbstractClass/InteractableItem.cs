@@ -33,7 +33,7 @@ public abstract class InteractableItem : MonoBehaviour, Interactable
     {
         UIManager.Instance.HideInteract();
     }
-    public abstract void Interact();
+    public abstract void Interact(PlayerInteraction player = null);
 
   
 }

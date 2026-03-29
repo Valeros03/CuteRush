@@ -37,7 +37,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (currentInteractable != null)
         {
-            currentInteractable.Interact();
+            currentInteractable.Interact(this);
         }
     }
 
@@ -108,6 +108,15 @@ public class PlayerInteraction : MonoBehaviour
         if (inventory != null)
         {
             return inventory.removeGrenade();
+        }
+        return false;
+    }
+
+    public bool UseAcidoBorico()
+    {
+        if (inventory != null)
+        {
+            return inventory.UseAcidoBorico();
         }
         return false;
     }

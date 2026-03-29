@@ -17,12 +17,19 @@ public class Bonfire : InteractableItem
         SetAllParticlesColor(activeColor);
     }
 
-    public override void Interact()
+    public override void Interact(PlayerInteraction player = null)
     {
-
         if (!isInteractable || linkedSpawner == null)
         {
-            UIManager.Instance.ShowMessage("Acido Borico Già Presente", new Color32(230, 80, 30, 255));
+            if (UIManager.Instance != null)
+                UIManager.Instance.ShowMessage("Falò già spento!", new Color32(230, 80, 30, 255));
+            return;
+        }
+
+        if (player != null && !player.UseAcidoBorico())
+        {
+            if (UIManager.Instance != null)
+                UIManager.Instance.ShowMessage("Acido Borico in ricarica...", Color.red);
             return;
         }
         linkedSpawner.StopSpawn();

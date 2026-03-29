@@ -27,11 +27,15 @@ public class HUD : UIPanel
     [Header("Damage Indicator")]
     [SerializeField] private GameObject damageIndicatorPrefab;
     [SerializeField] private Transform damageIndicatorContainer;
+    [SerializeField] private float mergeAngleThreshold = 40f;
+
+    [Header("Acido Borico UI")]
+    [SerializeField] private UiAcidoBorico acidoBoricoPanel;
 
     private Coroutine messageCoroutine;
 
 
-    [SerializeField] private float mergeAngleThreshold = 40f;
+    
 
     private List<DamageIndicator> activeIndicators = new List<DamageIndicator>();
 
@@ -41,6 +45,20 @@ public class HUD : UIPanel
     private string lastMessage = "";
     private int lastColor = 0;
 
+    public void SetupMaxAcidoBars(int maxBars)
+    {
+        if (acidoBoricoPanel != null) acidoBoricoPanel.SetupMaxBars(maxBars);
+    }
+
+    public void UpdateAcidoCharges(int charges)
+    {
+        if (acidoBoricoPanel != null) acidoBoricoPanel.UpdateCharges(charges);
+    }
+
+    public void UpdateAcidoProgress(float progress)
+    {
+        if (acidoBoricoPanel != null) acidoBoricoPanel.UpdateProgress(progress);
+    }
 
     public void UpdateHealth(int currentHealth, int maxHealth)
     {

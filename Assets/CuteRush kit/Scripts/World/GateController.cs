@@ -11,7 +11,7 @@ public class GateController : InteractableItem
 
     private bool bOpen;
     public bool isOpenable;
-    public override void Interact()
+    public override void Interact(PlayerInteraction player = null)
     {
         toggleGate();
     }

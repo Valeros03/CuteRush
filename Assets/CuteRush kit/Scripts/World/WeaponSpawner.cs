@@ -40,7 +40,7 @@ public class WeaponSpawner : InteractableItem
         isReady = true;
     }
 
-    public override void Interact()
+    public override void Interact(PlayerInteraction player = null)
     {
         if (!isReady) return;
 
