@@ -115,7 +115,6 @@
      <Compile Include="Assets\CuteRush kit\UI\Scripts\UiAcidoBorico.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Singleton\UIManager.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Survival Essentials\Example\Scripts\AnimatedFire.cs" />
-     <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\Scripts\LowPolyWater.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Textures &amp; Sprites\UI\Radial Slider UI\Scripts\RadialSlider.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\Inventory.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\InventorySlot.cs" />
@@ -138,7 +137,7 @@
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\Name TMP Rotation.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Scripts\Bullet.cs" />
      <None Include="Assets\Kawaii Slimes\Shader\Unity-chan Shader Ver 1.2.1\Unitychan_chara_eye.shader" />
-     <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\LowPoly Island\Credits.txt" />
+     <None Include="Assets\CuteRush kit\Mappa\Low Poly Water\LowPoly Island\Credits.txt" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\NiloInvLerpRemap.hlsl" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\SimpleURPToonLitOutlineExample.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
@@ -149,7 +148,6 @@
      <None Include="Assets\Kawaii Slimes\Shader\Unity-chan Shader Ver 1.2.1\readme.txt" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-     <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Water\Shaders\WaterShaded.shader" />
      <None Include="Assets\CuteRush kit\Materials\HologramCode.shader" />
      <None Include="Assets\LowHealth\ReadMe.txt" />
      <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\NiloZOffset.hlsl" />
@@ -163,9 +161,9 @@
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
-     <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Shaders\Shaders\LowPolyPBRShader.shader" />
+     <None Include="Assets\CuteRush kit\Mappa\Shaders\LowPolyPBRShader.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
-     <None Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Shaders\Shaders\LowPolyUnlitShader.shader" />
+     <None Include="Assets\CuteRush kit\Mappa\Shaders\LowPolyUnlitShader.shader" />
      <None Include="Assets\Piloto Studio\Shaders\ToonyShader\Toony Prop.shader" />
      <None Include="Assets\Kawaii Slimes\Cameras\CameraGuidelines.txt" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />

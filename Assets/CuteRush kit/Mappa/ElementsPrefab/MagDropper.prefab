@@ -4866,13 +4866,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48f659beea48d6b40b14600dfa69906c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 10
-  magsToGive: 1
+  spawnCooldown: 10
+  amountToGive: 1
   hologramVisual: {fileID: 6656877197259831656}
-  rechargeEffect: {fileID: 0}
   audioSource: {fileID: 5086938956494709646}
   pickupSound: {fileID: 8300000, guid: fbc6e1fc9b2323d42a23add83b6098b5, type: 3}
-  readySound: {fileID: 0}
 --- !u!82 &5086938956494709646
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4978,7 +4976,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 732681839231740643}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}

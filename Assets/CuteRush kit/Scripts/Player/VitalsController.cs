@@ -107,7 +107,7 @@ public class VitalsController : MonoBehaviour
         Vector3 targetWorldPos = camTransform.position;
         if (Physics.Raycast(camTransform.position, Vector3.down, out RaycastHit hit, 2f))
         {
-            targetWorldPos.y = hit.point.y + 0.15f;
+            targetWorldPos.y = hit.point.y + 0.1f;
         }
         else
         {

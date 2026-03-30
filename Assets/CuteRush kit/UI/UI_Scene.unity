@@ -337,6 +337,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: 'Premi F per '
       objectReference: {fileID: 0}
+    - target: {fileID: 498005873200092858, guid: dc49d28fd36767744ab92a07949cb5c9,
+        type: 3}
+      propertyPath: m_Spacing
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 527763475853551622, guid: dc49d28fd36767744ab92a07949cb5c9,
         type: 3}
       propertyPath: m_Name

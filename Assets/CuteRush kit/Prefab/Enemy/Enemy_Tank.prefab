@@ -565,11 +565,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad278cbb17036df4fab18863e5e2226c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  personalTriggerRadius: 15
-  maxHealth: 3
+  personalTriggerRadius: 200
+  maxHealth: 20
   attackDamage: 10
   attackSpeed: 1
-  chaseSpeed: 3.5
+  chaseSpeed: 6
   rotationSpeed: 5
   flinchDuration: 0.3
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}

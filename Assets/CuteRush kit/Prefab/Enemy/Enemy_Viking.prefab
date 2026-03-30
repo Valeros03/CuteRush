@@ -470,8 +470,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 634a6a1fca7e0c043ba53ec790b9b4a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  personalTriggerRadius: 15
-  maxHealth: 3
+  personalTriggerRadius: 200
+  maxHealth: 10
   attackDamage: 5
   attackSpeed: 1
   chaseSpeed: 3.5
@@ -483,7 +483,7 @@ MonoBehaviour:
   rb: {fileID: 398450473146217250}
   hitRecoil: {fileID: 7152648784994532740}
   meleeRange: 2
-  rangedRange: 10
+  rangedRange: 15
   facingTolerance: 5
   rangedAttackCooldown: 2
   bulletPrefab: {fileID: 5123798614293869143, guid: ef071591f5409bb408b6a0b6c4b58f39,
@@ -491,7 +491,7 @@ MonoBehaviour:
   firePoint: {fileID: 4140988320600192268}
   projectileForce: 15
   rangedAttackDamage: 2
-  bulletPoolSize: 5
+  bulletPoolSize: 3
 --- !u!135 &5517104590756939668
 SphereCollider:
   m_ObjectHideFlags: 0

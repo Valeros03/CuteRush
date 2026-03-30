@@ -25,7 +25,10 @@ public class InventoryPlayer : MonoBehaviour
 
     private void Awake()
     {
-        maxAcidoBorico = PlayerPrefs.GetInt("MaxAcidoBorico", 1);
+        if (PlayerPrefs.HasKey("MaxAcidoBorico"))
+        {
+            maxAcidoBorico = PlayerPrefs.GetInt("MaxAcidoBorico");
+        }
     }
 
     private void Start()
@@ -135,20 +138,21 @@ public class InventoryPlayer : MonoBehaviour
 
     public void addCoin()
     {
-        OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
         coins++;
+        OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
     }
 
     public void addCoin(int count)
     {
-        OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
+        
         coins += count;
+        OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
     }
 
     public void removeCoin(int count)
     {
-        OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
         coins -= count;
+        OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
     }
 
     public int getCoins()
