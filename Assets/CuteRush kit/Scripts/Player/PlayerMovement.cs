@@ -38,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
     private bool footstepsActive = false;
     private bool jumpTriggered = false;
 
+    [HideInInspector] public Vector3 currentVelocity;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -114,6 +116,8 @@ public class PlayerMovement : MonoBehaviour
         move.y = verticalVelocity;
 
         CollisionFlags flags = controller.Move(move * Time.deltaTime);
+
+        currentVelocity = controller.velocity;
 
         bool hasBelowFlag = (flags & CollisionFlags.Below) != 0;
         bool rayHit = Physics.Raycast(myTransform.position + Vector3.up * groundRayOffset, Vector3.down, out RaycastHit hit, groundedCheckDistance + groundRayOffset);
