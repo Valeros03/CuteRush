@@ -27,6 +27,8 @@ public abstract class Enemy : MonoBehaviour
     public GameObject SlimeBody;
     [SerializeField] private Rigidbody rb;
     [SerializeField] protected EnemyHitRecoil hitRecoil;
+    [Header("Kill Points")]
+    public int killPoints;
 
     protected NavMeshAgent agent;
     protected Transform player;
@@ -99,11 +101,8 @@ public abstract class Enemy : MonoBehaviour
             animator.enabled = true;
             animator.Rebind();
 
-            // 1. SVUOTA LA MEMORIA: Cancella il trigger di morte rimasto appeso!
             animator.ResetTrigger("Die");
 
-            // 2. FORZA LA STATE MACHINE: Riportala al blocco iniziale 
-            // (Assicurati che "Locomotion" sia il nome esatto del tuo blocco di partenza)
             animator.Play("Locomotion", 0, 0f);
 
             animator.Update(0f);
@@ -334,6 +333,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die(Vector3 shotDirection, Vector3 hitPoint)
     {
+        GameManager.Instance.AddKillScore(killPoints);
         if (isDead) return;
         isDead = true;
 
@@ -380,6 +380,30 @@ public abstract class Enemy : MonoBehaviour
         }
 
         gameObject.SetActive(false);
+    }
+
+    protected Vector3 GetPredictedPlayerPosition(float bulletSpeed, Vector3 originPoint)
+    {
+        Vector3 targetPoint = player.position + Vector3.up * 0.5f;
+
+        Vector3 playerVelocity = Vector3.zero;
+
+        PlayerMovement pMove = player.GetComponent<PlayerMovement>();
+        if (pMove != null)
+        {
+            playerVelocity = pMove.currentVelocity;
+        }
+
+        if (playerVelocity.magnitude < 0.1f) return targetPoint;
+
+        float distance = Vector3.Distance(originPoint, targetPoint);
+        float timeToHit = distance / bulletSpeed;
+
+        float predictionAccuracy = 0.8f;
+
+        Vector3 futurePosition = targetPoint + (playerVelocity * timeToHit * predictionAccuracy);
+
+        return futurePosition;
     }
 
 

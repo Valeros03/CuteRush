@@ -150,6 +150,9 @@ public class HUD : UIPanel
 
     public void ShowDamageIndicator(Vector3 enemyPos)
     {
+
+        if (!gameObject.activeInHierarchy) return;
+
         if (damageIndicatorPrefab == null) return;
         Transform parent = damageIndicatorContainer != null ? damageIndicatorContainer : transform;
 

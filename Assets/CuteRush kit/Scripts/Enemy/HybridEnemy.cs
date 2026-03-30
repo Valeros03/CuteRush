@@ -64,7 +64,7 @@ public class HybridEnemy : Enemy
         if (distanceSqr <= meleeRangeSqr * 1.1f)
         {
             agent.isStopped = true;
-            FacePlayer();
+            FaceTarget(player.position);
             animator.SetFloat("Speed", 0f); 
 
             if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
@@ -79,34 +79,29 @@ public class HybridEnemy : Enemy
             agent.SetDestination(player.position);
             animator.SetFloat("Speed", agent.velocity.magnitude);
 
-            // 1. Il nemico cerca SEMPRE di mirarti lentamente mentre è a questa distanza
-            FacePlayer();
+            Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
 
-            // 2. Il tempo di ricarica è passato? È pronto a sparare?
+            FaceTarget(predictedTarget);
+
             if (Time.time - lastRangedAttackTime >= rangedAttackCooldown)
             {
-                // Calcoliamo la direzione ignorando l'asse Y (così non si confonde se salti)
-                Vector3 directionToPlayer = (player.position - transform.position).normalized;
-                directionToPlayer.y = 0;
+                Vector3 directionToTarget = (predictedTarget - transform.position).normalized;
+                directionToTarget.y = 0;
 
                 Vector3 currentForward = transform.forward;
                 currentForward.y = 0;
 
-                float angleToPlayer = Vector3.Angle(currentForward, directionToPlayer);
+                float angleToTarget = Vector3.Angle(currentForward, directionToTarget);
 
-                // 3. Se l'angolo è ancora troppo largo, INTERROMPIAMO. 
-                // Non spara, ma il FacePlayer() qui sopra continuerà a farlo girare!
-                if (angleToPlayer > facingTolerance)
+                if (angleToTarget > facingTolerance)
                 {
-                    return; // Aspetta di essere allineato
+                    return;
                 }
 
-                // 4. Appena l'angolo scende sotto la tolleranza... FUOCO!
                 lastRangedAttackTime = Time.time;
                 animator.SetTrigger("Shoot");
             }
-        }
-        else
+        }else
         {
             agent.isStopped = false;
             agent.SetDestination(player.position);
@@ -136,8 +131,9 @@ public class HybridEnemy : Enemy
         bullet.SetActive(true);
 
         StartCoroutine(nameof(faceShootAnimate));
-        Vector3 targetPoint = player.position + Vector3.up * 0.5f;
-        Vector3 dir = (targetPoint - firePoint.position).normalized;
+
+        Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
+        Vector3 dir = (predictedTarget - firePoint.position).normalized;
 
         bullet.GetComponent<EnemyBullet>().Fire(dir, rangedAttackDamage, projectileForce, transform.position);
     }
@@ -171,15 +167,14 @@ public class HybridEnemy : Enemy
         }
     }
 
-    void FacePlayer()
+    void FaceTarget(Vector3 targetPosition)
     {
-        Vector3 direction = (player.position - transform.position).normalized;
-        // Azzeriamo la Y così il nemico ruota solo sul proprio asse senza piegarsi in avanti/indietro
+        Vector3 direction = (targetPosition - transform.position).normalized;
         direction.y = 0;
 
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        if (direction == Vector3.zero) return;
 
-        // Usiamo una velocità fissa e dolce (es. 5f) invece dei 120-360 del NavMeshAgent!
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
         float smoothAimSpeed = 5.0f;
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * smoothAimSpeed);
     }

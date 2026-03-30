@@ -10,8 +10,8 @@ public class RangedEnemy : Enemy
     public GameObject projectilePrefab;
     public Transform firePoint;
     public float projectileForce = 10f;
-    public float rangeAttackdistance = 10f; //distanza 
-    public float attackCooldown = 2f; //allunga l'attesa prima del successivo colpo esclude il tempo dell'animazione
+    public float rangeAttackdistance = 10f;
+    public float attackCooldown = 2f;
 
     
     [Header("Pooling")]
@@ -46,7 +46,9 @@ public class RangedEnemy : Enemy
         {
 
             agent.isStopped = true;
-            FacePlayer();
+
+            Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
+            FaceTarget(predictedTarget);
             if (Time.time - lastAttackTime > attackCooldown)
             {
                 lastAttackTime = Time.time;
@@ -75,10 +77,14 @@ public class RangedEnemy : Enemy
         }
     }
 
-    void FacePlayer()
+    void FaceTarget(Vector3 targetPosition)
     {
-        Vector3 direction = (player.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        direction.y = 0;
+
+        if (direction == Vector3.zero) return;
+
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * agent.angularSpeed);
     }
 
@@ -98,10 +104,9 @@ public class RangedEnemy : Enemy
         bullet.transform.rotation = firePoint.rotation;
         bullet.SetActive(true);
 
-        // LA MAGIA DELLA SEMPLIFICAZIONE:
-        Vector3 dir = (player.position + Vector3.up * 0.4f - firePoint.position).normalized;
+        Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
+        Vector3 dir = (predictedTarget - firePoint.position).normalized;
 
-        // Passiamo direzione, danno e forza direttamente allo script del proiettile!
         bullet.GetComponent<EnemyBullet>().Fire(dir, rangedAttackDamage, projectileForce, transform.position);
     }
 

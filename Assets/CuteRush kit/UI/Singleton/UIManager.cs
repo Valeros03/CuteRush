@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour
 
     [Header("UI Panel")]
     [SerializeField] private HUD HUD;
+    [Header("Screens")]
+    [SerializeField] private GameOverScreen gameOverScreen;
 
     private void Awake()
     {
@@ -32,7 +34,12 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         InventoryPlayer.OnInventoryChanged += UpdateInventoryUI;
-        GameManager.Instance.OnScoreChange += UpdateScore;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnScoreChange += UpdateScore;
+            GameManager.Instance.OnGameOver += HandleGameOver;
+        }
+
         VitalsController.OnHealthChange += UpdateHealth;
 
         InventoryPlayer.OnMaxAcidoBoricoChanged += SetupMaxAcidoBars;
@@ -43,7 +50,12 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         InventoryPlayer.OnInventoryChanged -= UpdateInventoryUI;
-        GameManager.Instance.OnScoreChange -= UpdateScore;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnScoreChange -= UpdateScore;
+            GameManager.Instance.OnGameOver -= HandleGameOver;
+        }
+
         VitalsController.OnHealthChange -= UpdateHealth;
 
         InventoryPlayer.OnMaxAcidoBoricoChanged -= SetupMaxAcidoBars;
@@ -105,6 +117,23 @@ public class UIManager : MonoBehaviour
     public void UpdateAcidoProgress(float progress)
     {
         HUD.UpdateAcidoProgress(progress);
+    }
+
+
+    private void HandleGameOver()
+    {
+        if (HUD != null) HUD.gameObject.SetActive(false);
+
+        if (gameOverScreen != null)
+        {
+            float timeSurvived = Time.timeSinceLevelLoad;
+
+            int totalPoints = GameManager.Instance.currentScore;
+            int totalKills = GameManager.Instance.killNumber;
+            float multiplier = GameManager.Instance.difficultyMultiplier;
+
+            gameOverScreen.ShowGameOverStats(timeSurvived, totalPoints, totalKills, multiplier);
+        }
     }
 
 

@@ -182,7 +182,23 @@ public abstract class GunBase : MonoBehaviour
     public void StartReload()
     {
         if (!gameObject.activeSelf || isReloading) return;
+
         if (currentBulletCount >= stats.magazineSize) return;
+
+        if (currentMagLeft <= 0)
+        {
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.ShowMessage("NO AMMO", Color.red);
+            }
+
+            if (audioController != null)
+            {
+                audioController.PlayNoAmmo();
+            }
+            return;
+        }
+
         StartCoroutine(ReloadCoroutine());
     }
 
@@ -246,6 +262,11 @@ public abstract class GunBase : MonoBehaviour
         if (currentMagLeft > stats.totalAmmo)
         {
             currentMagLeft = stats.totalAmmo;
+        }
+
+        if (weaponUI != null && weaponUI.activeSelf && bulletNumberUIText != null)
+        {
+            bulletNumberUIText.text = $"Bullets {currentBulletCount}/{currentMagLeft}";
         }
 
         return true;

@@ -85,7 +85,7 @@ public class VitalsController : MonoBehaviour
 
         if (TryGetComponent(out Animator animator)) animator.enabled = false;
 
-
+        GetComponentInChildren<Crosshair>().enabled = false;
         StartCoroutine(DeathCameraAnimation(lastHitDirection));
         GameManager.Instance.GameOver();
     }

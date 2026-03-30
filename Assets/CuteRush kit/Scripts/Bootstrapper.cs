@@ -15,7 +15,6 @@ public class Bootstrapper : MonoBehaviour
     {
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlayMusic("InGameSong");
             AudioManager.Instance.PlayAmbient("Spaceship Engine Light");
         }
     }

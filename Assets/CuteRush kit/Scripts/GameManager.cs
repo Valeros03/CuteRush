@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
     public event Action<int> OnScoreChange;
     public event Action OnGameOver;
 
+    public int killNumber { get; private set; } = 0;
+    public float difficultyMultiplier;
+    public int difficultyAdder;
+
     public enum GameState
     {
         Playing,
@@ -45,6 +49,15 @@ public class GameManager : MonoBehaviour
         OnScoreChange?.Invoke(currentScore);
     }
 
+    public void AddKillScore(int points)
+    {
+        if (currentState != GameState.Playing) return;
+
+        killNumber++;
+        currentScore += points + difficultyAdder;
+        OnScoreChange?.Invoke(currentScore);
+    }
+
     public void GameOver()
     {
         if (currentState == GameState.GameOver) return;
@@ -67,11 +80,4 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void AddScore(int pointsToAdd)
-    {
-        if (currentState != GameState.Playing) return;
-
-        currentScore += pointsToAdd;
-        OnScoreChange?.Invoke(currentScore);
-    }
 }

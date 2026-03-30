@@ -86,6 +86,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 50238a32333496c46bf4f0eef34ca63c, type: 3}
   Recharge: {fileID: 8300000, guid: 8cc8b62211f9fa149b63f3032ed815b0, type: 3}
   GunCharging: {fileID: 8300000, guid: a9e3fee688cf000499bded40dd54ff48, type: 3}
+  NoAmmoSound: {fileID: 8300000, guid: 366d5a8ae9934674a8ff0f12c2d257e7, type: 3}
 --- !u!82 &8085627352710217876
 AudioSource:
   m_ObjectHideFlags: 0

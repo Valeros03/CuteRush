@@ -8,7 +8,7 @@ using System.Collections;
 public struct LootDrop
 {
     public GameObject itemPrefab;
-    [Tooltip("Peso o probabilità (es: Moneta=70, Medikit=20)")]
+    [Tooltip("Peso o probabilità")]
     public float dropWeight;
 }
 
@@ -42,7 +42,6 @@ public class EnemySpawner : BaseSpawner
         areaTrigger.radius = spawnerAreaRadius;
 
         playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
-        if (playerTransform == null);
     }
 
     void Start()
@@ -99,6 +98,12 @@ public class EnemySpawner : BaseSpawner
                     NavMeshAgent agent = enemy.GetComponent<NavMeshAgent>();
                     if (agent != null) agent.Warp(newPos);
                     else enemy.transform.position = newPos;
+
+                    GameObject drop = GetRandomWeightedDrop();
+                    if (drop != null)
+                    {
+                        enemy.SetDropItem(drop);
+                    }
 
                     enemy.gameObject.SetActive(true);
                     break;

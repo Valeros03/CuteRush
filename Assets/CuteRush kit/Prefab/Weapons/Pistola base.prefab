@@ -688,3 +688,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e70eb034c8ae4fe42b00d809716998e4, type: 3}
   Recharge: {fileID: 8300000, guid: c4f24bb3e1531b44796fc33c46287cea, type: 3}
   GunCharging: {fileID: 0}
+  NoAmmoSound: {fileID: 8300000, guid: 366d5a8ae9934674a8ff0f12c2d257e7, type: 3}

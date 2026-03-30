@@ -121,6 +121,7 @@
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\InventoryUI.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\ItemPickup.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Items\Item.cs" />
+     <Compile Include="Assets\GameOverScreen.cs" />
      <Compile Include="Assets\IconAssetGenerator.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\AbstractTargetFollower.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\FreeLookCam.cs" />

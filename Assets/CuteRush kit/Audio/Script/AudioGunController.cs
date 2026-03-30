@@ -8,6 +8,7 @@ public class AudioGunController : MonoBehaviour
     public List<AudioClip> ShootClips;
     public AudioClip Recharge;
     public AudioClip GunCharging;
+    public AudioClip NoAmmoSound;
 
     public void PlayShoot()
     {
@@ -33,6 +34,16 @@ public class AudioGunController : MonoBehaviour
             GunSource.Play();
         }
             
+    }
+
+    public void PlayNoAmmo()
+    {
+        if (GunCharging != null)
+        {
+            GunSource.clip = NoAmmoSound;
+            GunSource.Play();
+        }
+
     }
 
 }
