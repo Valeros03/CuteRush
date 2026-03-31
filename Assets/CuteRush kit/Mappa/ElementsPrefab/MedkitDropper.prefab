@@ -158,8 +158,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44ef37aab276d8248b26e491fd44e7ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 10
-  medkitsToGive: 1
+  spawnCooldown: 45
+  amountToGive: 1
   hologramVisual: {fileID: 2081399222881182272}
   audioSource: {fileID: 3481629226172407338}
   pickupSound: {fileID: 8300000, guid: fbc6e1fc9b2323d42a23add83b6098b5, type: 3}

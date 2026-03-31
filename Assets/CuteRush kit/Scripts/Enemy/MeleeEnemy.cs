@@ -15,9 +15,9 @@ public class MeleeEnemy : Enemy
         {
             agent.stoppingDistance = meleeRange;
         }
+
     }
 
-    // In MeleeEnemy.cs
     protected override void PerformChaseLogic()
     {
         if (!agent.isOnNavMesh) return;
@@ -51,9 +51,9 @@ public class MeleeEnemy : Enemy
     protected override void PerformAttack()
     {
         
-        if (Vector3.Distance(transform.position, player.position) <= meleeRange + 0.5f) // Tolleranza
+        if (Vector3.Distance(transform.position, player.position) <= meleeRange + 0.5f)
         {
-            player.GetComponent<VitalsController>()?.Decrease(attackDamage, transform.position, true);
+            _targetVitals.Decrease(scaledAttackDamage, transform.position, true);
         }
     }
 

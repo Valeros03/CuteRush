@@ -2,7 +2,7 @@
 using TMPro;
 using System;
 
-public class GameOverScreen : MonoBehaviour
+public class GameOverScreen : UIPanel
 {
     [Header("UI Text References")]
     [SerializeField] private TextMeshProUGUI timeText;

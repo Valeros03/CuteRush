@@ -4866,7 +4866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48f659beea48d6b40b14600dfa69906c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnCooldown: 10
+  spawnCooldown: 20
   amountToGive: 1
   hologramVisual: {fileID: 6656877197259831656}
   audioSource: {fileID: 5086938956494709646}

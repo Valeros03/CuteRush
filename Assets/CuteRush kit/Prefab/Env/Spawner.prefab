@@ -45,20 +45,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9cb89de8e27e4e4cbc37a848456b7d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnCooldown: 10
-  enemyPrefab: {fileID: 2795397902362475942, guid: 72c47fdc43d84b243bdc109c284341d6,
-    type: 3}
-  numberOfEnemies: 1
-  spawnRadius: 5
-  spawnerAreaRadius: 30
-  shutdownDuration: 15
+  spawnCooldown: 8
+  enemyTypes:
+  - enemyPrefab: {fileID: 6173172085731050060, guid: fa12db7f8a3f0714799c08ee4da865d6,
+      type: 3}
+    spawnWeight: 70
+  - enemyPrefab: {fileID: 6688149642241925542, guid: 11eed2dfd1329ab4db9e7f27b8e628b7,
+      type: 3}
+    spawnWeight: 20
+  - enemyPrefab: {fileID: 2795397902362475942, guid: 72c47fdc43d84b243bdc109c284341d6,
+      type: 3}
+    spawnWeight: 10
+  maxConcurrentEnemies: 8
+  initialSpawnCount: 1
+  spawnRadius: 10
+  spawnerAreaRadius: 200
+  shutdownDuration: 20
   possibleDrops:
   - itemPrefab: {fileID: 3342363926870468380, guid: 37c14e00b27c0334194f379053503db0,
       type: 3}
-    dropWeight: 60
+    dropWeight: 55
   - itemPrefab: {fileID: 8273954821704617215, guid: 041bbd78f249d0c4da006162fa03adf4,
       type: 3}
-    dropWeight: 25
+    dropWeight: 30
   - itemPrefab: {fileID: 8894929602490817040, guid: 61af79675ff15ff4cacb563168c407f5,
       type: 3}
     dropWeight: 10

@@ -16,10 +16,12 @@ public class RangedEnemy : Enemy
     
     [Header("Pooling")]
     public int bulletPoolSize = 5;
-    private List<GameObject> bulletPool;
+    private List<EnemyBullet> bulletPool;
 
     private float lastAttackTime;
     private bool isAttacking;
+
+    private int scaledRangedDamage;
 
     protected override void Start()
     {
@@ -31,6 +33,18 @@ public class RangedEnemy : Enemy
         {
             agent.stoppingDistance = rangeAttackdistance;
         }
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
+        float diffMult = 1.0f;
+        if (DifficultyManager.Instance != null)
+        {
+            diffMult = DifficultyManager.Instance.currentMultiplier;
+        }
+        scaledRangedDamage = Mathf.RoundToInt(rangedAttackDamage * diffMult);
     }
 
     protected override void PerformChaseLogic()
@@ -67,13 +81,19 @@ public class RangedEnemy : Enemy
     }
     void InitializeBulletPool()
     {
-        bulletPool = new List<GameObject>();
+        bulletPool = new List<EnemyBullet>();
+        if (projectilePrefab == null) return;
+
         for (int i = 0; i < bulletPoolSize; i++)
         {
-            GameObject bullet = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-            
-            bullet.SetActive(false);
-            bulletPool.Add(bullet);
+            GameObject bulletObj = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+            bulletObj.SetActive(false);
+
+            EnemyBullet bulletComp = bulletObj.GetComponent<EnemyBullet>();
+            if (bulletComp != null)
+            {
+                bulletPool.Add(bulletComp);
+            }
         }
     }
 
@@ -97,24 +117,25 @@ public class RangedEnemy : Enemy
 
     void FireProjectile()
     {
-        GameObject bullet = GetPooledBullet();
+        EnemyBullet bullet = GetPooledBullet();
         if (bullet == null) return;
 
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;
-        bullet.SetActive(true);
+
+        bullet.gameObject.SetActive(true);
 
         Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
         Vector3 dir = (predictedTarget - firePoint.position).normalized;
 
-        bullet.GetComponent<EnemyBullet>().Fire(dir, rangedAttackDamage, projectileForce, transform.position);
+        bullet.Fire(dir, scaledRangedDamage, projectileForce, transform.position);
     }
 
-    GameObject GetPooledBullet()
+    EnemyBullet GetPooledBullet()
     {
-        foreach (GameObject bullet in bulletPool)
+        foreach (EnemyBullet bullet in bulletPool)
         {
-            if (!bullet.activeInHierarchy)
+            if (!bullet.gameObject.activeInHierarchy)
             {
                 return bullet;
             }

@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public float difficultyMultiplier;
     public int difficultyAdder;
 
+    public DifficultyProfile currentDifficulty;
+
     public enum GameState
     {
         Playing,

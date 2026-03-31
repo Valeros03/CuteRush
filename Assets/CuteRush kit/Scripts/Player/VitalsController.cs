@@ -9,12 +9,16 @@ public class VitalsController : MonoBehaviour
     public int currentHealth;
     public int medKitHeal = 50;
 
-    public static event Action<int, int> OnHealthChange;
+    public delegate void HealthChanger(int currentValue, int maxValue);
+    public delegate void DamageTaker(Vector3 enemyPos);
+
+    public event DamageTaker OnTakeDamage;
+    public event HealthChanger OnHealthChange;
 
     private AudioPlayerController audioController;
     private Vector3 lastHitDirection;
 
-    public void Start()
+    public void Init()
     {
         currentHealth = maxHealth;
         audioController = GetComponent<AudioPlayerController>();
@@ -24,14 +28,13 @@ public class VitalsController : MonoBehaviour
     public void UseMedikit()
     {
         Increase(medKitHeal);
-        audioController.PlayHealSound();
+        if (audioController != null) audioController.PlayHealSound();
     }
 
     private void Increase(int value)
     {
         currentHealth += value;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
-
         OnHealthChange?.Invoke(currentHealth, maxHealth);
     }
 
@@ -39,33 +42,26 @@ public class VitalsController : MonoBehaviour
     {
         currentHealth -= value;
         lastHitDirection = damageSourcePosition;
+
         if (currentHealth <= 0)
         {
-            Die();
             currentHealth = 0;
+            Die();
         }
+
         OnHealthChange?.Invoke(currentHealth, maxHealth);
+        OnTakeDamage?.Invoke(damageSourcePosition);
 
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.ShowDamageIndicator(damageSourcePosition);
-        }
-
-        if (audioController != null)
-        {
-            audioController.PlayDamageSound(isPhysical);
-        }
+        if (audioController != null) audioController.PlayDamageSound(isPhysical);
     }
 
     private void Die()
     {
-
         if (TryGetComponent(out PlayerInput input)) input.enabled = false;
         if (TryGetComponent(out PlayerMovement mov)) mov.enabled = false;
         if (TryGetComponent(out PlayerCombat combat)) combat.enabled = false;
 
-        AudioPlayerController audioPlayer = GetComponent<AudioPlayerController>();
-        if (audioPlayer != null) audioPlayer.DeathSound();
+        if (audioController != null) audioController.DeathSound();
 
         MouseLook mouseLook = GetComponentInChildren<MouseLook>();
         if (mouseLook != null) mouseLook.enabled = false;
@@ -77,22 +73,23 @@ public class VitalsController : MonoBehaviour
         if (fpsCam != null)
         {
             MouseLook scriptLook = fpsCam.GetComponentInParent<MouseLook>();
-            scriptLook.enabled = false;
-            CameraRecoil scriptRecoil = fpsCam.GetComponent<CameraRecoil>();
-            scriptRecoil.enabled = false;
+            if (scriptLook != null) scriptLook.enabled = false;
 
+            CameraRecoil scriptRecoil = fpsCam.GetComponent<CameraRecoil>();
+            if (scriptRecoil != null) scriptRecoil.enabled = false;
         }
 
         if (TryGetComponent(out Animator animator)) animator.enabled = false;
 
         GetComponentInChildren<Crosshair>().enabled = false;
         StartCoroutine(DeathCameraAnimation(lastHitDirection));
-        GameManager.Instance.GameOver();
+
+        if (GameManager.Instance != null) GameManager.Instance.GameOver();
     }
+
 
     private IEnumerator DeathCameraAnimation(Vector3 hitDirection)
     {
-
         Camera fpsCam = GetComponentInChildren<Crosshair>().gameObject.GetComponent<Camera>();
         if (fpsCam == null) yield break;
 

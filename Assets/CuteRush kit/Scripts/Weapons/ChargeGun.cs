@@ -6,13 +6,12 @@ public class ChargeGun : GunBase
 {
     private Coroutine chargeCoroutine;
     [Header("Charge Gun Settings")]
-    [SerializeField] private float sphereRadius = 0.3f;      // spessore del raggio
-    [SerializeField] private float penetrationFalloff = 0.75f; // moltiplicatore di danno per ogni nemico successivo
-    [SerializeField] private int maxPenetrations = 5;         // quanti nemici può attraversare
+    [SerializeField] private float sphereRadius = 0.3f;
+    [SerializeField] private float penetrationFalloff = 0.75f;
+    [SerializeField] private int maxPenetrations = 5;
 
     protected override void Shoot()
     {
-        // se già in caricamento, ignora o potresti voler rilasciare il tiro
         if (chargeCoroutine == null)
             chargeCoroutine = StartCoroutine(ChargeRoutine());
     }
@@ -23,10 +22,9 @@ public class ChargeGun : GunBase
         audioController?.PlayCharge();
         float elapsed = 0f;
 
-        // attesa della charge; puoi estendere per rilasciare quando il giocatore rilascia il tasto
         while (elapsed < stats.shootDelay)
         {
-            if (!gameObject.activeSelf || isReloading) // abort
+            if (!gameObject.activeSelf || isReloading)
             {
                 IsInShotCooldown = false;
                 chargeCoroutine = null;
@@ -36,11 +34,9 @@ public class ChargeGun : GunBase
             yield return null;
         }
 
-        // check che l'arma sia ancora quella attiva (es. switch)
         if (gameObject.activeInHierarchy)
             SpawnBulletVisualsAndRaycast();
 
-        // cooldown dopo il colpo
         float cooldown = 1f / stats.fireRate - stats.shootDelay;
         if (cooldown > 0f) yield return new WaitForSeconds(cooldown);
 
@@ -65,11 +61,9 @@ public class ChargeGun : GunBase
 
         audioController?.PlayShoot();
 
-        // Direzione di base del colpo
         Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Vector3 direction = ray.direction;
 
-        // Lancia lo SphereCastAll per trovare tutti i colpi lungo la linea
         RaycastHit[] hits = Physics.SphereCastAll(
             firePoint.position,
             sphereRadius,
@@ -78,17 +72,14 @@ public class ChargeGun : GunBase
             hitLayers
         );
 
-        // Ordina in base alla distanza, come per un raggio fisico
         hits = hits.OrderBy(h => h.distance).ToArray();
 
-        // Traccia un raggio visivo per il primo impatto o per l’intera portata
         Vector3 tracerEnd = hits.Length > 0
             ? hits[Mathf.Min(hits.Length - 1, maxPenetrations - 1)].point
             : firePoint.position + direction * stats.range;
 
         DrawTracer(firePoint.position, tracerEnd);
 
-        // Danno progressivo
         float currentDamage = stats.damage;
         int enemiesHit = 0;
 
@@ -100,7 +91,7 @@ public class ChargeGun : GunBase
             {
                 Vector3 shotDir = (hit.point - firePoint.position).normalized;
                 enemy.TakeDamage(currentDamage, shotDir, hit.point);
-                currentDamage *= penetrationFalloff; // riduce il danno ad ogni nemico colpito
+                currentDamage *= penetrationFalloff;
                 enemiesHit++;
 
                 if (enemiesHit >= maxPenetrations)

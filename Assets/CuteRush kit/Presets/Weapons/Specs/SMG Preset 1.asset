@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalAmmo: 300
   magazineSize: 60
-  damage: 2
+  damage: 10
   range: 40
   reloadDuration: 1.2
   shootDelay: 0
   bulletSpeed: 200
-  fireRate: 6
+  fireRate: 10
   fireMode: 1
   baseBloomSpread: 0.25
-  crosshairShootBloomKick: 50
+  crosshairShootBloomKick: 70

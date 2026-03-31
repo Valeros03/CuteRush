@@ -178,6 +178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a84eb08256b814ca236747b3af254d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxAcidoBorico: 1
+  acidoRechargeTime: 40
 --- !u!1 &3290250874017093500
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,6 +692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73293e62b2e8f304e8f71d90033181c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vitals: {fileID: 3362827368680789125}
 --- !u!1 &6705402075998324148
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,7 +772,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 100
-  medKitHeal: 50
+  medKitHeal: 40
 --- !u!114 &5235147366029142948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -809,6 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73293e62b2e8f304e8f71d90033181c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vitals: {fileID: 0}
 --- !u!114 &3161444735021384749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -856,7 +860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 5
   runSpeed: 8
-  jumpForce: 6
+  jumpForce: 5
   limitDiagonalSpeed: 1
   toggleRun: 0
   currentMotion: 0
@@ -866,6 +870,7 @@ MonoBehaviour:
   ungroundedFramesToFall: 3
   groundedFramesToLand: 3
   slopeMaxAngleForGround: 60
+  currentVelocity: {x: 0, y: 0, z: 0}
 --- !u!114 &9152430220701511058
 MonoBehaviour:
   m_ObjectHideFlags: 0

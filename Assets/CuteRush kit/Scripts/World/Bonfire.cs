@@ -21,15 +21,14 @@ public class Bonfire : InteractableItem
     {
         if (!isInteractable || linkedSpawner == null)
         {
-            if (UIManager.Instance != null)
-                UIManager.Instance.ShowMessage("Falò già spento!", new Color32(230, 80, 30, 255));
+
+            UIEvents.SendNotification("Falò già spento!", new Color32(230, 80, 30, 255));
             return;
         }
 
         if (player != null && !player.UseAcidoBorico())
         {
-            if (UIManager.Instance != null)
-                UIManager.Instance.ShowMessage("Acido Borico in ricarica...", Color.red);
+            UIEvents.SendNotification("Acido Borico in ricarica...", Color.red);
             return;
         }
         linkedSpawner.StopSpawn();

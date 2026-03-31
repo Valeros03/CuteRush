@@ -3,20 +3,34 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using System.Collections;
 
-
 [System.Serializable]
 public struct LootDrop
 {
     public GameObject itemPrefab;
-    [Tooltip("Peso o probabilità")]
+    [Tooltip("Peso o probabilità (es: Moneta=70, Medikit=20)")]
     public float dropWeight;
+}
+
+[System.Serializable]
+public struct EnemySpawnWeight
+{
+    public GameObject enemyPrefab;
+    [Tooltip("Peso o probabilità (es: Slime=80, Hybrid=15, Sniper=5)")]
+    public float spawnWeight;
 }
 
 public class EnemySpawner : BaseSpawner
 {
     [Header("Spawn Settings")]
-    public GameObject enemyPrefab;
-    public int numberOfEnemies = 10;
+    [Tooltip("Lista dei nemici che possono nascere e le loro probabilità")]
+    public List<EnemySpawnWeight> enemyTypes;
+
+    [Tooltip("Quanti nemici MASSIMI possono essere attivi contemporaneamente da questo spawner")]
+    public int maxConcurrentEnemies = 10;
+
+    [Tooltip("Quanti nemici far nascere subito all'avvio della partita? (Gli altri arriveranno col tempo)")]
+    public int initialSpawnCount = 3;
+
     public float spawnRadius = 5f;
 
     [Header("Area Settings")]
@@ -32,6 +46,7 @@ public class EnemySpawner : BaseSpawner
 
     private Transform playerTransform;
     public bool IsPlayerInArea { get; private set; }
+
     private List<Enemy> spawnedEnemies = new List<Enemy>();
     private SphereCollider areaTrigger;
 
@@ -48,10 +63,12 @@ public class EnemySpawner : BaseSpawner
     {
         if (playerTransform != null)
         {
-            for (int i = 0; i < numberOfEnemies; i++)
+            int startCount = Mathf.Min(initialSpawnCount, maxConcurrentEnemies);
+            for (int i = 0; i < startCount; i++)
             {
-                CreateNewEnemy();
+                TrySpawnEnemy();
             }
+
             CheckInitialPlayerPosition();
             StartCoroutine(RespawnRoutine());
         }
@@ -65,17 +82,15 @@ public class EnemySpawner : BaseSpawner
 
             if (!isShutDown)
             {
-                TryRespawnOneEnemy();
+                TrySpawnEnemy();
             }
         }
     }
 
     public void StopSpawn()
     {
-        if (isShutDown)
-        {
-            return;
-        }
+        if (isShutDown) return;
+
         isShutDown = true;
         StartCoroutine(LogicCooldownRoutine());
     }
@@ -86,30 +101,99 @@ public class EnemySpawner : BaseSpawner
         isShutDown = false;
     }
 
-    void TryRespawnOneEnemy()
+    void TrySpawnEnemy()
     {
-        foreach (Enemy enemy in spawnedEnemies)
+        int activeCount = 0;
+        foreach (Enemy e in spawnedEnemies)
         {
-            if (!enemy.gameObject.activeInHierarchy)
+            if (e.gameObject.activeInHierarchy) activeCount++;
+        }
+
+        if (activeCount >= maxConcurrentEnemies) return;
+
+        GameObject selectedPrefab = GetRandomWeightedEnemy();
+        if (selectedPrefab == null) return;
+
+        Enemy pooledEnemy = GetInactiveEnemyOfPrefab(selectedPrefab);
+
+        if (pooledEnemy != null)
+        {
+            Vector3 newPos;
+            if (GetRandomNavMeshPosition(out newPos))
             {
-                Vector3 newPos;
-                if (GetRandomNavMeshPosition(out newPos))
-                {
-                    NavMeshAgent agent = enemy.GetComponent<NavMeshAgent>();
-                    if (agent != null) agent.Warp(newPos);
-                    else enemy.transform.position = newPos;
+                NavMeshAgent agent = pooledEnemy.GetComponent<NavMeshAgent>();
+                if (agent != null) agent.Warp(newPos);
+                else pooledEnemy.transform.position = newPos;
 
-                    GameObject drop = GetRandomWeightedDrop();
-                    if (drop != null)
-                    {
-                        enemy.SetDropItem(drop);
-                    }
+                GameObject drop = GetRandomWeightedDrop();
+                if (drop != null) pooledEnemy.SetDropItem(drop);
 
-                    enemy.gameObject.SetActive(true);
-                    break;
-                }
+                pooledEnemy.gameObject.SetActive(true);
             }
         }
+        else
+        {
+            CreateNewEnemy(selectedPrefab);
+        }
+    }
+
+    Enemy GetInactiveEnemyOfPrefab(GameObject prefab)
+    {
+        foreach (Enemy e in spawnedEnemies)
+        {
+            if (!e.gameObject.activeInHierarchy && e.gameObject.name == prefab.name)
+            {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    void CreateNewEnemy(GameObject prefab)
+    {
+        Vector3 spawnPos;
+        if (GetRandomNavMeshPosition(out spawnPos))
+        {
+            GameObject enemyGO = Instantiate(prefab, spawnPos, Quaternion.identity);
+
+            enemyGO.name = prefab.name;
+
+            Enemy enemyScript = enemyGO.GetComponent<Enemy>();
+
+            if (enemyScript != null)
+            {
+                enemyScript.Initialize(transform.position, this);
+
+                GameObject drop = GetRandomWeightedDrop();
+                if (drop != null) enemyScript.SetDropItem(drop);
+
+                spawnedEnemies.Add(enemyScript);
+            }
+        }
+    }
+
+    private GameObject GetRandomWeightedEnemy()
+    {
+        if (enemyTypes == null || enemyTypes.Count == 0) return null;
+
+        float totalWeight = 0f;
+        foreach (EnemySpawnWeight enemy in enemyTypes)
+        {
+            totalWeight += enemy.spawnWeight;
+        }
+
+        float randomValue = Random.Range(0f, totalWeight);
+        float currentSum = 0f;
+
+        foreach (EnemySpawnWeight enemy in enemyTypes)
+        {
+            currentSum += enemy.spawnWeight;
+            if (randomValue <= currentSum)
+            {
+                return enemy.enemyPrefab;
+            }
+        }
+        return null;
     }
 
     bool GetRandomNavMeshPosition(out Vector3 result)
@@ -126,32 +210,22 @@ public class EnemySpawner : BaseSpawner
         return false;
     }
 
-    void CreateNewEnemy()
-    {
-        Vector3 spawnPos;
-        if (GetRandomNavMeshPosition(out spawnPos))
-        {
-            GameObject enemyGO = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-            Enemy enemyScript = enemyGO.GetComponent<Enemy>();
-
-            if (enemyScript != null)
-            {
-                enemyScript.Initialize(transform.position, this);
-
-                GameObject drop = GetRandomWeightedDrop();
-                if (drop != null)
-                {
-                    enemyScript.SetDropItem(drop);
-                }
-
-                spawnedEnemies.Add(enemyScript);
-            }
-        }
-    }
-
     private GameObject GetRandomWeightedDrop()
     {
         if (possibleDrops == null || possibleDrops.Count == 0) return null;
+
+        float baseDropChance = 1.0f;
+        float currentDropChance = baseDropChance;
+
+        if (GameManager.Instance != null && GameManager.Instance.currentDifficulty != null)
+        {
+            currentDropChance = baseDropChance * GameManager.Instance.currentDifficulty.dropRateMultiplier;
+        }
+
+        if (Random.value > currentDropChance)
+        {
+            return null;
+        }
 
         float totalWeight = 0f;
         foreach (LootDrop drop in possibleDrops)
@@ -171,7 +245,7 @@ public class EnemySpawner : BaseSpawner
             }
         }
 
-        return null; 
+        return null;
     }
 
     void OnTriggerEnter(Collider other)

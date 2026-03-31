@@ -7,7 +7,6 @@ public class Granade : MonoBehaviour
 {
     public float delay = 3f;
     public float radius = 5f;
-    public float explosionForce = 700f; // Utile se vuoi far saltare in aria oggetti fisici, ma non sui nemici per ora
     [SerializeField] private AudioSource audioSource;
 
     public float maxDamage;
@@ -19,7 +18,6 @@ public class Granade : MonoBehaviour
 
     void Awake()
     {
-        // Recuperiamo il Rigidbody
         rb = GetComponent<Rigidbody>();
     }
 
@@ -96,12 +94,10 @@ public class Granade : MonoBehaviour
             }
         }
 
-        // Aspettiamo che il particle system finisca
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }
 
-    // Un piccolo bonus: disegna la sfera di esplosione nell'editor per aiutarti a visualizzare il raggio!
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

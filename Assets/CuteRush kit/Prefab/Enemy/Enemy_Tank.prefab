@@ -542,7 +542,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.75
   m_Speed: 3.5
-  m_Acceleration: 60
+  m_Acceleration: 40
   avoidancePriority: 50
   m_AngularSpeed: 400
   m_StoppingDistance: 0
@@ -566,19 +566,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personalTriggerRadius: 200
-  maxHealth: 20
+  maxHealth: 50
   attackDamage: 10
   attackSpeed: 2
-  chaseSpeed: 8
+  chaseSpeed: 4.8
   rotationSpeed: 5
   flinchDuration: 0.3
+  flinchCooldown: 1
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
   isDead: 0
   SlimeBody: {fileID: 2493330531005505269}
   rb: {fileID: 5136934779930517625}
   hitRecoil: {fileID: 4476350014240686094}
   killPoints: 5
-  meleeRange: 2
+  meleeRange: 1
 --- !u!135 &3361318816062773775
 SphereCollider:
   m_ObjectHideFlags: 0

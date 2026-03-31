@@ -12,21 +12,23 @@ public enum AIState
 public abstract class Enemy : MonoBehaviour
 {
     [Header("AI Behavior")]
-    [Tooltip("Raggio fisico del trigger SUL NEMICO per rilevare il player (Q2)")]
-    public float personalTriggerRadius = 15f; // Raggio dello SphereCollider
+    public float personalTriggerRadius = 15f;
 
-    [Header("Base Enemy Settings")]
+    [Header("Base Enemy Settings (Giorno 1)")]
     public float maxHealth = 3f;
     public int attackDamage = 1;
     public float attackSpeed = 1f;
     public float chaseSpeed = 3.5f;
     public float rotationSpeed = 5f;
     public float flinchDuration = 0.3f;
+    public float flinchCooldown = 1.0f;
+
     public Face faces;
     public bool isDead;
     public GameObject SlimeBody;
     [SerializeField] private Rigidbody rb;
     [SerializeField] protected EnemyHitRecoil hitRecoil;
+
     [Header("Kill Points")]
     public int killPoints;
 
@@ -35,21 +37,24 @@ public abstract class Enemy : MonoBehaviour
     protected Animator animator;
     protected EnemySpawner mySpawnManager;
 
-
     protected bool isTakingDamage;
     protected bool isPlayerInAttackArea;
     protected bool isChasing;
 
     protected float currentHealth;
+    protected float scaledMaxHealth;
+    protected int scaledAttackDamage;
+
 
     private AIState currentState = AIState.Dormant;
     private Vector3 homePosition;
     protected Material faceMaterial;
     private Coroutine flinchCoroutine;
     private bool isPlayerInPersonalTrigger = false;
-
-
+    private float lastFlinchTime = -10f;
     private GameObject itemDropPrefab;
+
+    protected VitalsController _targetVitals;
 
     protected virtual void Awake()
     {
@@ -57,7 +62,6 @@ public abstract class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         hitRecoil = GetComponentInChildren<EnemyHitRecoil>();
-        currentHealth = maxHealth;
 
         if (SlimeBody != null)
         {
@@ -70,19 +74,40 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player")?.transform; 
-
         SphereCollider aggroTrigger = GetComponent<SphereCollider>();
         if (aggroTrigger != null && aggroTrigger.isTrigger)
             aggroTrigger.radius = personalTriggerRadius;
 
-        if (agent != null) { agent.speed = chaseSpeed; agent.angularSpeed = rotationSpeed * 100f; }
         if (rb != null) rb.isKinematic = true;
     }
 
-    public void OnEnable()
+    public virtual void OnEnable()
     {
-        currentHealth = maxHealth;
+        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+
+        float diffMultiplier = 1.0f;
+        if (DifficultyManager.Instance != null)
+        {
+            diffMultiplier = DifficultyManager.Instance.currentMultiplier;
+        }
+
+
+        if (player != null)
+        {
+            _targetVitals = player.GetComponent<VitalsController>();
+        }
+
+        scaledMaxHealth = maxHealth * diffMultiplier;
+        scaledAttackDamage = Mathf.RoundToInt(attackDamage * diffMultiplier);
+
+        currentHealth = scaledMaxHealth;
+
+        if (agent != null)
+        {
+            agent.speed = chaseSpeed;
+            agent.angularSpeed = rotationSpeed * 100f;
+        }
+
         isDead = false;
         isTakingDamage = false;
         isPlayerInPersonalTrigger = false;
@@ -95,16 +120,12 @@ public abstract class Enemy : MonoBehaviour
 
         if (faces.Idleface != null) SetFace(faces.Idleface);
 
-
         if (animator != null)
         {
             animator.enabled = true;
             animator.Rebind();
-
             animator.ResetTrigger("Die");
-
             animator.Play("Locomotion", 0, 0f);
-
             animator.Update(0f);
             animator.SetFloat("AttackSpeed", attackSpeed);
             animator.SetFloat("Speed", 0f);
@@ -121,11 +142,10 @@ public abstract class Enemy : MonoBehaviour
         SetState(AIState.Dormant);
     }
 
-
-    public void Initialize(Vector3 homePos, EnemySpawner manager) 
+    public void Initialize(Vector3 homePos, EnemySpawner manager)
     {
         homePosition = homePos;
-        mySpawnManager = manager; 
+        mySpawnManager = manager;
         SetState(AIState.Dormant);
     }
 
@@ -133,10 +153,7 @@ public abstract class Enemy : MonoBehaviour
     {
         if (isDead || player == null || isTakingDamage) return;
         if (agent == null || !agent.isOnNavMesh) return;
-        if (mySpawnManager == null)
-        {
-            return;
-        }
+        if (mySpawnManager == null) return;
 
         bool q1_isPlayerInArea = mySpawnManager.IsPlayerInArea;
         bool q2_isPlayerInPersonal = isPlayerInPersonalTrigger;
@@ -148,7 +165,7 @@ public abstract class Enemy : MonoBehaviour
         {
             if (!agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 2.0f)
             {
-                nextState = AIState.Dormant; 
+                nextState = AIState.Dormant;
             }
         }
 
@@ -157,11 +174,8 @@ public abstract class Enemy : MonoBehaviour
             SetState(nextState);
         }
 
-
-        switch (currentState) 
+        switch (currentState)
         {
-            case AIState.Dormant:
-                break;
             case AIState.Chasing:
                 PerformChaseLogic();
                 break;
@@ -178,22 +192,18 @@ public abstract class Enemy : MonoBehaviour
             case AIState.Dormant:
                 if (q1_inArea && q2_inPersonal) return AIState.Chasing;
                 else return AIState.Dormant;
-
             case AIState.Chasing:
                 if (!q1_inArea) return AIState.Returning;
                 else return AIState.Chasing;
-
             case AIState.Returning:
                 if (q1_inArea) return AIState.Chasing;
-                else return AIState.Returning; 
-
+                else return AIState.Returning;
             default:
                 return current;
         }
     }
 
     protected abstract void PerformChaseLogic();
-
     protected abstract void PerformAttack();
 
     private void HandleReturningMovement()
@@ -207,21 +217,17 @@ public abstract class Enemy : MonoBehaviour
     private void SetState(AIState newState)
     {
         if (currentState == newState) return;
-
-       currentState = newState;
+        currentState = newState;
 
         switch (currentState)
         {
             case AIState.Dormant:
-
-                if (agent.isOnNavMesh && agent.enabled) agent.isStopped=true;
+                if (agent.isOnNavMesh && agent.enabled) agent.isStopped = true;
                 animator.SetFloat("Speed", 0);
                 SetFace(faces.Idleface);
-
                 break;
             case AIState.Chasing:
                 if (agent.isOnNavMesh && agent.enabled) agent.isStopped = false;
-  
                 break;
             case AIState.Returning:
                 if (agent.isOnNavMesh && agent.enabled) agent.isStopped = false;
@@ -232,18 +238,12 @@ public abstract class Enemy : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerInPersonalTrigger = true;
-        }
+        if (other.CompareTag("Player")) isPlayerInPersonalTrigger = true;
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-           isPlayerInPersonalTrigger = false;
-        }
+        if (other.CompareTag("Player")) isPlayerInPersonalTrigger = false;
     }
 
     protected void SetFace(Texture tex)
@@ -256,17 +256,7 @@ public abstract class Enemy : MonoBehaviour
     {
         if (isDead) return;
 
-       
-        if (isTakingDamage && flinchCoroutine != null)
-        {
-            StopCoroutine(flinchCoroutine);
-            if (animator != null) animator.enabled = true;
-            if (agent != null && agent.isOnNavMesh) agent.isStopped = false;
-        }
-
-        isTakingDamage = true;
         currentHealth -= damageAmount;
-
         SetFace(faces.damageFace);
 
         if (currentHealth <= 0)
@@ -275,61 +265,44 @@ public abstract class Enemy : MonoBehaviour
         }
         else
         {
-            if (flinchCoroutine != null)
+            if (Time.time >= lastFlinchTime + flinchCooldown)
             {
-                StopCoroutine(flinchCoroutine);
+                if (flinchCoroutine != null) StopCoroutine(flinchCoroutine);
+                lastFlinchTime = Time.time;
+                flinchCoroutine = StartCoroutine(DamageFlinchRoutine(shotDirection, hitPoint));
             }
-            flinchCoroutine = StartCoroutine(DamageFlinchRoutine(shotDirection, hitPoint));
         }
     }
 
     protected virtual IEnumerator DamageFlinchRoutine(Vector3 shotDirection, Vector3 hitPoint)
     {
-
-        if (agent.isOnNavMesh && agent.enabled)
-        {
-            agent.isStopped = true;
-        }
-
-        if (animator != null)
-        {
-            animator.enabled = false;
-           
-        }
-
-        if (hitRecoil != null)
-        {
-            hitRecoil.ApplyHit(shotDirection, hitPoint);
-        }
-
-
+        if (agent.isOnNavMesh && agent.enabled) agent.isStopped = true;
+        if (animator != null) animator.enabled = false;
+        if (hitRecoil != null) hitRecoil.ApplyHit(shotDirection, hitPoint);
 
         yield return new WaitForSeconds(flinchDuration);
 
         isTakingDamage = false;
         flinchCoroutine = null;
-        if (isDead) yield break; 
+        if (isDead) yield break;
 
         if (agent.isOnNavMesh && agent.enabled && currentState != AIState.Dormant)
         {
             agent.isStopped = false;
         }
-        
+
         if (animator != null)
         {
             animator.enabled = true;
             animator.Play("Locomotion", -1, 0f);
             animator.SetFloat("Speed", 0f);
-
         }
-
     }
 
     public void SetDropItem(GameObject dropPrefab)
     {
         itemDropPrefab = dropPrefab;
     }
-
 
     protected virtual void Die(Vector3 shotDirection, Vector3 hitPoint)
     {
@@ -362,19 +335,15 @@ public abstract class Enemy : MonoBehaviour
             animator.SetTrigger("Die");
         }
 
-        
         StartCoroutine(DisableAfterTime(3f));
     }
 
     protected IEnumerator DisableAfterTime(float delay)
     {
-     
         yield return new WaitForSeconds(delay);
 
-        
         if (itemDropPrefab != null)
         {
-          
             Instantiate(itemDropPrefab, transform.position + Vector3.up * 0.5f, itemDropPrefab.transform.rotation);
             itemDropPrefab = null;
         }
@@ -385,28 +354,18 @@ public abstract class Enemy : MonoBehaviour
     protected Vector3 GetPredictedPlayerPosition(float bulletSpeed, Vector3 originPoint)
     {
         Vector3 targetPoint = player.position + Vector3.up * 0.5f;
-
         Vector3 playerVelocity = Vector3.zero;
 
         PlayerMovement pMove = player.GetComponent<PlayerMovement>();
-        if (pMove != null)
-        {
-            playerVelocity = pMove.currentVelocity;
-        }
+        if (pMove != null) playerVelocity = pMove.currentVelocity;
 
         if (playerVelocity.magnitude < 0.1f) return targetPoint;
 
         float distance = Vector3.Distance(originPoint, targetPoint);
         float timeToHit = distance / bulletSpeed;
-
         float predictionAccuracy = 0.8f;
 
         Vector3 futurePosition = targetPoint + (playerVelocity * timeToHit * predictionAccuracy);
-
         return futurePosition;
     }
-
-
-
 }
-

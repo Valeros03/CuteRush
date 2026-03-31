@@ -471,10 +471,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personalTriggerRadius: 200
-  maxHealth: 10
-  attackDamage: 5
+  maxHealth: 80
+  attackDamage: 10
   attackSpeed: 1
-  chaseSpeed: 8
+  chaseSpeed: 3.5
   rotationSpeed: 5
   flinchDuration: 0.3
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
@@ -491,7 +491,7 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 4140988320600192268}
   projectileForce: 15
-  rangedAttackDamage: 2
+  rangedAttackDamage: 15
   bulletPoolSize: 3
 --- !u!135 &5517104590756939668
 SphereCollider:

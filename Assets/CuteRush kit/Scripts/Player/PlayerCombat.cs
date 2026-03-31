@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TheDeveloperTrain.SciFiGuns;
+using System;
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerCombat : MonoBehaviour
@@ -17,48 +18,77 @@ public class PlayerCombat : MonoBehaviour
     private GunBase gun;
     private GrandeThrower thrower;
 
-    private void Awake()
+    public event Action<int, int> OnActiveWeaponAmmoChanged;
+
+    private bool isInitialized = false;
+
+    public void Init()
     {
         input = GetComponent<PlayerInput>();
 
         if (weaponHolder != null)
         {
-            gun = weaponHolder.GetComponentInChildren<GunBase>();
+            GunBase startingGun = weaponHolder.GetComponentInChildren<GunBase>();
+            if (startingGun != null)
+            {
+                ConnectGun(startingGun);
+                startingGun.Init(this); 
+            }
         }
 
         if (granade != null)
         {
             thrower = granade.GetComponent<GrandeThrower>();
         }
-    }
 
-    private void Start()
-    {
         Transform fpsCam = transform.Find("CameraHolder")?.Find("FPSCamera");
         if (fpsCam != null)
         {
             weaponAnimator = fpsCam.Find("WeaponHolder")?.GetComponentInChildren<Animator>();
         }
+
+        isInitialized = true;
+        if (enabled) SubscribeInputs();
     }
 
     private void OnEnable()
     {
+        if (isInitialized) SubscribeInputs();
+    }
+
+    private void OnDisable()
+    {
+        if (isInitialized) UnsubscribeInputs();
+    }
+
+    private void SubscribeInputs()
+    {
+        if (input == null) return;
         input.OnReload += HandleReload;
         input.OnFireStart += HandleFireStart;
         input.OnFireCancel += HandleFireCancel;
         input.OnEquipGrenade += HandleGrenadeEquip;
     }
 
-    private void OnDisable()
+    private void UnsubscribeInputs()
     {
+        if (input == null) return;
         input.OnReload -= HandleReload;
         input.OnFireStart -= HandleFireStart;
         input.OnFireCancel -= HandleFireCancel;
         input.OnEquipGrenade -= HandleGrenadeEquip;
     }
 
+    private void OnDestroy()
+    {
+        UnsubscribeInputs();
+        if (gun != null) gun.OnAmmoChanged -= HandleWeaponAmmoChanged;
+    }
+
     private void Update()
     {
+        if (!isInitialized) return;
+
         if (input.IsFiring && gun != null && gun.gameObject.activeInHierarchy)
         {
             if (gun.stats.fireMode == FireMode.Auto)
@@ -68,15 +98,23 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    
+    private void ConnectGun(GunBase newGun)
+    {
+        if (gun != null) gun.OnAmmoChanged -= HandleWeaponAmmoChanged;
 
+        gun = newGun;
+
+        if (gun != null) gun.OnAmmoChanged += HandleWeaponAmmoChanged;
+    }
+
+    private void HandleWeaponAmmoChanged(int currentAmmo, int totalAmmo)
+    {
+        OnActiveWeaponAmmoChanged?.Invoke(currentAmmo, totalAmmo);
+    }
 
     private void HandleReload()
     {
-        if (gun != null && gun.gameObject.activeInHierarchy)
-        {
-            gun.StartReload();
-        }
+        if (gun != null && gun.gameObject.activeInHierarchy) gun.StartReload();
     }
 
     private void HandleFireStart()
@@ -87,13 +125,13 @@ public class PlayerCombat : MonoBehaviour
         }
         else if (gun != null && gun.gameObject.activeInHierarchy)
         {
-           
             if (gun.stats.fireMode == FireMode.Single || gun.stats.fireMode == FireMode.charge)
             {
                 gun.TryShoot();
             }
         }
     }
+
     private void HandleFireCancel()
     {
         if (granade != null && granade.activeInHierarchy && thrower != null)
@@ -103,10 +141,7 @@ public class PlayerCombat : MonoBehaviour
         }
         else if (gun != null && gun.gameObject.activeInHierarchy)
         {
-            if (gun.stats.fireMode == FireMode.Single)
-            {
-                gun.ResetSingleShot();
-            }
+            if (gun.stats.fireMode == FireMode.Single) gun.ResetSingleShot();
         }
     }
 
@@ -119,19 +154,14 @@ public class PlayerCombat : MonoBehaviour
             if (weaponAnimator != null && gun != null)
             {
                 gun.enabled = false;
-
                 Transform tracer = gun.transform.Find("Tracer");
                 if (tracer != null) tracer.gameObject.SetActive(false);
-
                 weaponAnimator.SetTrigger("PosaArma");
             }
         }
         else
         {
-            if (granadeAnimator != null)
-            {
-                granadeAnimator.SetTrigger("PosaGranata");
-            }
+            if (granadeAnimator != null) granadeAnimator.SetTrigger("PosaGranata");
         }
     }
 
@@ -145,7 +175,6 @@ public class PlayerCombat : MonoBehaviour
         if (granade != null)
         {
             granade.SetActive(true);
-
             if (granadeAnimator != null)
             {
                 granade.transform.SetParent(granade.GetComponentInParent<Transform>());
@@ -174,22 +203,17 @@ public class PlayerCombat : MonoBehaviour
             if (gun.transform.childCount > 0)
                 gun.transform.GetChild(0).gameObject.SetActive(true);
 
-            if (weaponAnimator != null)
-            {
-                weaponAnimator.SetTrigger("EquipaggiaArma");
-            }
+            if (weaponAnimator != null) weaponAnimator.SetTrigger("EquipaggiaArma");
         }
     }
 
     public void EquipWeapon(GameObject newWeaponPrefab)
     {
-        if (granade != null && granade.activeInHierarchy)
-        {
-            SwitchToWeapon();
-        }
+        if (granade != null && granade.activeInHierarchy) SwitchToWeapon();
 
         if (gun != null)
         {
+            gun.OnAmmoChanged -= HandleWeaponAmmoChanged;
             Destroy(gun.gameObject);
         }
 
@@ -197,13 +221,18 @@ public class PlayerCombat : MonoBehaviour
         newWeapon.transform.localPosition = Vector3.zero;
         newWeapon.transform.localRotation = Quaternion.identity;
 
-        gun = newWeapon.GetComponent<GunBase>();
         weaponAnimator = newWeapon.GetComponent<Animator>();
 
-        if (gun != null)
+        GunBase newGunComponent = newWeapon.GetComponent<GunBase>();
+
+        if (newGunComponent != null)
         {
-            gun.enabled = true;
-            Transform tracer = gun.transform.Find("Tracer");
+            newGunComponent.Init(this);
+
+            ConnectGun(newGunComponent);
+
+            newGunComponent.enabled = true;
+            Transform tracer = newGunComponent.transform.Find("Tracer");
             if (tracer != null) tracer.gameObject.SetActive(true);
         }
 
@@ -218,10 +247,7 @@ public class PlayerCombat : MonoBehaviour
 
     public string GetCurrentWeaponName()
     {
-        if (gun != null)
-        {
-            return gun.gameObject.name.Replace("(Clone)", "").Trim();
-        }
+        if (gun != null) return gun.gameObject.name.Replace("(Clone)", "").Trim();
         return "Nessuna Arma";
     }
 

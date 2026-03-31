@@ -26,12 +26,12 @@ public abstract class InteractableItem : MonoBehaviour, Interactable
 
     public virtual void ShowInteraction()
     {
-        UIManager.Instance.ShowInteract(interactText);
+        UIEvents.TriggerInteract(interactText);
     }
 
     public virtual void HideInteraction()
     {
-        UIManager.Instance.HideInteract();
+        UIEvents.TriggerHideInteract();
     }
     public abstract void Interact(PlayerInteraction player = null);
 

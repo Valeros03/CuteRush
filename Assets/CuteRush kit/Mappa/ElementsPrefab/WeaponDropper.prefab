@@ -9847,9 +9847,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c4b6aa776017e439edc8de446faa9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactText: Interagisci
+  interactText: Cambiare Arma
   isInteractable: 1
-  respawnTime: 90
+  respawnTime: 60
   spawnPoint: {fileID: 4911963887501974254}
   availableWeapons:
   - weaponName: PistolGun

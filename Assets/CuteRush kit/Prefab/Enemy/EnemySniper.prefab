@@ -218,10 +218,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personalTriggerRadius: 200
-  maxHealth: 15
-  attackDamage: 0
+  maxHealth: 30
+  attackDamage: 25
   attackSpeed: 1
-  chaseSpeed: 3.5
+  chaseSpeed: 2.5
   rotationSpeed: 5
   flinchDuration: 0.3
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
@@ -230,12 +230,12 @@ MonoBehaviour:
   rb: {fileID: 532509574457665705}
   hitRecoil: {fileID: 2395960527117565583}
   killPoints: 10
-  rangedAttackDamage: 5
+  rangedAttackDamage: 25
   projectilePrefab: {fileID: 5123798614293869143, guid: ef071591f5409bb408b6a0b6c4b58f39,
     type: 3}
   firePoint: {fileID: 4762874658448131454}
   projectileForce: 20
-  rangeAttackdistance: 20
+  rangeAttackdistance: 30
   attackCooldown: 1.5
   bulletPoolSize: 3
 --- !u!135 &5684035095987179647

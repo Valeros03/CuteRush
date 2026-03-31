@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioGunController))]
 [RequireComponent(typeof(Animator))]
@@ -12,17 +11,13 @@ public abstract class GunBase : MonoBehaviour
     public ParticleSystem[] gunParticleSystems;
 
     [Header("Settings")]
-    public Transform firePoint;        
-    public LayerMask hitLayers;          
+    public Transform firePoint;
+    public LayerMask hitLayers;
 
     [Header("Effects")]
     public LineRenderer tracer;
     public float tracerDuration = 0.05f;
     private float tracerTimer;
-
-    [Header("UI")]
-    private GameObject weaponUI;
-    private Text bulletNumberUIText;
 
     protected Animator animator;
     protected AudioGunController audioController;
@@ -42,55 +37,47 @@ public abstract class GunBase : MonoBehaviour
     public Action onGunShootingStart;
 
     private PlayerCombat combat;
-    private Crosshair crosshair; 
+    private Crosshair crosshair;
 
-    protected virtual void Awake()
+    public event Action<int, int> OnAmmoChanged;
+
+    protected bool isInitialized = false;
+
+    public virtual void Init(PlayerCombat ownerCombat)
     {
         audioController = GetComponent<AudioGunController>();
         animator = GetComponent<Animator>();
         mainCamera = Camera.main;
-        combat = GetComponentInParent<PlayerCombat>();
+
+        combat = ownerCombat;
 
         crosshair = FindObjectOfType<Crosshair>();
+
+        if (stats != null)
+        {
+            currentBulletCount = stats.magazineSize;
+            currentMagLeft = stats.totalAmmo;
+
+            if (crosshair != null)
+            {
+                crosshair.LoadGunSettings(stats);
+            }
+        }
+        OnAmmoChanged?.Invoke(currentBulletCount, currentMagLeft);
+        isInitialized = true;
     }
 
-    protected virtual void Start()
+    protected virtual void OnEnable()
     {
-        if (stats == null)
+        if (isInitialized && stats != null)
         {
-            return;
+            OnAmmoChanged?.Invoke(currentBulletCount, currentMagLeft);
         }
-
-        currentBulletCount = stats.magazineSize;
-        currentMagLeft = stats.totalAmmo;
-
-
-        if (crosshair != null)
-        {
-            crosshair.LoadGunSettings(stats);
-        }
-
-        if (weaponUI == null)
-        {
-            weaponUI = GameObject.Find("Canvas/HUD/WeaponUI");
-        }
-
-        if (bulletNumberUIText == null && weaponUI != null)
-        {
-            bulletNumberUIText = weaponUI.transform.Find("Ammo").GetComponent<Text>();
-        }
-
     }
 
     protected virtual void Update()
     {
-        if (combat != null)
-        {
-            if (weaponUI != null && weaponUI.activeSelf && bulletNumberUIText != null)
-            {
-                bulletNumberUIText.text = $"Bullets {currentBulletCount}/{currentMagLeft}";
-            }
-        }
+
         if (tracer != null && tracer.enabled)
         {
             tracerTimer -= Time.deltaTime;
@@ -111,9 +98,7 @@ public abstract class GunBase : MonoBehaviour
         if (!isReloading && !IsInShotCooldown)
         {
             onGunShootingStart?.Invoke();
-
             foreach (var ps in gunParticleSystems) if (ps != null) ps.Play();
-
             Shoot();
         }
     }
@@ -129,7 +114,6 @@ public abstract class GunBase : MonoBehaviour
 
         Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
-        Crosshair crosshair = FindObjectOfType<Crosshair>();
         if (crosshair != null)
         {
             float bloomFactor = crosshair.spread / 2000f;
@@ -138,18 +122,13 @@ public abstract class GunBase : MonoBehaviour
             ray.direction = (ray.direction + randomOffset).normalized;
         }
 
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, stats.range, hitLayers))
+        if (Physics.Raycast(ray, out RaycastHit hit, stats.range, hitLayers))
         {
             var enemy = hit.collider.GetComponentInParent<Enemy>();
-
             if (enemy != null)
             {
                 enemy.TakeDamage(stats.damage, ray.direction, hit.point);
             }
-
-         
             DrawTracer(firePoint.position, hit.point);
         }
         else
@@ -161,10 +140,9 @@ public abstract class GunBase : MonoBehaviour
         currentBulletCount--;
         onBulletShot?.Invoke();
 
-        if (crosshair != null)
-        {
-            crosshair.ApplyShootKick();
-        }
+        OnAmmoChanged?.Invoke(currentBulletCount, currentMagLeft);
+
+        if (crosshair != null) crosshair.ApplyShootKick();
     }
 
     protected void DrawTracer(Vector3 start, Vector3 end)
@@ -182,20 +160,12 @@ public abstract class GunBase : MonoBehaviour
     public void StartReload()
     {
         if (!gameObject.activeSelf || isReloading) return;
-
         if (currentBulletCount >= stats.magazineSize) return;
 
         if (currentMagLeft <= 0)
         {
-            if (UIManager.Instance != null)
-            {
-                UIManager.Instance.ShowMessage("NO AMMO", Color.red);
-            }
-
-            if (audioController != null)
-            {
-                audioController.PlayNoAmmo();
-            }
+            UIEvents.SendNotification("NO AMMO", Color.red);
+            if (audioController != null) audioController.PlayNoAmmo();
             return;
         }
 
@@ -217,7 +187,6 @@ public abstract class GunBase : MonoBehaviour
         }
         else
         {
-
             audioController?.PlayRecharge();
             yield return new WaitForSeconds(stats.reloadDuration);
         }
@@ -229,6 +198,8 @@ public abstract class GunBase : MonoBehaviour
             currentBulletCount += toLoad;
             currentMagLeft -= toLoad;
         }
+
+        OnAmmoChanged?.Invoke(currentBulletCount, currentMagLeft);
 
         isReloading = false;
     }
@@ -244,30 +215,16 @@ public abstract class GunBase : MonoBehaviour
 
     private void EquipGranade()
     {
-        if (combat != null)
-        {
-            combat.SwitchToGranade();
-        }
+        if (combat != null) combat.SwitchToGranade();
     }
 
     public virtual bool addMag()
     {
-        if (currentMagLeft >= stats.totalAmmo)
-        {
-            return false;
-        }
+        if (currentMagLeft >= stats.totalAmmo) return false;
 
         currentMagLeft += stats.magazineSize;
-
-        if (currentMagLeft > stats.totalAmmo)
-        {
-            currentMagLeft = stats.totalAmmo;
-        }
-
-        if (weaponUI != null && weaponUI.activeSelf && bulletNumberUIText != null)
-        {
-            bulletNumberUIText.text = $"Bullets {currentBulletCount}/{currentMagLeft}";
-        }
+        if (currentMagLeft > stats.totalAmmo) currentMagLeft = stats.totalAmmo;
+        OnAmmoChanged?.Invoke(currentBulletCount, currentMagLeft);
 
         return true;
     }

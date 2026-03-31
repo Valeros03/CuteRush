@@ -1,175 +1,185 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HUD : UIPanel
 {
+
+    [Header("Health UI")]
     [SerializeField] private Image healthImage;
     [SerializeField] private Text healthText;
     [SerializeField] private Color emptyHealthColor;
     [SerializeField] private Color fullHealthColor;
 
+    [Header("Inventory UI")]
+    [SerializeField] private Text goldText;
     [SerializeField] private Text medikitText;
     [SerializeField] private Text grenadeText;
+    [SerializeField] private Text scoreText;
 
-    [SerializeField] private Text InteractText;
-    [SerializeField] private Text PickUpText;
+    [Header("Interaction UI")]
+    [SerializeField] private Text interactText;
+    [SerializeField] private Text pickUpText;
     [SerializeField] private Text messageText;
 
-    public float displayDuration = 3f;
-    public float fadeDuration = 1f;
-
-    [SerializeField] private Text Score;
-    [SerializeField] private Text Gold;
-
-    [Header("Damage Indicator")]
+    [Header("Damage Indicators")]
     [SerializeField] private GameObject damageIndicatorPrefab;
-    [SerializeField] private Transform damageIndicatorContainer;
+    [SerializeField] private Transform indicatorContainer;
     [SerializeField] private float mergeAngleThreshold = 40f;
 
-    [Header("Acido Borico UI")]
+    [Header("Special Systems")]
     [SerializeField] private UiAcidoBorico acidoBoricoPanel;
 
-    private Coroutine messageCoroutine;
+    [Header("Weapon UI")]
+    [SerializeField] private Text ammoText;
 
+    private InventoryPlayer _currentInventory;
+    private VitalsController _currentVitals;
+    private PlayerCombat _currentCombat;
+    private List<DamageIndicator> _activeIndicators = new List<DamageIndicator>();
+    private Coroutine _messageCoroutine;
 
-    
+    private const string DEFAULT_INTERACT = "Premi F per ";
+    private const string DEFAULT_PICKUP = "Premi F per raccogliere ";
 
-    private List<DamageIndicator> activeIndicators = new List<DamageIndicator>();
-
-    private static string default_interact = "Premi F per ";
-    private static string default_pickup = "Premi F per raccogliere ";
-
-    private string lastMessage = "";
-    private int lastColor = 0;
-
-    public void SetupMaxAcidoBars(int maxBars)
+    public void ConnectToPlayer(InventoryPlayer inventory, VitalsController vitals, PlayerCombat combat)
     {
-        if (acidoBoricoPanel != null) acidoBoricoPanel.SetupMaxBars(maxBars);
-    }
+        Disconnect();
 
-    public void UpdateAcidoCharges(int charges)
-    {
-        if (acidoBoricoPanel != null) acidoBoricoPanel.UpdateCharges(charges);
-    }
+        _currentInventory = inventory;
+        _currentVitals = vitals;
+        _currentCombat = combat;
 
-    public void UpdateAcidoProgress(float progress)
-    {
-        if (acidoBoricoPanel != null) acidoBoricoPanel.UpdateProgress(progress);
-    }
-
-    public void UpdateHealth(int currentHealth, int maxHealth)
-    {
-        float healthPercentage = (float)currentHealth / (float)maxHealth;
-        healthImage.fillAmount = healthPercentage;
-        healthImage.color = Color.Lerp(emptyHealthColor, fullHealthColor, healthPercentage);
-        healthText.text = currentHealth.ToString();
-    }
-
-    public void UpdateScore(int score)
-    {
-        Score.text = score.ToString();
-    }
-
-    public void UpdateInventory(int medikitCount, int grenadeCount, int gold)
-    {
-        if (medikitText != null)
-            medikitText.text = medikitCount.ToString();
-        if (grenadeText != null)
-            grenadeText.text = grenadeCount.ToString();
-        if (Gold != null)
-            Gold.text = gold.ToString();
-    }
-
-    public void ShowMessage(string message)
-    {
-        ShowMessage(message, Color.white);
-    }
-
-    public void ShowMessage(string message, Color color)
-    {
-        if (messageCoroutine != null)
+        if (_currentInventory != null)
         {
-            StopCoroutine(messageCoroutine);
+            _currentInventory.OnGoldChanged += UpdateGold;
+            _currentInventory.OnMedkitsChanged += UpdateMedkit;
+            _currentInventory.OnGrenadesChanged += UpdateGrenade;
+            _currentInventory.OnMaxAcidoBoricoChanged += SetupMaxAcidoBars;
+            _currentInventory.OnAcidoBoricoChanged += UpdateAcidoCharges;
+            _currentInventory.OnAcidoRechargeProgress += UpdateAcidoProgress;
+
+            UpdateGold(_currentInventory.getGold());
+            UpdateMedkit(_currentInventory.getMedkitCount());
+            UpdateGrenade(_currentInventory.getGrenadeCount());
         }
-        messageCoroutine = StartCoroutine(HandleMessageRoutine(message, color));
+
+        if (_currentVitals != null)
+        {
+            _currentVitals.OnHealthChange += UpdateHealth;
+            _currentVitals.OnTakeDamage += ShowDamageIndicator;
+            UpdateHealth(_currentVitals.currentHealth, _currentVitals.maxHealth);
+        }
+
+        if (_currentCombat != null)
+        {
+            _currentCombat.OnActiveWeaponAmmoChanged += UpdateAmmoUI;
+        }
+
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnScoreChange += UpdateScore;
+            UpdateScore(GameManager.Instance.currentScore);
+        }
+
+        UIEvents.OnShowNotification += ShowMessage;
+        UIEvents.OnRequestInteract += ShowInteract;
+        UIEvents.OnHideInteract += HideInteract;
     }
 
-    private IEnumerator HandleMessageRoutine(string msg, Color col)
+    public void Disconnect()
     {
-        col.a = 1f;
+        if (_currentInventory != null)
+        {
+            _currentInventory.OnGoldChanged -= UpdateGold;
+            _currentInventory.OnMedkitsChanged -= UpdateMedkit;
+            _currentInventory.OnGrenadesChanged -= UpdateGrenade;
+            _currentInventory.OnMaxAcidoBoricoChanged -= SetupMaxAcidoBars;
+            _currentInventory.OnAcidoBoricoChanged -= UpdateAcidoCharges;
+            _currentInventory.OnAcidoRechargeProgress -= UpdateAcidoProgress;
+        }
 
+        if (_currentVitals != null)
+        {
+            _currentVitals.OnHealthChange -= UpdateHealth;
+            _currentVitals.OnTakeDamage -= ShowDamageIndicator;
+        }
+
+        if (_currentCombat != null)
+        {
+            _currentCombat.OnActiveWeaponAmmoChanged -= UpdateAmmoUI;
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnScoreChange -= UpdateScore;
+        }
+
+        UIEvents.OnShowNotification -= ShowMessage;
+        UIEvents.OnRequestInteract -= ShowInteract;
+        UIEvents.OnHideInteract -= HideInteract;
+    }
+
+    private void UpdateAmmoUI(int current, int total)
+    {
+        if (ammoText != null)
+        {
+            ammoText.text = $"Bullets {current}/{total}";
+        }
+    }
+
+    public void UpdateHealth(int current, int max)
+    {
+        float percent = (float)current / max;
+        healthImage.fillAmount = percent;
+        healthImage.color = Color.Lerp(emptyHealthColor, fullHealthColor, percent);
+        healthText.text = current.ToString();
+    }
+
+    public void UpdateGold(int amount) => goldText.text = amount.ToString();
+    public void UpdateMedkit(int count) => medikitText.text = count.ToString();
+    public void UpdateGrenade(int count) => grenadeText.text = count.ToString();
+    public void UpdateScore(int score) => scoreText.text = score.ToString();
+
+    private void ShowMessage(string message, Color? color = null)
+    {
+        if (_messageCoroutine != null) StopCoroutine(_messageCoroutine);
+        _messageCoroutine = StartCoroutine(MessageRoutine(message, color ?? Color.white));
+    }
+
+    private IEnumerator MessageRoutine(string msg, Color col)
+    {
         messageText.text = msg;
         messageText.color = col;
         messageText.gameObject.SetActive(true);
-
-        yield return new WaitForSeconds(displayDuration);
-
-        float elapsed = 0f;
-        Color currentColor = messageText.color;
-
-        while (elapsed < fadeDuration)
-        {
-            elapsed += Time.deltaTime;
-            float newAlpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
-            currentColor.a = newAlpha;
-            messageText.color = currentColor;
-
-            yield return null;
-        }
-
+        yield return new WaitForSeconds(3f);
         messageText.gameObject.SetActive(false);
     }
 
-
-    public void ShowInteract(string item)
-    {
-        InteractText.text += item;
-        InteractText.gameObject.SetActive(true);
-    }
-
-    public void HideInteract()
-    {
-        InteractText.text = default_interact;
-        InteractText.gameObject.SetActive(false);
-    }
-
-    public void ShowPickUp(string item)
-    {
-        PickUpText.text += item;
-        PickUpText.gameObject.SetActive(true);
-    }
-
-    public void HidePickUp()
-    {
-        PickUpText.text = default_pickup;
-        PickUpText.gameObject.SetActive(false);
-    }
+    private void ShowInteract(string item) { interactText.text = DEFAULT_INTERACT + item; interactText.gameObject.SetActive(true); }
+    private void HideInteract() { interactText.gameObject.SetActive(false); }
 
     public void ShowDamageIndicator(Vector3 enemyPos)
     {
+        if (!gameObject.activeInHierarchy || damageIndicatorPrefab == null) return;
 
-        if (!gameObject.activeInHierarchy) return;
-
-        if (damageIndicatorPrefab == null) return;
-        Transform parent = damageIndicatorContainer != null ? damageIndicatorContainer : transform;
-
+        Transform parent = indicatorContainer != null ? indicatorContainer : transform;
         Transform camTrans = Camera.main.transform;
         Vector3 relDir = enemyPos - camTrans.position;
+
         float xRel = Vector3.Dot(relDir, camTrans.right);
         float yRel = Vector3.Dot(relDir, camTrans.forward);
         float angleDeg = Mathf.Atan2(xRel, yRel) * Mathf.Rad2Deg;
 
-        
         DamageIndicator matchFound = null;
-        foreach (var ind in activeIndicators)
-        {
-            if (ind == null) continue; 
 
-  
+        foreach (var ind in _activeIndicators)
+        {
+            if (ind == null) continue;
             float diff = Mathf.Abs(Mathf.DeltaAngle(ind.GetCurrentZRotation(), -angleDeg));
+
             if (diff < mergeAngleThreshold)
             {
                 matchFound = ind;
@@ -179,26 +189,26 @@ public class HUD : UIPanel
 
         if (matchFound != null)
         {
-            
             matchFound.Refresh(enemyPos);
         }
         else
         {
-  
             GameObject indicatorGO = Instantiate(damageIndicatorPrefab, parent);
             RectTransform rect = indicatorGO.GetComponent<RectTransform>();
             rect.anchoredPosition = Vector2.zero;
 
             DamageIndicator newInd = indicatorGO.GetComponent<DamageIndicator>();
             newInd.Initialize(enemyPos);
-
-            activeIndicators.Add(newInd);
+            _activeIndicators.Add(newInd);
         }
     }
 
-    void Update()
-    {
-        activeIndicators.RemoveAll(x => x == null);
-    }
+    public void SetupMaxAcidoBars(int bars) => acidoBoricoPanel.SetupMaxBars(bars);
+    public void UpdateAcidoCharges(int charges) => acidoBoricoPanel.UpdateCharges(charges);
+    public void UpdateAcidoProgress(float p) => acidoBoricoPanel.UpdateProgress(p);
 
+    private void Update()
+    {
+        _activeIndicators.RemoveAll(x => x == null);
+    }
 }

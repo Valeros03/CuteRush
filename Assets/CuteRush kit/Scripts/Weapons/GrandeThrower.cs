@@ -39,11 +39,9 @@ public class GrandeThrower : MonoBehaviour
     {
         if (Camera.main == null) return;
 
-        // Il raycast parte dal centro esatto della telecamera (il tuo crosshair)
         Vector3 startPos = Camera.main.transform.position + Camera.main.transform.forward * 0.5f;
         Vector3 velocity = Camera.main.transform.forward * granadeSpeed;
 
-        // IMPORTANTE: Usiamo la gravità reale di Unity per far combaciare la linea blu con la fisica!
         float realGravity = Mathf.Abs(Physics.gravity.y);
 
         Vector3 hitPoint = SimulateTrajectory(startPos, velocity, realGravity, trajectorySteps, collisionMask);
@@ -95,26 +93,20 @@ public class GrandeThrower : MonoBehaviour
         Vector3 pos = startPos;
         Vector3 vel = velocity;
 
-        // Usiamo l'intervallo di tempo ESATTO che usa la fisica di Unity (di default 0.02f)
         float timeStep = Time.fixedDeltaTime;
 
         for (int i = 0; i < steps; i++)
         {
-            // IL SEGRETO DI UNITY: Semi-Implicit Euler Integration
-            // Prima si applica la gravità alla velocità...
-            vel += Vector3.down * gravity * timeStep;
 
-            // ...E POI si calcola la nuova posizione! (Prima facevamo il contrario)
+            vel += Vector3.down * gravity * timeStep;
             Vector3 nextPos = pos + vel * timeStep;
 
-            // Controllo della collisione
             if (Physics.Linecast(pos, nextPos, out RaycastHit hit, mask))
             {
                 return hit.point;
             }
 
-            // Fallback nel caso attraversi il pavimento (z = 0) che avevi scritto tu
-            if (pos.y > 0 && nextPos.y <= 0) // (Ho cambiato Z in Y, perché il pavimento di solito è in basso, sull'asse Y!)
+            if (pos.y > 0 && nextPos.y <= 0)
             {
                 float t = pos.y / (pos.y - nextPos.y);
                 return Vector3.Lerp(pos, nextPos, t);

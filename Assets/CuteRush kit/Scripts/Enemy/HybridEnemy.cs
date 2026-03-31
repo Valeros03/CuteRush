@@ -23,7 +23,8 @@ public class HybridEnemy : Enemy
     private List<GameObject> bulletPool;
     private float lastRangedAttackTime;
 
-    
+    protected int scaledRangedDamage;
+
     protected override void Start()
     {
         base.Start();
@@ -33,6 +34,19 @@ public class HybridEnemy : Enemy
         {
             agent.stoppingDistance = meleeRange;
         }
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+
+        float diffMult = 1.0f;
+        if (DifficultyManager.Instance != null)
+        {
+            diffMult = DifficultyManager.Instance.currentMultiplier;
+        }
+
+        scaledRangedDamage = Mathf.RoundToInt(rangedAttackDamage * diffMult);
     }
 
     void InitializeBulletPool()
@@ -45,7 +59,6 @@ public class HybridEnemy : Enemy
         for (int i = 0; i < bulletPoolSize; i++)
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            // Non impostiamo i danni qui
             bullet.SetActive(false);
             bulletPool.Add(bullet);
         }
@@ -114,7 +127,7 @@ public class HybridEnemy : Enemy
     {
         if (Vector3.Distance(transform.position, player.position) <= meleeRange + 0.4f) 
         {
-            player.GetComponent<VitalsController>()?.Decrease(attackDamage, transform.position, true);
+            _targetVitals.Decrease(scaledAttackDamage, transform.position, true);
         }
     }
 
@@ -135,7 +148,7 @@ public class HybridEnemy : Enemy
         Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
         Vector3 dir = (predictedTarget - firePoint.position).normalized;
 
-        bullet.GetComponent<EnemyBullet>().Fire(dir, rangedAttackDamage, projectileForce, transform.position);
+        bullet.GetComponent<EnemyBullet>().Fire(dir, scaledRangedDamage, projectileForce, transform.position);
     }
 
     IEnumerator faceShootAnimate()
@@ -155,16 +168,6 @@ public class HybridEnemy : Enemy
             }
         }
         return null; 
-    }
-
-   
-    public void TriggerMeleeDamage() 
-    {
-
-        if (Vector3.Distance(transform.position, player.position) <= meleeRange + 0.5f)
-        {
-            player.GetComponent<VitalsController>()?.Decrease(attackDamage, transform.position);
-        }
     }
 
     void FaceTarget(Vector3 targetPosition)

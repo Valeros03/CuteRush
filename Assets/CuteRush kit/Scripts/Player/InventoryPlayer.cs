@@ -11,33 +11,37 @@ public class InventoryPlayer : MonoBehaviour
     private static int MaxMedkit = 10;
     private static int MaxGrenade = 10;
 
-    public static event Action<int, int, int> OnInventoryChanged;
-
     [Header("Acido Borico Settings")]
     public int maxAcidoBorico = 1;
     public float acidoRechargeTime = 15f;
     private int currentAcidoBorico;
     private bool isRechargingAcido = false;
 
-    public static event Action<int> OnAcidoBoricoChanged;
-    public static event Action<float> OnAcidoRechargeProgress;
-    public static event Action<int> OnMaxAcidoBoricoChanged;
+    public delegate void ResourceChangedHandler(int newAmount);
 
-    private void Awake()
+    public event ResourceChangedHandler OnGoldChanged;
+    public event ResourceChangedHandler OnMedkitsChanged;
+    public event ResourceChangedHandler OnGrenadesChanged;
+
+    public event Action<int> OnAcidoBoricoChanged;
+    public event Action<float> OnAcidoRechargeProgress;
+    public event Action<int> OnMaxAcidoBoricoChanged;
+
+    public void Init()
     {
         if (PlayerPrefs.HasKey("MaxAcidoBorico"))
         {
             maxAcidoBorico = PlayerPrefs.GetInt("MaxAcidoBorico");
         }
-    }
 
-    private void Start()
-    {
         currentAcidoBorico = maxAcidoBorico;
-        OnMaxAcidoBoricoChanged?.Invoke(maxAcidoBorico);
 
-        OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
+        OnMaxAcidoBoricoChanged?.Invoke(maxAcidoBorico);
         OnAcidoBoricoChanged?.Invoke(currentAcidoBorico);
+        OnMedkitsChanged?.Invoke(MedkitCount);
+        OnGoldChanged?.Invoke(coins);
+        OnGrenadesChanged?.Invoke(GrenadeCount);
+        
     }
 
     public bool UseAcidoBorico()
@@ -67,10 +71,8 @@ public class InventoryPlayer : MonoBehaviour
             while (elapsed < acidoRechargeTime)
             {
                 elapsed += Time.deltaTime;
-
                 float progress = elapsed / acidoRechargeTime;
                 OnAcidoRechargeProgress?.Invoke(progress);
-
                 yield return null;
             }
 
@@ -82,81 +84,34 @@ public class InventoryPlayer : MonoBehaviour
         isRechargingAcido = false;
     }
 
-    public int getMedkitCount()
-    {
-        return MedkitCount;
-    }
-
-    public int getGrenadeCount()
-    {
-        return GrenadeCount;
-    }
+    public int getMedkitCount() => MedkitCount;
+    public int getGrenadeCount() => GrenadeCount;
+    public int getGold() => coins;
 
     public bool addMedkit()
     {
-        if (MedkitCount < MaxMedkit)
-        {
-            MedkitCount++;
-            OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
-            return true;
-        }
+        if (MedkitCount < MaxMedkit) { MedkitCount++; OnMedkitsChanged?.Invoke(MedkitCount); return true; }
         return false;
     }
 
     public bool removeMedkit()
     {
-        if (MedkitCount > 0)
-        {
-            MedkitCount--;
-            OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
-            return true;
-        }
+        if (MedkitCount > 0) { MedkitCount--; OnMedkitsChanged?.Invoke(MedkitCount); return true; }
         return false;
     }
 
     public bool addGrenade()
     {
-        if (GrenadeCount < MaxGrenade)
-        {
-            GrenadeCount++;
-            OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
-            return true;
-        }
+        if (GrenadeCount < MaxGrenade) { GrenadeCount++; OnGrenadesChanged?.Invoke(GrenadeCount); return true; }
         return false;
     }
 
     public bool removeGrenade()
     {
-        if (GrenadeCount > 0)
-        {
-            GrenadeCount--;
-            OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
-            return true;
-        }
+        if (GrenadeCount > 0) { GrenadeCount--; OnGrenadesChanged?.Invoke(GrenadeCount); return true; }
         return false;
     }
 
-    public void addCoin()
-    {
-        coins++;
-        OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
-    }
-
-    public void addCoin(int count)
-    {
-        
-        coins += count;
-        OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
-    }
-
-    public void removeCoin(int count)
-    {
-        coins -= count;
-        OnInventoryChanged?.Invoke(MedkitCount, GrenadeCount, coins);
-    }
-
-    public int getCoins()
-    {
-        return coins;
-    }
+    public void addCoin(int count = 1) { coins += count; OnGoldChanged?.Invoke(coins); }
+    public void removeCoin(int count) { coins -= count; OnGoldChanged?.Invoke(coins); }
 }

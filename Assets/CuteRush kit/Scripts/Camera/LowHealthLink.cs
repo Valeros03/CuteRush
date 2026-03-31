@@ -4,20 +4,25 @@ using Leguar.LowHealth;
 public class LowHealthLink : MonoBehaviour
 {
     private LowHealthController cameraEffect;
+    private VitalsController vitals;
 
     void Awake()
     {
         cameraEffect = GetComponent<LowHealthController>();
+        vitals = GetComponentInParent<VitalsController>();
     }
 
     void OnEnable()
     {
-        VitalsController.OnHealthChange += UpdateCameraEffect;
+        vitals.OnHealthChange += UpdateCameraEffect;
     }
 
     void OnDisable()
     {
-        VitalsController.OnHealthChange -= UpdateCameraEffect;
+        if (vitals != null)
+        {
+            vitals.OnHealthChange -= UpdateCameraEffect;
+        }
     }
 
     private void UpdateCameraEffect(int currentHealth, int maxHealth)
