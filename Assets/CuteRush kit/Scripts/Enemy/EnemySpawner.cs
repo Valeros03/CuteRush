@@ -59,7 +59,7 @@ public class EnemySpawner : BaseSpawner
         playerTransform = GameObject.FindGameObjectWithTag(GameConstants.PLAYER_TAG)?.transform;
     }
 
-    void Start()
+    public override void InitSpawner()
     {
         if (playerTransform != null)
         {

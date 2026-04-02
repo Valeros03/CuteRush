@@ -5,6 +5,9 @@ public class GameBootstrapper : MonoBehaviour
     [Header("Player Setup")]
     [SerializeField] private GameObject player;
 
+    [Header("Spawners Setup")]
+    [SerializeField] private BaseSpawner[] spawners;
+
     private void Start()
     {
         if (player == null)
@@ -36,6 +39,22 @@ public class GameBootstrapper : MonoBehaviour
         inventory.Init();
         combat.Init();
 
+        if (DifficultyManager.Instance != null)
+        {
+            DifficultyManager.Instance.InitManager();
+        }
 
+        if (spawners == null || spawners.Length == 0)
+        {
+            spawners = FindObjectsOfType<BaseSpawner>();
+        }
+
+        foreach (BaseSpawner spawner in spawners)
+        {
+            if (spawner != null)
+            {
+                spawner.InitSpawner();
+            }
+        }
     }
 }
