@@ -41,10 +41,10 @@ public class PlayerCombat : MonoBehaviour
             thrower = granade.GetComponent<GrandeThrower>();
         }
 
-        Transform fpsCam = transform.Find("CameraHolder")?.Find("FPSCamera");
+        Transform fpsCam = transform.Find(GameConstants.TRANSFORM_CAMERA_HOLDER)?.Find(GameConstants.TRANSFORM_FPS_CAMERA);
         if (fpsCam != null)
         {
-            weaponAnimator = fpsCam.Find("WeaponHolder")?.GetComponentInChildren<Animator>();
+            weaponAnimator = fpsCam.Find(GameConstants.TRANSFORM_WEAPON_HOLDER)?.GetComponentInChildren<Animator>();
         }
 
         isInitialized = true;
@@ -154,14 +154,14 @@ public class PlayerCombat : MonoBehaviour
             if (weaponAnimator != null && gun != null)
             {
                 gun.enabled = false;
-                Transform tracer = gun.transform.Find("Tracer");
+                Transform tracer = gun.transform.Find(GameConstants.TRANSFORM_TRACER);
                 if (tracer != null) tracer.gameObject.SetActive(false);
-                weaponAnimator.SetTrigger("PosaArma");
+                weaponAnimator.SetTrigger(GameConstants.ANIM_POSA_ARMA);
             }
         }
         else
         {
-            if (granadeAnimator != null) granadeAnimator.SetTrigger("PosaGranata");
+            if (granadeAnimator != null) granadeAnimator.SetTrigger(GameConstants.ANIM_POSA_GRANATA);
         }
     }
 
@@ -180,7 +180,7 @@ public class PlayerCombat : MonoBehaviour
                 granade.transform.SetParent(granade.GetComponentInParent<Transform>());
                 granade.transform.localPosition = new Vector3(-0.352f, -0.664f, 0.011f);
                 granade.transform.localRotation = Quaternion.identity;
-                granadeAnimator.SetTrigger("PrendiGranata");
+                granadeAnimator.SetTrigger(GameConstants.ANIM_PRENDI_GRANATA);
             }
         }
     }
@@ -189,7 +189,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (granade != null)
         {
-            Transform gMesh = granade.transform.Find("Granade");
+            Transform gMesh = granade.transform.Find(GameConstants.TRANSFORM_GRANADE);
             if (gMesh != null) gMesh.gameObject.SetActive(true);
             granade.SetActive(false);
         }
@@ -197,13 +197,13 @@ public class PlayerCombat : MonoBehaviour
         if (gun != null)
         {
             gun.enabled = true;
-            Transform tracer = gun.transform.Find("Tracer");
+            Transform tracer = gun.transform.Find(GameConstants.TRANSFORM_TRACER);
             if (tracer != null) tracer.gameObject.SetActive(true);
 
             if (gun.transform.childCount > 0)
                 gun.transform.GetChild(0).gameObject.SetActive(true);
 
-            if (weaponAnimator != null) weaponAnimator.SetTrigger("EquipaggiaArma");
+            if (weaponAnimator != null) weaponAnimator.SetTrigger(GameConstants.ANIM_EQUIP_ARMA);
         }
     }
 
@@ -231,7 +231,7 @@ public class PlayerCombat : MonoBehaviour
             newGunComponent.Init(this);
 
             newGunComponent.enabled = true;
-            Transform tracer = newGunComponent.transform.Find("Tracer");
+            Transform tracer = newGunComponent.transform.Find(GameConstants.TRANSFORM_TRACER);
             if (tracer != null) tracer.gameObject.SetActive(true);
         }
 

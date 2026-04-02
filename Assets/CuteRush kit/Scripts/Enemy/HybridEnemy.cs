@@ -82,12 +82,12 @@ public class HybridEnemy : Enemy
         {
             agent.isStopped = true;
             FaceTarget(player.position);
-            animator.SetFloat("Speed", 0f);
+            animator.SetFloat(GameConstants.ANIM_SPEED, 0f);
 
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag(GameConstants.ANIM_ATTACK))
             {
                 SetFace(faces.attackFace);
-                animator.SetTrigger("Attack");
+                animator.SetTrigger(GameConstants.ANIM_ATTACK);
             }
         }
         else if (distanceSqr <= rangedRangeSqr * 1.1f)
@@ -95,7 +95,7 @@ public class HybridEnemy : Enemy
             agent.isStopped = false;
             agent.stoppingDistance = meleeRange;
             agent.SetDestination(player.position);
-            animator.SetFloat("Speed", agent.velocity.magnitude);
+            animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
 
             Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
 
@@ -111,7 +111,7 @@ public class HybridEnemy : Enemy
                     if (Time.time - lastRangedAttackTime >= rangedAttackCooldown)
                     {
                         lastRangedAttackTime = Time.time + Random.Range(-0.1f, 0.2f);
-                        animator.SetTrigger("Shoot");
+                        animator.SetTrigger(GameConstants.ANIM_SHOOT);
                         StartCoroutine(faceShootAnimate());
                     }
                 }
@@ -127,7 +127,7 @@ public class HybridEnemy : Enemy
             agent.stoppingDistance = meleeRange;
 
             agent.SetDestination(player.position);
-            animator.SetFloat("Speed", agent.velocity.magnitude);
+            animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
             SetFace(faces.WalkFace);
         }
     }

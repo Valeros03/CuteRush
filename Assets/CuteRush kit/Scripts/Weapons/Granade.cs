@@ -23,7 +23,7 @@ public class Granade : MonoBehaviour
 
     void Start()
     {
-        explosionEffect = transform.Find("Explosion").gameObject;
+        explosionEffect = transform.Find(GameConstants.TRANSFORM_EXPLOSION).gameObject;
         if (explosionEffect != null) explosionEffect.SetActive(false);
 
         StartCoroutine(ExplodeAfterDelay());
@@ -33,7 +33,7 @@ public class Granade : MonoBehaviour
     { 
         if (rb.isKinematic || hasExploded) return;
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer(GameConstants.LAYER_ENEMY_BULLET))
         {
             return;
         }

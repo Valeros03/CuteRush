@@ -176,7 +176,7 @@ public abstract class GunBase : MonoBehaviour
     {
         onGunReloadStart?.Invoke();
         isReloading = true;
-        if (animator != null) animator.SetTrigger("Recharge");
+        if (animator != null) animator.SetTrigger(GameConstants.ANIM_RECHARGE);
 
         float audioDelay = audioController != null ? audioController.Recharge.length : 0f;
         if (stats.reloadDuration > audioDelay)

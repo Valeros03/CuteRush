@@ -32,9 +32,9 @@ public class MeleeEnemy : Enemy
             agent.isStopped = true;
             FacePlayer();
 
-            animator.SetFloat("Speed", 0f);
+            animator.SetFloat(GameConstants.ANIM_SPEED, 0f);
             SetFace(faces.attackFace);
-            animator.SetTrigger("Attack");
+            animator.SetTrigger(GameConstants.ANIM_ATTACK);
         }
         else
         {
@@ -44,7 +44,7 @@ public class MeleeEnemy : Enemy
             SetFace(faces.WalkFace);
 
             
-            animator.SetFloat("Speed", agent.velocity.magnitude);
+            animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
         }
     }
 

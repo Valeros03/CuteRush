@@ -9,7 +9,7 @@ public class GameBootstrapper : MonoBehaviour
     {
         if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
+            player = GameObject.FindGameObjectWithTag(GameConstants.PLAYER_TAG);
         }
 
         if (player == null)

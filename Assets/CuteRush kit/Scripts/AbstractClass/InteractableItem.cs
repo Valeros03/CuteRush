@@ -10,14 +10,14 @@ public abstract class InteractableItem : MonoBehaviour, Interactable
 
     public virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag(GameConstants.PLAYER_TAG))
         {
             ShowInteraction();
         }
     }
     public virtual void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag(GameConstants.PLAYER_TAG))
         {
             HideInteraction();
         }

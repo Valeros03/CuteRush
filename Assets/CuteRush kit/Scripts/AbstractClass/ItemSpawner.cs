@@ -18,7 +18,7 @@ public abstract class ItemSpawner : BaseSpawner
     {
         if (!isReady) return;
 
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(GameConstants.PLAYER_TAG))
         {
             // Chiamiamo il metodo che ogni figlio implementerà a modo suo
             if (TryGiveItem(other.gameObject))

@@ -280,7 +280,7 @@ namespace Leguar.LowHealth {
 
 		private bool ensureMaterial() {
 			if (lhMaterial==null) {
-				Shader lhShader = Shader.Find("Custom/LowHealthShader");
+				Shader lhShader = Shader.Find(GameConstants.SHADER_LOW_HEALTH);
 				lhMaterial = new Material(lhShader);
 				return true;
 			}
