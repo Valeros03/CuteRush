@@ -118,7 +118,7 @@ public abstract class Enemy : MonoBehaviour
             Material[] instancedMaterials = renderer.materials;
             if (instancedMaterials.Length > 1) faceMaterial = instancedMaterials[1];
         }
-        animator.SetFloat("AttackSpeed", attackSpeed);
+        animator.SetFloat(GameConstants.ANIM_ATTACK_SPEED, attackSpeed);
 
         if (hitParticlePrefab != null)
         {
@@ -152,7 +152,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void OnEnable()
     {
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        player = GameObject.FindGameObjectWithTag(GameConstants.PLAYER_TAG)?.transform;
         marker.SetActive(true);
         float diffMultiplier = 1.0f;
 
@@ -199,11 +199,11 @@ public abstract class Enemy : MonoBehaviour
         {
             animator.enabled = true;
             animator.Rebind();
-            animator.ResetTrigger("Die");
-            animator.Play("Locomotion", 0, 0f);
+            animator.ResetTrigger(GameConstants.ANIM_DIE);
+            animator.Play(GameConstants.ANIM_LOCOMOTION, 0, 0f);
             animator.Update(0f);
-            animator.SetFloat("AttackSpeed", attackSpeed);
-            animator.SetFloat("Speed", 0f);
+            animator.SetFloat(GameConstants.ANIM_ATTACK_SPEED, attackSpeed);
+            animator.SetFloat(GameConstants.ANIM_SPEED, 0f);
         }
 
         if (agent != null)
@@ -297,7 +297,7 @@ public abstract class Enemy : MonoBehaviour
     {
         agent.SetDestination(homePosition);
         agent.isStopped = false;
-        animator.SetFloat("Speed", agent.velocity.magnitude);
+        animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
         SetFace(faces.WalkFace);
     }
 
@@ -310,7 +310,7 @@ public abstract class Enemy : MonoBehaviour
         {
             case AIState.Dormant:
                 if (agent.isOnNavMesh && agent.enabled) agent.isStopped = true;
-                animator.SetFloat("Speed", 0);
+                animator.SetFloat(GameConstants.ANIM_SPEED, 0);
                 SetFace(faces.Idleface);
                 break;
             case AIState.Chasing:
@@ -325,12 +325,12 @@ public abstract class Enemy : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) isPlayerInPersonalTrigger = true;
+        if (other.CompareTag(GameConstants.PLAYER_TAG)) isPlayerInPersonalTrigger = true;
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) isPlayerInPersonalTrigger = false;
+        if (other.CompareTag(GameConstants.PLAYER_TAG)) isPlayerInPersonalTrigger = false;
     }
 
     protected void SetFace(Texture tex)
@@ -418,9 +418,9 @@ public abstract class Enemy : MonoBehaviour
     {
         if (animator != null)
         {
-            animator.ResetTrigger("Attack");
-            animator.ResetTrigger("Shoot");
-            animator.Play("Locomotion", 0, 0f);
+            animator.ResetTrigger(GameConstants.ANIM_ATTACK);
+            animator.ResetTrigger(GameConstants.ANIM_SHOOT);
+            animator.Play(GameConstants.ANIM_LOCOMOTION, 0, 0f);
         }
     }
 
@@ -459,7 +459,7 @@ public abstract class Enemy : MonoBehaviour
         if (animator != null)
         {
             animator.enabled = true;
-            animator.SetTrigger("Die");
+            animator.SetTrigger(GameConstants.ANIM_DIE);
         }
 
         StartCoroutine(DisableAfterTime(3f));

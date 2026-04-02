@@ -233,7 +233,7 @@ public class @PlayerControl : IInputActionCollection, IDisposable
     ""controlSchemes"": []
 }");
         // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+        m_Player = asset.FindActionMap(GameConstants.PLAYER_TAG, throwIfNotFound: true);
         m_Player_EquipGranade = m_Player.FindAction("EquipGranade", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);

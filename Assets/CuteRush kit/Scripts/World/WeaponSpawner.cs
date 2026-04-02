@@ -102,7 +102,7 @@ public class WeaponSpawner : InteractableItem
 
     public override void OnTriggerEnter(Collider other)
     {
-        if (isReady && other.gameObject.CompareTag("Player"))
+        if (isReady && other.gameObject.CompareTag(GameConstants.PLAYER_TAG))
         {
             ShowInteraction();
         }
@@ -110,7 +110,7 @@ public class WeaponSpawner : InteractableItem
 
     public override void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag(GameConstants.PLAYER_TAG))
         {
             HideInteraction();
         }

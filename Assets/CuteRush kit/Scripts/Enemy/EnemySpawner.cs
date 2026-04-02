@@ -56,7 +56,7 @@ public class EnemySpawner : BaseSpawner
         areaTrigger.isTrigger = true;
         areaTrigger.radius = spawnerAreaRadius;
 
-        playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
+        playerTransform = GameObject.FindGameObjectWithTag(GameConstants.PLAYER_TAG)?.transform;
     }
 
     void Start()
@@ -216,12 +216,12 @@ public class EnemySpawner : BaseSpawner
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) IsPlayerInArea = true;
+        if (other.CompareTag(GameConstants.PLAYER_TAG)) IsPlayerInArea = true;
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) IsPlayerInArea = false;
+        if (other.CompareTag(GameConstants.PLAYER_TAG)) IsPlayerInArea = false;
     }
 
     void CheckInitialPlayerPosition()

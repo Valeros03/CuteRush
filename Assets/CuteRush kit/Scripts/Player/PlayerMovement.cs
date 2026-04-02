@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     {
         currentMotion = motionstate.idle;
 
-        Transform fpsCam = transform.Find("CameraHolder")?.Find("FPSCamera");
+        Transform fpsCam = transform.Find(GameConstants.TRANSFORM_CAMERA_HOLDER)?.Find(GameConstants.TRANSFORM_FPS_CAMERA);
         if (fpsCam != null) crosshairScript = fpsCam.GetComponent<Crosshair>();
     }
 

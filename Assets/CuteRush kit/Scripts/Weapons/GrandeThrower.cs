@@ -37,8 +37,8 @@ public class GrandeThrower : MonoBehaviour
         if (audioPlayer == null) audioPlayer = GetComponentInParent<AudioPlayerController>();
 
         playerMouseLook = GetComponentInParent<MouseLook>();
-        arrivingPoint = transform.Find("ArrivingPoint");
-        centerMark = transform.Find("CenterMark");
+        arrivingPoint = transform.Find(GameConstants.TRANSFORM_ARRIVING_POINT);
+        centerMark = transform.Find(GameConstants.TRANSFORM_CENTER_MARK);
 
         if (centerMark != null)
         {
@@ -154,7 +154,7 @@ public class GrandeThrower : MonoBehaviour
         if (arrivingPoint != null) arrivingPoint.gameObject.SetActive(true);
         if (centerMark != null) centerMark.gameObject.SetActive(true);
 
-        transform.Find("Granade").gameObject.SetActive(false);
+        transform.Find(GameConstants.TRANSFORM_GRANADE).gameObject.SetActive(false);
     }
 
     public void EquipGun()

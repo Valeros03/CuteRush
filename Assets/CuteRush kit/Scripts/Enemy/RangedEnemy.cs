@@ -67,7 +67,7 @@ public class RangedEnemy : Enemy
                 agent.isStopped = true;
                 agent.stoppingDistance = rangeAttackdistance;
 
-                animator.SetFloat("Speed", 0f);
+                animator.SetFloat(GameConstants.ANIM_SPEED, 0f);
                 FaceTarget(predictedTarget);
 
                 Vector3 planarForward = transform.forward.WithY(0);
@@ -79,7 +79,7 @@ public class RangedEnemy : Enemy
                     {
                         lastAttackTime = Time.time + Random.Range(-0.1f, 0.2f);
                         SetFace(faces.attackFace);
-                        animator.SetTrigger("Attack");
+                        animator.SetTrigger(GameConstants.ANIM_ATTACK);
                         isAttacking = true;
                     }
                 }
@@ -93,7 +93,7 @@ public class RangedEnemy : Enemy
 
                     agent.SetDestination(player.position);
                     SetFace(faces.WalkFace);
-                    animator.SetFloat("Speed", agent.velocity.magnitude);
+                    animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
                 }
             }
         }
@@ -102,7 +102,7 @@ public class RangedEnemy : Enemy
             agent.isStopped = false;
             agent.SetDestination(player.position);
             SetFace(faces.WalkFace);
-            animator.SetFloat("Speed", agent.velocity.magnitude);
+            animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
         }
     }
     void InitializeBulletPool()

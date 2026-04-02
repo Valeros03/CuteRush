@@ -10,9 +10,9 @@ public class Bootstrapper : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        if (SceneManager.GetSceneByName("UI_Scene").isLoaded == false)
+        if (SceneManager.GetSceneByName(GameConstants.SCENE_UI).isLoaded == false)
         {
-            SceneManager.LoadScene("UI_Scene", LoadSceneMode.Additive);
+            SceneManager.LoadScene(GameConstants.SCENE_UI, LoadSceneMode.Additive);
         }
     }
 
@@ -20,7 +20,7 @@ public class Bootstrapper : MonoBehaviour
     {
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.PlayMusic("InGameSong");
+            AudioManager.Instance.PlayMusic(GameConstants.AUDIO_IN_GAME_SONG);
         }
     }
 

@@ -17,7 +17,7 @@ public class GateController : InteractableItem
     }
     public override void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag(GameConstants.PLAYER_TAG))
         {
             if(bOpen)
                interactText = "chiudere il cancello";
@@ -30,7 +30,7 @@ public class GateController : InteractableItem
 
     public override void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag(GameConstants.PLAYER_TAG))
         {
             HideInteraction();
         }
@@ -39,7 +39,7 @@ public class GateController : InteractableItem
     public void CloseGate()
     {
         bOpen = false;
-        animator.SetTrigger("Close");
+        animator.SetTrigger(GameConstants.ANIM_CLOSE);
     }
     
 
@@ -57,7 +57,7 @@ public class GateController : InteractableItem
             bOpen = false;
             source.clip = close;
             source.Play();
-            animator.SetTrigger("Close");
+            animator.SetTrigger(GameConstants.ANIM_CLOSE);
             
         }
         else
@@ -65,7 +65,7 @@ public class GateController : InteractableItem
             bOpen=true;
             source.clip = open;
             source.Play();
-            animator.SetTrigger("Open");
+            animator.SetTrigger(GameConstants.ANIM_OPEN);
             
         }
     }

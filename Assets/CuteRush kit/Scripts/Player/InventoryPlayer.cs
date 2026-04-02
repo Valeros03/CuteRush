@@ -29,9 +29,9 @@ public class InventoryPlayer : MonoBehaviour
 
     public void Init()
     {
-        if (PlayerPrefs.HasKey("MaxAcidoBorico"))
+        if (PlayerPrefs.HasKey(GameConstants.PREF_MAX_ACIDO_BORICO))
         {
-            maxAcidoBorico = PlayerPrefs.GetInt("MaxAcidoBorico");
+            maxAcidoBorico = PlayerPrefs.GetInt(GameConstants.PREF_MAX_ACIDO_BORICO);
         }
 
         currentAcidoBorico = maxAcidoBorico;

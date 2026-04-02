@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.StopAmbient();
-            AudioManager.Instance.PlayMusic("MenuSong", true);
+            AudioManager.Instance.PlayMusic(GameConstants.AUDIO_MENU_SONG, true);
         }
 
         Time.timeScale = 0f;

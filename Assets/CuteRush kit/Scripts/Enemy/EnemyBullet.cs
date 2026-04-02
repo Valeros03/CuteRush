@@ -30,7 +30,7 @@ public class EnemyBullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Player"))
+        if (collision.collider.CompareTag(GameConstants.PLAYER_TAG))
         {
             // Passiamo la posizione del nemico, non quella attuale del proiettile!
             collision.gameObject.GetComponent<VitalsController>()?.Decrease(damage, shooterPosition);
