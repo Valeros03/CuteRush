@@ -94,6 +94,8 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerMovement.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerUpgrades.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\VitalsController.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Utility\GameConstants.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Utility\GameExtension.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\AutoGun.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\ChargeGun.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\Granade.cs" />

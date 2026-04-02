@@ -49,6 +49,7 @@ public class HybridEnemy : Enemy
 
         scaledRangedDamage = Mathf.RoundToInt(rangedAttackDamage * diffMult);
         projectileForce = projectileForceCurve.Evaluate(diffMult);
+        lastRangedAttackTime = Time.time;
     }
 
     void InitializeBulletPool()
@@ -77,7 +78,6 @@ public class HybridEnemy : Enemy
         float meleeRangeSqr = meleeRange * meleeRange;
         float rangedRangeSqr = rangedRange * rangedRange;
 
-        // --- FASE MELEE ---
         if (distanceSqr <= meleeRangeSqr * 1.1f)
         {
             agent.isStopped = true;
@@ -89,35 +89,49 @@ public class HybridEnemy : Enemy
                 SetFace(faces.attackFace);
                 animator.SetTrigger("Attack");
             }
-        }else if (distanceSqr <= rangedRangeSqr * 1.1f)
+        }
+        else if (distanceSqr <= rangedRangeSqr * 1.1f)
         {
             agent.isStopped = false;
+            agent.stoppingDistance = meleeRange;
             agent.SetDestination(player.position);
             animator.SetFloat("Speed", agent.velocity.magnitude);
 
             Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
-            FaceTarget(predictedTarget);
 
-            if (Time.time - lastRangedAttackTime >= rangedAttackCooldown)
+            if (HasClearShot(firePoint.position, predictedTarget))
             {
-                Vector3 planarForward = transform.forward; planarForward.y = 0;
+                FaceTarget(predictedTarget);
+
+                Vector3 planarForward = transform.forward.WithY(0);
                 Vector3 planarDir = predictedTarget - transform.position; planarDir.y = 0;
 
                 if (Vector3.Angle(planarForward, planarDir) <= aimTolerance)
                 {
-                    lastRangedAttackTime = Time.time + Random.Range(-0.1f, 0.2f);
-                    animator.SetTrigger("Shoot");
+                    if (Time.time - lastRangedAttackTime >= rangedAttackCooldown)
+                    {
+                        lastRangedAttackTime = Time.time + Random.Range(-0.1f, 0.2f);
+                        animator.SetTrigger("Shoot");
+                        StartCoroutine(faceShootAnimate());
+                    }
                 }
             }
-        }
-        else
+            else
+            {
+                SetFace(faces.WalkFace);
+            }
+        }else
         {
+
             agent.isStopped = false;
+            agent.stoppingDistance = meleeRange;
+
             agent.SetDestination(player.position);
-            SetFace(faces.WalkFace);
             animator.SetFloat("Speed", agent.velocity.magnitude);
+            SetFace(faces.WalkFace);
         }
     }
+
 
     protected override void PerformAttack()
     {
@@ -154,19 +168,6 @@ public class HybridEnemy : Enemy
         }
 
         Vector3 dir = (finalTarget - firePoint.position).normalized;
-        Debug.DrawLine(firePoint.position, perfectTarget, Color.green, 2f);
-
-        if (!isPerfectShot)
-        {
-            // Se c'è stato un errore, disegna una linea ROSSA per farti vedere dove sbanda il colpo
-            Debug.DrawLine(firePoint.position, finalTarget, Color.red, 2f);
-        }
-        else
-        {
-            // Se è un tiro perfetto, disegna un raggio BIANCO per confermarlo
-            Debug.DrawLine(firePoint.position, finalTarget, Color.white, 2f);
-        }
-
         bullet.Fire(dir, scaledRangedDamage, projectileForce, transform.position);
     }
 

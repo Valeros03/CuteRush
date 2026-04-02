@@ -175,25 +175,8 @@ public class EnemySpawner : BaseSpawner
     private GameObject GetRandomWeightedEnemy()
     {
         if (enemyTypes == null || enemyTypes.Count == 0) return null;
-
-        float totalWeight = 0f;
-        foreach (EnemySpawnWeight enemy in enemyTypes)
-        {
-            totalWeight += enemy.spawnWeight;
-        }
-
-        float randomValue = Random.Range(0f, totalWeight);
-        float currentSum = 0f;
-
-        foreach (EnemySpawnWeight enemy in enemyTypes)
-        {
-            currentSum += enemy.spawnWeight;
-            if (randomValue <= currentSum)
-            {
-                return enemy.enemyPrefab;
-            }
-        }
-        return null;
+        EnemySpawnWeight selectedEnemy = enemyTypes.GetRandomWeightedItem(enemy => enemy.spawnWeight);
+        return selectedEnemy.enemyPrefab;
     }
 
     bool GetRandomNavMeshPosition(out Vector3 result)
@@ -226,26 +209,9 @@ public class EnemySpawner : BaseSpawner
         {
             return null;
         }
+        LootDrop selectedDrop = possibleDrops.GetRandomWeightedItem(drop => drop.dropWeight);
 
-        float totalWeight = 0f;
-        foreach (LootDrop drop in possibleDrops)
-        {
-            totalWeight += drop.dropWeight;
-        }
-
-        float randomValue = Random.Range(0f, totalWeight);
-        float currentSum = 0f;
-
-        foreach (LootDrop drop in possibleDrops)
-        {
-            currentSum += drop.dropWeight;
-            if (randomValue <= currentSum)
-            {
-                return drop.itemPrefab;
-            }
-        }
-
-        return null;
+        return selectedDrop.itemPrefab;
     }
 
     void OnTriggerEnter(Collider other)

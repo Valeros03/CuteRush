@@ -12,8 +12,6 @@ public enum AIState
 
 public abstract class Enemy : MonoBehaviour
 {
-    [Header("AI Behavior")]
-    public float personalTriggerRadius = 15f;
 
     [Header("Base Enemy Settings (Giorno 1)")]
     public float maxHealth = 3f;
@@ -23,6 +21,7 @@ public abstract class Enemy : MonoBehaviour
     public float rotationSpeed = 5f;
     public float flinchDuration = 0.3f;
     public float flinchCooldown = 1.0f;
+    public float flinchChance = 0.3f;
     public AnimationCurve speedScalingCurve;
 
     public Face faces;
@@ -31,6 +30,19 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] protected EnemyHitRecoil hitRecoil;
     [SerializeField] private GameObject marker;
+
+    [Header("Visual Feedback (Pooling)")]
+    public ParticleSystem hitParticlePrefab;
+    public int hitParticlePoolSize = 3;
+
+    private List<ParticleSystem> hitParticlePool = new List<ParticleSystem>();
+
+    [Header("Health Visuals")]
+    public Color healthyColor = Color.white;
+    public Color nearDeathColor = Color.red;
+
+    private Renderer slimeRenderer;
+    private MaterialPropertyBlock propBlock;
 
     [Header("Kill Points")]
     public int killPoints;
@@ -59,10 +71,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected VitalsController _targetVitals;
 
-    [Header("Smart Aim Analysis")]
-    public float observationWindow = 0.4f;
-
-    private Queue<PlayerRecord> playerHistory = new Queue<PlayerRecord>();
+    [Header("AI Behavior")]
+    public float personalTriggerRadius = 15f;
 
     [Header("Riflessi Umani (Cognitive Inertia)")]
     public float aiAdaptationSpeed = 2f;
@@ -76,12 +86,24 @@ public abstract class Enemy : MonoBehaviour
 
     private Vector3 smoothedAimVelocity;
 
-    private struct PlayerRecord
+    [Header("Dual-Window Psychology")]
+    [Tooltip("Tempo in secondi per i riflessi a breve termine (es. 0.2)")]
+    public float shortWindowTime = 0.2f;
+    [Tooltip("Tempo in secondi per l'analisi strategica (es. 1.5)")]
+    public float longWindowTime = 1.5f;
+
+    [Header("Vision Settings")]
+    public LayerMask obstacleMask;
+    public float projectileRadius = 0.3f;
+
+    protected struct PlayerRecord
     {
         public Vector3 position;
         public float time;
         public PlayerRecord(Vector3 p, float t) { position = p; time = t; }
     }
+
+    protected List<PlayerRecord> playerHistory = new List<PlayerRecord>();
 
     protected virtual void Awake()
     {
@@ -97,6 +119,26 @@ public abstract class Enemy : MonoBehaviour
             if (instancedMaterials.Length > 1) faceMaterial = instancedMaterials[1];
         }
         animator.SetFloat("AttackSpeed", attackSpeed);
+
+        if (hitParticlePrefab != null)
+        {
+            for (int i = 0; i < hitParticlePoolSize; i++)
+            {
+                ParticleSystem p = Instantiate(hitParticlePrefab, transform.position, Quaternion.identity, transform);
+                p.gameObject.SetActive(false);
+                hitParticlePool.Add(p);
+            }
+        }
+
+        if (SlimeBody != null)
+        {
+            slimeRenderer = SlimeBody.GetComponent<Renderer>();
+        }
+        else
+        {
+            slimeRenderer = GetComponentInChildren<Renderer>();
+        }
+        propBlock = new MaterialPropertyBlock();
     }
 
     protected virtual void Start()
@@ -113,16 +155,18 @@ public abstract class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         marker.SetActive(true);
         float diffMultiplier = 1.0f;
+
         if (DifficultyManager.Instance != null)
         {
             diffMultiplier = DifficultyManager.Instance.currentMultiplier;
         }
 
-
         if (player != null)
         {
             _targetVitals = player.GetComponent<VitalsController>();
         }
+
+        Debug.Log(diffMultiplier);
 
         scaledMaxHealth = maxHealth * diffMultiplier;
         scaledAttackDamage = Mathf.RoundToInt(attackDamage * diffMultiplier);
@@ -131,7 +175,6 @@ public abstract class Enemy : MonoBehaviour
 
         if (agent != null)
         {
-
             agent.speed = speedScalingCurve.Evaluate(diffMultiplier);
             agent.angularSpeed = rotationSpeed * 100f;
         }
@@ -140,6 +183,10 @@ public abstract class Enemy : MonoBehaviour
         isTakingDamage = false;
         isPlayerInPersonalTrigger = false;
         flinchCoroutine = null;
+
+
+        if (playerHistory != null) playerHistory.Clear();
+        smoothedAimVelocity = Vector3.zero;
 
         foreach (Collider col in GetComponents<Collider>())
         {
@@ -161,10 +208,19 @@ public abstract class Enemy : MonoBehaviour
 
         if (agent != null)
         {
+            agent.enabled = false;
             agent.enabled = true;
+
             agent.isStopped = false;
             agent.ResetPath();
             agent.velocity = Vector3.zero;
+        }
+
+        if (slimeRenderer != null && propBlock != null)
+        {
+            slimeRenderer.GetPropertyBlock(propBlock);
+            propBlock.SetColor("_Color", healthyColor);
+            slimeRenderer.SetPropertyBlock(propBlock);
         }
 
         SetState(AIState.Dormant);
@@ -181,7 +237,7 @@ public abstract class Enemy : MonoBehaviour
     {
         if (isDead || player == null || isTakingDamage) return;
 
-        TrackPlayerMovement();
+        TrackPlayerHistory();
 
         if (agent == null || !agent.isOnNavMesh) return;
         if (mySpawnManager == null) return;
@@ -194,7 +250,7 @@ public abstract class Enemy : MonoBehaviour
 
         if (s0_currentState == AIState.Returning)
         {
-            if (!agent.pathPending && agent.remainingDistance < agent.stoppingDistance + 2.0f)
+            if (agent.HasReachedDestination())
             {
                 nextState = AIState.Dormant;
             }
@@ -288,7 +344,32 @@ public abstract class Enemy : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= damageAmount;
-        SetFace(faces.damageFace);
+
+        if (slimeRenderer != null && maxHealth > 0)
+        {
+            float healthPercent = currentHealth / scaledMaxHealth;
+            slimeRenderer.GetPropertyBlock(propBlock);
+            Color currentColor = Color.Lerp(nearDeathColor, healthyColor, healthPercent);
+            propBlock.SetColor("_Color", currentColor);
+            slimeRenderer.SetPropertyBlock(propBlock);
+        }
+
+        if (hitParticlePrefab != null)
+        {
+            ParticleSystem splat = GetPooledHitParticle();
+            if (splat != null)
+            {
+                splat.transform.SetParent(null);
+                splat.transform.position = hitPoint;
+                splat.transform.rotation = Quaternion.LookRotation(-shotDirection);
+
+                splat.gameObject.SetActive(true);
+                splat.Play();
+
+                StartCoroutine(DisableParticleAfterTime(splat, 1.0f));
+            }
+        }
+
 
         if (currentHealth <= 0)
         {
@@ -298,9 +379,14 @@ public abstract class Enemy : MonoBehaviour
         {
             if (Time.time >= lastFlinchTime + flinchCooldown)
             {
-                if (flinchCoroutine != null) StopCoroutine(flinchCoroutine);
-                lastFlinchTime = Time.time;
-                flinchCoroutine = StartCoroutine(DamageFlinchRoutine(shotDirection, hitPoint));
+                if (Random.value <= flinchChance)
+                {
+                    isTakingDamage = true;
+                    SetFace(faces.damageFace);
+                    if (flinchCoroutine != null) StopCoroutine(flinchCoroutine);
+                    lastFlinchTime = Time.time;
+                    flinchCoroutine = StartCoroutine(DamageFlinchRoutine(shotDirection, hitPoint));
+                }
             }
         }
     }
@@ -308,6 +394,9 @@ public abstract class Enemy : MonoBehaviour
     protected virtual IEnumerator DamageFlinchRoutine(Vector3 shotDirection, Vector3 hitPoint)
     {
         if (agent.isOnNavMesh && agent.enabled) agent.isStopped = true;
+
+        InterruptAttack();
+
         if (animator != null) animator.enabled = false;
         if (hitRecoil != null) hitRecoil.ApplyHit(shotDirection, hitPoint);
 
@@ -317,16 +406,21 @@ public abstract class Enemy : MonoBehaviour
         flinchCoroutine = null;
         if (isDead) yield break;
 
+        if (animator != null) animator.enabled = true;
+
         if (agent.isOnNavMesh && agent.enabled && currentState != AIState.Dormant)
         {
             agent.isStopped = false;
         }
+    }
 
+    protected virtual void InterruptAttack()
+    {
         if (animator != null)
         {
-            animator.enabled = true;
-            animator.Play("Locomotion", -1, 0f);
-            animator.SetFloat("Speed", 0f);
+            animator.ResetTrigger("Attack");
+            animator.ResetTrigger("Shoot");
+            animator.Play("Locomotion", 0, 0f);
         }
     }
 
@@ -342,7 +436,7 @@ public abstract class Enemy : MonoBehaviour
         marker.SetActive(false);
         if (isDead) return;
         isDead = true;
-
+        SetFace(faces.damageFace);
         if (flinchCoroutine != null)
         {
             StopCoroutine(flinchCoroutine);
@@ -384,48 +478,94 @@ public abstract class Enemy : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    protected Vector3 GetPredictedPlayerPosition(float bulletSpeed, Vector3 originPoint)
+    protected Vector3 GetPredictedPlayerPosition(float bulletSpeed, Vector3 fireOrigin)
     {
         Vector3 targetPoint = player.position + Vector3.up * 0.5f;
 
-        Vector3 instantVelocity = Vector3.zero;
-        PlayerMovement pMove = player.GetComponent<PlayerMovement>();
-        if (pMove != null) instantVelocity = pMove.currentVelocity;
+        Vector3 shortTermVel = GetVelocityOverWindow(shortWindowTime);
+        Vector3 longTermVel = GetVelocityOverWindow(longWindowTime);
 
-        Vector3 historicalVelocity = Vector3.zero;
-        if (playerHistory.Count > 1)
-        {
-            PlayerRecord oldestRecord = playerHistory.Peek();
-            Vector3 movementVector = player.position - oldestRecord.position;
-            float timePassed = Time.time - oldestRecord.time;
-            if (timePassed > 0) historicalVelocity = movementVector / timePassed;
-        }
-        else historicalVelocity = instantVelocity;
+        float dotProduct = Vector3.Dot(shortTermVel.normalized, longTermVel.normalized);
+        float aiConfidence = Mathf.Clamp01((dotProduct + 1f) / 2f);
 
-        float blendFactor = 0.5f;
-        Vector3 idealVelocity = Vector3.Lerp(historicalVelocity, instantVelocity, blendFactor);
-        smoothedAimVelocity = Vector3.Lerp(smoothedAimVelocity, idealVelocity, Time.deltaTime * aiAdaptationSpeed);
+        Vector3 chosenVelocity = Vector3.Lerp(longTermVel, shortTermVel, aiConfidence);
+
+        smoothedAimVelocity = Vector3.Lerp(smoothedAimVelocity, chosenVelocity, Time.deltaTime * aiAdaptationSpeed);
 
         Vector3 finalVelocity = smoothedAimVelocity;
         if (finalVelocity.y < 0) finalVelocity.y = 0;
-        if (finalVelocity.magnitude < 0.5f) return targetPoint;
 
-        float distance = Vector3.Distance(originPoint, targetPoint);
+        float distance = Vector3.Distance(fireOrigin, targetPoint);
         float timeToHit = distance / bulletSpeed;
         timeToHit = Mathf.Min(timeToHit, 1.2f);
-        float dampening = 1.0f;
 
-        // Restituisce SEMPRE il calcolo perfetto
-        return targetPoint + (finalVelocity * timeToHit * dampening);
+        float predictionDampening = Mathf.Lerp(0.0f, 1.0f, aiConfidence);
+
+        return targetPoint + (finalVelocity * timeToHit * predictionDampening);
     }
 
-    private void TrackPlayerMovement()
+    private Vector3 GetVelocityOverWindow(float timeWindow)
     {
-        playerHistory.Enqueue(new PlayerRecord(player.position, Time.time));
-        while (playerHistory.Count > 0 && (Time.time - playerHistory.Peek().time) > observationWindow)
+        if (playerHistory.Count < 2) return Vector3.zero;
+
+        float targetTime = Time.time - timeWindow;
+        PlayerRecord pastRecord = playerHistory[playerHistory.Count - 1];
+
+        for (int i = playerHistory.Count - 1; i >= 0; i--)
         {
-            playerHistory.Dequeue();
+            if (playerHistory[i].time <= targetTime)
+            {
+                pastRecord = playerHistory[i];
+                break;
+            }
+            pastRecord = playerHistory[i];
+        }
+
+        Vector3 movement = player.position - pastRecord.position;
+        float timePassed = Time.time - pastRecord.time;
+
+        if (timePassed > 0.01f) return movement / timePassed;
+        return Vector3.zero;
+    }
+
+    private void TrackPlayerHistory()
+    {
+        if (player == null) return;
+
+        playerHistory.Add(new PlayerRecord(player.position, Time.time));
+
+        while (playerHistory.Count > 0 && Time.time - playerHistory[0].time > longWindowTime + 0.2f)
+        {
+            playerHistory.RemoveAt(0);
         }
     }
 
+    protected bool HasClearShot(Vector3 fireOrigin, Vector3 targetPoint)
+    {
+        Vector3 directionToTarget = targetPoint - fireOrigin;
+        float distanceToTarget = directionToTarget.magnitude;
+
+        if (Physics.SphereCast(fireOrigin, projectileRadius, directionToTarget.normalized, out RaycastHit hit, distanceToTarget, obstacleMask))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private ParticleSystem GetPooledHitParticle()
+    {
+        foreach (ParticleSystem p in hitParticlePool)
+        {
+            if (!p.gameObject.activeInHierarchy) return p;
+        }
+        return null;
+    }
+
+    private IEnumerator DisableParticleAfterTime(ParticleSystem particle, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        particle.gameObject.SetActive(false);
+        particle.transform.SetParent(transform);
+    }
 }

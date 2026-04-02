@@ -47,6 +47,8 @@ public class RangedEnemy : Enemy
         }
         scaledRangedDamage = Mathf.RoundToInt(rangedAttackDamage * diffMult);
         projectileForce = projectileForceCurve.Evaluate(diffMult);
+        lastAttackTime = Time.time;
+        isAttacking = false;
     }
 
     protected override void PerformChaseLogic()
@@ -56,36 +58,52 @@ public class RangedEnemy : Enemy
         float distanceSqr = (transform.position - player.position).sqrMagnitude;
         float rangeAttackdistanceSqr = rangeAttackdistance * rangeAttackdistance;
 
-        agent.SetDestination(player.position);
-
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        if (distanceSqr <= rangeAttackdistanceSqr * 1.1f)
         {
-            agent.isStopped = true;
-
             Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
-            FaceTarget(predictedTarget);
 
-            if (Time.time - lastAttackTime > attackCooldown)
+            if (HasClearShot(firePoint.position, predictedTarget))
             {
-                Vector3 planarForward = transform.forward; planarForward.y = 0;
+                agent.isStopped = true;
+                agent.stoppingDistance = rangeAttackdistance;
+
+                animator.SetFloat("Speed", 0f);
+                FaceTarget(predictedTarget);
+
+                Vector3 planarForward = transform.forward.WithY(0);
                 Vector3 planarDir = predictedTarget - transform.position; planarDir.y = 0;
 
                 if (Vector3.Angle(planarForward, planarDir) <= aimTolerance)
                 {
-                    lastAttackTime = Time.time + Random.Range(-0.1f, 0.2f);
-                    SetFace(faces.attackFace);
-                    animator.SetTrigger("Attack");
-                    isAttacking = true;
+                    if (Time.time - lastAttackTime > attackCooldown && !isAttacking)
+                    {
+                        lastAttackTime = Time.time + Random.Range(-0.1f, 0.2f);
+                        SetFace(faces.attackFace);
+                        animator.SetTrigger("Attack");
+                        isAttacking = true;
+                    }
+                }
+            }
+            else
+            {
+                if (!isAttacking)
+                {
+                    agent.isStopped = false;
+                    agent.stoppingDistance = 0.5f;
+
+                    agent.SetDestination(player.position);
+                    SetFace(faces.WalkFace);
+                    animator.SetFloat("Speed", agent.velocity.magnitude);
                 }
             }
         }
-        else if (isAttacking == false)
+        else if (!isAttacking)
         {
             agent.isStopped = false;
+            agent.SetDestination(player.position);
             SetFace(faces.WalkFace);
+            animator.SetFloat("Speed", agent.velocity.magnitude);
         }
-
-        animator.SetFloat("Speed", agent.velocity.magnitude);
     }
     void InitializeBulletPool()
     {
@@ -123,6 +141,12 @@ public class RangedEnemy : Enemy
         isAttacking = false;
     }
 
+    protected override void InterruptAttack()
+    {
+        base.InterruptAttack();
+        isAttacking = false;
+    }
+
     void FireProjectile()
     {
         EnemyBullet bullet = GetPooledBullet(); 
@@ -149,18 +173,6 @@ public class RangedEnemy : Enemy
         }
 
         Vector3 dir = (finalTarget - firePoint.position).normalized;
-        Debug.DrawLine(firePoint.position, perfectTarget, Color.green, 2f);
-
-        if (!isPerfectShot)
-        {
-            // Se c'è stato un errore, disegna una linea ROSSA per farti vedere dove sbanda il colpo
-            Debug.DrawLine(firePoint.position, finalTarget, Color.red, 2f);
-        }
-        else
-        {
-            // Se è un tiro perfetto, disegna un raggio BIANCO per confermarlo
-            Debug.DrawLine(firePoint.position, finalTarget, Color.white, 2f);
-        }
  
         bullet.Fire(dir, scaledRangedDamage, projectileForce, transform.position);
     }

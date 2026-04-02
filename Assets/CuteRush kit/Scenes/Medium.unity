@@ -514,12 +514,12 @@ PrefabInstance:
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[1].spawnWeight
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[2].spawnWeight
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
