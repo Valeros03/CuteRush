@@ -400,24 +400,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1024539729, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024539729, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1447907048742931673, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 62.17
-      objectReference: {fileID: 0}
-    - target: {fileID: 1447907048742931673, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 658.85
-      objectReference: {fileID: 0}
     - target: {fileID: 1481541472038073059, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
         type: 3}
       propertyPath: m_Name
@@ -527,83 +509,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1481541472073897903, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1805218260523855129, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_margin.z
-      value: -0.046813965
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568196817612896239, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 1aa449a711727af48a5699f8ac6cf091,
-        type: 2}
-    - target: {fileID: 2568196817612896239, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568196817612896239, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -8563227357393279986, guid: 1aa449a711727af48a5699f8ac6cf091,
-        type: 2}
-    - target: {fileID: 2568196817612896239, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_firstOverflowCharacterIndex
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568196817612896239, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_margin.z
-      value: -78.265015
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568196817612896239, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568196817612896239, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568196817612896239, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568196817612896239, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2568196817612896239, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_margin.x
-      value: -29.069885
-      objectReference: {fileID: 0}
-    - target: {fileID: 3525554843937715404, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3863410585729232387, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5522744289691035901, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79, type: 3}

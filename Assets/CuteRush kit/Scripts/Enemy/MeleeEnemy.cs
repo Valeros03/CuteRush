@@ -15,7 +15,7 @@ public class MeleeEnemy : Enemy
         {
             agent.stoppingDistance = meleeRange;
         }
-
+        SetFace(faces.attackFace);
     }
 
     protected override void PerformChaseLogic()

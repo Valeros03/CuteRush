@@ -166,8 +166,6 @@ public abstract class Enemy : MonoBehaviour
             _targetVitals = player.GetComponent<VitalsController>();
         }
 
-        Debug.Log(diffMultiplier);
-
         scaledMaxHealth = maxHealth * diffMultiplier;
         scaledAttackDamage = Mathf.RoundToInt(attackDamage * diffMultiplier);
 

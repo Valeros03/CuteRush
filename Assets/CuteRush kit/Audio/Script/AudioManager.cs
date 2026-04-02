@@ -71,10 +71,6 @@ public class AudioManager : MonoBehaviour
             musicSource.loop = loop;
             musicSource.Play();
         }
-        else
-        {
-            Debug.Log($"[AudioManager] Musica '{trackName}' non trovata!");
-        }
     }
 
     public void PlaySFX(string clipName)
@@ -82,10 +78,6 @@ public class AudioManager : MonoBehaviour
         if (sfxDict.TryGetValue(clipName, out AudioClip clip))
         {
             sfxSource.PlayOneShot(clip);
-        }
-        else
-        {
-            Debug.Log($"[AudioManager] SFX '{clipName}' non trovato!");
         }
     }
 
@@ -96,10 +88,6 @@ public class AudioManager : MonoBehaviour
             ambientSource.clip = clip;
             ambientSource.loop = loop;
             ambientSource.Play();
-        }
-        else
-        {
-            Debug.Log($"[AudioManager] Ambient '{ambientName}' non trovato!");
         }
     }
 

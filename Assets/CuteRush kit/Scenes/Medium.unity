@@ -369,22 +369,22 @@ PrefabInstance:
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[0].spawnWeight
-      value: 0
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[1].spawnWeight
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[2].spawnWeight
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: maxConcurrentEnemies
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6133025322619975029, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
@@ -418,6 +418,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 639edc5ac3d28c84b98d7f4b619e53c5, type: 3}
+--- !u!114 &258174169 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 258174168}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9cb89de8e27e4e4cbc37a848456b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &292165889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -509,22 +521,22 @@ PrefabInstance:
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[0].spawnWeight
-      value: 0
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[1].spawnWeight
-      value: 100
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[2].spawnWeight
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: maxConcurrentEnemies
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6133025322619975029, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
@@ -558,6 +570,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 639edc5ac3d28c84b98d7f4b619e53c5, type: 3}
+--- !u!114 &292165890 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 292165889}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9cb89de8e27e4e4cbc37a848456b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &304601531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1269,12 +1293,12 @@ PrefabInstance:
     - target: {fileID: 3362827368680789125, guid: d941199d4a58fcb45adc75ea8e37c42c,
         type: 3}
       propertyPath: maxHealth
-      value: 20000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3362827368680789125, guid: d941199d4a58fcb45adc75ea8e37c42c,
         type: 3}
       propertyPath: currentHealth
-      value: 20000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4260105683531141476, guid: d941199d4a58fcb45adc75ea8e37c42c,
         type: 3}
@@ -4241,22 +4265,22 @@ PrefabInstance:
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[0].spawnWeight
-      value: 0
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[1].spawnWeight
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[2].spawnWeight
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: maxConcurrentEnemies
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6133025322619975029, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
@@ -4320,6 +4344,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 639edc5ac3d28c84b98d7f4b619e53c5, type: 3}
+--- !u!114 &1071980479 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1071980478}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9cb89de8e27e4e4cbc37a848456b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1079026488 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 860005248876275174, guid: 22d3c055f1b39e646bc5809b74d22d41,
@@ -7897,6 +7933,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 585633945}
+  spawners:
+  - {fileID: 1071980479}
+  - {fileID: 258174169}
+  - {fileID: 1960248259}
+  - {fileID: 292165890}
 --- !u!1001 &1551687193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12380,22 +12421,22 @@ PrefabInstance:
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[0].spawnWeight
-      value: 0
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[1].spawnWeight
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[2].spawnWeight
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: maxConcurrentEnemies
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6133025322619975029, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
@@ -12429,6 +12470,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 639edc5ac3d28c84b98d7f4b619e53c5, type: 3}
+--- !u!114 &1960248259 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1960248258}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9cb89de8e27e4e4cbc37a848456b7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1965087494 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 860005248876275174, guid: 22d3c055f1b39e646bc5809b74d22d41,

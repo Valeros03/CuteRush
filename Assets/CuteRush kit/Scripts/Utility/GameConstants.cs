@@ -8,10 +8,8 @@
     public const string ANIM_DIE = "Die";
     public const string ANIM_LOCOMOTION = "Locomotion";
 
-    // Layers
     public const string LAYER_ENEMY_BULLET = "EnemyBullet";
 
-    // Animations
     public const string ANIM_CLOSE = "Close";
     public const string ANIM_EQUIP_ARMA = "EquipaggiaArma";
     public const string ANIM_OPEN = "Open";
@@ -21,7 +19,6 @@
     public const string ANIM_RECHARGE = "Recharge";
     public const string ANIM_ATTACK_SPEED = "AttackSpeed";
 
-    // Transform Names
     public const string TRANSFORM_ARRIVING_POINT = "ArrivingPoint";
     public const string TRANSFORM_CAMERA_HOLDER = "CameraHolder";
     public const string TRANSFORM_CENTER_MARK = "CenterMark";
@@ -31,17 +28,13 @@
     public const string TRANSFORM_TRACER = "Tracer";
     public const string TRANSFORM_WEAPON_HOLDER = "WeaponHolder";
 
-    // Shaders
     public const string SHADER_LOW_HEALTH = "Custom/LowHealthShader";
 
-    // Audio
-    public const string AUDIO_IN_GAME_SONG = "InGameSong";
-    public const string AUDIO_MENU_SONG = "MenuSong";
+    public const string AUDIO_IN_GAME_SONG = "MainMenuSong";
+    public const string AUDIO_MENU_SONG = "GameOverSong";
 
-    // PlayerPrefs
     public const string PREF_MAX_ACIDO_BORICO = "MaxAcidoBorico";
 
-    // Scenes
     public const string SCENE_UI = "UI_Scene";
 
 }

@@ -56,7 +56,7 @@ MonoBehaviour:
   - enemyPrefab: {fileID: 2795397902362475942, guid: 72c47fdc43d84b243bdc109c284341d6,
       type: 3}
     spawnWeight: 10
-  maxConcurrentEnemies: 6
+  maxConcurrentEnemies: 4
   initialSpawnCount: 1
   spawnRadius: 5
   spawnerAreaRadius: 200
@@ -67,13 +67,13 @@ MonoBehaviour:
     dropWeight: 55
   - itemPrefab: {fileID: 8273954821704617215, guid: 041bbd78f249d0c4da006162fa03adf4,
       type: 3}
-    dropWeight: 30
+    dropWeight: 33
   - itemPrefab: {fileID: 8894929602490817040, guid: 61af79675ff15ff4cacb563168c407f5,
       type: 3}
     dropWeight: 10
   - itemPrefab: {fileID: 2413886618585964174, guid: 56482f554cf6c8243a5c13324b84c758,
       type: 3}
-    dropWeight: 5
+    dropWeight: 2
 --- !u!135 &270362570199547993
 SphereCollider:
   m_ObjectHideFlags: 0

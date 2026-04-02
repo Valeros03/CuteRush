@@ -50,6 +50,7 @@ public class HybridEnemy : Enemy
         scaledRangedDamage = Mathf.RoundToInt(rangedAttackDamage * diffMult);
         projectileForce = projectileForceCurve.Evaluate(diffMult);
         lastRangedAttackTime = Time.time;
+        SetFace(faces.attackFace);
     }
 
     void InitializeBulletPool()
