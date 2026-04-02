@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +19,12 @@ public class GameManager : MonoBehaviour
     public int difficultyAdder;
 
     public DifficultyProfile currentDifficulty;
+
+    private int totalSecondsElapsed = 0;
+    private Coroutine timerCoroutine;
+    private float levelStartTime = 0f;
+
+    public event Action<int, int> OnTimeUpdated;
 
     public enum GameState
     {
@@ -49,6 +56,19 @@ public class GameManager : MonoBehaviour
         currentScore = 0;
         Time.timeScale = 1f;
         OnScoreChange?.Invoke(currentScore);
+
+        ResetLevelTimer();
+        levelStartTime = Time.time;
+        timerCoroutine = StartCoroutine(TimerRoutine());
+    }
+
+    public void StopLevelTimer()
+    {
+        if (timerCoroutine != null)
+        {
+            StopCoroutine(timerCoroutine);
+            timerCoroutine = null;
+        }
     }
 
     public void AddKillScore(int points)
@@ -56,7 +76,7 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.Playing) return;
 
         killNumber++;
-        currentScore += points + difficultyAdder;
+        currentScore += points + Mathf.RoundToInt(difficultyAdder*difficultyMultiplier);
         OnScoreChange?.Invoke(currentScore);
     }
 
@@ -65,6 +85,7 @@ public class GameManager : MonoBehaviour
         if (currentState == GameState.GameOver) return;
 
         currentState = GameState.GameOver;
+        StopLevelTimer();
 
         if (AudioManager.Instance != null)
         {
@@ -73,7 +94,42 @@ public class GameManager : MonoBehaviour
         }
 
         Time.timeScale = 0f;
-        OnGameOver?.Invoke();
+        
+        UIManager.Instance.EndGameSequence(Time.time-levelStartTime, currentScore, killNumber, difficultyMultiplier);
+
+    }
+
+    public void ResetLevelTimer()
+    {
+        totalSecondsElapsed = 0;
+        OnTimeUpdated?.Invoke(0, 0);
+    }
+
+    private IEnumerator TimerRoutine()
+    {
+        float startTime = Time.time;
+        totalSecondsElapsed = 0;
+
+        while (true)
+        {
+            totalSecondsElapsed++;
+            float targetTickTime = startTime + totalSecondsElapsed;
+
+            float exactWaitTime = targetTickTime - Time.time;
+
+            if (exactWaitTime > 0)
+            {
+                yield return new WaitForSeconds(exactWaitTime);
+            }
+            else
+            {
+                yield return null;
+            }
+
+            int minutes = totalSecondsElapsed / 60;
+            int seconds = totalSecondsElapsed % 60;
+            OnTimeUpdated?.Invoke(minutes, seconds);
+        }
     }
 
     public void RestartGame()

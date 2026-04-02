@@ -119,6 +119,7 @@
      <Compile Include="Assets\CuteRush kit\UI\Scripts\UiAcidoBorico.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Singleton\UIManager.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Static\UIEvents.cs" />
+     <Compile Include="Assets\ExplosionVisualScaler.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Survival Essentials\Example\Scripts\AnimatedFire.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Textures &amp; Sprites\UI\Radial Slider UI\Scripts\RadialSlider.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\Inventory.cs" />

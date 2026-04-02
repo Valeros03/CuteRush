@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum AIState
 {
@@ -18,16 +19,18 @@ public abstract class Enemy : MonoBehaviour
     public float maxHealth = 3f;
     public int attackDamage = 1;
     public float attackSpeed = 1f;
-    public float chaseSpeed = 3.5f;
+    protected float chaseSpeed = 3.5f;
     public float rotationSpeed = 5f;
     public float flinchDuration = 0.3f;
     public float flinchCooldown = 1.0f;
+    public AnimationCurve speedScalingCurve;
 
     public Face faces;
     public bool isDead;
     public GameObject SlimeBody;
     [SerializeField] private Rigidbody rb;
     [SerializeField] protected EnemyHitRecoil hitRecoil;
+    [SerializeField] private GameObject marker;
 
     [Header("Kill Points")]
     public int killPoints;
@@ -55,6 +58,30 @@ public abstract class Enemy : MonoBehaviour
     private GameObject itemDropPrefab;
 
     protected VitalsController _targetVitals;
+
+    [Header("Smart Aim Analysis")]
+    public float observationWindow = 0.4f;
+
+    private Queue<PlayerRecord> playerHistory = new Queue<PlayerRecord>();
+
+    [Header("Riflessi Umani (Cognitive Inertia)")]
+    public float aiAdaptationSpeed = 2f;
+
+    [Header("Tactical Shooting Rules")]
+    public float aimTolerance = 10f;
+
+    [Header("Aim Inaccuracy (Weapon Spread)")]
+    public float maxAimError = 1.5f;
+    [Range(0f, 1f)] public float perfectShotChance = 0.3f;
+
+    private Vector3 smoothedAimVelocity;
+
+    private struct PlayerRecord
+    {
+        public Vector3 position;
+        public float time;
+        public PlayerRecord(Vector3 p, float t) { position = p; time = t; }
+    }
 
     protected virtual void Awake()
     {
@@ -84,7 +111,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void OnEnable()
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
-
+        marker.SetActive(true);
         float diffMultiplier = 1.0f;
         if (DifficultyManager.Instance != null)
         {
@@ -104,7 +131,8 @@ public abstract class Enemy : MonoBehaviour
 
         if (agent != null)
         {
-            agent.speed = chaseSpeed;
+
+            agent.speed = speedScalingCurve.Evaluate(diffMultiplier);
             agent.angularSpeed = rotationSpeed * 100f;
         }
 
@@ -152,6 +180,9 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         if (isDead || player == null || isTakingDamage) return;
+
+        TrackPlayerMovement();
+
         if (agent == null || !agent.isOnNavMesh) return;
         if (mySpawnManager == null) return;
 
@@ -306,7 +337,9 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die(Vector3 shotDirection, Vector3 hitPoint)
     {
+        if(GameManager.Instance!=null)
         GameManager.Instance.AddKillScore(killPoints);
+        marker.SetActive(false);
         if (isDead) return;
         isDead = true;
 
@@ -354,18 +387,45 @@ public abstract class Enemy : MonoBehaviour
     protected Vector3 GetPredictedPlayerPosition(float bulletSpeed, Vector3 originPoint)
     {
         Vector3 targetPoint = player.position + Vector3.up * 0.5f;
-        Vector3 playerVelocity = Vector3.zero;
 
+        Vector3 instantVelocity = Vector3.zero;
         PlayerMovement pMove = player.GetComponent<PlayerMovement>();
-        if (pMove != null) playerVelocity = pMove.currentVelocity;
+        if (pMove != null) instantVelocity = pMove.currentVelocity;
 
-        if (playerVelocity.magnitude < 0.1f) return targetPoint;
+        Vector3 historicalVelocity = Vector3.zero;
+        if (playerHistory.Count > 1)
+        {
+            PlayerRecord oldestRecord = playerHistory.Peek();
+            Vector3 movementVector = player.position - oldestRecord.position;
+            float timePassed = Time.time - oldestRecord.time;
+            if (timePassed > 0) historicalVelocity = movementVector / timePassed;
+        }
+        else historicalVelocity = instantVelocity;
+
+        float blendFactor = 0.5f;
+        Vector3 idealVelocity = Vector3.Lerp(historicalVelocity, instantVelocity, blendFactor);
+        smoothedAimVelocity = Vector3.Lerp(smoothedAimVelocity, idealVelocity, Time.deltaTime * aiAdaptationSpeed);
+
+        Vector3 finalVelocity = smoothedAimVelocity;
+        if (finalVelocity.y < 0) finalVelocity.y = 0;
+        if (finalVelocity.magnitude < 0.5f) return targetPoint;
 
         float distance = Vector3.Distance(originPoint, targetPoint);
         float timeToHit = distance / bulletSpeed;
-        float predictionAccuracy = 0.8f;
+        timeToHit = Mathf.Min(timeToHit, 1.2f);
+        float dampening = 1.0f;
 
-        Vector3 futurePosition = targetPoint + (playerVelocity * timeToHit * predictionAccuracy);
-        return futurePosition;
+        // Restituisce SEMPRE il calcolo perfetto
+        return targetPoint + (finalVelocity * timeToHit * dampening);
     }
+
+    private void TrackPlayerMovement()
+    {
+        playerHistory.Enqueue(new PlayerRecord(player.position, Time.time));
+        while (playerHistory.Count > 0 && (Time.time - playerHistory.Peek().time) > observationWindow)
+        {
+            playerHistory.Dequeue();
+        }
+    }
+
 }

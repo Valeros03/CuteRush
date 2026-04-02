@@ -26,6 +26,7 @@ public class GameBootstrapper : MonoBehaviour
             return;
         }
 
+        
         if (UIManager.Instance != null)
         {
             UIManager.Instance.StartGameSequence(inventory, vitals, combat);
@@ -34,6 +35,7 @@ public class GameBootstrapper : MonoBehaviour
         vitals.Init();
         inventory.Init();
         combat.Init();
+
 
     }
 }

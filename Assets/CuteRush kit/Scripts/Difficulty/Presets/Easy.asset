@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e13de24371b564eb1f552c78b096b9, type: 3}
   m_Name: Easy
   m_EditorClassIdentifier: 
-  difficultyName: Facile
+  difficultyName: Easy
   startingMultiplier: 0.5
   scalingIncrement: 0.1
   dropRateMultiplier: 1
   goldEarnedMultiplier: 0.5
+  scoreMultiplyer: 0.5

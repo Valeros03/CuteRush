@@ -56,9 +56,9 @@ MonoBehaviour:
   - enemyPrefab: {fileID: 2795397902362475942, guid: 72c47fdc43d84b243bdc109c284341d6,
       type: 3}
     spawnWeight: 10
-  maxConcurrentEnemies: 8
+  maxConcurrentEnemies: 6
   initialSpawnCount: 1
-  spawnRadius: 10
+  spawnRadius: 5
   spawnerAreaRadius: 200
   shutdownDuration: 20
   possibleDrops:

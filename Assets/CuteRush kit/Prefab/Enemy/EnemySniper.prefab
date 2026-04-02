@@ -221,21 +221,83 @@ MonoBehaviour:
   maxHealth: 30
   attackDamage: 25
   attackSpeed: 1
-  chaseSpeed: 2.5
   rotationSpeed: 5
   flinchDuration: 0.3
+  flinchCooldown: 1
+  speedScalingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.5
+      value: 2.5
+      inSlope: 0.70000005
+      outSlope: 0.70000005
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.5
+      value: 3.2
+      inSlope: 0.70000005
+      outSlope: 0.6999999
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    - serializedVersion: 3
+      time: 3.5
+      value: 4.6
+      inSlope: 0.69999987
+      outSlope: 0.69999987
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
   isDead: 0
   SlimeBody: {fileID: 3154499432908429258}
   rb: {fileID: 532509574457665705}
   hitRecoil: {fileID: 2395960527117565583}
+  marker: {fileID: 5758018134196210350}
   killPoints: 10
-  rangedAttackDamage: 25
+  observationWindow: 0.4
+  aiAdaptationSpeed: 1.5
+  aimTolerance: 7
+  maxAimError: 0.7
+  perfectShotChance: 0.3
+  rangedAttackDamage: 20
   projectilePrefab: {fileID: 5123798614293869143, guid: ef071591f5409bb408b6a0b6c4b58f39,
     type: 3}
   firePoint: {fileID: 4762874658448131454}
-  projectileForce: 20
-  rangeAttackdistance: 30
+  projectileForceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.5
+      value: 12
+      inSlope: 7.6666665
+      outSlope: 7.6666665
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 3.5
+      value: 35
+      inSlope: 7.6666665
+      outSlope: 7.6666665
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rangeAttackdistance: 25
   attackCooldown: 1.5
   bulletPoolSize: 3
 --- !u!135 &5684035095987179647
@@ -520,8 +582,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5758018134196210350}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 20.75, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 3278883554580211484}
   m_RootOrder: 1

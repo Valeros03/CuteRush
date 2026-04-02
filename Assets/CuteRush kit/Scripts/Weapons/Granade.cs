@@ -55,10 +55,19 @@ public class Granade : MonoBehaviour
         yield return new WaitForSeconds(delay);
         hasExploded = true;
 
+        if (explosionEffect != null)
+        {
+            ExplosionVisualScaler scaler = explosionEffect.GetComponentInChildren<ExplosionVisualScaler>();
+            if (scaler != null)
+            {
+                scaler.logicExplosionRadius = radius;
+            }
+            explosionEffect.SetActive(true);
+        }
+
         if (explosionEffect != null) explosionEffect.SetActive(true);
         if (audioSource != null) audioSource.Play();
 
-      
         GetComponentInChildren<MeshRenderer>().enabled = false;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius, damageLayer);

@@ -58,8 +58,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1788933130503282786}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.47, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 20, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 6312573360258431772}
   m_RootOrder: 1
@@ -474,15 +474,56 @@ MonoBehaviour:
   maxHealth: 80
   attackDamage: 10
   attackSpeed: 1
-  chaseSpeed: 3.5
   rotationSpeed: 5
   flinchDuration: 0.3
+  flinchCooldown: 1
+  speedScalingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.5
+      value: 3
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.5
+      value: 4
+      inSlope: 1.025
+      outSlope: 1.025
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 3.5
+      value: 6.1
+      inSlope: 1.05
+      outSlope: 1.05
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
   isDead: 0
   SlimeBody: {fileID: 2653710389412148474}
   rb: {fileID: 398450473146217250}
   hitRecoil: {fileID: 7152648784994532740}
+  marker: {fileID: 1788933130503282786}
   killPoints: 15
+  observationWindow: 0.4
+  aiAdaptationSpeed: 2
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  aimTolerance: 10
+  projectileRadius: 0.2
   meleeRange: 2
   rangedRange: 15
   facingTolerance: 5
@@ -490,7 +531,30 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5123798614293869143, guid: ef071591f5409bb408b6a0b6c4b58f39,
     type: 3}
   firePoint: {fileID: 4140988320600192268}
-  projectileForce: 15
+  projectileForceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.5
+      value: 7
+      inSlope: 4.3333335
+      outSlope: 4.3333335
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 3.5
+      value: 20
+      inSlope: 4.3333335
+      outSlope: 4.3333335
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   rangedAttackDamage: 15
   bulletPoolSize: 3
 --- !u!135 &5517104590756939668

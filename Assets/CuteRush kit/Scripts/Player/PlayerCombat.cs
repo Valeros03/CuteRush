@@ -227,9 +227,8 @@ public class PlayerCombat : MonoBehaviour
 
         if (newGunComponent != null)
         {
-            newGunComponent.Init(this);
-
             ConnectGun(newGunComponent);
+            newGunComponent.Init(this);
 
             newGunComponent.enabled = true;
             Transform tracer = newGunComponent.transform.Find("Tracer");

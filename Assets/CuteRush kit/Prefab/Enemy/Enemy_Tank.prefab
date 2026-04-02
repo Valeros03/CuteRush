@@ -190,50 +190,6 @@ CapsuleCollider:
   m_Height: 0.7609767
   m_Direction: 1
   m_Center: {x: 0.014628649, y: 0.28373337, z: 0}
---- !u!1 &2713071556376099774
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3398802552419909974}
-  - component: {fileID: 8408182350949667127}
-  m_Layer: 12
-  m_Name: HeadCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3398802552419909974
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2713071556376099774}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.797, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 949259740048503156}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8408182350949667127
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2713071556376099774}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.4, y: 0.4, z: 0.55}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2952653541504339837
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,7 +254,6 @@ Transform:
   - {fileID: 2025504112150452546}
   - {fileID: 6952772629355137204}
   - {fileID: 3978815195120335637}
-  - {fileID: 3398802552419909974}
   m_Father: {fileID: 2926823790185078136}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -411,8 +366,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4577678985094324522}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 20, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 6836556466655795446}
   m_RootOrder: 1
@@ -568,16 +523,49 @@ MonoBehaviour:
   personalTriggerRadius: 200
   maxHealth: 50
   attackDamage: 10
-  attackSpeed: 2
-  chaseSpeed: 4.8
+  attackSpeed: 2.5
   rotationSpeed: 5
   flinchDuration: 0.3
   flinchCooldown: 1
+  speedScalingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.5
+      value: 3.5
+      inSlope: 1.3000002
+      outSlope: 1.3000002
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.5
+      value: 4.8
+      inSlope: 1.3000002
+      outSlope: 1.25
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 3.5
+      value: 7.3
+      inSlope: 1.25
+      outSlope: 1.25
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   faces: {fileID: 11400000, guid: 8b8a7554fceb39841840f45a2d8da540, type: 2}
   isDead: 0
   SlimeBody: {fileID: 2493330531005505269}
   rb: {fileID: 5136934779930517625}
   hitRecoil: {fileID: 4476350014240686094}
+  marker: {fileID: 4577678985094324522}
   killPoints: 5
   meleeRange: 1
 --- !u!135 &3361318816062773775

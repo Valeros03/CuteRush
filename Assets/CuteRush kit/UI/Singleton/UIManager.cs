@@ -38,10 +38,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void EndGameSequence()
+    public void EndGameSequence(float time, int score, int kill, float diffMult)
     {
         hud.Hide();
         hud.Disconnect();
         gameOverScreen.Show();
+        gameOverScreen.ShowGameOverStats(time,score,kill,diffMult);
     }
 }

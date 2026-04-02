@@ -9,7 +9,7 @@ public class RangedEnemy : Enemy
     public int rangedAttackDamage;
     public GameObject projectilePrefab;
     public Transform firePoint;
-    public float projectileForce = 10f;
+    public AnimationCurve projectileForceCurve;
     public float rangeAttackdistance = 10f;
     public float attackCooldown = 2f;
 
@@ -22,6 +22,7 @@ public class RangedEnemy : Enemy
     private bool isAttacking;
 
     private int scaledRangedDamage;
+    private float projectileForce = 10f;
 
     protected override void Start()
     {
@@ -45,11 +46,12 @@ public class RangedEnemy : Enemy
             diffMult = DifficultyManager.Instance.currentMultiplier;
         }
         scaledRangedDamage = Mathf.RoundToInt(rangedAttackDamage * diffMult);
+        projectileForce = projectileForceCurve.Evaluate(diffMult);
     }
 
     protected override void PerformChaseLogic()
     {
-        
+        if (!agent.isOnNavMesh) return;
 
         float distanceSqr = (transform.position - player.position).sqrMagnitude;
         float rangeAttackdistanceSqr = rangeAttackdistance * rangeAttackdistance;
@@ -58,20 +60,26 @@ public class RangedEnemy : Enemy
 
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-
             agent.isStopped = true;
 
             Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
             FaceTarget(predictedTarget);
+
             if (Time.time - lastAttackTime > attackCooldown)
             {
-                lastAttackTime = Time.time;
-                SetFace(faces.attackFace);
-                animator.SetTrigger("Attack");
-                isAttacking = true;
+                Vector3 planarForward = transform.forward; planarForward.y = 0;
+                Vector3 planarDir = predictedTarget - transform.position; planarDir.y = 0;
+
+                if (Vector3.Angle(planarForward, planarDir) <= aimTolerance)
+                {
+                    lastAttackTime = Time.time + Random.Range(-0.1f, 0.2f);
+                    SetFace(faces.attackFace);
+                    animator.SetTrigger("Attack");
+                    isAttacking = true;
+                }
             }
         }
-        else if(isAttacking == false)
+        else if (isAttacking == false)
         {
             agent.isStopped = false;
             SetFace(faces.WalkFace);
@@ -117,17 +125,43 @@ public class RangedEnemy : Enemy
 
     void FireProjectile()
     {
-        EnemyBullet bullet = GetPooledBullet();
+        EnemyBullet bullet = GetPooledBullet(); 
         if (bullet == null) return;
 
-        bullet.transform.position = firePoint.position;
-        bullet.transform.rotation = firePoint.rotation;
+        bullet.gameObject.transform.position = firePoint.position;
+        bullet.gameObject.transform.rotation = firePoint.rotation;
 
         bullet.gameObject.SetActive(true);
 
-        Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
-        Vector3 dir = (predictedTarget - firePoint.position).normalized;
+        Vector3 perfectTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
+        Vector3 finalTarget = perfectTarget;
 
+        bool isPerfectShot = Random.value <= perfectShotChance;
+
+        if (!isPerfectShot)
+        { 
+            float distance = Vector3.Distance(firePoint.position, perfectTarget);
+            float distanceFactor = Mathf.Clamp(distance / 15f, 0.2f, 1.0f);
+            Vector2 randomCircle = Random.insideUnitCircle * maxAimError * distanceFactor;
+            Vector3 errorOffset = new Vector3(randomCircle.x, 0f, randomCircle.y);
+
+            finalTarget += errorOffset;
+        }
+
+        Vector3 dir = (finalTarget - firePoint.position).normalized;
+        Debug.DrawLine(firePoint.position, perfectTarget, Color.green, 2f);
+
+        if (!isPerfectShot)
+        {
+            // Se c'è stato un errore, disegna una linea ROSSA per farti vedere dove sbanda il colpo
+            Debug.DrawLine(firePoint.position, finalTarget, Color.red, 2f);
+        }
+        else
+        {
+            // Se è un tiro perfetto, disegna un raggio BIANCO per confermarlo
+            Debug.DrawLine(firePoint.position, finalTarget, Color.white, 2f);
+        }
+ 
         bullet.Fire(dir, scaledRangedDamage, projectileForce, transform.position);
     }
 

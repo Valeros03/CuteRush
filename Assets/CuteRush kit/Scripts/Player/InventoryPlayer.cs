@@ -41,6 +41,7 @@ public class InventoryPlayer : MonoBehaviour
         OnMedkitsChanged?.Invoke(MedkitCount);
         OnGoldChanged?.Invoke(coins);
         OnGrenadesChanged?.Invoke(GrenadeCount);
+        addGrenade();
         
     }
 

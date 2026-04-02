@@ -2,26 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HUD : UIPanel
 {
 
     [Header("Health UI")]
     [SerializeField] private Image healthImage;
-    [SerializeField] private Text healthText;
+    [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private Color emptyHealthColor;
     [SerializeField] private Color fullHealthColor;
 
     [Header("Inventory UI")]
-    [SerializeField] private Text goldText;
-    [SerializeField] private Text medikitText;
-    [SerializeField] private Text grenadeText;
-    [SerializeField] private Text scoreText;
+    [SerializeField] private TextMeshProUGUI goldText;
+    [SerializeField] private TextMeshProUGUI medikitText;
+    [SerializeField] private TextMeshProUGUI grenadeText;
+    [SerializeField] private TextMeshProUGUI scoreText;
 
     [Header("Interaction UI")]
-    [SerializeField] private Text interactText;
-    [SerializeField] private Text pickUpText;
-    [SerializeField] private Text messageText;
+    [SerializeField] private TextMeshProUGUI interactText;
+    [SerializeField] private TextMeshProUGUI pickUpText;
+    [SerializeField] private TextMeshProUGUI messageText;
 
     [Header("Damage Indicators")]
     [SerializeField] private GameObject damageIndicatorPrefab;
@@ -32,7 +33,10 @@ public class HUD : UIPanel
     [SerializeField] private UiAcidoBorico acidoBoricoPanel;
 
     [Header("Weapon UI")]
-    [SerializeField] private Text ammoText;
+    [SerializeField] private TextMeshProUGUI ammoText;
+
+    [Header("Timer UI")]
+    [SerializeField] private TextMeshProUGUI timerText; 
 
     private InventoryPlayer _currentInventory;
     private VitalsController _currentVitals;
@@ -82,6 +86,9 @@ public class HUD : UIPanel
         {
             GameManager.Instance.OnScoreChange += UpdateScore;
             UpdateScore(GameManager.Instance.currentScore);
+
+            GameManager.Instance.OnTimeUpdated += UpdateTimerDisplay;
+            UpdateTimerDisplay(0, 0);
         }
 
         UIEvents.OnShowNotification += ShowMessage;
@@ -115,6 +122,7 @@ public class HUD : UIPanel
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnScoreChange -= UpdateScore;
+            GameManager.Instance.OnTimeUpdated -= UpdateTimerDisplay;
         }
 
         UIEvents.OnShowNotification -= ShowMessage;
@@ -200,6 +208,14 @@ public class HUD : UIPanel
             DamageIndicator newInd = indicatorGO.GetComponent<DamageIndicator>();
             newInd.Initialize(enemyPos);
             _activeIndicators.Add(newInd);
+        }
+    }
+
+    private void UpdateTimerDisplay(int minutes, int seconds)
+    {
+        if (timerText != null)
+        {
+            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
     }
 
