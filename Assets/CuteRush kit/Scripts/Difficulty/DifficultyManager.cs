@@ -11,9 +11,13 @@ public class DifficultyManager : MonoBehaviour
 
     private DifficultyProfile profile;
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
+    }
+
+    public void InitManager()
+    {
         profile = GameManager.Instance.currentDifficulty;
         currentMultiplier = profile.startingMultiplier;
         StartCoroutine(DifficultyCurveRoutine());
