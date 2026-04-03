@@ -10,6 +10,12 @@ public class SaveManager : MonoBehaviour
     // Reference to the active profile
     public SaveData currentSave;
 
+    // Reference to the global leaderboard
+    public GlobalLeaderboardData globalLeaderboard;
+
+    // Path to the global leaderboard save file
+    public string GlobalSavePath => Path.Combine(Application.persistentDataPath, "GlobalLeaderboard.json");
+
     private void Awake()
     {
         // Enforce Singleton pattern
@@ -21,6 +27,112 @@ public class SaveManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+        LoadGlobalLeaderboard();
+    }
+
+    /// <summary>
+    /// Loads the global leaderboard from JSON or initializes a new one.
+    /// </summary>
+    public void LoadGlobalLeaderboard()
+    {
+        if (File.Exists(GlobalSavePath))
+        {
+            try
+            {
+                string json = File.ReadAllText(GlobalSavePath);
+                globalLeaderboard = JsonUtility.FromJson<GlobalLeaderboardData>(json);
+                if (globalLeaderboard == null)
+                {
+                    globalLeaderboard = new GlobalLeaderboardData();
+                }
+                Debug.Log($"Global leaderboard loaded successfully from: {GlobalSavePath}");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Failed to load global leaderboard from {GlobalSavePath}: {e.Message}");
+                globalLeaderboard = new GlobalLeaderboardData();
+            }
+        }
+        else
+        {
+            globalLeaderboard = new GlobalLeaderboardData();
+            Debug.Log("No global leaderboard found, initialized a new one.");
+        }
+    }
+
+    /// <summary>
+    /// Serializes globalLeaderboard to JSON and overwrites the file.
+    /// </summary>
+    public void SaveGlobalLeaderboard()
+    {
+        if (globalLeaderboard == null)
+        {
+            Debug.LogError("Cannot save global leaderboard: globalLeaderboard is null.");
+            return;
+        }
+
+        string json = JsonUtility.ToJson(globalLeaderboard, true);
+
+        try
+        {
+            File.WriteAllText(GlobalSavePath, json);
+            Debug.Log($"Global leaderboard saved successfully to: {GlobalSavePath}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Failed to save global leaderboard to {GlobalSavePath}: {e.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Submits a score, updating both personal and global leaderboards.
+    /// </summary>
+    public void SubmitScore(string mapName, int finalScore, string difficulty)
+    {
+        // Update personal leaderboard
+        if (currentSave != null)
+        {
+            MapLeaderboard personalMapData = currentSave.mapLeaderboards.Find(m => m.mapName == mapName);
+            if (personalMapData == null)
+            {
+                personalMapData = new MapLeaderboard(mapName);
+                currentSave.mapLeaderboards.Add(personalMapData);
+            }
+
+            personalMapData.topScores.Add(new ScoreRecord(finalScore, difficulty));
+
+            // Sort descending and keep top 5
+            personalMapData.topScores.Sort((a, b) => b.score.CompareTo(a.score));
+            if (personalMapData.topScores.Count > 5)
+            {
+                personalMapData.topScores.RemoveRange(5, personalMapData.topScores.Count - 5);
+            }
+
+            SaveGame();
+        }
+
+        // Update global leaderboard
+        if (globalLeaderboard != null && currentSave != null && !string.IsNullOrEmpty(currentSave.username))
+        {
+            GlobalMapLeaderboard globalMapData = globalLeaderboard.maps.Find(m => m.mapName == mapName);
+            if (globalMapData == null)
+            {
+                globalMapData = new GlobalMapLeaderboard(mapName);
+                globalLeaderboard.maps.Add(globalMapData);
+            }
+
+            globalMapData.topScores.Add(new GlobalScoreRecord(currentSave.username, finalScore, difficulty));
+
+            // Sort descending and keep top 5
+            globalMapData.topScores.Sort((a, b) => b.score.CompareTo(a.score));
+            if (globalMapData.topScores.Count > 5)
+            {
+                globalMapData.topScores.RemoveRange(5, globalMapData.topScores.Count - 5);
+            }
+
+            SaveGlobalLeaderboard();
         }
     }
 

@@ -1,16 +1,25 @@
 ﻿using UnityEngine;
 using TMPro;
 using System;
+using System.Text;
+using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class GameOverScreen : UIPanel
 {
-    [Header("UI Text References")]
+    [Header("Stats References")]
+    [SerializeField] private GameObject statsContainer; // Optional: To group the calculated score texts
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI killsText;
     [SerializeField] private TextMeshProUGUI baseScoreText;
     [SerializeField] private TextMeshProUGUI kpmBonusText;
     [SerializeField] private TextMeshProUGUI difficultyText;
     [SerializeField] private TextMeshProUGUI finalScoreText;
+
+    [Header("Leaderboard References")]
+    [SerializeField] private GameObject leaderboardContainer; // Optional: To group the leaderboard texts
+    [SerializeField] private TextMeshProUGUI personalLeaderboardText;
+    [SerializeField] private TextMeshProUGUI globalLeaderboardText;
 
     [Header("Bilanciamento Gioco")]
     [Tooltip("Quanti punti diamo per ogni Uccisione al Minuto?")]
@@ -41,9 +50,113 @@ public class GameOverScreen : UIPanel
 
         finalScoreText.text = "PUNTEGGIO FINALE: " + finalScore;
 
+        if (statsContainer != null) statsContainer.SetActive(true);
+        if (leaderboardContainer != null) leaderboardContainer.SetActive(false);
+
         gameObject.SetActive(true);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    /// <summary>
+    /// Intended to be called by a UI Button.
+    /// Hides the calculated score texts and shows the Personal and Global Leaderboard.
+    /// </summary>
+    public void ShowLeaderboards()
+    {
+        if (statsContainer != null)
+        {
+            statsContainer.SetActive(false);
+        }
+        else
+        {
+            // Fallback: Disable individual stats texts if no container is assigned
+            if (timeText != null) timeText.gameObject.SetActive(false);
+            if (killsText != null) killsText.gameObject.SetActive(false);
+            if (baseScoreText != null) baseScoreText.gameObject.SetActive(false);
+            if (kpmBonusText != null) kpmBonusText.gameObject.SetActive(false);
+            if (difficultyText != null) difficultyText.gameObject.SetActive(false);
+            if (finalScoreText != null) finalScoreText.gameObject.SetActive(false);
+        }
+
+        if (leaderboardContainer != null)
+        {
+            leaderboardContainer.SetActive(true);
+        }
+
+        if (personalLeaderboardText != null) personalLeaderboardText.gameObject.SetActive(true);
+        if (globalLeaderboardText != null) globalLeaderboardText.gameObject.SetActive(true);
+
+        RefreshLeaderboards();
+    }
+
+    private void RefreshLeaderboards()
+    {
+        if (SaveManager.Instance == null)
+        {
+            Debug.LogError("SaveManager.Instance is null. Cannot refresh leaderboards.");
+            return;
+        }
+
+        string currentMapName = SceneManager.GetActiveScene().name;
+
+        // Fetch personal scores
+        if (SaveManager.Instance.currentSave != null && SaveManager.Instance.currentSave.mapLeaderboards != null)
+        {
+            var personalMap = SaveManager.Instance.currentSave.mapLeaderboards.FirstOrDefault(m => m.mapName == currentMapName);
+            if (personalMap != null && personalMap.topScores != null && personalMap.topScores.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < personalMap.topScores.Count; i++)
+                {
+                    sb.AppendLine($"{i + 1}. {personalMap.topScores[i].score} ({personalMap.topScores[i].difficulty})");
+                }
+                if (personalLeaderboardText != null)
+                {
+                    personalLeaderboardText.text = sb.ToString();
+                }
+            }
+            else
+            {
+                if (personalLeaderboardText != null)
+                {
+                    personalLeaderboardText.text = "Nessun punteggio personale ancora.";
+                }
+            }
+        }
+        else if (personalLeaderboardText != null)
+        {
+            personalLeaderboardText.text = "Nessun punteggio personale ancora.";
+        }
+
+        // Fetch global scores
+        if (SaveManager.Instance.globalLeaderboard != null && SaveManager.Instance.globalLeaderboard.maps != null)
+        {
+            var globalMap = SaveManager.Instance.globalLeaderboard.maps.FirstOrDefault(m => m.mapName == currentMapName);
+            if (globalMap != null && globalMap.topScores != null && globalMap.topScores.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < globalMap.topScores.Count; i++)
+                {
+                    sb.AppendLine($"{i + 1}. {globalMap.topScores[i].playerName} - {globalMap.topScores[i].score} ({globalMap.topScores[i].difficulty})");
+                }
+                if (globalLeaderboardText != null)
+                {
+                    globalLeaderboardText.text = sb.ToString();
+                }
+            }
+            else
+            {
+                if (globalLeaderboardText != null)
+                {
+                    globalLeaderboardText.text = "Nessun punteggio globale ancora.";
+                }
+            }
+        }
+        else if (globalLeaderboardText != null)
+        {
+            globalLeaderboardText.text = "Nessun punteggio globale ancora.";
+        }
     }
 }
