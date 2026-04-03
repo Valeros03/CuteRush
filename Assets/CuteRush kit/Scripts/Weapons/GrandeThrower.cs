@@ -30,8 +30,11 @@ public class GrandeThrower : MonoBehaviour
 
     private Quaternion markInitialRotation;
 
+    private PlayerInput playerInput;
+
     void Start()
     {
+        playerInput = GetComponentInParent<PlayerInput>();
         if (combat == null) combat = GetComponentInParent<PlayerCombat>();
         if (interaction == null) interaction = GetComponentInParent<PlayerInteraction>();
         if (audioPlayer == null) audioPlayer = GetComponentInParent<AudioPlayerController>();
@@ -43,6 +46,16 @@ public class GrandeThrower : MonoBehaviour
         if (centerMark != null)
         {
             markInitialRotation = centerMark.rotation;
+        }
+    }
+
+    void OnEnable()
+    {
+        if (playerInput == null) playerInput = GetComponentInParent<PlayerInput>();
+
+        if (playerInput != null && playerInput.IsFiring)
+        {
+            Activation();
         }
     }
 
