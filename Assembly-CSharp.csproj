@@ -55,6 +55,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_Camera.cs" />
+     <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_CamNav.cs" />
+     <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_Reflection.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioGunController.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioManager.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioPlayerController.cs" />
@@ -94,6 +97,7 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerMovement.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerUpgrades.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\VitalsController.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\SaveSystem\GlobalLeaderboardData.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\SaveSystem\MainMenuSaveIntegration.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\SaveSystem\SaveData.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\SaveSystem\SaveManager.cs" />
@@ -125,6 +129,7 @@
      <Compile Include="Assets\CuteRush kit\UI\Singleton\UIManager.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Static\UIEvents.cs" />
      <Compile Include="Assets\ExplosionVisualScaler.cs" />
+     <Compile Include="Assets\FireLightFlicker.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Survival Essentials\Example\Scripts\AnimatedFire.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Textures &amp; Sprites\UI\Radial Slider UI\Scripts\RadialSlider.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\Inventory.cs" />
@@ -158,6 +163,7 @@
      <None Include="Assets\Piloto Studio\Campfire And Torches Pack\ReadMe.txt" />
      <None Include="Assets\Kawaii Slimes\Shader\Unity-chan Shader Ver 1.2.1\readme.txt" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\AQUAS-Lite\Shaders\AQUAS-Lite_Backface.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
      <None Include="Assets\CuteRush kit\Materials\HologramCode.shader" />
      <None Include="Assets\LowHealth\ReadMe.txt" />
@@ -166,9 +172,11 @@
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
+     <None Include="Assets\AQUAS-Lite\Readme.txt" />
      <None Include="Assets\FireIceProjectileExplosion\Shader\S_ParticleAdd.shader" />
      <None Include="Assets\CuteRush kit\UI\LowHealthShader.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\AQUAS-Lite\Shaders\AQUAS-Lite_Frontface.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
@@ -184,6 +192,7 @@
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
      <None Include="Assets\Piloto Studio\Shaders\UberFX.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\CuteRush kit\UI\Buttons\GUI-BasicButtonPack\Font\TiltWarp - OFL.txt" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
  <Reference Include="Unity.Timeline.Editor">

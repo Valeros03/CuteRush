@@ -58,26 +58,11 @@ public class GameOverScreen : UIPanel
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
-
-    /// <summary>
-    /// Intended to be called by a UI Button.
-    /// Hides the calculated score texts and shows the Personal and Global Leaderboard.
-    /// </summary>
     public void ShowLeaderboards()
     {
         if (statsContainer != null)
         {
             statsContainer.SetActive(false);
-        }
-        else
-        {
-            // Fallback: Disable individual stats texts if no container is assigned
-            if (timeText != null) timeText.gameObject.SetActive(false);
-            if (killsText != null) killsText.gameObject.SetActive(false);
-            if (baseScoreText != null) baseScoreText.gameObject.SetActive(false);
-            if (kpmBonusText != null) kpmBonusText.gameObject.SetActive(false);
-            if (difficultyText != null) difficultyText.gameObject.SetActive(false);
-            if (finalScoreText != null) finalScoreText.gameObject.SetActive(false);
         }
 
         if (leaderboardContainer != null)
@@ -101,7 +86,6 @@ public class GameOverScreen : UIPanel
 
         string currentMapName = SceneManager.GetActiveScene().name;
 
-        // Fetch personal scores
         if (SaveManager.Instance.currentSave != null && SaveManager.Instance.currentSave.mapLeaderboards != null)
         {
             var personalMap = SaveManager.Instance.currentSave.mapLeaderboards.FirstOrDefault(m => m.mapName == currentMapName);
@@ -130,7 +114,6 @@ public class GameOverScreen : UIPanel
             personalLeaderboardText.text = "Nessun punteggio personale ancora.";
         }
 
-        // Fetch global scores
         if (SaveManager.Instance.globalLeaderboard != null && SaveManager.Instance.globalLeaderboard.maps != null)
         {
             var globalMap = SaveManager.Instance.globalLeaderboard.maps.FirstOrDefault(m => m.mapName == currentMapName);

@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private HUD hud;
     [SerializeField] private MainMenu mainMenu;
+    [SerializeField] private MainMenuSaveIntegration saveMenu;
     [SerializeField] private GameOverScreen gameOverScreen;
 
     public HUD HUD => hud;
@@ -30,12 +31,6 @@ public class UIManager : MonoBehaviour
         gameOverScreen.Hide();
         hud.Show();
         hud.ConnectToPlayer(inv, vitals, combat);
-
-        Camera menuCam = GetComponentInChildren<Camera>();
-        if (menuCam != null)
-        {
-            menuCam.gameObject.SetActive(false);
-        }
     }
 
     public void EndGameSequence(float time, int score, int kill, float diffMult)
@@ -44,5 +39,10 @@ public class UIManager : MonoBehaviour
         hud.Disconnect();
         gameOverScreen.Show();
         gameOverScreen.ShowGameOverStats(time,score,kill,diffMult);
+    }
+
+    public void StartGameMenu()
+    {
+        saveMenu.Hide();
     }
 }
