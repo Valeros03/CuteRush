@@ -172,6 +172,11 @@ public abstract class GunBase : MonoBehaviour
         StartCoroutine(ReloadCoroutine());
     }
 
+    protected void HandleOnAmmoChange()
+    {
+        OnAmmoChanged?.Invoke(currentBulletCount, currentMagLeft);
+    }
+
     protected virtual IEnumerator ReloadCoroutine()
     {
         onGunReloadStart?.Invoke();

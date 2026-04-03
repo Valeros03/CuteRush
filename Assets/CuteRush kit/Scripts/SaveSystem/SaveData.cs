@@ -12,8 +12,8 @@ public class SaveData
     public int grenadeCount;
 
     // Upgrades
-    public PlayerUpgrades playerUpgrades;
-    public WeaponUpgrades weaponUpgrades;
+    public PlayerUpgradesSave playerUpgrades;
+    public WeaponUpgradesSave weaponUpgrades;
 
     // High scores
     public List<MapLeaderboard> mapLeaderboards;
@@ -25,14 +25,14 @@ public class SaveData
         medikitCount = 0;
         grenadeCount = 0;
 
-        playerUpgrades = new PlayerUpgrades();
-        weaponUpgrades = new WeaponUpgrades();
+        playerUpgrades = new PlayerUpgradesSave();
+        weaponUpgrades = new WeaponUpgradesSave();
         mapLeaderboards = new List<MapLeaderboard>();
     }
 }
 
 [System.Serializable]
-public class PlayerUpgrades
+public class PlayerUpgradesSave
 {
     public int maxHealthLevel;
     public int medikitHealLevel;
@@ -40,7 +40,7 @@ public class PlayerUpgrades
     public int jumpForceLevel;
     public int flinchResistLevel;
 
-    public PlayerUpgrades()
+    public PlayerUpgradesSave()
     {
         maxHealthLevel = 1;
         medikitHealLevel = 1;
@@ -51,13 +51,13 @@ public class PlayerUpgrades
 }
 
 [System.Serializable]
-public class WeaponUpgrades
+public class WeaponUpgradesSave
 {
     public WeaponStats pistolStats;
     public WeaponStats smgStats;
     public WeaponStats railgunStats;
 
-    public WeaponUpgrades()
+    public WeaponUpgradesSave()
     {
         pistolStats = new WeaponStats();
         smgStats = new WeaponStats();
