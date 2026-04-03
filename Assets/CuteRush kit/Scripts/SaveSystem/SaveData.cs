@@ -34,14 +34,19 @@ public class SaveData
 [System.Serializable]
 public class PlayerUpgrades
 {
-    public int healthLevel;
-    public int speedLevel;
-    // Add other player upgrade fields here if needed
+    public int maxHealthLevel;
+    public int medikitHealLevel;
+    public int movementSpeedLevel;
+    public int jumpForceLevel;
+    public int flinchResistLevel;
 
     public PlayerUpgrades()
     {
-        healthLevel = 1;
-        speedLevel = 1;
+        maxHealthLevel = 1;
+        medikitHealLevel = 1;
+        movementSpeedLevel = 1;
+        jumpForceLevel = 1;
+        flinchResistLevel = 1;
     }
 }
 
@@ -64,14 +69,20 @@ public class WeaponUpgrades
 public class WeaponStats
 {
     public int damageLevel;
+    public int magSizeLevel;
     public int fireRateLevel;
-    public int ammoCapacityLevel;
+    public int accuracyLevel;
+    public int beamWidthLevel;
+    public int pierceLevel;
 
     public WeaponStats()
     {
         damageLevel = 1;
+        magSizeLevel = 1;
         fireRateLevel = 1;
-        ammoCapacityLevel = 1;
+        accuracyLevel = 1;
+        beamWidthLevel = 1;
+        pierceLevel = 1;
     }
 }
 
