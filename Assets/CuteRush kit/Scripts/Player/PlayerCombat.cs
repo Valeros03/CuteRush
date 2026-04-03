@@ -182,6 +182,11 @@ public class PlayerCombat : MonoBehaviour
                 granade.transform.localRotation = Quaternion.identity;
                 granadeAnimator.SetTrigger(GameConstants.ANIM_PRENDI_GRANATA);
             }
+
+            if (input != null && input.IsFiring && thrower != null)
+            {
+                thrower.Activation();
+            }
         }
     }
 
