@@ -105,6 +105,7 @@ public class ChargeGun : GunBase
 
         currentBulletCount--;
         onBulletShot?.Invoke();
+        OnAmmoChanged?.Invoke(currentBulletCount, currentMagLeft);
     }
 
     public override bool addMag()
@@ -119,6 +120,8 @@ public class ChargeGun : GunBase
         {
             currentMagLeft = stats.totalAmmo;
         }
+
+        OnAmmoChanged?.Invoke(currentBulletCount, currentMagLeft);
 
         return true;
     }
