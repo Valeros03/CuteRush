@@ -25,8 +25,9 @@ public class GameOverScreen : UIPanel
     [Tooltip("Quanti punti diamo per ogni Uccisione al Minuto?")]
     public float kpmWeight = 50f;
 
-    public void ShowGameOverStats(float timeSurvivedSeconds, int totalKillPoints, int totalKills, float difficultyMultiplier)
+    public void ShowGameOverStats(float timeSurvivedSeconds, int totalKillPoints, int totalKills, float difficultyMultiplier, float kpmMult)
     {
+        kpmWeight = kpmMult;
         float timeSurvivedMinutes = timeSurvivedSeconds / 60f;
         if (timeSurvivedMinutes <= 0.01f) timeSurvivedMinutes = 0.01f;
 

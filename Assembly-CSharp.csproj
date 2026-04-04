@@ -58,8 +58,8 @@
      <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_Camera.cs" />
      <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_CamNav.cs" />
      <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_Reflection.cs" />
-     <Compile Include="Assets\AudioListenerManager.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioGunController.cs" />
+     <Compile Include="Assets\CuteRush kit\Audio\Script\AudioListenerManager.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioManager.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioPlayerController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\AbstractClass\BaseSpawner.cs" />
@@ -79,6 +79,7 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Consumabili\Medkit.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Difficulty\DifficultyManager.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Difficulty\DifficultyProfile.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Difficulty\DifficultySetter.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\Enemy.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemyBullet.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Enemy\EnemyHitRecoil.cs" />
@@ -106,6 +107,7 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Utility\GameExtension.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\AutoGun.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\ChargeGun.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Weapons\ExplosionVisualScaler.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\Granade.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\GrandeThrower.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\GunChargeOverTime.cs" />
@@ -116,6 +118,7 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\RecoilProfile.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\SingleShotGun.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\World\Bonfire.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\World\FireLightFlicker.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\World\GateController.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\World\MagSpawner.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\World\MedkitSpawner.cs" />
@@ -125,13 +128,13 @@
      <Compile Include="Assets\CuteRush kit\UI\Scripts\DamageIndicator.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\GameOverScreen.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\HUD.cs" />
+     <Compile Include="Assets\CuteRush kit\UI\Scripts\LatterboxRequester.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\MainMenu.cs" />
+     <Compile Include="Assets\CuteRush kit\UI\Scripts\PlayerInfoUpdater.cs" />
+     <Compile Include="Assets\CuteRush kit\UI\Scripts\SaveSlotUI.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\UiAcidoBorico.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Singleton\UIManager.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Static\UIEvents.cs" />
-     <Compile Include="Assets\DifficultySetter.cs" />
-     <Compile Include="Assets\ExplosionVisualScaler.cs" />
-     <Compile Include="Assets\FireLightFlicker.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Survival Essentials\Example\Scripts\AnimatedFire.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Textures &amp; Sprites\UI\Radial Slider UI\Scripts\RadialSlider.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\Inventory.cs" />
@@ -146,11 +149,8 @@
      <Compile Include="Assets\Kawaii Slimes\Scripts\AI\Face.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\GameManager.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\TriggerCollider.cs" />
-     <Compile Include="Assets\LatterboxRequester.cs" />
      <Compile Include="Assets\LowHealth\LowHealthDirectAccess.cs" />
      <Compile Include="Assets\Nokobot\Modern Guns - Handgun\_Demo Assets\SimpleShoot.cs" />
-     <Compile Include="Assets\PlayerInfoUpdater.cs" />
-     <Compile Include="Assets\SaveSlotUI.cs" />
      <Compile Include="Assets\TextureConverter.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\Camera Controller.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\GunRotation.cs" />

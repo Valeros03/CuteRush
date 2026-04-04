@@ -18,6 +18,8 @@ public class DifficultyProfile : ScriptableObject
     public float goldEarnedMultiplier = 1.0f;
     [Tooltip("Moltiplicatore per punti")]
     public float scoreMultiplier = 1.0f;
+    [Tooltip("Bonus Kill al minuto")]
+    public float kpmMultiplier = 50f;
 
 
 }

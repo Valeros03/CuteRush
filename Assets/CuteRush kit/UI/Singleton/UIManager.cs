@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private MainMenuSaveIntegration saveMenu;
     [SerializeField] private GameOverScreen gameOverScreen;
     [SerializeField] private GameObject latterbox;
+    [SerializeField] private GameObject topBar;
+    [SerializeField] private GameObject bottomBar;
 
     public HUD HUD => hud;
 
@@ -28,12 +30,19 @@ public class UIManager : MonoBehaviour
 
     public void ShowLatterbox()
     {
+        
         latterbox.SetActive(true);
     }
 
     public void FadeLatterbox()
     {
         latterbox.GetComponent<Animator>().SetTrigger("Fade");
+    }
+    public void ResetLatterbox()
+    {
+        topBar.transform.localScale = new Vector3(1, 1, 1);
+        bottomBar.transform.localScale = new Vector3(1, 1, 1);
+        latterbox.SetActive(false);
     }
 
     public void StartGameSequence(InventoryPlayer inv, VitalsController vitals, PlayerCombat combat)
@@ -44,12 +53,12 @@ public class UIManager : MonoBehaviour
         hud.ConnectToPlayer(inv, vitals, combat);
     }
 
-    public void EndGameSequence(float time, int score, int kill, float diffMult)
+    public void EndGameSequence(float time, int score, int kill, float diffMult, float kpmMult)
     {
         hud.Hide();
         hud.Disconnect();
         gameOverScreen.Show();
-        gameOverScreen.ShowGameOverStats(time,score,kill,diffMult);
+        gameOverScreen.ShowGameOverStats(time,score,kill,diffMult, kpmMult);
     }
 
     public void StartGameMenu()

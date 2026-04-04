@@ -24,11 +24,7 @@ public class Bootstrapper : MonoBehaviour
 
     void Start()
     {
-
         listenerManager.Init();
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.PlayMusic(GameConstants.AUDIO_IN_GAME_SONG);
-
     }
 
     public void LoadMainMenuLand()
@@ -42,11 +38,13 @@ public class Bootstrapper : MonoBehaviour
 
     private IEnumerator TransitionSceneRoutine(string newSceneName)
     {
+        AudioManager.Instance.StopMusic();
         if (!string.IsNullOrEmpty(currentLoadedEnvironment))
             yield return SceneManager.UnloadSceneAsync(currentLoadedEnvironment);
 
         yield return SceneManager.LoadSceneAsync(newSceneName, LoadSceneMode.Additive);
         currentLoadedEnvironment = newSceneName;
+        Time.timeScale = 1f;
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(newSceneName));
     }
 }

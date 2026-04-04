@@ -41,7 +41,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("INTERO: " + PlayerPrefs.GetInt("DifficultyProfile"));
         currentDifficulty = difficulties[PlayerPrefs.GetInt("DifficultyProfile")];
+        Debug.Log(currentDifficulty);
         if (Instance == null)
         {
             Instance = this;
@@ -97,13 +99,13 @@ public class GameManager : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.StopAmbient();
-            AudioManager.Instance.PlayMusic(GameConstants.AUDIO_MENU_SONG, true);
+            AudioManager.Instance.PlayMusic(GameConstants.AUDIO_IN_GAME_SONG, true);
         }
 
         Time.timeScale = 0f;
-        finalScore = currentScore + Mathf.RoundToInt((killNumber / Time.time - levelStartTime) * 50f);
+        finalScore = Mathf.FloorToInt((currentScore + Mathf.FloorToInt((killNumber / Mathf.Max((Time.time - levelStartTime) / 60f, 0.01f)) * currentDifficulty.kpmMultiplier)) * currentDifficulty.scoreMultiplier);
         SaveLastMatch();
-        UIManager.Instance.EndGameSequence(Time.time-levelStartTime, currentScore, killNumber, currentDifficulty.scoreMultiplier);
+        UIManager.Instance.EndGameSequence(Time.time-levelStartTime, currentScore, killNumber, currentDifficulty.scoreMultiplier, currentDifficulty.kpmMultiplier);
 
     }
 
