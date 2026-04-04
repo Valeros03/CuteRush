@@ -18,12 +18,12 @@ public class MouseLook : MonoBehaviour
 
     void Update()
     {
-        mouseOffsetY = Input.GetAxis("Mouse Y") * ySensitivity;
+        mouseOffsetY = Input.GetAxis(GameConstants.INPUT_MOUSE_Y) * ySensitivity;
         ytargetRotation += -mouseOffsetY;
         ytargetRotation = ytargetRotation % 360;
         ytargetRotation = Mathf.Clamp(ytargetRotation, min, max);
 
-        mouseOffsetX = Input.GetAxis("Mouse X") * xSensitivity;
+        mouseOffsetX = Input.GetAxis(GameConstants.INPUT_MOUSE_X) * xSensitivity;
         xtargetRotation += mouseOffsetX;
         xtargetRotation = xtargetRotation % 360;
 

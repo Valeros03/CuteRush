@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class InteractableItem : MonoBehaviour, Interactable
 {
-    public string interactText = "Interagisci";
+    public string interactText = GameConstants.TEXT_INTERACT;
     [Tooltip("Se falso, l'oggetto non reagirà al giocatore")]
     public bool isInteractable = true;
 

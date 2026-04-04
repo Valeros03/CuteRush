@@ -6,8 +6,8 @@ public class Bootstrapper : MonoBehaviour
 {
     public static Bootstrapper Instance { get; private set; }
 
-    public string uiSceneName = "UI_scene";
-    public string mainMenuEnvironment = "MainMenuLand";
+    public string uiSceneName = GameConstants.SCENE_UI;
+    public string mainMenuEnvironment = GameConstants.SCENE_MAIN_MENU;
   
     private string currentLoadedEnvironment = "";
 

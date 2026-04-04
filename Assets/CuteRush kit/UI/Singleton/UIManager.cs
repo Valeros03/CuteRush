@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
 
     public void FadeLatterbox()
     {
-        latterbox.GetComponent<Animator>().SetTrigger("Fade");
+        latterbox.GetComponent<Animator>().SetTrigger(GameConstants.ANIM_FADE);
     }
 
     public void StartGameSequence(InventoryPlayer inv, VitalsController vitals, PlayerCombat combat)
