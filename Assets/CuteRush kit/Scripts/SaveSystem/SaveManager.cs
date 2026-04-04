@@ -4,21 +4,13 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
-    // Singleton instance
     public static SaveManager Instance { get; private set; }
-
-    // Reference to the active profile
     public SaveData currentSave;
-
-    // Reference to the global leaderboard
     public GlobalLeaderboardData globalLeaderboard;
-
-    // Path to the global leaderboard save file
     public string GlobalSavePath => Path.Combine(Application.persistentDataPath, "GlobalLeaderboard.json");
 
     private void Awake()
     {
-        // Enforce Singleton pattern
         if (Instance == null)
         {
             Instance = this;
@@ -31,10 +23,6 @@ public class SaveManager : MonoBehaviour
 
         LoadGlobalLeaderboard();
     }
-
-    /// <summary>
-    /// Loads the global leaderboard from JSON or initializes a new one.
-    /// </summary>
     public void LoadGlobalLeaderboard()
     {
         if (File.Exists(GlobalSavePath))
@@ -61,10 +49,6 @@ public class SaveManager : MonoBehaviour
             Debug.Log("No global leaderboard found, initialized a new one.");
         }
     }
-
-    /// <summary>
-    /// Serializes globalLeaderboard to JSON and overwrites the file.
-    /// </summary>
     public void SaveGlobalLeaderboard()
     {
         if (globalLeaderboard == null)
@@ -85,13 +69,8 @@ public class SaveManager : MonoBehaviour
             Debug.LogError($"Failed to save global leaderboard to {GlobalSavePath}: {e.Message}");
         }
     }
-
-    /// <summary>
-    /// Submits a score, updating both personal and global leaderboards.
-    /// </summary>
     public void SubmitScore(string mapName, int finalScore, string difficulty)
     {
-        // Update personal leaderboard
         if (currentSave != null)
         {
             MapLeaderboard personalMapData = currentSave.mapLeaderboards.Find(m => m.mapName == mapName);
@@ -103,7 +82,6 @@ public class SaveManager : MonoBehaviour
 
             personalMapData.topScores.Add(new ScoreRecord(finalScore, difficulty));
 
-            // Sort descending and keep top 5
             personalMapData.topScores.Sort((a, b) => b.score.CompareTo(a.score));
             if (personalMapData.topScores.Count > 5)
             {
@@ -113,7 +91,6 @@ public class SaveManager : MonoBehaviour
             SaveGame();
         }
 
-        // Update global leaderboard
         if (globalLeaderboard != null && currentSave != null && !string.IsNullOrEmpty(currentSave.username))
         {
             GlobalMapLeaderboard globalMapData = globalLeaderboard.maps.Find(m => m.mapName == mapName);
@@ -125,7 +102,6 @@ public class SaveManager : MonoBehaviour
 
             globalMapData.topScores.Add(new GlobalScoreRecord(currentSave.username, finalScore, difficulty));
 
-            // Sort descending and keep top 5
             globalMapData.topScores.Sort((a, b) => b.score.CompareTo(a.score));
             if (globalMapData.topScores.Count > 5)
             {
@@ -135,20 +111,12 @@ public class SaveManager : MonoBehaviour
             SaveGlobalLeaderboard();
         }
     }
-
-    /// <summary>
-    /// Creates a new SaveData and saves it as a JSON file in Application.persistentDataPath.
-    /// </summary>
-    /// <param name="username">The username for the new profile.</param>
     public void CreateNewGame(string username)
     {
         currentSave = new SaveData(username);
         SaveGame();
     }
 
-    /// <summary>
-    /// Serializes currentSave to JSON and overwrites the file.
-    /// </summary>
     public void SaveGame()
     {
         if (currentSave == null || string.IsNullOrEmpty(currentSave.username))
@@ -172,10 +140,6 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Reads the JSON file and deserializes it into currentSave.
-    /// </summary>
-    /// <param name="username">The username of the profile to load.</param>
     public void LoadGame(string username)
     {
         string safeUsername = SanitizeFilename(username);
@@ -200,10 +164,6 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Scans persistentDataPath for .json files and returns a list of profile names.
-    /// </summary>
-    /// <returns>A list of profile names (without the .json extension).</returns>
     public List<string> GetAllSavedProfiles()
     {
         List<string> profiles = new List<string>();
@@ -214,7 +174,6 @@ public class SaveManager : MonoBehaviour
 
         foreach (FileInfo file in files)
         {
-            // Remove the .json extension to get the profile name
             string profileName = Path.GetFileNameWithoutExtension(file.Name);
             profiles.Add(profileName);
         }
@@ -222,17 +181,10 @@ public class SaveManager : MonoBehaviour
         return profiles;
     }
 
-    /// <summary>
-    /// Sanitizes the filename to prevent path traversal vulnerabilities or invalid characters.
-    /// </summary>
     private string SanitizeFilename(string filename)
     {
-        // Simple sanitization: keep only letters, numbers, and basic punctuation,
-        // or just rely on GetFileName to strip directory paths.
-        // GetFileName strips out any directory information, ensuring only a filename is used.
         string safeName = Path.GetFileName(filename);
 
-        // Additionally, remove invalid file name characters
         foreach (char c in Path.GetInvalidFileNameChars())
         {
             safeName = safeName.Replace(c.ToString(), "");

@@ -1,4 +1,4 @@
-<REAPER_PROJECT 0.1 "7.57/win64" 1774890783 0
+<REAPER_PROJECT 0.1 "7.57/win64" 1775311403 0
   <NOTES 0 2
   >
   RIPPLE 0 0
@@ -17,13 +17,13 @@
   TIMEMODE 1 5 -1 30 0 0 -1 0
   VIDEO_CONFIG 0 0 256
   PANMODE 3
-  CURSOR 7.46817735150717
-  ZOOM 159.09800579008851 1037 0
-  VZOOMEX 6 25
+  CURSOR 5.46593136098851
+  ZOOM 20.45859089655713 0 0
+  VZOOMEX 6 647
   USE_REC_CFG 0
   RECMODE 1
   SMPTESYNC 0 30 100 40 1000 300 0 0 1 0 0
-  LOOP 0
+  LOOP 1
   LOOPGRAN 0 4
   RECORD_PATH "" ""
   <RECORD_CFG
@@ -31,7 +31,7 @@
   >
   <APPLYFX_CFG
   >
-  RENDER_FILE "D:\Uni\SGD\CuteRush\Assets\CuteRush kit\Audio\Tracks\SFX\NoAmmo.wav"
+  RENDER_FILE "D:\Uni\SGD\CuteRush\Assets\CuteRush kit\Audio\Tracks\SFX\AirWooshCam.wav"
   RENDER_FMT 0 2 44100
   RENDER_1X 0
   RENDER_RANGE 2 0 0 18 1000
@@ -65,8 +65,8 @@
   GLOBAL_AUTO -1
   TEMPO 120 4 4 0
   PLAYRATE 1 0 0.25 4
-  SELECTION 7.46276791538608 7.87298348790202
-  SELECTION2 7.46276791538608 7.87298348790202
+  SELECTION 5.45204081115118 0
+  SELECTION2 5.45204081115118 0
   MASTERAUTOMODE 0
   MASTERTRACKHEIGHT 0 0
   MASTERPEAKCOL 16576
@@ -758,7 +758,7 @@
     AUTOMODE 0
     PANLAWFLAGS 3
     VOLPAN 1 0 -1 -1 1
-    MUTESOLO 0 0 0
+    MUTESOLO 1 0 0
     IPHASE 0
     PLAYOFFS 0 1
     ISBUS 0 0
@@ -766,7 +766,7 @@
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
     FIXEDLANES 9 0 0 0 0
     LANEREC -1 -1 -1 0
-    SEL 1
+    SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 64
     TRACKHEIGHT 0 0 0 0 0 0 0
@@ -808,7 +808,7 @@
       FADEIN 1.1 0 0.00796359421224 1 1 0 0
       FADEOUT 1 0.01 0 1 0 0 0
       MUTE 0 0
-      SEL 1
+      SEL 0
       IGUID {BEB2BEAC-F674-4C0D-B1DC-9AE4F46519C4}
       IID 11
       NAME reloading_008.wav
@@ -819,6 +819,1276 @@
       GUID {F35CEA7F-ECDE-461E-BC3D-6FB61C8C0ED3}
       <SOURCE WAVE
         FILE "reloading_008.wav"
+      >
+    >
+  >
+  <TRACK {04B56FA7-3AEC-4D3A-AD06-39F6445A0AF5}
+    NAME "Animal Sounds (Owl)  Owl Hoot Sound Effects"
+    PEAKCOL 16576
+    BEAT -1
+    AUTOMODE 0
+    PANLAWFLAGS 3
+    VOLPAN 0.06671385373349 0.52 -1 -1 1
+    MUTESOLO 1 0 0
+    IPHASE 0
+    PLAYOFFS 0 1
+    ISBUS 0 0
+    BUSCOMP 0 0 0 0 0
+    SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
+    FIXEDLANES 9 0 0 0 0
+    LANEREC -1 -1 -1 0
+    SEL 0
+    REC 0 0 1 0 0 0 0 0
+    VU 64
+    TRACKHEIGHT 0 0 0 0 0 0 0
+    INQ 0 0 0 0.5 100 0 0 100
+    NCHAN 2
+    FX 1
+    TRACKID {04B56FA7-3AEC-4D3A-AD06-39F6445A0AF5}
+    PERF 0
+    MIDIOUT -1
+    MAINSEND 1 0
+    <ITEM
+      POSITION 10.16687811255886
+      SNAPOFFS 0
+      LENGTH 5.64351473922903
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0 0 1 0 0 0
+      FADEOUT 1 0 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {FF9CF86E-9453-44EF-BB35-432FF523A051}
+      IID 13
+      NAME "Animal Sounds (Owl)  Owl Hoot Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {4381E05C-F621-4913-B2E9-27752600E750}
+      <SOURCE MP3
+        FILE "Animal Sounds (Owl)  Owl Hoot Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 34.13724843179807
+      SNAPOFFS 0
+      LENGTH 5.64351473922904
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0 0 1 0 0 0
+      FADEOUT 1 0 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {24417341-CA6A-4EC7-8D69-7B44D8B4D12B}
+      IID 13
+      NAME "Animal Sounds (Owl)  Owl Hoot Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {2EB9576B-B9F6-43D8-86B5-2981F85E6922}
+      <SOURCE MP3
+        FILE "Animal Sounds (Owl)  Owl Hoot Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 55.63929587269966
+      SNAPOFFS 0
+      LENGTH 5.64351473922903
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0 0 1 0 0 0
+      FADEOUT 1 0 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {551FBC58-99D6-4E02-A72A-10A13D9E04E0}
+      IID 13
+      NAME "Animal Sounds (Owl)  Owl Hoot Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {1A6C2C25-E394-4309-9F90-32D45E6EE33C}
+      <SOURCE MP3
+        FILE "Animal Sounds (Owl)  Owl Hoot Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 73.94348062272184
+      SNAPOFFS 0
+      LENGTH 5.64351473922903
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0 0 1 0 0 0
+      FADEOUT 1 0 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {8DFA18E4-3B0A-4599-A920-5FCE3221E948}
+      IID 13
+      NAME "Animal Sounds (Owl)  Owl Hoot Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {7AA6D371-5B90-4958-8773-4FB5A22F5D41}
+      <SOURCE MP3
+        FILE "Animal Sounds (Owl)  Owl Hoot Sound Effects.mp3" 1
+      >
+    >
+  >
+  <TRACK {885F4A7C-AF48-4352-9B4E-585E977CB9F7}
+    NAME "Owl Sound Effects"
+    PEAKCOL 16576
+    BEAT -1
+    AUTOMODE 0
+    PANLAWFLAGS 3
+    VOLPAN 0.11426401535961 0 -1 -1 1
+    MUTESOLO 1 0 0
+    IPHASE 0
+    PLAYOFFS 0 1
+    ISBUS 0 0
+    BUSCOMP 0 0 0 0 0
+    SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
+    FIXEDLANES 9 0 0 0 0
+    LANEREC -1 -1 -1 0
+    SEL 0
+    REC 0 0 1 0 0 0 0 0
+    VU 64
+    TRACKHEIGHT 0 0 0 0 0 0 0
+    INQ 0 0 0 0.5 100 0 0 100
+    NCHAN 2
+    FX 1
+    TRACKID {885F4A7C-AF48-4352-9B4E-585E977CB9F7}
+    PERF 0
+    MIDIOUT -1
+    MAINSEND 1 0
+    <PANENV2
+      EGUID {B4605710-64BF-41A7-B371-FA0D42B54E24}
+      ACT 1 -1
+      VIS 1 1 1
+      LANEHEIGHT 0 0
+      ARM 1
+      DEFSHAPE 0 -1 -1
+      PT 0 0 0
+      PT 1.8085312 0 0
+      PT 2.34620264 -0.56 0
+      PT 5.37671439 -0.56 0
+      PT 5.71886894 0 0
+      PT 8.64771076 0 0
+      PT 8.64821076 0.16957128 0
+      PT 9.61141227 0.24 0
+      PT 12.04001885 0.24 0
+      PT 12.52161961 0 0
+      PT 16.6678146 0 0
+      PT 16.76557304 0.13333333 0
+      PT 16.86333148 0.45 0
+      PT 20.18711856 0.45 0
+      PT 20.37861463 0 0
+      PT 25.62575327 -0.45 0
+      PT 29.85127641 -0.45 0
+      PT 30.8054268 0.07 0
+      PT 33.67778375 -0.06824451 0
+      PT 34.75312663 -0.63 0
+      PT 36.60495037 -0.63 0
+      PT 36.60545037 -0.56 0
+      PT 38.60383752 -0.56 0
+      PT 38.60433752 -0.63 0
+      PT 39.29889424 -0.63 0
+      PT 40.42311634 -0.12 0
+      PT 40.478543 -0.12 0
+      PT 40.479043 0 0
+      PT 40.53940028 0 0
+      PT 40.53990028 0.16957128 0
+      PT 41.50310179 0.24 0
+      PT 43.70433807 0.24 0
+      PT 43.70483807 -0.12 0
+      PT 45.90157269 -0.12 0
+      PT 45.90207269 0 0
+      PT 48.37887657 0 0
+      PT 48.37937657 -0.12 0
+      PT 49.14908461 -0.12 0
+      PT 49.14958461 -0.05254526 0
+      PT 51.96242095 -0.29377699 0
+      PT 51.96292095 -0.12 0
+      PT 53.45507832 -0.12 0
+      PT 53.45557832 0 0
+      PT 55.75290174 0 0
+      PT 55.75340174 -0.12 0
+      PT 60.81766082 -0.12 0
+      PT 60.81816082 0.45 0
+      PT 62.81654797 0.45 0
+      PT 62.81704797 -0.12 0
+      PT 66.11342145 -0.12 0
+      PT 66.11352145 -0.45 0
+      PT 69.3948238 -0.45 0
+      PT 69.3949238 -0.12 0
+      PT 71.27907233 -0.12 0
+      PT 71.27917233 0.03787306 0
+      PT 72.46966252 -0.0194244 0
+      PT 72.46976252 -0.12 0
+    >
+    <ITEM
+      POSITION 3.13506555916134
+      SNAPOFFS 0
+      LENGTH 1.99838714891087
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {5102C5C3-ABD3-479A-8583-E9C9A8F4D563}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {1171A1A1-A5FD-479B-B8CD-6423175AAE94}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 5.84800915806742
+      SNAPOFFS 0
+      LENGTH 2.47680387871091
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {6C1EC13E-76B5-47AF-BC9E-DB1FF61A8B50}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 2.47998790310466
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {BE3041BC-C4A6-4405-9A60-66E3F758C8DC}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 8.58735348813758
+      SNAPOFFS 0
+      LENGTH 3.2252950703991
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {5FC19C7B-9A9A-4282-B9E8-8D691A4625F2}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 5.27968950452995
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {DFB849B5-E8E1-4A6A-8BE6-073008405B34}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 13.63071982244061
+      SNAPOFFS 0
+      LENGTH 2.29732341966474
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {D36109A7-B632-48EC-B87A-87ABAF769AB3}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 8.50498457492905
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {E4DC8C29-5953-401F-9A6A-3FB8B8EBDE71}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 17.91076584672555
+      SNAPOFFS 0
+      LENGTH 1.99838714891087
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {86C96C04-B702-4AF0-9B7A-74528C84E4D3}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {DB89A334-6DBA-4425-A40E-F978B1BF524F}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 20.99130852655854
+      SNAPOFFS 0
+      LENGTH 2.81283634205893
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {2F40D89E-CF17-4C9B-85EE-C3C3E949D411}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 0.595662 0 1 -1
+      SOFFS 21.70398412082509
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {0D196658-DFFE-426B-8F41-218FC14BE8AE}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 26.30728925731038
+      SNAPOFFS 0
+      LENGTH 3.28130235561909
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {7F20064D-02B9-4B14-A956-722F9FDB1B34}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 1.99838714891087
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {3E2F30EF-4107-411B-B1A4-BE7F44BD38AB}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 31.47294013444169
+      SNAPOFFS 0
+      LENGTH 1.19049019881652
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {9812A524-8F37-4A6B-8357-230C3B860E64}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 31.47294013444169
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {0D718D8C-B5F0-4E72-B08A-99E096BAE6B1}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 36.6054503717503
+      SNAPOFFS 0
+      LENGTH 1.99838714891087
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {3ACF311E-56C3-4FB1-AD13-BA0084FB68EC}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {DFED2E6C-485E-4D2D-AF03-EA2A863894FE}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 40.47904300368155
+      SNAPOFFS 0
+      LENGTH 3.22529507039911
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {5C13D481-1A69-4743-A199-54CA92626317}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 5.27968950452995
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {CF0B4913-5720-4562-BC09-1046F19F6376}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 45.9020726883853
+      SNAPOFFS 0
+      LENGTH 2.47680387871091
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F0094864-8AF6-4326-96C8-E5DFD208F18C}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 2.47998790310466
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {AF56FAF1-EF12-4177-B253-364C1092A1C4}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 49.14958460616633
+      SNAPOFFS 0
+      LENGTH 2.81283634205893
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {8DBB2CFF-1890-476E-B6DE-7CF6981616B8}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 0.595662 0 1 -1
+      SOFFS 21.70398412082509
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {204E4C30-4633-4144-85F3-1DAE3F404DCA}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 53.45557832065121
+      SNAPOFFS 0
+      LENGTH 2.29732341966474
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {3A97F963-513E-4BD5-A081-46EF3CFA823E}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 8.50498457492905
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {A7B8717F-B22B-48F3-87F7-1CE75E046DDE}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 60.81816082497905
+      SNAPOFFS 0
+      LENGTH 1.99838714891088
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {A9982FA6-F080-4975-AA68-508AC13A5A9E}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {F696F104-CC10-4154-A7CE-6CA326C399F0}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 66.11352144822013
+      SNAPOFFS 0
+      LENGTH 3.28130235561909
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {50C60A2D-490B-42F4-911D-E9545F0100E3}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 1.99838714891087
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {3A60A2FF-36D1-4246-9994-4A4BD661D0D2}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 71.27917232539039
+      SNAPOFFS 0
+      LENGTH 1.19049019881653
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {6E220107-7EBE-40E2-807D-F99978B50100}
+      IID 14
+      NAME "Owl Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 31.47294013444169
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {8F01878D-D2BB-4F97-ACEB-A1DD4E05B95B}
+      <SOURCE MP3
+        FILE "Owl Sound Effects.mp3" 1
+      >
+    >
+  >
+  <TRACK {6F217BED-824F-4121-A2E7-AF8BA6485644}
+    NAME "cricket on a summer night  Cricket sound effects  Copyright Free Nature sounds"
+    PEAKCOL 16576
+    BEAT -1
+    AUTOMODE 0
+    PANLAWFLAGS 3
+    VOLPAN 0.43161018370141 -0.32 -1 -1 1
+    MUTESOLO 1 0 0
+    IPHASE 0
+    PLAYOFFS 0 1
+    ISBUS 0 0
+    BUSCOMP 0 0 0 0 0
+    SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
+    FIXEDLANES 9 0 0 0 0
+    LANEREC -1 -1 -1 0
+    SEL 0
+    REC 0 0 1 0 0 0 0 0
+    VU 64
+    TRACKHEIGHT 0 0 0 0 0 0 0
+    INQ 0 0 0 0.5 100 0 0 100
+    NCHAN 2
+    FX 1
+    TRACKID {6F217BED-824F-4121-A2E7-AF8BA6485644}
+    PERF 0
+    MIDIOUT -1
+    MAINSEND 1 0
+    <ITEM
+      POSITION 0.00676179515136
+      SNAPOFFS 0
+      LENGTH 26.04025401949321
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 1.58827668675868 0 1 0 0 0
+      FADEOUT 1.1 0 2.18091517159052 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {E42D9CC6-EA00-4A76-8FD6-68DE4EC2AD87}
+      IID 15
+      NAME "cricket on a summer night  Cricket sound effects  Copyright Free Nature sounds.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.13072803959299
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {73BB4B2D-EF70-45B4-BB83-4A4971E8B720}
+      <SOURCE MP3
+        FILE "cricket on a summer night  Cricket sound effects  Copyright Free Nature sounds.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 23.86610064305405
+      SNAPOFFS 0
+      LENGTH 17.13784307904317
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 2.18091517159052 1 1 0 0
+      FADEOUT 1.1 2.63201553402809 1.19094973603079 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {E65138CD-9A0F-485A-8FC1-5D4D04CC26A2}
+      IID 15
+      NAME "cricket on a summer night  Cricket sound effects  Copyright Free Nature sounds.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {0D176D6D-D85C-481E-8015-03E9ABF1E8A7}
+      <SOURCE MP3
+        FILE "cricket on a summer night  Cricket sound effects  Copyright Free Nature sounds.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 39.81299398606643
+      SNAPOFFS 0
+      LENGTH 26.0402540194932
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 1.58827668675868 1.19094973603079 1 1 0 0
+      FADEOUT 1.1 0 2.18091517159052 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {BED772A9-F80E-4AB1-8E10-8C17505636EB}
+      IID 15
+      NAME "cricket on a summer night  Cricket sound effects  Copyright Free Nature sounds.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.13072803959299
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6740132B-19FA-4609-A0C9-C3DCEF19AE0B}
+      <SOURCE MP3
+        FILE "cricket on a summer night  Cricket sound effects  Copyright Free Nature sounds.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 63.67233283398673
+      SNAPOFFS 0
+      LENGTH 17.13784307904317
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 2.18091517159052 1 1 0 0
+      FADEOUT 1 2.63201553402808 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {E54F350E-FAB6-4BFD-BC8E-D2B6CEBAA8DB}
+      IID 15
+      NAME "cricket on a summer night  Cricket sound effects  Copyright Free Nature sounds.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {9A56D909-799B-4519-BA38-2701C2357CC4}
+      <SOURCE MP3
+        FILE "cricket on a summer night  Cricket sound effects  Copyright Free Nature sounds.mp3" 1
+      >
+    >
+  >
+  <TRACK {EC0B8852-3A8A-4999-B56A-6BC8E71A661E}
+    NAME "Bonfire sound effect ( no copyright)"
+    PEAKCOL 16576
+    BEAT -1
+    AUTOMODE 0
+    PANLAWFLAGS 3
+    VOLPAN 0.92685063933783 -0.144 -1 -1 1
+    MUTESOLO 1 0 0
+    IPHASE 0
+    PLAYOFFS 0 1
+    ISBUS 0 0
+    BUSCOMP 0 0 0 0 0
+    SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
+    FIXEDLANES 9 0 0 0 0
+    LANEREC -1 -1 -1 0
+    SEL 0
+    REC 0 0 1 0 0 0 0 0
+    VU 64
+    TRACKHEIGHT 0 0 0 0 0 0 0
+    INQ 0 0 0 0.5 100 0 0 100
+    NCHAN 2
+    FX 1
+    TRACKID {EC0B8852-3A8A-4999-B56A-6BC8E71A661E}
+    PERF 0
+    MIDIOUT -1
+    MAINSEND 1 0
+    <ITEM
+      POSITION 0.00676179515136
+      SNAPOFFS 0
+      LENGTH 15.07360302616665
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0 0 1 0 0 0
+      FADEOUT 1.1 0 1.03150887091372 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {1B49497E-DB28-4EF6-A924-CAE7276C1AB9}
+      IID 16
+      NAME "Bonfire sound effect ( no copyright).mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.13072803959299
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {544C7021-3C1B-4D94-984D-C8D7FD56CDDD}
+      <SOURCE MP3
+        FILE "Bonfire sound effect ( no copyright).mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 14.04885595040429
+      SNAPOFFS 0
+      LENGTH 15.20433106575965
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 1.03150887091372 1 1 0 0
+      FADEOUT 1.1 0 2.10183433080951 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {C68B59DF-6F22-45F6-B92A-596E6BBFA91E}
+      IID 16
+      NAME "Bonfire sound effect ( no copyright).mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {5EF12ACB-9F4B-4AF3-8F87-A8755452CB6B}
+      <SOURCE MP3
+        FILE "Bonfire sound effect ( no copyright).mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 27.15135268535443
+      SNAPOFFS 0
+      LENGTH 14.22269870922175
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 2.10183433080951 1 1 0 0
+      FADEOUT 1.1 0 1.56105740850975 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {2E625F8D-68CE-4A3C-B946-1440BE724E39}
+      IID 16
+      NAME "Bonfire sound effect ( no copyright).mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {F8850579-5607-4B53-9DEE-E8431CF21EC4}
+      <SOURCE MP3
+        FILE "Bonfire sound effect ( no copyright).mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 39.81299398606643
+      SNAPOFFS 0
+      LENGTH 15.07360302616665
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 1.56105740850975 1 1 0 0
+      FADEOUT 1.1 0 1.03150887091372 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {1C910D2F-3AE6-4A4D-8193-ED7EE6464E5C}
+      IID 16
+      NAME "Bonfire sound effect ( no copyright).mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.13072803959299
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {26D4550B-9330-4EC1-810C-29B9BE08F78C}
+      <SOURCE MP3
+        FILE "Bonfire sound effect ( no copyright).mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 53.85508814139757
+      SNAPOFFS 0
+      LENGTH 15.20433106575965
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 1.03150887091372 1 1 0 0
+      FADEOUT 1.1 0 2.10183433080951 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {15A1253C-B9E8-451E-9EBB-43AF08C6383B}
+      IID 16
+      NAME "Bonfire sound effect ( no copyright).mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {279733DB-A74E-417A-97BD-E11DF6CD8557}
+      <SOURCE MP3
+        FILE "Bonfire sound effect ( no copyright).mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 66.95758487633429
+      SNAPOFFS 0
+      LENGTH 14.22269870922175
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 2.10183433080951 1 1 0 0
+      FADEOUT 1 0 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {C98769A7-0EE9-4CEA-890B-43717AEFFEB7}
+      IID 16
+      NAME "Bonfire sound effect ( no copyright).mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {4388E37A-E4E1-47FB-8D0C-7404548ACB99}
+      <SOURCE MP3
+        FILE "Bonfire sound effect ( no copyright).mp3" 1
+      >
+    >
+  >
+  <TRACK {8B22BA24-A6CF-469F-AE3C-027D3908AA02}
+    NAME "Sea Waves - Sound Effect"
+    PEAKCOL 16576
+    BEAT -1
+    AUTOMODE 0
+    PANLAWFLAGS 3
+    VOLPAN 0.83172480433424 0.344 -1 -1 1
+    MUTESOLO 1 0 0
+    IPHASE 0
+    PLAYOFFS 0 1
+    ISBUS 0 0
+    BUSCOMP 0 0 0 0 0
+    SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
+    FIXEDLANES 9 0 0 0 0
+    LANEREC -1 -1 -1 0
+    SEL 0
+    REC 0 0 1 0 0 0 0 0
+    VU 64
+    TRACKHEIGHT 0 0 0 0 0 0 0
+    INQ 0 0 0 0.5 100 0 0 100
+    NCHAN 2
+    FX 1
+    TRACKID {8B22BA24-A6CF-469F-AE3C-027D3908AA02}
+    PERF 0
+    MIDIOUT -1
+    MAINSEND 1 0
+    <VOLENV2
+      EGUID {2CE68B33-2797-4ABA-A197-9F8B73C5D5E6}
+      ACT 1 -1
+      VIS 1 1 1
+      LANEHEIGHT 0 0
+      ARM 1
+      DEFSHAPE 0 -1 -1
+      VOLTYPE 1
+      PT 0 1 0
+    >
+    <ITEM
+      POSITION 0
+      SNAPOFFS 0
+      LENGTH 5.87355047743231
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {51344CBB-1667-4B8D-9064-508F01CB5A1B}
+      IID 17
+      NAME "Sea Waves - Sound Effect.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.12396624444163
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {539AC0CC-E530-46B1-AEC3-A18751157694}
+      <SOURCE MP3
+        FILE "Sea Waves - Sound Effect.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 5.87355047743231
+      SNAPOFFS 0
+      LENGTH 6.73050321039063
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1.1 0 0.75680118516168 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {F1CF5DFF-9620-40D5-AD22-2F59315A01F9}
+      IID 17
+      NAME "Sea Waves - Sound Effect.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 5.99751672187393
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {91C45226-0639-4D3B-80F4-11515E523FFA}
+      <SOURCE MP3
+        FILE "Sea Waves - Sound Effect.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 11.84725250266126
+      SNAPOFFS 0
+      LENGTH 12.72801993226458
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 0.75680118516168 1 1 0 0
+      FADEOUT 1.1 0 1.11809338654495 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {95C6AD1E-0DD5-4B41-911E-915B58600063}
+      IID 17
+      NAME "Sea Waves - Sound Effect.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {8C34F2DA-0DB0-4277-A15F-7AB64F051E89}
+      <SOURCE MP3
+        FILE "Sea Waves - Sound Effect.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 23.45717904838089
+      SNAPOFFS 0
+      LENGTH 6.73050321039063
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0.01 1.11809338654495 1 1 0 0
+      FADEOUT 1.1 0 1.06602413213167 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {1A3A0E51-8AB4-4106-A20B-04133639F1F4}
+      IID 17
+      NAME "Sea Waves - Sound Effect.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 5.99751672187393
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {50E4B44B-E1B5-41BB-A39B-1C28618A147D}
+      <SOURCE MP3
+        FILE "Sea Waves - Sound Effect.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 29.12165812663985
+      SNAPOFFS 0
+      LENGTH 12.05545669091403
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 1.06602413213167 1 1 0 0
+      FADEOUT 1.1 0 1.37088262663011 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {E050642A-C981-4B40-98C5-B20A42812366}
+      IID 17
+      NAME "Sea Waves - Sound Effect.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {ED6AD5A8-FDCC-47F3-8913-5F84358CD128}
+      <SOURCE MP3
+        FILE "Sea Waves - Sound Effect.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 39.80623219092377
+      SNAPOFFS 0
+      LENGTH 5.87355047743231
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 1.37088262663011 1 1 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {DA0D7CA3-741D-484C-8C2F-C7D5C8441B73}
+      IID 17
+      NAME "Sea Waves - Sound Effect.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.12396624444163
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {0D2A95CB-CF2E-487E-B22B-501A717D74E5}
+      <SOURCE MP3
+        FILE "Sea Waves - Sound Effect.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 45.67978266836144
+      SNAPOFFS 0
+      LENGTH 6.73050321039062
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1.1 0 0.75680118516168 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {EE1B3343-D5E1-4E47-9E84-7A7631C88274}
+      IID 17
+      NAME "Sea Waves - Sound Effect.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 5.99751672187393
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {EC894A4E-128B-4705-B843-1FC0B1E32414}
+      <SOURCE MP3
+        FILE "Sea Waves - Sound Effect.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 51.65348469361197
+      SNAPOFFS 0
+      LENGTH 12.72801993226457
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 0.75680118516168 1 1 0 0
+      FADEOUT 1.1 0 1.11809338654495 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {D41B075D-0DB0-4578-825C-D0F09245A397}
+      IID 17
+      NAME "Sea Waves - Sound Effect.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {89BD047A-6236-412A-BDBE-FF236003C5A5}
+      <SOURCE MP3
+        FILE "Sea Waves - Sound Effect.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 63.26341123937164
+      SNAPOFFS 0
+      LENGTH 6.73050321039064
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0.01 1.11809338654495 1 1 0 0
+      FADEOUT 1.1 0 1.06602413213167 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {EF8C944D-B2F7-4E94-928B-CDF9CAE3DA37}
+      IID 17
+      NAME "Sea Waves - Sound Effect.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 5.99751672187393
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {AF421F91-E428-4FBF-A15B-AF5C5676B18F}
+      <SOURCE MP3
+        FILE "Sea Waves - Sound Effect.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 68.92789031763095
+      SNAPOFFS 0
+      LENGTH 12.05545669091403
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 1.06602413213167 1 1 0 0
+      FADEOUT 1.1 0 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {CFA76B3A-60B3-46C0-AD61-0B0D7050B1C6}
+      IID 17
+      NAME "Sea Waves - Sound Effect.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6F775F69-8382-4211-B6FF-3AD10A099AA9}
+      <SOURCE MP3
+        FILE "Sea Waves - Sound Effect.mp3" 1
+      >
+    >
+  >
+  <TRACK {F5A4FB08-D948-4D41-B7C9-4AED3B7D1A53}
+    NAME "Air Motion - Long Wind Gust - Royalty Free Sound Effects"
+    PEAKCOL 16576
+    BEAT -1
+    AUTOMODE 0
+    PANLAWFLAGS 3
+    VOLPAN 1 0 -1 -1 1
+    MUTESOLO 0 0 0
+    IPHASE 0
+    PLAYOFFS 0 1
+    ISBUS 0 0
+    BUSCOMP 0 0 0 0 0
+    SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0 0
+    FIXEDLANES 9 0 0 0 0
+    SEL 1
+    REC 0 0 1 0 0 0 0 0
+    VU 64
+    TRACKHEIGHT 0 0 0 0 0 0 0
+    INQ 0 0 0 0.5 100 0 0 100
+    NCHAN 2
+    FX 1
+    TRACKID {F5A4FB08-D948-4D41-B7C9-4AED3B7D1A53}
+    PERF 0
+    MIDIOUT -1
+    MAINSEND 1 0
+    <ITEM
+      POSITION 0.29797422189527
+      SNAPOFFS 0
+      LENGTH 1.83689425139014
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0 0 1 0 0 0
+      FADEOUT 1.1 0.01 0.30324837828017 1 1 0 0
+      MUTE 0 0
+      SEL 1
+      IGUID {B368DFBA-8A93-4FFF-9DDA-C9957C31C379}
+      IID 53
+      NAME "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {1CF0FADC-F0B3-4E95-80E7-E66CF7E5A11D}
+      <SOURCE MP3
+        FILE "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 1.83162009500523
+      SNAPOFFS 0
+      LENGTH 0.63482882452502
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0.01 0.30324837828017 1 1 0 0
+      FADEOUT 1.1 0 0.20535041220727 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {00C6F27D-3658-4287-9551-2509E970BF33}
+      IID 53
+      NAME "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 2.66849485661905
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {5DD73996-9F6B-4928-B8AF-A4EC98C2BAAC}
+      <SOURCE MP3
+        FILE "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 2.26109850732298
+      SNAPOFFS 0
+      LENGTH 0.47621787270653
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 0.20535041220727 1 1 0 0
+      FADEOUT 1.1 0.01 0.081338841147 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {62690011-324A-49A1-ADD3-98A5D41683B3}
+      IID 53
+      NAME "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.79346493912246
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {310A69E9-BAF3-4B43-9FBF-EAF45DDBC920}
+      <SOURCE MP3
+        FILE "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 2.65597753888252
+      SNAPOFFS 0
+      LENGTH 0.5607233000748
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 0.081338841147 1 1 0 0
+      FADEOUT 1.1 0.01 0.20486752594855 1 1 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {82DF4734-E604-42AA-B1B2-396383C56F9B}
+      IID 53
+      NAME "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 1.00367470779704
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {EB585591-D82B-4443-870F-782B46EC52A5}
+      <SOURCE MP3
+        FILE "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 3.01183331300877
+      SNAPOFFS 0
+      LENGTH 0.47621787270654
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1.1 0 0.20486752594855 1 1 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {5DE8C13D-1A46-4053-9745-CC9809562962}
+      IID 53
+      NAME "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 0.79346493912246
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {3BBBC614-594D-45B0-954F-649D12A100AD}
+      <SOURCE MP3
+        FILE "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 3.4880511857153
+      SNAPOFFS 0
+      LENGTH 1.39881204479006
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0.01 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {45043E91-5355-4636-80FA-2634F9931A20}
+      IID 53
+      NAME "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 1.26968281182899
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {6591D25C-B958-4471-9E6F-E48E6550C70F}
+      <SOURCE MP3
+        FILE "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3" 1
+      >
+    >
+    <ITEM
+      POSITION 4.88686323050537
+      SNAPOFFS 0
+      LENGTH 0.51810037193985
+      LOOP 1
+      ALLTAKES 0
+      FADEIN 1 0.01 0 1 0 0 0
+      FADEOUT 1 0 0 1 0 0 0
+      MUTE 0 0
+      SEL 0
+      IGUID {84295064-E770-42C8-B183-36EA08191867}
+      IID 53
+      NAME "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3"
+      VOLPAN 1 0 1 -1
+      SOFFS 2.66849485661905
+      PLAYRATE 1 1 0 -1 0 0.0025
+      CHANMODE 0
+      GUID {71C3C459-3AEF-4BB2-A86F-C069B1A9D7B6}
+      <SOURCE MP3
+        FILE "Air Motion - Long Wind Gust - Royalty Free Sound Effects.mp3" 1
       >
     >
   >

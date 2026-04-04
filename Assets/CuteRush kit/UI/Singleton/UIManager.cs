@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private MainMenu mainMenu;
     [SerializeField] private MainMenuSaveIntegration saveMenu;
     [SerializeField] private GameOverScreen gameOverScreen;
+    [SerializeField] private GameObject latterbox;
 
     public HUD HUD => hud;
 
@@ -23,6 +24,16 @@ public class UIManager : MonoBehaviour
         mainMenu.Show();
         hud.Hide();
         gameOverScreen.Hide();
+    }
+
+    public void ShowLatterbox()
+    {
+        latterbox.SetActive(true);
+    }
+
+    public void FadeLatterbox()
+    {
+        latterbox.GetComponent<Animator>().SetTrigger("Fade");
     }
 
     public void StartGameSequence(InventoryPlayer inv, VitalsController vitals, PlayerCombat combat)

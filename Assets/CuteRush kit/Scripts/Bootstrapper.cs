@@ -8,8 +8,10 @@ public class Bootstrapper : MonoBehaviour
 
     public string uiSceneName = "UI_scene";
     public string mainMenuEnvironment = "MainMenuLand";
-
+  
     private string currentLoadedEnvironment = "";
+
+    [SerializeField] private AudioListenerManager listenerManager;
 
     void Awake()
     {
@@ -22,6 +24,8 @@ public class Bootstrapper : MonoBehaviour
 
     void Start()
     {
+
+        listenerManager.Init();
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlayMusic(GameConstants.AUDIO_IN_GAME_SONG);
 

@@ -43,3 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991797483289e774b8730bf2f2e7405d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiSceneName: UI_scene
+  mainMenuEnvironment: MainMenuLand
+  listenerManager: {fileID: 0}

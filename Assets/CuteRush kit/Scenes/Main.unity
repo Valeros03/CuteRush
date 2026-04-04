@@ -132,6 +132,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bootstrapper
       objectReference: {fileID: 0}
+    - target: {fileID: 4116382121344419417, guid: fc1761d66954d184b9b599fc28c3d623,
+        type: 3}
+      propertyPath: listenerManager
+      value: 
+      objectReference: {fileID: 590122316}
     - target: {fileID: 5636888668844599247, guid: fc1761d66954d184b9b599fc28c3d623,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -258,6 +263,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48dce9ea65a26504c8e573290aa50a8a, type: 3}
+--- !u!114 &590122316 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7820685804673963186, guid: 48dce9ea65a26504c8e573290aa50a8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 590122315}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0413ef8dd2a1eb04f97ae28b1ef300f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8772278862901501545
 PrefabInstance:
   m_ObjectHideFlags: 0

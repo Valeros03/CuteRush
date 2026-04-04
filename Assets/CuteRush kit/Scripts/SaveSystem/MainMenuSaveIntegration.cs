@@ -18,6 +18,13 @@ public class MainMenuSaveIntegration : UIPanel
     [Header("Input Dati")]
     public TMP_InputField usernameInputField;
 
+
+    [Header("Save Slot Prefab")]
+    [SerializeField] private GameObject _saveSlotPrefab;
+    [Header("Save scrolview")]
+    [SerializeField] private Transform _saveScrolview;
+    private string _selectedSaveName;
+
     private void Start()
     {
         ShowMainPanel();
@@ -43,11 +50,13 @@ public class MainMenuSaveIntegration : UIPanel
         mainButtonsPanel.SetActive(false);
         newGamePanel.SetActive(false);
         loadGamePanel.SetActive(true);
-
-        // (Qui potresti anche chiamare la funzione che genera fisicamente 
-        // i bottoni leggendo da GetProfilesForUI(), se non l'hai già fatto altrove)
+        loadProfileList();
     }
 
+    public void SelectProfile(string name)
+    {
+        _selectedSaveName = name;
+    }
 
     public void HandleNewGame(string username)
     {
@@ -79,17 +88,17 @@ public class MainMenuSaveIntegration : UIPanel
         return SaveManager.Instance.GetAllSavedProfiles();
     }
 
-    public void HandleLoadGame(string profileName)
+    public void HandleLoadGame()
     {
-        if (string.IsNullOrWhiteSpace(profileName))
+        if (string.IsNullOrWhiteSpace(_selectedSaveName))
         {
             Debug.LogWarning("Profile name to load is empty.");
             return;
         }
 
-        SaveManager.Instance.LoadGame(profileName);
+        SaveManager.Instance.LoadGame(_selectedSaveName);
 
-        PlayerPrefs.SetString("LastUsername", profileName);
+        PlayerPrefs.SetString("LastUsername", _selectedSaveName);
         PlayerPrefs.Save();
 
         UIManager.Instance.StartGameMenu();
@@ -101,6 +110,17 @@ public class MainMenuSaveIntegration : UIPanel
     {
         string typedName = usernameInputField.text;
         HandleNewGame(typedName);
+    }
+
+    private void loadProfileList()
+    {
+        List<string> profileNames = SaveManager.Instance.GetAllSavedProfiles();
+        foreach (string name in profileNames)
+        {
+            GameObject newSlotObj = Instantiate(_saveSlotPrefab, _saveScrolview);
+            SaveSlotUI slotScript = newSlotObj.GetComponent<SaveSlotUI>();
+            slotScript.SetupSlot(name, this);
+        }
     }
 
 }

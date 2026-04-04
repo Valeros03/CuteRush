@@ -58,6 +58,7 @@
      <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_Camera.cs" />
      <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_CamNav.cs" />
      <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_Reflection.cs" />
+     <Compile Include="Assets\AudioListenerManager.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioGunController.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioManager.cs" />
      <Compile Include="Assets\CuteRush kit\Audio\Script\AudioPlayerController.cs" />
@@ -144,8 +145,10 @@
      <Compile Include="Assets\Kawaii Slimes\Scripts\AI\Face.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\GameManager.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\TriggerCollider.cs" />
+     <Compile Include="Assets\LatterboxRequester.cs" />
      <Compile Include="Assets\LowHealth\LowHealthDirectAccess.cs" />
      <Compile Include="Assets\Nokobot\Modern Guns - Handgun\_Demo Assets\SimpleShoot.cs" />
+     <Compile Include="Assets\SaveSlotUI.cs" />
      <Compile Include="Assets\TextureConverter.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\Camera Controller.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\GunRotation.cs" />
