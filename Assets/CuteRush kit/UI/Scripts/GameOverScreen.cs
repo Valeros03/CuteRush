@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameOverScreen : UIPanel
 {
     [Header("Stats References")]
-    [SerializeField] private GameObject statsContainer; // Optional: To group the calculated score texts
+    [SerializeField] private GameObject statsContainer;
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI killsText;
     [SerializeField] private TextMeshProUGUI baseScoreText;
@@ -17,7 +17,7 @@ public class GameOverScreen : UIPanel
     [SerializeField] private TextMeshProUGUI finalScoreText;
 
     [Header("Leaderboard References")]
-    [SerializeField] private GameObject leaderboardContainer; // Optional: To group the leaderboard texts
+    [SerializeField] private GameObject leaderboardContainer;
     [SerializeField] private TextMeshProUGUI personalLeaderboardText;
     [SerializeField] private TextMeshProUGUI globalLeaderboardText;
 
@@ -57,6 +57,12 @@ public class GameOverScreen : UIPanel
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    public void ShowScoreBoard()
+    {
+        if (statsContainer != null) statsContainer.SetActive(true);
+        if (leaderboardContainer != null) leaderboardContainer.SetActive(false);
     }
     public void ShowLeaderboards()
     {
@@ -141,5 +147,11 @@ public class GameOverScreen : UIPanel
         {
             globalLeaderboardText.text = "Nessun punteggio globale ancora.";
         }
+    }
+
+    public void backMainMenu()
+    {
+        gameObject.SetActive(false);
+        Bootstrapper.Instance.LoadMainMenuLand();
     }
 }

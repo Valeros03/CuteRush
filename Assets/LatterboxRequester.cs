@@ -15,4 +15,9 @@ public class LatterboxRequester : MonoBehaviour
         UIManager.Instance.FadeLatterbox();
     }
 
+    public void ShowMainMenu()
+    {
+        UIManager.Instance.OpenMenu();
+    }
+
 }

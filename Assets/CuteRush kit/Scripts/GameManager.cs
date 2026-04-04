@@ -14,15 +14,21 @@ public class GameManager : MonoBehaviour
     public event Action<int> OnScoreChange;
     public event Action OnGameOver;
 
+    [SerializeField] private GameObject Player;
+    [SerializeField] private DifficultyProfile[] difficulties;
+
+    public string mapName;
+
     public int killNumber { get; private set; } = 0;
-    public float difficultyMultiplier;
     public int difficultyAdder;
 
     public DifficultyProfile currentDifficulty;
+    
 
     private int totalSecondsElapsed = 0;
     private Coroutine timerCoroutine;
     private float levelStartTime = 0f;
+    private int finalScore = 0;
 
     public event Action<int, int> OnTimeUpdated;
 
@@ -35,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        currentDifficulty = difficulties[PlayerPrefs.GetInt("DifficultyProfile")];
         if (Instance == null)
         {
             Instance = this;
@@ -76,7 +83,7 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.Playing) return;
 
         killNumber++;
-        currentScore += points + Mathf.RoundToInt(difficultyAdder*difficultyMultiplier);
+        currentScore += points + Mathf.RoundToInt(difficultyAdder*currentDifficulty.scoreMultiplier);
         OnScoreChange?.Invoke(currentScore);
     }
 
@@ -94,8 +101,9 @@ public class GameManager : MonoBehaviour
         }
 
         Time.timeScale = 0f;
-        
-        UIManager.Instance.EndGameSequence(Time.time-levelStartTime, currentScore, killNumber, difficultyMultiplier);
+        finalScore = currentScore + Mathf.RoundToInt((killNumber / Time.time - levelStartTime) * 50f);
+        SaveLastMatch();
+        UIManager.Instance.EndGameSequence(Time.time-levelStartTime, currentScore, killNumber, currentDifficulty.scoreMultiplier);
 
     }
 
@@ -139,15 +147,26 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (currentState == GameState.Playing)
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
-        if (Input.GetMouseButtonDown(0))
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+    }
+
+    private void SaveLastMatch()
+    {
+        SaveManager.Instance.currentSave.coins += Player.GetComponentInChildren<InventoryPlayer>().getGold();
+        SaveManager.Instance.SubmitScore(mapName, finalScore, currentDifficulty.difficultyName);
+
     }
 }

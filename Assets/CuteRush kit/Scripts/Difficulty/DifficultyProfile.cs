@@ -17,6 +17,7 @@ public class DifficultyProfile : ScriptableObject
     [Tooltip("Moltiplicatore per l'oro guadagnato")]
     public float goldEarnedMultiplier = 1.0f;
     [Tooltip("Moltiplicatore per punti")]
-    public float scoreMultiplyer = 1.0f;
+    public float scoreMultiplier = 1.0f;
+
 
 }

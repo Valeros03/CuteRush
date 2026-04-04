@@ -6,7 +6,7 @@ public class MainMenu : UIPanel
 {
     public void OnPlayButtonClicked()
     {
-        Bootstrapper.Instance.LoadGameLevel("Medium");
+        Bootstrapper.Instance.LoadGameLevel("Fallforest");
     }
 
     public void OnQuitButtonClicked()

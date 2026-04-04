@@ -27,8 +27,11 @@ public class InventoryPlayer : MonoBehaviour
     public event Action<float> OnAcidoRechargeProgress;
     public event Action<int> OnMaxAcidoBoricoChanged;
 
-    public void Init()
+    public void Init(int startGrenade, int startMedkit)
     {
+        MedkitCount = startMedkit;
+        GrenadeCount = startGrenade;
+
         if (PlayerPrefs.HasKey(GameConstants.PREF_MAX_ACIDO_BORICO))
         {
             maxAcidoBorico = PlayerPrefs.GetInt(GameConstants.PREF_MAX_ACIDO_BORICO);
@@ -41,7 +44,6 @@ public class InventoryPlayer : MonoBehaviour
         OnMedkitsChanged?.Invoke(MedkitCount);
         OnGoldChanged?.Invoke(coins);
         OnGrenadesChanged?.Invoke(GrenadeCount);
-        addGrenade();
         
     }
 

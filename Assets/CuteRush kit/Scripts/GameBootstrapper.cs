@@ -23,6 +23,7 @@ public class GameBootstrapper : MonoBehaviour
         VitalsController vitals = player.GetComponent<VitalsController>();
         InventoryPlayer inventory = player.GetComponentInChildren<InventoryPlayer>();
         PlayerCombat combat = player.GetComponent<PlayerCombat>();
+        PlayerUpgrades upgrades = player.GetComponent<PlayerUpgrades>();
 
         if (vitals == null || inventory == null || combat == null)
         {
@@ -35,8 +36,10 @@ public class GameBootstrapper : MonoBehaviour
             UIManager.Instance.StartGameSequence(inventory, vitals, combat);
         }
 
+        SaveData curr = SaveManager.Instance.currentSave;
+
         vitals.Init();
-        inventory.Init();
+        inventory.Init(curr.grenadeCount, curr.medikitCount);
         combat.Init();
 
         if (DifficultyManager.Instance != null)
