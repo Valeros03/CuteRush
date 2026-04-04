@@ -14,9 +14,9 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Mixer")]
     public AudioMixer mixer;
 
-    private const string MUSIC_VOL_PARAM = "MusicVol";
-    private const string SFX_VOL_PARAM = "SFXVol";
-    private const string AMBIENT_VOL_PARAM = "AmbientVol";
+    private const string MUSIC_VOL_PARAM = GameConstants.AUDIO_MIXER_MUSIC;
+    private const string SFX_VOL_PARAM = GameConstants.AUDIO_MIXER_SFX;
+    private const string AMBIENT_VOL_PARAM = GameConstants.AUDIO_MIXER_AMBIENT;
 
     [Header("Clips")]
     public List<AudioClip> musicTracks;

@@ -37,4 +37,14 @@
 
     public const string SCENE_UI = "UI_Scene";
 
+
+    public const string ANIM_FADE = "Fade";
+    public const string INPUT_MOUSE_X = "Mouse X";
+    public const string INPUT_MOUSE_Y = "Mouse Y";
+    public const string SCENE_MAIN_MENU = "MainMenuLand";
+    public const string SCENE_MAIN = "Main";
+    public const string AUDIO_MIXER_MUSIC = "MusicVol";
+    public const string AUDIO_MIXER_SFX = "SFXVol";
+    public const string AUDIO_MIXER_AMBIENT = "AmbientVol";
+    public const string TEXT_INTERACT = "Interagisci";
 }
