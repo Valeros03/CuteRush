@@ -25,13 +25,13 @@ public class AudioListenerManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "MainMenuLand")
+        if (scene.name == GameConstants.SCENE_MAIN_MENU)
         {
             if (_uiAudioListener != null)
                 _uiAudioListener.enabled = false;
         }
 
-        else if (scene.name == "UI_Scene" || scene.name == "Main")
+        else if (scene.name == GameConstants.SCENE_UI || scene.name == GameConstants.SCENE_MAIN)
         { 
             if (_uiAudioListener != null)
                 _uiAudioListener.enabled = true;
