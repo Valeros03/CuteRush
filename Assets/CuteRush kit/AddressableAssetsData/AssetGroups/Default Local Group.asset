@@ -17,16 +17,28 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 2d11114db7cf80440b135523f99d3077
   m_SerializeEntries:
-  - m_GUID: 759acd5866708494c82e5ede359c6580
-    m_Address: Assets/CuteRush kit/Prefab/Weapons/Pistola base.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 051ee69b176b3de4f8755dec1afff34d
     m_Address: Assets/CuteRush kit/Prefab/Weapons/SMG.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 928263b02ccdb874ab93e49fd6ee12d9
     m_Address: Assets/CuteRush kit/Prefab/Weapons/Railgun.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 759acd5866708494c82e5ede359c6580
+    m_Address: Assets/CuteRush kit/Prefab/Weapons/Pistol.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8b317748b3c69d046b8601be10b43d1d
+    m_Address: Assets/CuteRush kit/Prefab/Weapons/RailgunHologram.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f17dc5b1dd669c34a83b060e54f9f17a
+    m_Address: Assets/CuteRush kit/Prefab/Weapons/SMGHologram.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2cc77856985b29c4e984cbbe53b40a2e
+    m_Address: Assets/CuteRush kit/Prefab/Weapons/BaseGunHologram.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
