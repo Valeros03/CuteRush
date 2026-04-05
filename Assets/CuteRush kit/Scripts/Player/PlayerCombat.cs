@@ -27,16 +27,6 @@ public class PlayerCombat : MonoBehaviour
     {
         input = GetComponent<PlayerInput>();
 
-        if (weaponHolder != null)
-        {
-            GunBase startingGun = weaponHolder.GetComponentInChildren<GunBase>();
-            if (startingGun != null)
-            {
-                ConnectGun(startingGun);
-                startingGun.Init(this); 
-            }
-        }
-
         if (granade != null)
         {
             thrower = granade.GetComponent<GrandeThrower>();
@@ -46,6 +36,104 @@ public class PlayerCombat : MonoBehaviour
         if (fpsCam != null)
         {
             weaponAnimator = fpsCam.Find(GameConstants.TRANSFORM_WEAPON_HOLDER)?.GetComponentInChildren<Animator>();
+        }
+
+        if (weaponHolder != null)
+        {
+            StartCoroutine(InitWeaponRoutine());
+        }
+        else
+        {
+            isInitialized = true;
+            if (enabled) SubscribeInputs();
+        }
+    }
+
+    private System.Collections.IEnumerator InitWeaponRoutine()
+    {
+        string selectedWeaponName = PlayerPrefs.GetString("Weapon", "Pistola base");
+        string prefabPath = $"Assets/CuteRush kit/Prefab/Weapons/{selectedWeaponName}.prefab";
+
+        foreach (Transform child in weaponHolder.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GameObject> weaponHandle = Addressables.InstantiateAsync(prefabPath, weaponHolder.transform);
+        yield return weaponHandle;
+
+        if (weaponHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+        {
+            GameObject readyWeapon = weaponHandle.Result;
+            readyWeapon.transform.localPosition = Vector3.zero;
+            readyWeapon.transform.localRotation = Quaternion.identity;
+
+            weaponAnimator = readyWeapon.GetComponent<Animator>();
+            GunBase startingGun = readyWeapon.GetComponent<GunBase>();
+
+            if (startingGun != null)
+            {
+                string weaponCleanName = startingGun.gameObject.name.Replace("(Clone)", "").Replace(" base", "").Trim();
+                int level = 1;
+
+                if (SaveManager.Instance != null && SaveManager.Instance.currentSave != null && SaveManager.Instance.currentSave.weaponUpgrades != null)
+                {
+                    WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
+                    if (weaponCleanName.Equals("Pistola", StringComparison.OrdinalIgnoreCase) || weaponCleanName.Equals("Pistol", StringComparison.OrdinalIgnoreCase))
+                    {
+                        level = upgrades.pistolLevel;
+                        weaponCleanName = "Pistol";
+                    }
+                    else if (weaponCleanName.Equals("SMG", StringComparison.OrdinalIgnoreCase))
+                    {
+                        level = upgrades.smgLevel;
+                        weaponCleanName = "SMG";
+                    }
+                    else if (weaponCleanName.Equals("Railgun", StringComparison.OrdinalIgnoreCase))
+                    {
+                        level = upgrades.railgunLevel;
+                        weaponCleanName = "Railgun";
+                    }
+                }
+
+                string addressablePath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponCleanName} Preset {level}.asset";
+                UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> statsHandle = Addressables.LoadAssetAsync<GunStats>(addressablePath);
+                yield return statsHandle;
+
+                if (statsHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                {
+                    startingGun.stats = statsHandle.Result;
+                }
+                else
+                {
+                    Debug.LogWarning($"PlayerCombat Addressables failed to load weapon stats at {addressablePath}. Trying fallback.");
+                    string fallbackPath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponCleanName} Preset 1.asset";
+                    UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackPath);
+                    yield return fallbackHandle;
+                    if (fallbackHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                    {
+                        startingGun.stats = fallbackHandle.Result;
+                    }
+                }
+
+                ConnectGun(startingGun);
+                startingGun.Init(this);
+                startingGun.enabled = true;
+
+                Transform tracer = startingGun.transform.Find(GameConstants.TRANSFORM_TRACER);
+                if (tracer != null) tracer.gameObject.SetActive(true);
+
+                CameraRecoil camRecoil = transform.GetComponentInChildren<CameraRecoil>();
+                RecoilController newRecoilCtrl = startingGun.GetComponentInChildren<RecoilController>();
+                if (camRecoil != null && newRecoilCtrl != null)
+                {
+                    camRecoil.SetNewWeapon(startingGun, newRecoilCtrl);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError($"Failed to load weapon prefab from Addressables at {prefabPath}");
         }
 
         isInitialized = true;
