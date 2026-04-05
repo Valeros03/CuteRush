@@ -39,6 +39,7 @@ public class GameBootstrapper : MonoBehaviour
         SaveData curr = SaveManager.Instance.currentSave;
 
         vitals.Init();
+        upgrades.Init(curr.playerUpgrades);
         inventory.Init(curr.grenadeCount, curr.medikitCount);
         combat.Init();
 

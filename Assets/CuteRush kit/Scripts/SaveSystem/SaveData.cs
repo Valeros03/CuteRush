@@ -15,6 +15,8 @@ public class SaveData
     public PlayerUpgradesSave playerUpgrades;
     public WeaponUpgradesSave weaponUpgrades;
 
+    public AudioSettings audioSettings;
+
     // Selected Weapon
     public string selectedWeapon;
 
@@ -36,21 +38,38 @@ public class SaveData
 }
 
 [System.Serializable]
+public class AudioSettings
+{
+    public float MasterVolume;
+    public float SFXVolume;
+    public float MusicVolume;
+    public float AmbientVolume;
+
+    public AudioSettings()
+    {
+        MasterVolume = 1.0f;
+        SFXVolume = 1.0f;
+        MusicVolume = 1.0f;
+        AmbientVolume = 1.0f;
+    }
+}
+
+[System.Serializable]
 public class PlayerUpgradesSave
 {
     public int maxHealthLevel;
     public int medikitHealLevel;
     public int movementSpeedLevel;
     public int jumpForceLevel;
-    public int flinchResistLevel;
+    public int flitchLevel;
 
     public PlayerUpgradesSave()
     {
-        maxHealthLevel = 1;
-        medikitHealLevel = 1;
-        movementSpeedLevel = 1;
-        jumpForceLevel = 1;
-        flinchResistLevel = 1;
+        maxHealthLevel = 0;
+        medikitHealLevel = 0;
+        movementSpeedLevel = 0;
+        jumpForceLevel = 0;
+        flitchLevel = 0;
     }
 }
 
@@ -63,9 +82,9 @@ public class WeaponUpgradesSave
 
     public WeaponUpgradesSave()
     {
-        pistolLevel = 1;
-        smgLevel = 1;
-        railgunLevel = 1;
+        pistolLevel = 0;
+        smgLevel = 0;
+        railgunLevel = 0;
     }
 }
 

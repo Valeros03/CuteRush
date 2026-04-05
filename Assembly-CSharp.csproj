@@ -129,6 +129,7 @@
      <Compile Include="Assets\CuteRush kit\UI\Scripts\GameOverScreen.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\HUD.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\LatterboxRequester.cs" />
+     <Compile Include="Assets\CuteRush kit\UI\Scripts\LoadingScreenController.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\MainMenu.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\PlayerInfoUpdater.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\SaveSlotUI.cs" />
@@ -149,7 +150,6 @@
      <Compile Include="Assets\Kawaii Slimes\Scripts\AI\Face.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\GameManager.cs" />
      <Compile Include="Assets\Kawaii Slimes\Scripts\TriggerCollider.cs" />
-     <Compile Include="Assets\LoadingScreenController.cs" />
      <Compile Include="Assets\LowHealth\LowHealthDirectAccess.cs" />
      <Compile Include="Assets\Nokobot\Modern Guns - Handgun\_Demo Assets\SimpleShoot.cs" />
      <Compile Include="Assets\TextureConverter.cs" />
