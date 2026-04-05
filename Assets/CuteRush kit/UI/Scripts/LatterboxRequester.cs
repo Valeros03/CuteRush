@@ -5,12 +5,15 @@ using UnityEngine;
 public class LatterboxRequester : MonoBehaviour
 {
     public Animator cameraAnimator;
-    private bool isSkipped = false;
-    private bool isAnimationFinished = false;
+
+    private void Start()
+    {
+        AudioManager.Instance.PlayMusic(GameConstants.AUDIO_MENU_SONG, true);
+    }
 
     private void Update()
     {
-        if (!isSkipped && !isAnimationFinished && Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             SkipAnimation();
         }
@@ -18,39 +21,33 @@ public class LatterboxRequester : MonoBehaviour
 
     public void StartLatterbox()
     {
-        if (isSkipped) return;
-        AudioManager.Instance.PlayMusic(GameConstants.AUDIO_MENU_SONG, true);
         UIManager.Instance.ShowLatterbox();
     }
 
     public void FadeLatterbox()
     {
-        if (isSkipped) return;
         UIManager.Instance.FadeLatterbox();
     }
 
     public void ShowMainMenu()
     {
-        if (isSkipped) return;
-        isAnimationFinished = true;
         UIManager.Instance.OpenMenu();
         UIManager.Instance.ResetLatterbox();
+        this.enabled = false; // Stop checking for input once menu is shown naturally
     }
 
     private void SkipAnimation()
     {
-        isSkipped = true;
-
         if (cameraAnimator != null)
         {
+            cameraAnimator.Play("CameraIntroAnim", -1, 1f);
+            cameraAnimator.Update(0f);
             cameraAnimator.enabled = false;
         }
 
-        // Ensure the menu song is playing
-        AudioManager.Instance.PlayMusic(GameConstants.AUDIO_MENU_SONG, true);
-
-        // Show the main menu directly
-        UIManager.Instance.OpenMenu();
         UIManager.Instance.ResetLatterbox();
+        UIManager.Instance.OpenMenu();
+
+        this.enabled = false; // Stop checking for input
     }
 }
