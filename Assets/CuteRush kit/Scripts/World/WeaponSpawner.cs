@@ -69,6 +69,54 @@ public class WeaponSpawner : InteractableItem
 
             preInstantiatedWeapon = weaponHandle.Result;
             preInstantiatedWeapon.SetActive(false);
+
+            GunBase gunComponent = preInstantiatedWeapon.GetComponent<GunBase>();
+            if (gunComponent != null)
+            {
+                string weaponName = currentWeaponData.weaponName;
+                int level = 1;
+
+                if (SaveManager.Instance != null && SaveManager.Instance.currentSave != null && SaveManager.Instance.currentSave.weaponUpgrades != null)
+                {
+                    WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
+                    if (weaponName == GameConstants.WEAPON_PISTOL)
+                    {
+                        level = upgrades.pistolLevel;
+                    }
+                    else if (weaponName == GameConstants.WEAPON_SMG)
+                    {
+                        level = upgrades.smgLevel;
+                    }
+                    else if (weaponName == GameConstants.WEAPON_RAILGUN)
+                    {
+                        level = upgrades.railgunLevel;
+                    }
+                }
+
+                string addressablePath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponName} Preset {level}.asset";
+                AsyncOperationHandle<GunStats> statsHandle = Addressables.LoadAssetAsync<GunStats>(addressablePath);
+                yield return statsHandle;
+
+                if (statsHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    gunComponent.stats = statsHandle.Result;
+                }
+                else
+                {
+                    Debug.LogWarning($"Addressables failed to load weapon stats at {addressablePath}. Trying fallback.");
+                    string fallbackPath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponName} Preset 1.asset";
+                    AsyncOperationHandle<GunStats> fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackPath);
+                    yield return fallbackHandle;
+                    if (fallbackHandle.Status == AsyncOperationStatus.Succeeded)
+                    {
+                        gunComponent.stats = fallbackHandle.Result;
+                    }
+                    else
+                    {
+                        Debug.LogError($"Fallback Addressables failed to load at {fallbackPath}.");
+                    }
+                }
+            }
         }
         yield return new WaitForSeconds(waitTime);
 

@@ -47,4 +47,8 @@
     public const string AUDIO_MIXER_SFX = "SFXVol";
     public const string AUDIO_MIXER_AMBIENT = "AmbientVol";
     public const string TEXT_INTERACT = "Interagisci";
+
+    public const string WEAPON_PISTOL = "Pistol";
+    public const string WEAPON_SMG = "SMG";
+    public const string WEAPON_RAILGUN = "Railgun";
 }

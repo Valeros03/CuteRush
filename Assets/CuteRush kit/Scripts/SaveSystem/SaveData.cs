@@ -53,36 +53,15 @@ public class PlayerUpgradesSave
 [System.Serializable]
 public class WeaponUpgradesSave
 {
-    public WeaponStats pistolStats;
-    public WeaponStats smgStats;
-    public WeaponStats railgunStats;
+    public int pistolLevel;
+    public int smgLevel;
+    public int railgunLevel;
 
     public WeaponUpgradesSave()
     {
-        pistolStats = new WeaponStats();
-        smgStats = new WeaponStats();
-        railgunStats = new WeaponStats();
-    }
-}
-
-[System.Serializable]
-public class WeaponStats
-{
-    public int damageLevel;
-    public int magSizeLevel;
-    public int fireRateLevel;
-    public int accuracyLevel;
-    public int beamWidthLevel;
-    public int pierceLevel;
-
-    public WeaponStats()
-    {
-        damageLevel = 1;
-        magSizeLevel = 1;
-        fireRateLevel = 1;
-        accuracyLevel = 1;
-        beamWidthLevel = 1;
-        pierceLevel = 1;
+        pistolLevel = 1;
+        smgLevel = 1;
+        railgunLevel = 1;
     }
 }
 
