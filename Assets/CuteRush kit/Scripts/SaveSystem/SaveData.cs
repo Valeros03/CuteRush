@@ -15,6 +15,9 @@ public class SaveData
     public PlayerUpgradesSave playerUpgrades;
     public WeaponUpgradesSave weaponUpgrades;
 
+    // Selected Weapon
+    public string selectedWeapon;
+
     // High scores
     public List<MapLeaderboard> mapLeaderboards;
 
@@ -27,6 +30,7 @@ public class SaveData
 
         playerUpgrades = new PlayerUpgradesSave();
         weaponUpgrades = new WeaponUpgradesSave();
+        selectedWeapon = GameConstants.WEAPON_PISTOL;
         mapLeaderboards = new List<MapLeaderboard>();
     }
 }

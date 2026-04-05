@@ -113,6 +113,8 @@ public class SaveManager : MonoBehaviour
     }
     public void CreateNewGame(string username)
     {
+        PlayerPrefs.SetString("Weapon", GameConstants.WEAPON_PISTOL);
+        PlayerPrefs.Save();
         currentSave = new SaveData(username);
         SaveGame();
     }
@@ -124,6 +126,8 @@ public class SaveManager : MonoBehaviour
             Debug.LogError("Cannot save game: currentSave is null or username is empty.");
             return;
         }
+
+        currentSave.selectedWeapon = PlayerPrefs.GetString("Weapon", GameConstants.WEAPON_PISTOL);
 
         string json = JsonUtility.ToJson(currentSave, true);
         string safeUsername = SanitizeFilename(currentSave.username);
@@ -151,6 +155,10 @@ public class SaveManager : MonoBehaviour
             {
                 string json = File.ReadAllText(filePath);
                 currentSave = JsonUtility.FromJson<SaveData>(json);
+
+                PlayerPrefs.SetString("Weapon", string.IsNullOrEmpty(currentSave.selectedWeapon) ? GameConstants.WEAPON_PISTOL : currentSave.selectedWeapon);
+                PlayerPrefs.Save();
+
                 Debug.Log($"Game loaded successfully from: {filePath}");
             }
             catch (System.Exception e)
