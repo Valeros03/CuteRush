@@ -73,26 +73,23 @@ public class WeaponSpawner : InteractableItem
             GunBase gunComponent = preInstantiatedWeapon.GetComponent<GunBase>();
             if (gunComponent != null)
             {
-                string weaponName = gunComponent.gameObject.name.Replace("(Clone)", "").Replace(" base", "").Trim();
+                string weaponName = currentWeaponData.weaponName;
                 int level = 1;
 
                 if (SaveManager.Instance != null && SaveManager.Instance.currentSave != null && SaveManager.Instance.currentSave.weaponUpgrades != null)
                 {
                     WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
-                    if (weaponName.Equals("Pistola", System.StringComparison.OrdinalIgnoreCase) || weaponName.Equals("Pistol", System.StringComparison.OrdinalIgnoreCase))
+                    if (weaponName == GameConstants.WEAPON_PISTOL)
                     {
                         level = upgrades.pistolLevel;
-                        weaponName = "Pistol";
                     }
-                    else if (weaponName.Equals("SMG", System.StringComparison.OrdinalIgnoreCase))
+                    else if (weaponName == GameConstants.WEAPON_SMG)
                     {
                         level = upgrades.smgLevel;
-                        weaponName = "SMG";
                     }
-                    else if (weaponName.Equals("Railgun", System.StringComparison.OrdinalIgnoreCase))
+                    else if (weaponName == GameConstants.WEAPON_RAILGUN)
                     {
                         level = upgrades.railgunLevel;
-                        weaponName = "Railgun";
                     }
                 }
 

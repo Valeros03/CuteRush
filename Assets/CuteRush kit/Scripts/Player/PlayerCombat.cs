@@ -51,7 +51,7 @@ public class PlayerCombat : MonoBehaviour
 
     private System.Collections.IEnumerator InitWeaponRoutine()
     {
-        string selectedWeaponName = PlayerPrefs.GetString("Weapon", "Pistola base");
+        string selectedWeaponName = PlayerPrefs.GetString("Weapon", GameConstants.WEAPON_PISTOL);
         string prefabPath = $"Assets/CuteRush kit/Prefab/Weapons/{selectedWeaponName}.prefab";
 
         foreach (Transform child in weaponHolder.transform)
@@ -73,30 +73,26 @@ public class PlayerCombat : MonoBehaviour
 
             if (startingGun != null)
             {
-                string weaponCleanName = startingGun.gameObject.name.Replace("(Clone)", "").Replace(" base", "").Trim();
                 int level = 1;
 
                 if (SaveManager.Instance != null && SaveManager.Instance.currentSave != null && SaveManager.Instance.currentSave.weaponUpgrades != null)
                 {
                     WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
-                    if (weaponCleanName.Equals("Pistola", StringComparison.OrdinalIgnoreCase) || weaponCleanName.Equals("Pistol", StringComparison.OrdinalIgnoreCase))
+                    if (selectedWeaponName == GameConstants.WEAPON_PISTOL)
                     {
                         level = upgrades.pistolLevel;
-                        weaponCleanName = "Pistol";
                     }
-                    else if (weaponCleanName.Equals("SMG", StringComparison.OrdinalIgnoreCase))
+                    else if (selectedWeaponName == GameConstants.WEAPON_SMG)
                     {
                         level = upgrades.smgLevel;
-                        weaponCleanName = "SMG";
                     }
-                    else if (weaponCleanName.Equals("Railgun", StringComparison.OrdinalIgnoreCase))
+                    else if (selectedWeaponName == GameConstants.WEAPON_RAILGUN)
                     {
                         level = upgrades.railgunLevel;
-                        weaponCleanName = "Railgun";
                     }
                 }
 
-                string addressablePath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponCleanName} Preset {level}.asset";
+                string addressablePath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{selectedWeaponName} Preset {level}.asset";
                 UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> statsHandle = Addressables.LoadAssetAsync<GunStats>(addressablePath);
                 yield return statsHandle;
 
@@ -107,7 +103,7 @@ public class PlayerCombat : MonoBehaviour
                 else
                 {
                     Debug.LogWarning($"PlayerCombat Addressables failed to load weapon stats at {addressablePath}. Trying fallback.");
-                    string fallbackPath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponCleanName} Preset 1.asset";
+                    string fallbackPath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{selectedWeaponName} Preset 1.asset";
                     UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackPath);
                     yield return fallbackHandle;
                     if (fallbackHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
