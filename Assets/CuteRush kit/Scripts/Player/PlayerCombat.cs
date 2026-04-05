@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TheDeveloperTrain.SciFiGuns;
 using System;
+using UnityEngine.AddressableAssets;
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerCombat : MonoBehaviour
@@ -212,23 +213,26 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    public void EquipWeapon(GameObject newWeaponPrefab)
+    public void EquipWeapon(GameObject readyWeapon)
     {
         if (granade != null && granade.activeInHierarchy) SwitchToWeapon();
 
         if (gun != null)
         {
             gun.OnAmmoChanged -= HandleWeaponAmmoChanged;
-            Destroy(gun.gameObject);
+            if (!Addressables.ReleaseInstance(gun.gameObject))
+            {
+                Destroy(gun.gameObject);
+            }
         }
 
-        GameObject newWeapon = Instantiate(newWeaponPrefab, weaponHolder.transform);
-        newWeapon.transform.localPosition = Vector3.zero;
-        newWeapon.transform.localRotation = Quaternion.identity;
+        readyWeapon.transform.SetParent(weaponHolder.transform);
+        readyWeapon.transform.localPosition = Vector3.zero;
+        readyWeapon.transform.localRotation = Quaternion.identity;
+        readyWeapon.SetActive(true);
 
-        weaponAnimator = newWeapon.GetComponent<Animator>();
-
-        GunBase newGunComponent = newWeapon.GetComponent<GunBase>();
+        weaponAnimator = readyWeapon.GetComponent<Animator>();
+        GunBase newGunComponent = readyWeapon.GetComponent<GunBase>();
 
         if (newGunComponent != null)
         {
@@ -241,7 +245,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         CameraRecoil camRecoil = transform.GetComponentInChildren<CameraRecoil>();
-        RecoilController newRecoilCtrl = newWeapon.GetComponentInChildren<RecoilController>();
+        RecoilController newRecoilCtrl = readyWeapon.GetComponentInChildren<RecoilController>();
 
         if (camRecoil != null && newRecoilCtrl != null)
         {

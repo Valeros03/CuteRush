@@ -17,4 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/CuteRush kit/Scenes/Fallforest.unity
     guid: c71b7c9fdccafde49868e8af9f58121a
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 0484ae14b2696d140862ae43d78e1eed,
+      type: 2}

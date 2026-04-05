@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 [System.Serializable]
 public class WeaponSpawnData
 {
     public string weaponName;
-    public GameObject realWeaponPrefab;
-    public GameObject hologramPrefab;
+    public AssetReferenceGameObject realWeaponRef;
+    public AssetReferenceGameObject hologramRef;
 }
 
 public class WeaponSpawner : InteractableItem
@@ -18,93 +20,90 @@ public class WeaponSpawner : InteractableItem
     public List<WeaponSpawnData> availableWeapons;
 
     private GameObject currentHologram;
+    private GameObject preInstantiatedWeapon;
     private WeaponSpawnData currentWeaponData;
 
     private bool isReady = false;
+    private bool playerInTrigger = false;
 
     void Start()
     {
-        PrepareNewWeapon();
-    }
-
-    private void PrepareNewWeapon()
-    {
-        currentWeaponData = ChooseNextWeapon();
-
-        if (currentWeaponData.hologramPrefab != null)
-        {
-            currentHologram = Instantiate(currentWeaponData.hologramPrefab, spawnPoint.position, spawnPoint.rotation);
-            currentHologram.transform.SetParent(transform);
-        }
-
-        isReady = true;
+        StartCoroutine(RespawnSequence(0f));
     }
 
     public override void Interact(PlayerInteraction player = null)
     {
-        if (!isReady) return;
+        if (!isReady || preInstantiatedWeapon == null) return;
 
-
-        GiveWeaponToPlayer(currentWeaponData.realWeaponPrefab);
+        GiveWeaponToPlayer(preInstantiatedWeapon);
+        preInstantiatedWeapon = null;
 
         if (currentHologram != null)
         {
-            Destroy(currentHologram);
+            if (!Addressables.ReleaseInstance(currentHologram)) Destroy(currentHologram);
+            currentHologram = null;
         }
 
         HideInteraction();
-
         isReady = false;
-        StartCoroutine(RespawnSequence());
+
+        StartCoroutine(RespawnSequence(respawnTime));
     }
 
-    private IEnumerator RespawnSequence()
+    private IEnumerator RespawnSequence(float waitTime)
     {
-        yield return new WaitForSeconds(respawnTime);
+        currentWeaponData = ChooseNextWeapon();
 
-        PrepareNewWeapon();
+        if (currentWeaponData.hologramRef != null && currentWeaponData.hologramRef.RuntimeKeyIsValid())
+        {
+            AsyncOperationHandle<GameObject> hologramHandle = Addressables.InstantiateAsync(currentWeaponData.hologramRef, spawnPoint.position, spawnPoint.rotation, transform);
+            yield return hologramHandle;
+
+            currentHologram = hologramHandle.Result;
+            currentHologram.SetActive(false);
+        }
+        if (currentWeaponData.realWeaponRef != null && currentWeaponData.realWeaponRef.RuntimeKeyIsValid())
+        {
+            AsyncOperationHandle<GameObject> weaponHandle = Addressables.InstantiateAsync(currentWeaponData.realWeaponRef, spawnPoint.position, spawnPoint.rotation, transform);
+            yield return weaponHandle;
+
+            preInstantiatedWeapon = weaponHandle.Result;
+            preInstantiatedWeapon.SetActive(false);
+        }
+        yield return new WaitForSeconds(waitTime);
+
+        isReady = true;
+        if (currentHologram != null) currentHologram.SetActive(true);
+        if (playerInTrigger) ShowInteraction();
     }
 
     private WeaponSpawnData ChooseNextWeapon()
     {
-
         PlayerCombat combat = FindObjectOfType<PlayerCombat>();
         string currentWeaponName = combat != null ? combat.GetCurrentWeaponName() : "";
-
         List<WeaponSpawnData> filteredWeapons = new List<WeaponSpawnData>();
 
-        foreach (var weaponData in availableWeapons)
-        {
-    
-            if (weaponData.realWeaponPrefab.name != currentWeaponName)
-            {
+        foreach (WeaponSpawnData weaponData in availableWeapons)
+            if (weaponData.weaponName != currentWeaponName)
                 filteredWeapons.Add(weaponData);
-            }
-        }
 
-        if (filteredWeapons.Count == 0)
-        {
-            filteredWeapons = availableWeapons;
-        }
+        if (filteredWeapons.Count == 0) filteredWeapons = availableWeapons;
 
-        int randomIndex = Random.Range(0, filteredWeapons.Count);
-        return filteredWeapons[randomIndex];
+        return filteredWeapons[Random.Range(0, filteredWeapons.Count)];
     }
 
-    private void GiveWeaponToPlayer(GameObject realWeaponPrefab)
+    private void GiveWeaponToPlayer(GameObject readyWeapon)
     {
         PlayerCombat combat = FindObjectOfType<PlayerCombat>();
-        if (combat != null)
-        {
-            combat.EquipWeapon(realWeaponPrefab);
-        }
+        if (combat != null) combat.EquipWeapon(readyWeapon);
     }
 
     public override void OnTriggerEnter(Collider other)
     {
-        if (isReady && other.gameObject.CompareTag(GameConstants.PLAYER_TAG))
+        if (other.gameObject.CompareTag(GameConstants.PLAYER_TAG))
         {
-            ShowInteraction();
+            playerInTrigger = true;
+            if (isReady) ShowInteraction();
         }
     }
 
@@ -112,6 +111,7 @@ public class WeaponSpawner : InteractableItem
     {
         if (other.gameObject.CompareTag(GameConstants.PLAYER_TAG))
         {
+            playerInTrigger = false;
             HideInteraction();
         }
     }
