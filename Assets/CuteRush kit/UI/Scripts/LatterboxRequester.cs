@@ -4,9 +4,23 @@ using UnityEngine;
 
 public class LatterboxRequester : MonoBehaviour
 {
-    public void StartLatterbox()
+    public Animator cameraAnimator;
+
+    private void Start()
     {
         AudioManager.Instance.PlayMusic(GameConstants.AUDIO_MENU_SONG, true);
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            SkipAnimation();
+        }
+    }
+
+    public void StartLatterbox()
+    {
         UIManager.Instance.ShowLatterbox();
     }
 
@@ -19,6 +33,21 @@ public class LatterboxRequester : MonoBehaviour
     {
         UIManager.Instance.OpenMenu();
         UIManager.Instance.ResetLatterbox();
+        this.enabled = false; // Stop checking for input once menu is shown naturally
     }
 
+    private void SkipAnimation()
+    {
+        if (cameraAnimator != null)
+        {
+            cameraAnimator.Play("CameraIntroAnim", -1, 1f);
+            cameraAnimator.Update(0f);
+            cameraAnimator.enabled = false;
+        }
+
+        UIManager.Instance.ResetLatterbox();
+        UIManager.Instance.OpenMenu();
+
+        this.enabled = false; // Stop checking for input
+    }
 }
