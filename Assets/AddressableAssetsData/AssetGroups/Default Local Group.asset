@@ -16,7 +16,19 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 2d11114db7cf80440b135523f99d3077
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 759acd5866708494c82e5ede359c6580
+    m_Address: Assets/CuteRush kit/Prefab/Weapons/Pistola base.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 051ee69b176b3de4f8755dec1afff34d
+    m_Address: Assets/CuteRush kit/Prefab/Weapons/SMG.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 928263b02ccdb874ab93e49fd6ee12d9
+    m_Address: Assets/CuteRush kit/Prefab/Weapons/Railgun.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bf318f7e6dc61634f92ec7fda5ea276d, type: 2}
   m_SchemaSet:

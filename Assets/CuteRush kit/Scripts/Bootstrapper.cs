@@ -37,8 +37,6 @@ public class Bootstrapper : MonoBehaviour
         StartCoroutine(TransitionSceneRoutine(level));
     }
 
-    // [Requires Inspector Setup] Connect the continue/start button's OnClick event in the loading screen
-    // to call this ContinueFromLoadingScreen() method on the Bootstrapper.
     public void ContinueFromLoadingScreen()
     {
         continueLoad = true;
@@ -46,7 +44,6 @@ public class Bootstrapper : MonoBehaviour
 
     private IEnumerator TransitionSceneRoutine(string newSceneName)
     {
-        // Tell UIManager to show the loading screen
         if (UIManager.Instance != null)
             UIManager.Instance.ShowLoadingScreen();
 
@@ -59,13 +56,11 @@ public class Bootstrapper : MonoBehaviour
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(newSceneName, LoadSceneMode.Additive);
         asyncLoad.allowSceneActivation = false;
 
-        // Wait until scene is loaded in memory (stops at 0.9 progress when allowSceneActivation is false)
         while (asyncLoad.progress < 0.9f)
         {
             yield return null;
         }
-
-        // Wait for player to press the continue button on the loading screen
+        UIManager.Instance.ShowContinueButton();
         while (!continueLoad)
         {
             yield return null;
@@ -73,7 +68,6 @@ public class Bootstrapper : MonoBehaviour
 
         asyncLoad.allowSceneActivation = true;
 
-        // Wait for scene to finish activating
         while (!asyncLoad.isDone)
         {
             yield return null;

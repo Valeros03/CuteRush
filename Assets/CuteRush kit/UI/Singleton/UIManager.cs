@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,9 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject topBar;
     [SerializeField] private GameObject bottomBar;
 
-    // [Requires Inspector Setup] Create a Loading Screen UI panel, and assign it to this variable.
-    // Ensure it contains a button that calls Bootstrapper.Instance.ContinueFromLoadingScreen() on click.
-    [SerializeField] private GameObject loadingScreen;
+    [SerializeField] private LoadingScreenController loadingScreen;
 
     public HUD HUD => hud;
 
@@ -73,12 +72,18 @@ public class UIManager : MonoBehaviour
     public void ShowLoadingScreen()
     {
         if (loadingScreen != null)
-            loadingScreen.SetActive(true);
+            loadingScreen.Show();
     }
 
     public void HideLoadingScreen()
     {
+        loadingScreen.DisableContinueButton();
         if (loadingScreen != null)
-            loadingScreen.SetActive(false);
+            loadingScreen.Hide();
+        Bootstrapper.Instance.ContinueFromLoadingScreen();
+    }
+    public void ShowContinueButton()
+    {
+        loadingScreen.EnableContinueButton();
     }
 }
