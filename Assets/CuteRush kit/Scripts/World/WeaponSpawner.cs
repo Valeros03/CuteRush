@@ -69,6 +69,57 @@ public class WeaponSpawner : InteractableItem
 
             preInstantiatedWeapon = weaponHandle.Result;
             preInstantiatedWeapon.SetActive(false);
+
+            GunBase gunComponent = preInstantiatedWeapon.GetComponent<GunBase>();
+            if (gunComponent != null)
+            {
+                string weaponName = gunComponent.gameObject.name.Replace("(Clone)", "").Replace(" base", "").Trim();
+                int level = 1;
+
+                if (SaveManager.Instance != null && SaveManager.Instance.currentSave != null && SaveManager.Instance.currentSave.weaponUpgrades != null)
+                {
+                    WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
+                    if (weaponName.Equals("Pistola", System.StringComparison.OrdinalIgnoreCase) || weaponName.Equals("Pistol", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        level = upgrades.pistolLevel;
+                        weaponName = "Pistol";
+                    }
+                    else if (weaponName.Equals("SMG", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        level = upgrades.smgLevel;
+                        weaponName = "SMG";
+                    }
+                    else if (weaponName.Equals("Railgun", System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        level = upgrades.railgunLevel;
+                        weaponName = "Railgun";
+                    }
+                }
+
+                string addressablePath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponName} Preset {level}.asset";
+                AsyncOperationHandle<GunStats> statsHandle = Addressables.LoadAssetAsync<GunStats>(addressablePath);
+                yield return statsHandle;
+
+                if (statsHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    gunComponent.stats = statsHandle.Result;
+                }
+                else
+                {
+                    Debug.LogWarning($"Addressables failed to load weapon stats at {addressablePath}. Trying fallback.");
+                    string fallbackPath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponName} Preset 1.asset";
+                    AsyncOperationHandle<GunStats> fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackPath);
+                    yield return fallbackHandle;
+                    if (fallbackHandle.Status == AsyncOperationStatus.Succeeded)
+                    {
+                        gunComponent.stats = fallbackHandle.Result;
+                    }
+                    else
+                    {
+                        Debug.LogError($"Fallback Addressables failed to load at {fallbackPath}.");
+                    }
+                }
+            }
         }
         yield return new WaitForSeconds(waitTime);
 

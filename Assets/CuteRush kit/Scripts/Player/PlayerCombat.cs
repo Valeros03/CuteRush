@@ -32,7 +32,6 @@ public class PlayerCombat : MonoBehaviour
             GunBase startingGun = weaponHolder.GetComponentInChildren<GunBase>();
             if (startingGun != null)
             {
-                ApplyWeaponLevelStats(startingGun);
                 ConnectGun(startingGun);
                 startingGun.Init(this); 
             }
@@ -237,7 +236,6 @@ public class PlayerCombat : MonoBehaviour
 
         if (newGunComponent != null)
         {
-            ApplyWeaponLevelStats(newGunComponent);
             ConnectGun(newGunComponent);
             newGunComponent.Init(this);
 
@@ -265,52 +263,5 @@ public class PlayerCombat : MonoBehaviour
     {
         if (gun != null) return gun.addMag();
         return false;
-    }
-
-    private void ApplyWeaponLevelStats(GunBase weapon)
-    {
-        if (weapon == null) return;
-
-        string weaponName = weapon.gameObject.name.Replace("(Clone)", "").Replace(" base", "").Trim();
-        int level = 1;
-
-        if (SaveManager.Instance != null && SaveManager.Instance.currentSave != null && SaveManager.Instance.currentSave.weaponUpgrades != null)
-        {
-            WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
-            if (weaponName.Equals("Pistola", StringComparison.OrdinalIgnoreCase) || weaponName.Equals("Pistol", StringComparison.OrdinalIgnoreCase))
-            {
-                level = upgrades.pistolLevel;
-                weaponName = "Pistol"; // Normalizing name for resource loading
-            }
-            else if (weaponName.Equals("SMG", StringComparison.OrdinalIgnoreCase))
-            {
-                level = upgrades.smgLevel;
-                weaponName = "SMG";
-            }
-            else if (weaponName.Equals("Railgun", StringComparison.OrdinalIgnoreCase))
-            {
-                level = upgrades.railgunLevel;
-                weaponName = "Railgun";
-            }
-        }
-
-        string resourcePath = $"WeaponPresets/{weaponName} Preset {level}";
-        GunStats loadedStats = Resources.Load<GunStats>(resourcePath);
-
-        if (loadedStats == null)
-        {
-            Debug.LogWarning($"Weapon stats not found at path: {resourcePath}. Falling back to level 1.");
-            resourcePath = $"WeaponPresets/{weaponName} Preset 1";
-            loadedStats = Resources.Load<GunStats>(resourcePath);
-        }
-
-        if (loadedStats != null)
-        {
-            weapon.stats = loadedStats;
-        }
-        else
-        {
-            Debug.LogError($"Failed to load fallback weapon stats at path: {resourcePath}");
-        }
     }
 }
