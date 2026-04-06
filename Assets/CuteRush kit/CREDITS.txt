@@ -13,6 +13,22 @@ By: alfance
 License: Creative Commons Attribution License
 Original Model: https://sketchfab.com/models/26c3f2f271ab41a5a0c9178ac5304df8
 
+Slime Models (Slime_01, Slime_02, Slime_03)
+By: Unknown / Unity Asset Store
+License: Standard Unity Asset Store EULA
+
+Sci-Fi Weapons (Sci Fi Pistol, Sci Fi SMG, Railgun 1)
+By: 3d.rina / Unity Asset Store
+License: Standard Unity Asset Store EULA
+
+First Aid Kit
+By: Unknown / Unity Asset Store
+License: Standard Unity Asset Store EULA
+
+Low Poly Water System
+By: Pinwheel Studio / Ebru Dogan / Unity Asset Store
+License: Standard Unity Asset Store EULA
+
 ================================================================================
 FONTS
 ================================================================================
@@ -28,6 +44,18 @@ License: SIL Open Font License, Version 1.1
 ================================================================================
 SPRITES & UI
 ================================================================================
+GUI - Basic Button Pack
+By: LAYERLAB (Unity Asset Store)
+License: Standard Unity Asset Store EULA
+
+Free Button Set
+By: Unknown / Unity Asset Store
+License: Standard Unity Asset Store EULA
+
+Keyboard & Mouse UI (Light, Dark, Blanks)
+By: Unknown / Unity Asset Store
+License: Standard Unity Asset Store EULA
+
 EmojiOne
 By: EmojiOne (https://www.emojione.com/)
 License: Sample of emojis provided by EmojiOne. Please visit their website to view the complete set of their emojis and review their licensing terms.
