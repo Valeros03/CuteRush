@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class UpgradeManager : MonoBehaviour
 {
@@ -39,10 +38,7 @@ public class UpgradeManager : MonoBehaviour
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "MainMenuLand")
-        {
-            UIEvents.OnLoadMenu?.Invoke();
-        }
+        UIEvents.OnLoadMenu?.Invoke();
     }
 
     /// <summary>
