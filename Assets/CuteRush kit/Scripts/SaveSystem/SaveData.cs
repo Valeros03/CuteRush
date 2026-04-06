@@ -62,6 +62,7 @@ public class PlayerUpgradesSave
     public int movementSpeedLevel;
     public int jumpForceLevel;
     public int flitchLevel;
+    public int boricAcidLevel;
 
     public PlayerUpgradesSave()
     {
@@ -70,6 +71,7 @@ public class PlayerUpgradesSave
         movementSpeedLevel = 0;
         jumpForceLevel = 0;
         flitchLevel = 0;
+        boricAcidLevel = 0;
     }
 }
 

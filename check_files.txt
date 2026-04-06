@@ -1,3 +1,120 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+[System.Serializable]
+public class SaveData
+{
+    public string username;
+
+    // Inventory fields
+    public int coins;
+    public int medikitCount;
+    public int grenadeCount;
+
+    // Upgrades
+    public PlayerUpgradesSave playerUpgrades;
+    public WeaponUpgradesSave weaponUpgrades;
+
+    public AudioSettings audioSettings;
+
+    // Selected Weapon
+    public string selectedWeapon;
+
+    // High scores
+    public List<MapLeaderboard> mapLeaderboards;
+
+    public SaveData(string name)
+    {
+        username = name;
+        coins = 0;
+        medikitCount = 0;
+        grenadeCount = 0;
+
+        playerUpgrades = new PlayerUpgradesSave();
+        weaponUpgrades = new WeaponUpgradesSave();
+        selectedWeapon = GameConstants.WEAPON_PISTOL;
+        mapLeaderboards = new List<MapLeaderboard>();
+    }
+}
+
+[System.Serializable]
+public class AudioSettings
+{
+    public float MasterVolume;
+    public float SFXVolume;
+    public float MusicVolume;
+    public float AmbientVolume;
+
+    public AudioSettings()
+    {
+        MasterVolume = 1.0f;
+        SFXVolume = 1.0f;
+        MusicVolume = 1.0f;
+        AmbientVolume = 1.0f;
+    }
+}
+
+[System.Serializable]
+public class PlayerUpgradesSave
+{
+    public int maxHealthLevel;
+    public int medikitHealLevel;
+    public int movementSpeedLevel;
+    public int jumpForceLevel;
+    public int flitchLevel;
+    public int boricAcidLevel;
+
+    public PlayerUpgradesSave()
+    {
+        maxHealthLevel = 0;
+        medikitHealLevel = 0;
+        movementSpeedLevel = 0;
+        jumpForceLevel = 0;
+        flitchLevel = 0;
+        boricAcidLevel = 0;
+    }
+}
+
+[System.Serializable]
+public class WeaponUpgradesSave
+{
+    public int pistolLevel;
+    public int smgLevel;
+    public int railgunLevel;
+
+    public WeaponUpgradesSave()
+    {
+        pistolLevel = 0;
+        smgLevel = 0;
+        railgunLevel = 0;
+    }
+}
+
+[System.Serializable]
+public class MapLeaderboard
+{
+    public string mapName;
+    public List<ScoreRecord> topScores;
+
+    public MapLeaderboard(string name)
+    {
+        mapName = name;
+        topScores = new List<ScoreRecord>();
+    }
+}
+
+[System.Serializable]
+public class ScoreRecord
+{
+    public int score;
+    public string difficulty;
+
+    public ScoreRecord(int s, string diff)
+    {
+        score = s;
+        difficulty = diff;
+    }
+}
 using System;
 using UnityEngine;
 
@@ -233,5 +350,91 @@ public class UpgradeManager : MonoBehaviour
         upgrades.railgunLevel++;
         SaveManager.Instance.SaveGame();
         return true;
+    }
+}
+﻿using UnityEngine;
+
+public class PlayerUpgrades : MonoBehaviour
+{
+    [Header("Livelli Attuali (0 = Base)")]
+    public int movementSpeedLevel = 0;
+    public int jumpLevel = 0;
+    public int medkitLevel = 0;
+    public int maxHealthLevel = 0;
+    public int flitchLevel = 0;
+
+    [Header("Livelli Massimi")]
+    public int maxMaxHealthLevel = 4;
+    public int maxSpeedLevel = 3;
+    public int maxJumpLevel = 3;
+    public int maxMedkitLevel = 4;
+    public int maxFlitchLevel = 3;
+
+    [Header("Valore Aggiunto per ogni Livello")]
+    [Tooltip("Quanta velocità si aggiunge al walkSpeed e runSpeed per ogni livello?")]
+    public float extraSpeedPerLevel = 1.0f;
+
+    [Tooltip("Quanta forza di salto si aggiunge per ogni livello?")]
+    public float extraJumpPerLevel = 1.5f;
+
+    [Tooltip("Quanta salute in più cura il medikit per ogni livello? (o capacità massima dello zaino)")]
+    public int extraHealingPerLevel = 5;
+
+    public int extraHealthPerLevel = 25;
+
+    private PlayerMovement movement;
+    private VitalsController vitalsController;
+
+    private float baseWalkSpeed;
+    private float baseRunSpeed;
+    private float baseJumpForce;
+    private int baseMedkitHeal;
+    private int baseMaxHealth;
+
+    void Awake()
+    {
+        movement = GetComponent<PlayerMovement>();
+        vitalsController = GetComponent<VitalsController>();
+
+        if (movement != null)
+        {
+            baseWalkSpeed = movement.walkSpeed;
+            baseRunSpeed = movement.runSpeed;
+            baseJumpForce = movement.jumpForce;
+        }
+        if (vitalsController != null)
+        {
+            baseMedkitHeal = vitalsController.medKitHeal;
+            baseMaxHealth = vitalsController.maxHealth;
+        }
+    }
+
+    public void Init(PlayerUpgradesSave save)
+    {
+        UploadLevelPlayer(save);
+        UpdatePlayerStats();
+    }
+
+    private void UploadLevelPlayer(PlayerUpgradesSave save)
+    {
+        movementSpeedLevel = save.movementSpeedLevel;
+        maxHealthLevel = save.maxHealthLevel;
+        medkitLevel = save.medikitHealLevel;
+        jumpLevel = save.jumpForceLevel;
+        flitchLevel = save.flitchLevel;
+        PlayerPrefs.SetInt("FlitchProbLevel", save.flitchLevel);
+        PlayerPrefs.SetInt(GameConstants.PREF_MAX_ACIDO_BORICO, 1 + save.boricAcidLevel);
+    }
+
+    private void UpdatePlayerStats()
+    {
+        if (movement == null) return;
+
+        movement.walkSpeed = baseWalkSpeed + (movementSpeedLevel * extraSpeedPerLevel);
+        movement.jumpForce = baseJumpForce + (jumpLevel * extraJumpPerLevel);
+        movement.runSpeed = baseRunSpeed + (movementSpeedLevel * extraSpeedPerLevel);
+        vitalsController.medKitHeal = baseMedkitHeal + (medkitLevel * extraHealingPerLevel);
+        vitalsController.maxHealth = baseMaxHealth + (maxHealthLevel * extraHealthPerLevel);
+        PlayerPrefs.SetInt("FlitchProbLevel", flitchLevel);
     }
 }

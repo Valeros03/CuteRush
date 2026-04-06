@@ -69,6 +69,7 @@ public class PlayerUpgrades : MonoBehaviour
         jumpLevel = save.jumpForceLevel;
         flitchLevel = save.flitchLevel;
         PlayerPrefs.SetInt("FlitchProbLevel", save.flitchLevel);
+        PlayerPrefs.SetInt(GameConstants.PREF_MAX_ACIDO_BORICO, 1 + save.boricAcidLevel);
     }
 
     private void UpdatePlayerStats()
