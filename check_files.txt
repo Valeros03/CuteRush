@@ -1,0 +1,440 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+[System.Serializable]
+public class SaveData
+{
+    public string username;
+
+    // Inventory fields
+    public int coins;
+    public int medikitCount;
+    public int grenadeCount;
+
+    // Upgrades
+    public PlayerUpgradesSave playerUpgrades;
+    public WeaponUpgradesSave weaponUpgrades;
+
+    public AudioSettings audioSettings;
+
+    // Selected Weapon
+    public string selectedWeapon;
+
+    // High scores
+    public List<MapLeaderboard> mapLeaderboards;
+
+    public SaveData(string name)
+    {
+        username = name;
+        coins = 0;
+        medikitCount = 0;
+        grenadeCount = 0;
+
+        playerUpgrades = new PlayerUpgradesSave();
+        weaponUpgrades = new WeaponUpgradesSave();
+        selectedWeapon = GameConstants.WEAPON_PISTOL;
+        mapLeaderboards = new List<MapLeaderboard>();
+    }
+}
+
+[System.Serializable]
+public class AudioSettings
+{
+    public float MasterVolume;
+    public float SFXVolume;
+    public float MusicVolume;
+    public float AmbientVolume;
+
+    public AudioSettings()
+    {
+        MasterVolume = 1.0f;
+        SFXVolume = 1.0f;
+        MusicVolume = 1.0f;
+        AmbientVolume = 1.0f;
+    }
+}
+
+[System.Serializable]
+public class PlayerUpgradesSave
+{
+    public int maxHealthLevel;
+    public int medikitHealLevel;
+    public int movementSpeedLevel;
+    public int jumpForceLevel;
+    public int flitchLevel;
+    public int boricAcidLevel;
+
+    public PlayerUpgradesSave()
+    {
+        maxHealthLevel = 0;
+        medikitHealLevel = 0;
+        movementSpeedLevel = 0;
+        jumpForceLevel = 0;
+        flitchLevel = 0;
+        boricAcidLevel = 0;
+    }
+}
+
+[System.Serializable]
+public class WeaponUpgradesSave
+{
+    public int pistolLevel;
+    public int smgLevel;
+    public int railgunLevel;
+
+    public WeaponUpgradesSave()
+    {
+        pistolLevel = 0;
+        smgLevel = 0;
+        railgunLevel = 0;
+    }
+}
+
+[System.Serializable]
+public class MapLeaderboard
+{
+    public string mapName;
+    public List<ScoreRecord> topScores;
+
+    public MapLeaderboard(string name)
+    {
+        mapName = name;
+        topScores = new List<ScoreRecord>();
+    }
+}
+
+[System.Serializable]
+public class ScoreRecord
+{
+    public int score;
+    public string difficulty;
+
+    public ScoreRecord(int s, string diff)
+    {
+        score = s;
+        difficulty = diff;
+    }
+}
+using System;
+using UnityEngine;
+
+public class UpgradeManager : MonoBehaviour
+{
+    public static UpgradeManager Instance { get; private set; }
+
+    [Header("Max Levels - Player")]
+    public int maxMaxHealthLevel = 4;
+    public int maxSpeedLevel = 3;
+    public int maxJumpLevel = 3;
+    public int maxMedkitLevel = 4;
+    public int maxFlitchLevel = 3;
+    public int maxBoricAcidLevel = 3;
+
+    [Header("Max Levels - Weapons")]
+    public int maxPistolLevel = 3;
+    public int maxSmgLevel = 3;
+    public int maxRailgunLevel = 3;
+
+    private const int BASE_COST = 500;
+    private const float COST_MULTIPLIER = 2.5f;
+
+    private const int MEDIKIT_COST = 1000;
+    private const int GRENADE_COST = 400;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Calculates the cost of the next upgrade based on the current level.
+    /// Increment of +150% each level (e.g. 500, 1250, 3125...).
+    /// </summary>
+    /// <param name="currentLevel">The current level of the upgrade (0 means base level).</param>
+    /// <returns>The cost to upgrade to the next level.</returns>
+    public int GetUpgradeCost(int currentLevel)
+    {
+        return Mathf.RoundToInt(BASE_COST * Mathf.Pow(COST_MULTIPLIER, currentLevel));
+    }
+
+    private bool CanAffordUpgrade(int cost)
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+        return SaveManager.Instance.currentSave.coins >= cost;
+    }
+
+    private void DeductCoins(int cost)
+    {
+        if (SaveManager.Instance != null && SaveManager.Instance.currentSave != null)
+        {
+            SaveManager.Instance.currentSave.coins -= cost;
+        }
+    }
+
+    // --- Player Upgrades ---
+
+    public bool UpgradeMaxHealth()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+
+        PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
+        if (upgrades.maxHealthLevel >= maxMaxHealthLevel) return false;
+
+        int cost = GetUpgradeCost(upgrades.maxHealthLevel);
+        if (!CanAffordUpgrade(cost)) return false;
+
+        DeductCoins(cost);
+        upgrades.maxHealthLevel++;
+        SaveManager.Instance.SaveGame();
+        return true;
+    }
+
+    public bool UpgradeMedkitHeal()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+
+        PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
+        if (upgrades.medikitHealLevel >= maxMedkitLevel) return false;
+
+        int cost = GetUpgradeCost(upgrades.medikitHealLevel);
+        if (!CanAffordUpgrade(cost)) return false;
+
+        DeductCoins(cost);
+        upgrades.medikitHealLevel++;
+        SaveManager.Instance.SaveGame();
+        return true;
+    }
+
+    public bool UpgradeMovementSpeed()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+
+        PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
+        if (upgrades.movementSpeedLevel >= maxSpeedLevel) return false;
+
+        int cost = GetUpgradeCost(upgrades.movementSpeedLevel);
+        if (!CanAffordUpgrade(cost)) return false;
+
+        DeductCoins(cost);
+        upgrades.movementSpeedLevel++;
+        SaveManager.Instance.SaveGame();
+        return true;
+    }
+
+    public bool UpgradeJumpForce()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+
+        PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
+        if (upgrades.jumpForceLevel >= maxJumpLevel) return false;
+
+        int cost = GetUpgradeCost(upgrades.jumpForceLevel);
+        if (!CanAffordUpgrade(cost)) return false;
+
+        DeductCoins(cost);
+        upgrades.jumpForceLevel++;
+        SaveManager.Instance.SaveGame();
+        return true;
+    }
+
+    public bool UpgradeFlitch()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+
+        PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
+        if (upgrades.flitchLevel >= maxFlitchLevel) return false;
+
+        int cost = GetUpgradeCost(upgrades.flitchLevel);
+        if (!CanAffordUpgrade(cost)) return false;
+
+        DeductCoins(cost);
+        upgrades.flitchLevel++;
+        SaveManager.Instance.SaveGame();
+        return true;
+    }
+
+    public bool UpgradeBoricAcid()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+
+        PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
+        if (upgrades.boricAcidLevel >= maxBoricAcidLevel) return false;
+
+        int cost = GetUpgradeCost(upgrades.boricAcidLevel);
+        if (!CanAffordUpgrade(cost)) return false;
+
+        DeductCoins(cost);
+        upgrades.boricAcidLevel++;
+        SaveManager.Instance.SaveGame();
+        return true;
+    }
+
+    // --- Consumables ---
+
+    public bool BuyMedikit()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+
+        if (!CanAffordUpgrade(MEDIKIT_COST)) return false;
+
+        DeductCoins(MEDIKIT_COST);
+        SaveManager.Instance.currentSave.medikitCount++;
+        SaveManager.Instance.SaveGame();
+        return true;
+    }
+
+    public bool BuyGrenade()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+
+        if (!CanAffordUpgrade(GRENADE_COST)) return false;
+
+        DeductCoins(GRENADE_COST);
+        SaveManager.Instance.currentSave.grenadeCount++;
+        SaveManager.Instance.SaveGame();
+        return true;
+    }
+
+    // --- Weapon Upgrades ---
+
+    public bool UpgradePistol()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+
+        WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
+        if (upgrades.pistolLevel >= maxPistolLevel) return false;
+
+        int cost = GetUpgradeCost(upgrades.pistolLevel);
+        if (!CanAffordUpgrade(cost)) return false;
+
+        DeductCoins(cost);
+        upgrades.pistolLevel++;
+        SaveManager.Instance.SaveGame();
+        return true;
+    }
+
+    public bool UpgradeSmg()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+
+        WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
+        if (upgrades.smgLevel >= maxSmgLevel) return false;
+
+        int cost = GetUpgradeCost(upgrades.smgLevel);
+        if (!CanAffordUpgrade(cost)) return false;
+
+        DeductCoins(cost);
+        upgrades.smgLevel++;
+        SaveManager.Instance.SaveGame();
+        return true;
+    }
+
+    public bool UpgradeRailgun()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
+
+        WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
+        if (upgrades.railgunLevel >= maxRailgunLevel) return false;
+
+        int cost = GetUpgradeCost(upgrades.railgunLevel);
+        if (!CanAffordUpgrade(cost)) return false;
+
+        DeductCoins(cost);
+        upgrades.railgunLevel++;
+        SaveManager.Instance.SaveGame();
+        return true;
+    }
+}
+﻿using UnityEngine;
+
+public class PlayerUpgrades : MonoBehaviour
+{
+    [Header("Livelli Attuali (0 = Base)")]
+    public int movementSpeedLevel = 0;
+    public int jumpLevel = 0;
+    public int medkitLevel = 0;
+    public int maxHealthLevel = 0;
+    public int flitchLevel = 0;
+
+    [Header("Livelli Massimi")]
+    public int maxMaxHealthLevel = 4;
+    public int maxSpeedLevel = 3;
+    public int maxJumpLevel = 3;
+    public int maxMedkitLevel = 4;
+    public int maxFlitchLevel = 3;
+
+    [Header("Valore Aggiunto per ogni Livello")]
+    [Tooltip("Quanta velocità si aggiunge al walkSpeed e runSpeed per ogni livello?")]
+    public float extraSpeedPerLevel = 1.0f;
+
+    [Tooltip("Quanta forza di salto si aggiunge per ogni livello?")]
+    public float extraJumpPerLevel = 1.5f;
+
+    [Tooltip("Quanta salute in più cura il medikit per ogni livello? (o capacità massima dello zaino)")]
+    public int extraHealingPerLevel = 5;
+
+    public int extraHealthPerLevel = 25;
+
+    private PlayerMovement movement;
+    private VitalsController vitalsController;
+
+    private float baseWalkSpeed;
+    private float baseRunSpeed;
+    private float baseJumpForce;
+    private int baseMedkitHeal;
+    private int baseMaxHealth;
+
+    void Awake()
+    {
+        movement = GetComponent<PlayerMovement>();
+        vitalsController = GetComponent<VitalsController>();
+
+        if (movement != null)
+        {
+            baseWalkSpeed = movement.walkSpeed;
+            baseRunSpeed = movement.runSpeed;
+            baseJumpForce = movement.jumpForce;
+        }
+        if (vitalsController != null)
+        {
+            baseMedkitHeal = vitalsController.medKitHeal;
+            baseMaxHealth = vitalsController.maxHealth;
+        }
+    }
+
+    public void Init(PlayerUpgradesSave save)
+    {
+        UploadLevelPlayer(save);
+        UpdatePlayerStats();
+    }
+
+    private void UploadLevelPlayer(PlayerUpgradesSave save)
+    {
+        movementSpeedLevel = save.movementSpeedLevel;
+        maxHealthLevel = save.maxHealthLevel;
+        medkitLevel = save.medikitHealLevel;
+        jumpLevel = save.jumpForceLevel;
+        flitchLevel = save.flitchLevel;
+        PlayerPrefs.SetInt("FlitchProbLevel", save.flitchLevel);
+        PlayerPrefs.SetInt(GameConstants.PREF_MAX_ACIDO_BORICO, 1 + save.boricAcidLevel);
+    }
+
+    private void UpdatePlayerStats()
+    {
+        if (movement == null) return;
+
+        movement.walkSpeed = baseWalkSpeed + (movementSpeedLevel * extraSpeedPerLevel);
+        movement.jumpForce = baseJumpForce + (jumpLevel * extraJumpPerLevel);
+        movement.runSpeed = baseRunSpeed + (movementSpeedLevel * extraSpeedPerLevel);
+        vitalsController.medKitHeal = baseMedkitHeal + (medkitLevel * extraHealingPerLevel);
+        vitalsController.maxHealth = baseMaxHealth + (maxHealthLevel * extraHealthPerLevel);
+        PlayerPrefs.SetInt("FlitchProbLevel", flitchLevel);
+    }
+}
