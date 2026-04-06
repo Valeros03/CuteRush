@@ -26,6 +26,16 @@ public class UIPlayerUpgradesPanel : UIPanel
     [SerializeField] private TextMeshProUGUI flitchPriceText;
     [SerializeField] private TextMeshProUGUI boricAcidPriceText;
 
+    private void Awake()
+    {
+        UIEvents.OnLoadMenu += RefreshAll;
+    }
+
+    private void OnDestroy()
+    {
+        UIEvents.OnLoadMenu -= RefreshAll;
+    }
+
     public override void Show()
     {
         base.Show();

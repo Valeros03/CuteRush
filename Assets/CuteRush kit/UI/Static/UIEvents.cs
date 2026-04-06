@@ -3,6 +3,7 @@ using UnityEngine;
 
 public static class UIEvents
 {
+    public static Action OnLoadMenu;
     public static Action<string, Color?> OnShowNotification;
     public static void SendNotification(string msg, Color col) => OnShowNotification?.Invoke(msg, col);
 

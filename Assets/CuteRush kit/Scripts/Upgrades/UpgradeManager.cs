@@ -36,6 +36,11 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        UIEvents.OnLoadMenu?.Invoke();
+    }
+
     /// <summary>
     /// Calculates the cost of the next upgrade based on the current level.
     /// Increment of +150% each level (e.g. 500, 1250, 3125...).
