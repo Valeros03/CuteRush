@@ -1,0 +1,33 @@
+CuteRush Kit - Credits
+
+================================================================================
+MUSIC & AUDIO
+================================================================================
+All songs and audio tracks included in the CuteRush kit are written and produced by the developer.
+
+================================================================================
+MODELS & ASSETS
+================================================================================
+Lowpoly island
+By: alfance
+License: Creative Commons Attribution License
+Original Model: https://sketchfab.com/models/26c3f2f271ab41a5a0c9178ac5304df8
+
+================================================================================
+FONTS
+================================================================================
+TiltWarp Font
+By: The Tilt Project Authors (https://github.com/googlefonts/Tilt-Fonts)
+License: SIL Open Font License, Version 1.1
+
+LiberationSans Font
+By: Digitized data copyright (c) 2010 Google Corporation with Reserved Font Arimo, Tinos and Cousine.
+    Copyright (c) 2012 Red Hat, Inc. with Reserved Font Name Liberation.
+License: SIL Open Font License, Version 1.1
+
+================================================================================
+SPRITES & UI
+================================================================================
+EmojiOne
+By: EmojiOne (https://www.emojione.com/)
+License: Sample of emojis provided by EmojiOne. Please visit their website to view the complete set of their emojis and review their licensing terms.
