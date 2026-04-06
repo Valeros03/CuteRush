@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIPlayerUpgradesPanel : UIPanel
 {
-    [Header("Shop Reference")]
-    [Tooltip("Reference to the UpgradeManager acting as the Shop.")]
-    [SerializeField] private UpgradeManager shop;
-
     [Header("Bar Colors")]
     [SerializeField] private Color filledColor = Color.green;
     [SerializeField] private Color emptyColor = Color.gray;
@@ -21,24 +18,76 @@ public class UIPlayerUpgradesPanel : UIPanel
     [SerializeField] private Image[] flitchBars;
     [SerializeField] private Image[] boricAcidBars;
 
+    [Header("Upgrade Price Texts")]
+    [SerializeField] private TextMeshProUGUI maxHealthPriceText;
+    [SerializeField] private TextMeshProUGUI medkitHealPriceText;
+    [SerializeField] private TextMeshProUGUI movementSpeedPriceText;
+    [SerializeField] private TextMeshProUGUI jumpForcePriceText;
+    [SerializeField] private TextMeshProUGUI flitchPriceText;
+    [SerializeField] private TextMeshProUGUI boricAcidPriceText;
+
     public override void Show()
     {
         base.Show();
-        RefreshAllBars();
+        RefreshAll();
     }
 
-    private void RefreshAllBars()
+    private void RefreshAll()
+    {
+        RefreshMaxHealthUI();
+        RefreshMedkitHealUI();
+        RefreshMovementSpeedUI();
+        RefreshJumpForceUI();
+        RefreshFlitchUI();
+        RefreshBoricAcidUI();
+    }
+
+    private void RefreshMaxHealthUI()
     {
         if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return;
+        int level = SaveManager.Instance.currentSave.playerUpgrades.maxHealthLevel;
+        UpdateBars(maxHealthBars, level);
+        UpdatePrice(maxHealthPriceText, level, UpgradeManager.Instance?.maxMaxHealthLevel ?? 0);
+    }
 
-        PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
+    private void RefreshMedkitHealUI()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return;
+        int level = SaveManager.Instance.currentSave.playerUpgrades.medikitHealLevel;
+        UpdateBars(medkitHealBars, level);
+        UpdatePrice(medkitHealPriceText, level, UpgradeManager.Instance?.maxMedkitLevel ?? 0);
+    }
 
-        UpdateBars(maxHealthBars, upgrades.maxHealthLevel);
-        UpdateBars(medkitHealBars, upgrades.medikitHealLevel);
-        UpdateBars(movementSpeedBars, upgrades.movementSpeedLevel);
-        UpdateBars(jumpForceBars, upgrades.jumpForceLevel);
-        UpdateBars(flitchBars, upgrades.flitchLevel);
-        UpdateBars(boricAcidBars, upgrades.boricAcidLevel);
+    private void RefreshMovementSpeedUI()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return;
+        int level = SaveManager.Instance.currentSave.playerUpgrades.movementSpeedLevel;
+        UpdateBars(movementSpeedBars, level);
+        UpdatePrice(movementSpeedPriceText, level, UpgradeManager.Instance?.maxSpeedLevel ?? 0);
+    }
+
+    private void RefreshJumpForceUI()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return;
+        int level = SaveManager.Instance.currentSave.playerUpgrades.jumpForceLevel;
+        UpdateBars(jumpForceBars, level);
+        UpdatePrice(jumpForcePriceText, level, UpgradeManager.Instance?.maxJumpLevel ?? 0);
+    }
+
+    private void RefreshFlitchUI()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return;
+        int level = SaveManager.Instance.currentSave.playerUpgrades.flitchLevel;
+        UpdateBars(flitchBars, level);
+        UpdatePrice(flitchPriceText, level, UpgradeManager.Instance?.maxFlitchLevel ?? 0);
+    }
+
+    private void RefreshBoricAcidUI()
+    {
+        if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return;
+        int level = SaveManager.Instance.currentSave.playerUpgrades.boricAcidLevel;
+        UpdateBars(boricAcidBars, level);
+        UpdatePrice(boricAcidPriceText, level, UpgradeManager.Instance?.maxBoricAcidLevel ?? 0);
     }
 
     private void UpdateBars(Image[] bars, int currentLevel)
@@ -61,53 +110,68 @@ public class UIPlayerUpgradesPanel : UIPanel
         }
     }
 
+    private void UpdatePrice(TextMeshProUGUI priceText, int currentLevel, int maxLevel)
+    {
+        if (priceText == null) return;
+
+        if (currentLevel >= maxLevel)
+        {
+            priceText.text = "MAX";
+        }
+        else if (UpgradeManager.Instance != null)
+        {
+            int cost = UpgradeManager.Instance.GetUpgradeCost(currentLevel);
+            priceText.text = cost.ToString();
+        }
+    }
+
     // --- OnClick Functions ---
 
     public void OnClickUpgradeMaxHealth()
     {
-        if (shop != null && shop.UpgradeMaxHealth())
+        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeMaxHealth())
         {
-            RefreshAllBars();
+            RefreshMaxHealthUI();
         }
     }
 
     public void OnClickUpgradeMedkitHeal()
     {
-        if (shop != null && shop.UpgradeMedkitHeal())
+        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeMedkitHeal())
         {
-            RefreshAllBars();
+            RefreshMedkitHealUI();
         }
     }
 
     public void OnClickUpgradeMovementSpeed()
     {
-        if (shop != null && shop.UpgradeMovementSpeed())
+        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeMovementSpeed())
         {
-            RefreshAllBars();
+            RefreshMovementSpeedUI();
         }
     }
 
     public void OnClickUpgradeJumpForce()
     {
-        if (shop != null && shop.UpgradeJumpForce())
+        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeJumpForce())
         {
-            RefreshAllBars();
+            RefreshJumpForceUI();
         }
     }
 
     public void OnClickUpgradeFlitch()
     {
-        if (shop != null && shop.UpgradeFlitch())
+        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeFlitch())
         {
-            RefreshAllBars();
+            RefreshFlitchUI();
         }
     }
 
     public void OnClickUpgradeBoricAcid()
     {
-        if (shop != null && shop.UpgradeBoricAcid())
+        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeBoricAcid())
         {
-            RefreshAllBars();
+            RefreshBoricAcidUI();
         }
     }
 }
