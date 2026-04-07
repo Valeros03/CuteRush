@@ -72,6 +72,7 @@ public class UpgradeManager : MonoBehaviour
         if (SaveManager.Instance != null && SaveManager.Instance.currentSave != null)
         {
             SaveManager.Instance.currentSave.coins -= cost;
+            UIEvents.OnCoinChanged?.Invoke();
         }
     }
 
@@ -90,6 +91,7 @@ public class UpgradeManager : MonoBehaviour
         DeductCoins(cost);
         upgrades.maxHealthLevel++;
         SaveManager.Instance.SaveGame();
+        UIEvents.OnUpgradePurchased?.Invoke("MaxHealth");
         return true;
     }
 
@@ -106,6 +108,7 @@ public class UpgradeManager : MonoBehaviour
         DeductCoins(cost);
         upgrades.medikitHealLevel++;
         SaveManager.Instance.SaveGame();
+        UIEvents.OnUpgradePurchased?.Invoke("MedkitHeal");
         return true;
     }
 
@@ -122,6 +125,7 @@ public class UpgradeManager : MonoBehaviour
         DeductCoins(cost);
         upgrades.movementSpeedLevel++;
         SaveManager.Instance.SaveGame();
+        UIEvents.OnUpgradePurchased?.Invoke("MovementSpeed");
         return true;
     }
 
@@ -138,6 +142,7 @@ public class UpgradeManager : MonoBehaviour
         DeductCoins(cost);
         upgrades.jumpForceLevel++;
         SaveManager.Instance.SaveGame();
+        UIEvents.OnUpgradePurchased?.Invoke("JumpForce");
         return true;
     }
 
@@ -154,6 +159,7 @@ public class UpgradeManager : MonoBehaviour
         DeductCoins(cost);
         upgrades.flitchLevel++;
         SaveManager.Instance.SaveGame();
+        UIEvents.OnUpgradePurchased?.Invoke("Flitch");
         return true;
     }
 
@@ -170,6 +176,7 @@ public class UpgradeManager : MonoBehaviour
         DeductCoins(cost);
         upgrades.boricAcidLevel++;
         SaveManager.Instance.SaveGame();
+        UIEvents.OnUpgradePurchased?.Invoke("BoricAcid");
         return true;
     }
 
@@ -184,6 +191,7 @@ public class UpgradeManager : MonoBehaviour
         DeductCoins(costMedikit);
         SaveManager.Instance.currentSave.medikitCount++;
         SaveManager.Instance.SaveGame();
+        UIEvents.OnUpgradePurchased?.Invoke("Medikit");
         return true;
     }
 
@@ -196,6 +204,7 @@ public class UpgradeManager : MonoBehaviour
         DeductCoins(costGrenade);
         SaveManager.Instance.currentSave.grenadeCount++;
         SaveManager.Instance.SaveGame();
+        UIEvents.OnUpgradePurchased?.Invoke("Grenade");
         return true;
     }
 
@@ -214,6 +223,7 @@ public class UpgradeManager : MonoBehaviour
         DeductCoins(cost);
         upgrades.pistolLevel++;
         SaveManager.Instance.SaveGame();
+        UIEvents.OnUpgradePurchased?.Invoke("Pistol");
         return true;
     }
 
@@ -230,6 +240,7 @@ public class UpgradeManager : MonoBehaviour
         DeductCoins(cost);
         upgrades.smgLevel++;
         SaveManager.Instance.SaveGame();
+        UIEvents.OnUpgradePurchased?.Invoke("Smg");
         return true;
     }
 
@@ -246,6 +257,7 @@ public class UpgradeManager : MonoBehaviour
         DeductCoins(cost);
         upgrades.railgunLevel++;
         SaveManager.Instance.SaveGame();
+        UIEvents.OnUpgradePurchased?.Invoke("Railgun");
         return true;
     }
 }
