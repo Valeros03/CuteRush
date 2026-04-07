@@ -59,6 +59,7 @@ public class UIPlayerUpgradesPanel : UIPanel
     public override void Show()
     {
         base.Show();
+        LoadSavedWeaponUI();
         RefreshAll();
     }
 

@@ -7,7 +7,7 @@ public class SaveManager : MonoBehaviour
     public static SaveManager Instance { get; private set; }
     public SaveData currentSave;
     public GlobalLeaderboardData globalLeaderboard;
-    public string GlobalSavePath => Path.Combine(Application.persistentDataPath, "Global/GlobalLeaderboard.json");
+    public string GlobalSavePath => Path.Combine(Application.persistentDataPath, "Global\\GlobalLeaderboard.json");
 
     private void Awake()
     {

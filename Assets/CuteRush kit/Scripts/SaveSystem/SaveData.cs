@@ -34,6 +34,7 @@ public class SaveData
         weaponUpgrades = new WeaponUpgradesSave();
         selectedWeapon = GameConstants.WEAPON_PISTOL;
         mapLeaderboards = new List<MapLeaderboard>();
+        audioSettings = new AudioSettings();
     }
 }
 

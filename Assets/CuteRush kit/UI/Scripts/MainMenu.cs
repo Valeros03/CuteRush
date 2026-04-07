@@ -8,6 +8,7 @@ public class MainMenu : UIPanel
     [SerializeField] private GameObject PlayPanel;
     [SerializeField] private UIPlayerUpgradesPanel UpgradePanel;
 
+
     public void SwitchToUpgrade()
     {
         if (UpgradePanel.gameObject.activeInHierarchy) return;

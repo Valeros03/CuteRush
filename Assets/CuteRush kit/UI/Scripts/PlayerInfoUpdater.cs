@@ -8,7 +8,7 @@ public class PlayerInfoUpdater : MonoBehaviour
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private TextMeshProUGUI grenadeText;
     [SerializeField] private TextMeshProUGUI medKitText;
-    void Start()
+    void OnEnable()
     {
         SaveData curr = SaveManager.Instance.currentSave;
         UpdateInfoUi(curr.grenadeCount, curr.medikitCount, curr.coins);

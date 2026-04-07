@@ -28,10 +28,10 @@ public class AudioManager : MonoBehaviour
     private Dictionary<string, AudioClip> sfxDict;
     private Dictionary<string, AudioClip> ambientDict;
 
-    public float MusicVolume;
-    public float MasterVolume;
-    public float SFXVolume;
-    public float AmbientVolume;
+    public float MusicVolume = 1.0f;
+    public float MasterVolume = 1.0f;
+    public float SFXVolume = 1.0f;
+    public float AmbientVolume = 1.0f;
 
     void Awake()
     {
