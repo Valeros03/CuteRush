@@ -49,11 +49,31 @@ public class UIPlayerUpgradesPanel : UIPanel
     private void Awake()
     {
         UIEvents.OnLoadMenu += RefreshAll;
+        UIEvents.OnUpgradePurchased += HandleUpgradePurchased;
     }
 
     private void OnDestroy()
     {
         UIEvents.OnLoadMenu -= RefreshAll;
+        UIEvents.OnUpgradePurchased -= HandleUpgradePurchased;
+    }
+
+    private void HandleUpgradePurchased(string upgradeName)
+    {
+        switch (upgradeName)
+        {
+            case "MaxHealth": RefreshMaxHealthUI(); break;
+            case "MedkitHeal": RefreshMedkitHealUI(); break;
+            case "MovementSpeed": RefreshMovementSpeedUI(); break;
+            case "JumpForce": RefreshJumpForceUI(); break;
+            case "Flitch": RefreshFlitchUI(); break;
+            case "BoricAcid": RefreshBoricAcidUI(); break;
+            case "Pistol": RefreshPistolUI(); break;
+            case "Smg": RefreshSmgUI(); break;
+            case "Railgun": RefreshRailgunUI(); break;
+            case "Medikit": RefreshConsumablesUI(); break;
+            case "Grenade": RefreshConsumablesUI(); break;
+        }
     }
 
     public override void Show()
@@ -232,89 +252,89 @@ public class UIPlayerUpgradesPanel : UIPanel
 
     public void OnClickUpgradeMaxHealth()
     {
-        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeMaxHealth())
+        if (UpgradeManager.Instance != null)
         {
-            RefreshMaxHealthUI();
+            UpgradeManager.Instance.UpgradeMaxHealth();
         }
     }
 
     public void OnClickUpgradeMedkitHeal()
     {
-        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeMedkitHeal())
+        if (UpgradeManager.Instance != null)
         {
-            RefreshMedkitHealUI();
+            UpgradeManager.Instance.UpgradeMedkitHeal();
         }
     }
 
     public void OnClickUpgradeMovementSpeed()
     {
-        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeMovementSpeed())
+        if (UpgradeManager.Instance != null)
         {
-            RefreshMovementSpeedUI();
+            UpgradeManager.Instance.UpgradeMovementSpeed();
         }
     }
 
     public void OnClickUpgradeJumpForce()
     {
-        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeJumpForce())
+        if (UpgradeManager.Instance != null)
         {
-            RefreshJumpForceUI();
+            UpgradeManager.Instance.UpgradeJumpForce();
         }
     }
 
     public void OnClickUpgradeFlitch()
     {
-        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeFlitch())
+        if (UpgradeManager.Instance != null)
         {
-            RefreshFlitchUI();
+            UpgradeManager.Instance.UpgradeFlitch();
         }
     }
 
     public void OnClickUpgradeBoricAcid()
     {
-        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeBoricAcid())
+        if (UpgradeManager.Instance != null)
         {
-            RefreshBoricAcidUI();
+            UpgradeManager.Instance.UpgradeBoricAcid();
         }
     }
 
     public void OnClickUpgradePistol()
     {
-        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradePistol())
+        if (UpgradeManager.Instance != null)
         {
-            RefreshPistolUI();
+            UpgradeManager.Instance.UpgradePistol();
         }
     }
 
     public void OnClickUpgradeSmg()
     {
-        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeSmg())
+        if (UpgradeManager.Instance != null)
         {
-            RefreshSmgUI();
+            UpgradeManager.Instance.UpgradeSmg();
         }
     }
 
     public void OnClickUpgradeRailgun()
     {
-        if (UpgradeManager.Instance != null && UpgradeManager.Instance.UpgradeRailgun())
+        if (UpgradeManager.Instance != null)
         {
-            RefreshRailgunUI();
+            UpgradeManager.Instance.UpgradeRailgun();
         }
     }
 
     public void OnClickBuyMedikit()
     {
-        if (UpgradeManager.Instance != null && UpgradeManager.Instance.BuyMedikit())
+        if (UpgradeManager.Instance != null)
         {
-            RefreshConsumablesUI();
+            UpgradeManager.Instance.BuyMedikit();
         }
     }
 
     public void OnClickBuyGrenade()
     {
-        if (UpgradeManager.Instance != null && UpgradeManager.Instance.BuyGrenade())
+        if (UpgradeManager.Instance != null)
         {
-            RefreshConsumablesUI();
+            UpgradeManager.Instance.BuyGrenade();
         }
     }
 
