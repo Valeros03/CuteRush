@@ -386,6 +386,58 @@ PrefabInstance:
     - {fileID: 8002360109549070756, guid: 87fdb2e6c68ce454fae4faec5baf0893, type: 3}
     - {fileID: 6168747737686223563, guid: 87fdb2e6c68ce454fae4faec5baf0893, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 87fdb2e6c68ce454fae4faec5baf0893, type: 3}
+--- !u!1 &149764844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 149764846}
+  - component: {fileID: 149764845}
+  m_Layer: 0
+  m_Name: Market
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &149764845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149764844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98e4a3818a4feb04ca29acc1c145a221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxMaxHealthLevel: 4
+  maxSpeedLevel: 3
+  maxJumpLevel: 3
+  maxMedkitLevel: 4
+  maxFlitchLevel: 3
+  maxBoricAcidLevel: 3
+  maxPistolLevel: 3
+  maxSmgLevel: 3
+  maxRailgunLevel: 3
+--- !u!4 &149764846
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149764844}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 717.38043, y: 352.36963, z: -180.84541}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &208284453
 GameObject:
   m_ObjectHideFlags: 0
@@ -1416,6 +1468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c998febe84603754f9205e4cffffe7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraAnimator: {fileID: 0}
 --- !u!95 &1764647932
 Animator:
   serializedVersion: 3

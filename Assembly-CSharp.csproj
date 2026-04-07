@@ -103,6 +103,7 @@
      <Compile Include="Assets\CuteRush kit\Scripts\SaveSystem\MainMenuSaveIntegration.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\SaveSystem\SaveData.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\SaveSystem\SaveManager.cs" />
+     <Compile Include="Assets\CuteRush kit\Scripts\Upgrades\UpgradeManager.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Utility\GameConstants.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Utility\GameExtension.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Weapons\AutoGun.cs" />
@@ -134,6 +135,7 @@
      <Compile Include="Assets\CuteRush kit\UI\Scripts\PlayerInfoUpdater.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\SaveSlotUI.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Scripts\UiAcidoBorico.cs" />
+     <Compile Include="Assets\CuteRush kit\UI\Scripts\UIPlayerUpgradesPanel.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Singleton\UIManager.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Static\UIEvents.cs" />
      <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Survival Essentials\Example\Scripts\AnimatedFire.cs" />
@@ -185,6 +187,7 @@
      <None Include="Assets\AQUAS-Lite\Shaders\AQUAS-Lite_Frontface.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\CuteRush kit\CREDITS.txt" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
      <None Include="Assets\CuteRush kit\Mappa\Shaders\LowPolyPBRShader.shader" />
      <None Include="Assets\CuteRush kit\UI\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
