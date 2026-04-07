@@ -94,7 +94,6 @@ public class HUD : UIPanel
         UIEvents.OnShowNotification += ShowMessage;
         UIEvents.OnRequestInteract += ShowInteract;
         UIEvents.OnHideInteract += HideInteract;
-        UIEvents.OnCoinChanged += UpdateCoinUI;
     }
 
     public void Disconnect()
@@ -129,7 +128,6 @@ public class HUD : UIPanel
         UIEvents.OnShowNotification -= ShowMessage;
         UIEvents.OnRequestInteract -= ShowInteract;
         UIEvents.OnHideInteract -= HideInteract;
-        UIEvents.OnCoinChanged -= UpdateCoinUI;
     }
 
     private void UpdateAmmoUI(int current, int total)
@@ -152,14 +150,6 @@ public class HUD : UIPanel
     public void UpdateMedkit(int count) => medikitText.text = count.ToString();
     public void UpdateGrenade(int count) => grenadeText.text = count.ToString();
     public void UpdateScore(int score) => scoreText.text = score.ToString();
-
-    private void UpdateCoinUI()
-    {
-        if (SaveManager.Instance != null && SaveManager.Instance.currentSave != null)
-        {
-            UpdateGold(SaveManager.Instance.currentSave.coins);
-        }
-    }
 
     private void ShowMessage(string message, Color? color = null)
     {
