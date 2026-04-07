@@ -56,7 +56,6 @@ public class UpgradeManager : MonoBehaviour
         UIEvents.OnLoadMenu?.Invoke();
     }
 
-    // Ora passiamo il costo base specifico dell'upgrade come parametro
     public int GetUpgradeCost(int baseCost, int currentLevel)
     {
         return Mathf.RoundToInt(baseCost * Mathf.Pow(costMultiplier, currentLevel));

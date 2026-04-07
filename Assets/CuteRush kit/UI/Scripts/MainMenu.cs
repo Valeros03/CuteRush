@@ -6,19 +6,19 @@ public class MainMenu : UIPanel
 {
 
     [SerializeField] private GameObject PlayPanel;
-    [SerializeField] private GameObject UpgradePanel;
+    [SerializeField] private UIPlayerUpgradesPanel UpgradePanel;
 
     public void SwitchToUpgrade()
     {
-        if (UpgradePanel.activeInHierarchy) return;
+        if (UpgradePanel.gameObject.activeInHierarchy) return;
         PlayPanel.SetActive(false);
-        UpgradePanel.SetActive(true);
+        UpgradePanel.Show();
     }
 
     public void SwitchToPlay()
     {
         if (PlayPanel.activeInHierarchy) return;
-        UpgradePanel.SetActive(false);
+        UpgradePanel.Hide();
         PlayPanel.SetActive(true);
     }
 

@@ -42,6 +42,10 @@ public class UIPlayerUpgradesPanel : UIPanel
     [SerializeField] private TextMeshProUGUI grenadeCountText;
     [SerializeField] private TextMeshProUGUI grenadePriceText;
 
+    public Toggle RadioPistol;
+    public Toggle RadioSMG;
+    public Toggle RadioRailgun;
+
     private void Awake()
     {
         UIEvents.OnLoadMenu += RefreshAll;
@@ -71,6 +75,34 @@ public class UIPlayerUpgradesPanel : UIPanel
         RefreshSmgUI();
         RefreshRailgunUI();
         RefreshConsumablesUI();
+    }
+
+    public void LoadSavedWeaponUI()
+    {
+        string savedWeapon = PlayerPrefs.GetString("Weapon", GameConstants.WEAPON_PISTOL);
+
+        RadioPistol.isOn = false;
+        RadioSMG.isOn = false;
+        RadioRailgun.isOn = false;
+
+        switch (savedWeapon)
+        {
+            case "Pistol":
+                RadioPistol.isOn = true;
+                break;
+
+            case "SMG":
+                RadioSMG.isOn = true;
+                break;
+
+            case "Railgun":
+                RadioRailgun.isOn = true;
+                break;
+
+            default:
+                RadioPistol.isOn = true;
+                break;
+        }
     }
 
     private void RefreshMaxHealthUI()
@@ -155,7 +187,6 @@ public class UIPlayerUpgradesPanel : UIPanel
         if (grenadeCountText != null)
             grenadeCountText.text = SaveManager.Instance.currentSave.grenadeCount.ToString();
 
-        // I prezzi ora vengono presi dall'UpgradeManager
         if (medkitPriceText != null)
             medkitPriceText.text = UpgradeManager.Instance.costMedikit.ToString();
 
@@ -183,7 +214,6 @@ public class UIPlayerUpgradesPanel : UIPanel
         }
     }
 
-    // Aggiunto il parametro baseCost
     private void UpdatePrice(TextMeshProUGUI priceText, int currentLevel, int maxLevel, int baseCost)
     {
         if (priceText == null) return;
@@ -194,13 +224,10 @@ public class UIPlayerUpgradesPanel : UIPanel
         }
         else if (UpgradeManager.Instance != null)
         {
-            // Ora passiamo il costo base specifico all'UpgradeManager
             int cost = UpgradeManager.Instance.GetUpgradeCost(baseCost, currentLevel);
             priceText.text = cost.ToString();
         }
     }
-
-    // --- OnClick Functions ---
 
     public void OnClickUpgradeMaxHealth()
     {
@@ -288,5 +315,18 @@ public class UIPlayerUpgradesPanel : UIPanel
         {
             RefreshConsumablesUI();
         }
+    }
+
+    public void SetPistol()
+    {
+        PlayerPrefs.SetString("Weapon", GameConstants.WEAPON_PISTOL);
+    }
+    public void SetSMG()
+    {
+        PlayerPrefs.SetString("Weapon", GameConstants.WEAPON_SMG);
+    }
+    public void SetRailgun()
+    {
+        PlayerPrefs.SetString("Weapon", GameConstants.WEAPON_RAILGUN);
     }
 }
