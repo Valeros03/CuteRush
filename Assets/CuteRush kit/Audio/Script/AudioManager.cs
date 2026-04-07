@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Mixer")]
     public AudioMixer mixer;
 
+    private const string MASTER_VOL_PARAM = GameConstants.AUDIO_MIXER_MASTER;
     private const string MUSIC_VOL_PARAM = GameConstants.AUDIO_MIXER_MUSIC;
     private const string SFX_VOL_PARAM = GameConstants.AUDIO_MIXER_SFX;
     private const string AMBIENT_VOL_PARAM = GameConstants.AUDIO_MIXER_AMBIENT;
@@ -26,6 +27,11 @@ public class AudioManager : MonoBehaviour
     private Dictionary<string, AudioClip> musicDict;
     private Dictionary<string, AudioClip> sfxDict;
     private Dictionary<string, AudioClip> ambientDict;
+
+    public float MusicVolume;
+    public float MasterVolume;
+    public float SFXVolume;
+    public float AmbientVolume;
 
     void Awake()
     {
@@ -90,19 +96,26 @@ public class AudioManager : MonoBehaviour
             ambientSource.Play();
         }
     }
-
+    public void SetMasterVolume(float linear)
+    {
+        MasterVolume = linear;
+        mixer.SetFloat(MASTER_VOL_PARAM, LinearToDecibel(linear));
+    }
     public void SetMusicVolume(float linear)
     {
+        MusicVolume = linear;
         mixer.SetFloat(MUSIC_VOL_PARAM, LinearToDecibel(linear));
     }
 
     public void SetSFXVolume(float linear)
     {
+        SFXVolume = linear;
         mixer.SetFloat(SFX_VOL_PARAM, LinearToDecibel(linear));
     }
 
     public void SetAmbientVolume(float linear)
     {
+        AmbientVolume = linear;
         mixer.SetFloat(AMBIENT_VOL_PARAM, LinearToDecibel(linear));
     }
 

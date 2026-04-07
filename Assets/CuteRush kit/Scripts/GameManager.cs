@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("INTERO: " + PlayerPrefs.GetInt("DifficultyProfile"));
         currentDifficulty = difficulties[PlayerPrefs.GetInt("DifficultyProfile")];
         Debug.Log(currentDifficulty);
         if (Instance == null)

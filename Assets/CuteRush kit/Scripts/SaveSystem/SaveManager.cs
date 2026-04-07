@@ -128,6 +128,11 @@ public class SaveManager : MonoBehaviour
         }
 
         currentSave.selectedWeapon = PlayerPrefs.GetString("Weapon", GameConstants.WEAPON_PISTOL);
+        currentSave.audioSettings.MasterVolume = AudioManager.Instance.MasterVolume;
+        currentSave.audioSettings.SFXVolume = AudioManager.Instance.SFXVolume;
+        currentSave.audioSettings.AmbientVolume = AudioManager.Instance.AmbientVolume;
+        currentSave.audioSettings.MusicVolume = AudioManager.Instance.MusicVolume;
+        
 
         string json = JsonUtility.ToJson(currentSave, true);
         string safeUsername = SanitizeFilename(currentSave.username);
@@ -157,6 +162,10 @@ public class SaveManager : MonoBehaviour
                 currentSave = JsonUtility.FromJson<SaveData>(json);
 
                 PlayerPrefs.SetString("Weapon", string.IsNullOrEmpty(currentSave.selectedWeapon) ? GameConstants.WEAPON_PISTOL : currentSave.selectedWeapon);
+                AudioManager.Instance.SetMusicVolume(currentSave.audioSettings.MusicVolume);
+                AudioManager.Instance.SetAmbientVolume(currentSave.audioSettings.AmbientVolume);
+                AudioManager.Instance.SetSFXVolume(currentSave.audioSettings.SFXVolume);
+                AudioManager.Instance.SetMasterVolume(currentSave.audioSettings.MasterVolume);
                 PlayerPrefs.Save();
 
                 Debug.Log($"Game loaded successfully from: {filePath}");

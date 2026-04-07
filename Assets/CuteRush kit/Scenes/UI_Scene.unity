@@ -317,6 +317,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1710436224, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -274
+      objectReference: {fileID: 0}
     - target: {fileID: 1481541472038073059, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
         type: 3}
       propertyPath: m_Name
@@ -426,6 +430,51 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475516414462797414, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
+        type: 3}
+      propertyPath: m_text
+      value: Acido Borico
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475516414462797414, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475516414462797414, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475516414462797414, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475516414462797414, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475516414462797414, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475516414462797414, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475516414462797414, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475516414462797414, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79,
+        type: 3}
+      propertyPath: m_textAlignment
+      value: 514
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84e8f98fe39d8d0499c1e29b8f6f0a79, type: 3}

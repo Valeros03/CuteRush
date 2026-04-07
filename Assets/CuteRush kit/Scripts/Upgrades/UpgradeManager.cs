@@ -18,11 +18,26 @@ public class UpgradeManager : MonoBehaviour
     public int maxSmgLevel = 3;
     public int maxRailgunLevel = 3;
 
-    private const int BASE_COST = 500;
-    private const float COST_MULTIPLIER = 2.5f;
+    [Header("Base Costs - Player Upgrades")]
+    public int baseCostMaxHealth = 500;
+    public int baseCostSpeed = 500;
+    public int baseCostJump = 500;
+    public int baseCostMedkitHeal = 500;
+    public int baseCostFlitch = 500;
+    public int baseCostBoricAcid = 500;
 
-    private const int MEDIKIT_COST = 1000;
-    private const int GRENADE_COST = 400;
+    [Header("Base Costs - Weapons")]
+    public int baseCostPistol = 500;
+    public int baseCostSmg = 500;
+    public int baseCostRailgun = 500;
+
+    [Header("Costs - Consumables (Fixed Price)")]
+    public int costMedikit = 1000;
+    public int costGrenade = 400;
+
+    [Header("Upgrade Settings")]
+    [Tooltip("Moltiplicatore che definisce quanto aumenta il costo ad ogni livello")]
+    public float costMultiplier = 2.5f;
 
     private void Awake()
     {
@@ -41,15 +56,10 @@ public class UpgradeManager : MonoBehaviour
         UIEvents.OnLoadMenu?.Invoke();
     }
 
-    /// <summary>
-    /// Calculates the cost of the next upgrade based on the current level.
-    /// Increment of +150% each level (e.g. 500, 1250, 3125...).
-    /// </summary>
-    /// <param name="currentLevel">The current level of the upgrade (0 means base level).</param>
-    /// <returns>The cost to upgrade to the next level.</returns>
-    public int GetUpgradeCost(int currentLevel)
+    // Ora passiamo il costo base specifico dell'upgrade come parametro
+    public int GetUpgradeCost(int baseCost, int currentLevel)
     {
-        return Mathf.RoundToInt(BASE_COST * Mathf.Pow(COST_MULTIPLIER, currentLevel));
+        return Mathf.RoundToInt(baseCost * Mathf.Pow(costMultiplier, currentLevel));
     }
 
     private bool CanAffordUpgrade(int cost)
@@ -75,7 +85,7 @@ public class UpgradeManager : MonoBehaviour
         PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
         if (upgrades.maxHealthLevel >= maxMaxHealthLevel) return false;
 
-        int cost = GetUpgradeCost(upgrades.maxHealthLevel);
+        int cost = GetUpgradeCost(baseCostMaxHealth, upgrades.maxHealthLevel);
         if (!CanAffordUpgrade(cost)) return false;
 
         DeductCoins(cost);
@@ -91,7 +101,7 @@ public class UpgradeManager : MonoBehaviour
         PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
         if (upgrades.medikitHealLevel >= maxMedkitLevel) return false;
 
-        int cost = GetUpgradeCost(upgrades.medikitHealLevel);
+        int cost = GetUpgradeCost(baseCostMedkitHeal, upgrades.medikitHealLevel);
         if (!CanAffordUpgrade(cost)) return false;
 
         DeductCoins(cost);
@@ -107,7 +117,7 @@ public class UpgradeManager : MonoBehaviour
         PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
         if (upgrades.movementSpeedLevel >= maxSpeedLevel) return false;
 
-        int cost = GetUpgradeCost(upgrades.movementSpeedLevel);
+        int cost = GetUpgradeCost(baseCostSpeed, upgrades.movementSpeedLevel);
         if (!CanAffordUpgrade(cost)) return false;
 
         DeductCoins(cost);
@@ -123,7 +133,7 @@ public class UpgradeManager : MonoBehaviour
         PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
         if (upgrades.jumpForceLevel >= maxJumpLevel) return false;
 
-        int cost = GetUpgradeCost(upgrades.jumpForceLevel);
+        int cost = GetUpgradeCost(baseCostJump, upgrades.jumpForceLevel);
         if (!CanAffordUpgrade(cost)) return false;
 
         DeductCoins(cost);
@@ -139,7 +149,7 @@ public class UpgradeManager : MonoBehaviour
         PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
         if (upgrades.flitchLevel >= maxFlitchLevel) return false;
 
-        int cost = GetUpgradeCost(upgrades.flitchLevel);
+        int cost = GetUpgradeCost(baseCostFlitch, upgrades.flitchLevel);
         if (!CanAffordUpgrade(cost)) return false;
 
         DeductCoins(cost);
@@ -155,7 +165,7 @@ public class UpgradeManager : MonoBehaviour
         PlayerUpgradesSave upgrades = SaveManager.Instance.currentSave.playerUpgrades;
         if (upgrades.boricAcidLevel >= maxBoricAcidLevel) return false;
 
-        int cost = GetUpgradeCost(upgrades.boricAcidLevel);
+        int cost = GetUpgradeCost(baseCostBoricAcid, upgrades.boricAcidLevel);
         if (!CanAffordUpgrade(cost)) return false;
 
         DeductCoins(cost);
@@ -170,9 +180,9 @@ public class UpgradeManager : MonoBehaviour
     {
         if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
 
-        if (!CanAffordUpgrade(MEDIKIT_COST)) return false;
+        if (!CanAffordUpgrade(costMedikit)) return false;
 
-        DeductCoins(MEDIKIT_COST);
+        DeductCoins(costMedikit);
         SaveManager.Instance.currentSave.medikitCount++;
         SaveManager.Instance.SaveGame();
         return true;
@@ -182,9 +192,9 @@ public class UpgradeManager : MonoBehaviour
     {
         if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
 
-        if (!CanAffordUpgrade(GRENADE_COST)) return false;
+        if (!CanAffordUpgrade(costGrenade)) return false;
 
-        DeductCoins(GRENADE_COST);
+        DeductCoins(costGrenade);
         SaveManager.Instance.currentSave.grenadeCount++;
         SaveManager.Instance.SaveGame();
         return true;
@@ -199,7 +209,7 @@ public class UpgradeManager : MonoBehaviour
         WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
         if (upgrades.pistolLevel >= maxPistolLevel) return false;
 
-        int cost = GetUpgradeCost(upgrades.pistolLevel);
+        int cost = GetUpgradeCost(baseCostPistol, upgrades.pistolLevel);
         if (!CanAffordUpgrade(cost)) return false;
 
         DeductCoins(cost);
@@ -215,7 +225,7 @@ public class UpgradeManager : MonoBehaviour
         WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
         if (upgrades.smgLevel >= maxSmgLevel) return false;
 
-        int cost = GetUpgradeCost(upgrades.smgLevel);
+        int cost = GetUpgradeCost(baseCostSmg, upgrades.smgLevel);
         if (!CanAffordUpgrade(cost)) return false;
 
         DeductCoins(cost);
@@ -231,7 +241,7 @@ public class UpgradeManager : MonoBehaviour
         WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
         if (upgrades.railgunLevel >= maxRailgunLevel) return false;
 
-        int cost = GetUpgradeCost(upgrades.railgunLevel);
+        int cost = GetUpgradeCost(baseCostRailgun, upgrades.railgunLevel);
         if (!CanAffordUpgrade(cost)) return false;
 
         DeductCoins(cost);
