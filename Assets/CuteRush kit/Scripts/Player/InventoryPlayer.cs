@@ -8,6 +8,9 @@ public class InventoryPlayer : MonoBehaviour
     private int GrenadeCount = 0;
     private int coins = 0;
 
+    private int initialShopMedkits = 0;
+    private int initialShopGrenades = 0;
+
     private static int MaxMedkit = 10;
     private static int MaxGrenade = 10;
 
@@ -31,6 +34,8 @@ public class InventoryPlayer : MonoBehaviour
     {
         MedkitCount = startMedkit;
         GrenadeCount = startGrenade;
+        initialShopGrenades = startGrenade;
+        initialShopMedkits = startMedkit;
 
         if (PlayerPrefs.HasKey(GameConstants.PREF_MAX_ACIDO_BORICO))
         {
@@ -90,6 +95,9 @@ public class InventoryPlayer : MonoBehaviour
     public int getMedkitCount() => MedkitCount;
     public int getGrenadeCount() => GrenadeCount;
     public int getGold() => coins;
+
+    public int getSavedMedkitsToKeep() => Mathf.Min(initialShopMedkits, MedkitCount);
+    public int getSavedGrenadesToKeep() => Mathf.Min(initialShopGrenades, GrenadeCount);
 
     public bool addMedkit()
     {

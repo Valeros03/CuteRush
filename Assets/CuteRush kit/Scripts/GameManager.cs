@@ -166,7 +166,13 @@ public class GameManager : MonoBehaviour
 
     private void SaveLastMatch()
     {
-        SaveManager.Instance.currentSave.coins += Player.GetComponentInChildren<InventoryPlayer>().getGold();
+        InventoryPlayer inventory = Player.GetComponentInChildren<InventoryPlayer>();
+        if (inventory != null)
+        {
+            SaveManager.Instance.currentSave.coins += inventory.getGold();
+            SaveManager.Instance.currentSave.medikitCount = inventory.getSavedMedkitsToKeep();
+            SaveManager.Instance.currentSave.grenadeCount = inventory.getSavedGrenadesToKeep();
+        }
         SaveManager.Instance.SubmitScore(mapName, finalScore, currentDifficulty.difficultyName);
 
     }
