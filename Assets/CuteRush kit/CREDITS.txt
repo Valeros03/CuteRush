@@ -1,13 +1,10 @@
 CuteRush Kit - Credits
 
-================================================================================
 MUSIC & AUDIO
-================================================================================
+
 All songs and audio tracks included in the CuteRush kit are written and produced by the developer.
 
-================================================================================
 MODELS & ASSETS
-================================================================================
 Lowpoly island
 By: alfance
 License: Creative Commons Attribution License
@@ -29,9 +26,7 @@ Low Poly Water System
 By: Pinwheel Studio / Ebru Dogan / Unity Asset Store
 License: Standard Unity Asset Store EULA
 
-================================================================================
 FONTS
-================================================================================
 TiltWarp Font
 By: The Tilt Project Authors (https://github.com/googlefonts/Tilt-Fonts)
 License: SIL Open Font License, Version 1.1
@@ -41,9 +36,7 @@ By: Digitized data copyright (c) 2010 Google Corporation with Reserved Font Arim
     Copyright (c) 2012 Red Hat, Inc. with Reserved Font Name Liberation.
 License: SIL Open Font License, Version 1.1
 
-================================================================================
 SPRITES & UI
-================================================================================
 GUI - Basic Button Pack
 By: LAYERLAB (Unity Asset Store)
 License: Standard Unity Asset Store EULA

@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject latterbox;
     [SerializeField] private GameObject topBar;
     [SerializeField] private GameObject bottomBar;
+    [SerializeField] private GameObject CreditScreen;
 
     [SerializeField] private LoadingScreenController loadingScreen;
 
@@ -86,5 +87,13 @@ public class UIManager : MonoBehaviour
     public void ShowContinueButton()
     {
         loadingScreen.EnableContinueButton();
+    }
+
+    public void CreditButtonClicked()
+    {
+        CreditScreen.SetActive(!CreditScreen.activeInHierarchy);
+        if (CreditScreen.activeInHierarchy) saveMenu.Hide();
+        else saveMenu.Show();
+
     }
 }

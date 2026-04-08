@@ -19,6 +19,7 @@ public class MainMenu : UIPanel
     private bool isMapExplicitlySelected = false;
     private bool isDifficultyExplicitlySelected = false;
 
+    
     public void OnEnable()
     {
         if (errorMissingSelectionText != null)
@@ -69,12 +70,15 @@ public class MainMenu : UIPanel
 
     public void OnPlayButtonClicked()
     {
-        if (!isMapExplicitlySelected || !isDifficultyExplicitlySelected)
+        Debug.Log("");
+        //if (!isMapExplicitlySelected || !isDifficultyExplicitlySelected)
+        if (!isDifficultyExplicitlySelected)
         {
             if (errorMissingSelectionText != null)
             {
                 errorMissingSelectionText.SetActive(true);
             }
+            Debug.Log("difficoltà non selezionata");
             return;
         }
 
@@ -86,4 +90,5 @@ public class MainMenu : UIPanel
     {
         Application.Quit();
     }
+
 }
