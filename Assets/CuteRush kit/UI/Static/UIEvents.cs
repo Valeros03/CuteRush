@@ -10,6 +10,10 @@ public static class UIEvents
     public static Action<string> OnRequestInteract;
     public static Action OnHideInteract;
 
+    public static Action OnCoinChanged;
+    public static Action<string> OnUpgradePurchased;
+
+
     public static void TriggerInteract(string msg) => OnRequestInteract?.Invoke(msg);
     public static void TriggerHideInteract() => OnHideInteract?.Invoke();
 }
