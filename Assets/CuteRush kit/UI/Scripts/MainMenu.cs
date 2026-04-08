@@ -70,9 +70,7 @@ public class MainMenu : UIPanel
 
     public void OnPlayButtonClicked()
     {
-        Debug.Log("");
-        //if (!isMapExplicitlySelected || !isDifficultyExplicitlySelected)
-        if (!isDifficultyExplicitlySelected)
+        if (!isMapExplicitlySelected || !isDifficultyExplicitlySelected)
         {
             if (errorMissingSelectionText != null)
             {

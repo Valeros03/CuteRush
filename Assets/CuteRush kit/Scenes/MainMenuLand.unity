@@ -420,10 +420,22 @@ MonoBehaviour:
   maxJumpLevel: 3
   maxMedkitLevel: 4
   maxFlitchLevel: 3
-  maxBoricAcidLevel: 3
+  maxBoricAcidLevel: 1
   maxPistolLevel: 3
   maxSmgLevel: 3
   maxRailgunLevel: 3
+  baseCostMaxHealth: 500
+  baseCostSpeed: 500
+  baseCostJump: 500
+  baseCostMedkitHeal: 500
+  baseCostFlitch: 500
+  baseCostBoricAcid: 0
+  baseCostPistol: 500
+  baseCostSmg: 500
+  baseCostRailgun: 500
+  costMedikit: 1000
+  costGrenade: 400
+  costMultiplier: 2.5
 --- !u!4 &149764846
 Transform:
   m_ObjectHideFlags: 0

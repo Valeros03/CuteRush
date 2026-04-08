@@ -8,7 +8,9 @@ public class LatterboxRequester : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance.PlaySFX(GameConstants.AUDIO_CAM_WOOSH);
         AudioManager.Instance.PlayMusic(GameConstants.AUDIO_MENU_SONG, true);
+        AudioManager.Instance.PlayAmbient(GameConstants.AUDIO_NIGHT_SOUND, true);
     }
 
     private void Update()
@@ -33,7 +35,7 @@ public class LatterboxRequester : MonoBehaviour
     {
         UIManager.Instance.OpenMenu();
         UIManager.Instance.ResetLatterbox();
-        this.enabled = false; // Stop checking for input once menu is shown naturally
+        this.enabled = false;
     }
 
     private void SkipAnimation()

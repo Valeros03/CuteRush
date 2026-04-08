@@ -32,6 +32,9 @@
 
     public const string AUDIO_IN_GAME_SONG = "MainMenuSong";
     public const string AUDIO_MENU_SONG = "GameOverSong";
+    public const string AUDIO_NIGHT_SOUND = "NightBackgroundNoise";
+    public const string AUDIO_BACK_GAME = "Spaceship Engine Light";
+    public const string AUDIO_CAM_WOOSH = "AirWooshCam";
 
     public const string PREF_MAX_ACIDO_BORICO = "MaxAcidoBorico";
 
