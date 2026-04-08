@@ -52,6 +52,8 @@ public class WeaponSpawner : InteractableItem
 
     private IEnumerator RespawnSequence(float waitTime)
     {
+        yield return Addressables.InitializeAsync();
+
         currentWeaponData = ChooseNextWeapon();
 
         if (currentWeaponData.hologramRef != null && currentWeaponData.hologramRef.RuntimeKeyIsValid())

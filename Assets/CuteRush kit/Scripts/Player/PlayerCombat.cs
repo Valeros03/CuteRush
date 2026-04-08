@@ -312,9 +312,10 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        readyWeapon.transform.SetParent(weaponHolder.transform);
+        readyWeapon.transform.SetParent(weaponHolder.transform, false);
         readyWeapon.transform.localPosition = Vector3.zero;
         readyWeapon.transform.localRotation = Quaternion.identity;
+        readyWeapon.transform.localScale = Vector3.one;
         readyWeapon.SetActive(true);
 
         weaponAnimator = readyWeapon.GetComponent<Animator>();
