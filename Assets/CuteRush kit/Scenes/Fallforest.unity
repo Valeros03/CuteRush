@@ -171,6 +171,7 @@ MonoBehaviour:
   mapName: Fallforest
   difficultyAdder: 10
   currentDifficulty: {fileID: 11400000, guid: 655bdc14d34bf2e408a71436a56a78b4, type: 2}
+  backgroundSound: WindSound
 --- !u!4 &133777535
 Transform:
   m_ObjectHideFlags: 0

@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     private int finalScore = 0;
 
     public event Action<int, int> OnTimeUpdated;
+    [SerializeField] private string backgroundSound;
 
     public enum GameState
     {
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        AudioManager.Instance.PlayAmbient(backgroundSound, true);
     }
 
     private void Start()
