@@ -76,8 +76,6 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    // --- Player Upgrades ---
-
     public bool UpgradeMaxHealth()
     {
         if (SaveManager.Instance == null || SaveManager.Instance.currentSave == null) return false;
