@@ -17,9 +17,9 @@ MonoBehaviour:
   damage: 28
   range: 80
   reloadDuration: 0.6
-  shootDelay: 0.07132857
+  shootDelay: 0.058723528
   bulletSpeed: 200
-  fireRate: 14
+  fireRate: 17
   fireMode: 1
   baseBloomSpread: 0.25
   crosshairShootBloomKick: 50

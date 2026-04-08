@@ -96,6 +96,8 @@ public abstract class Enemy : MonoBehaviour
     public LayerMask obstacleMask;
     public float projectileRadius = 0.3f;
 
+    public float playerRadiusForPrediction = 0.5f;
+
     protected struct PlayerRecord
     {
         public Vector3 position;
@@ -482,6 +484,7 @@ public abstract class Enemy : MonoBehaviour
         {
             return fireOrigin + transform.forward;
         }
+
         Vector3 targetPoint = player.position + Vector3.up * 0.5f;
 
         Vector3 shortTermVel = GetVelocityOverWindow(shortWindowTime);
@@ -491,7 +494,6 @@ public abstract class Enemy : MonoBehaviour
         float aiConfidence = Mathf.Clamp01((dotProduct + 1f) / 2f);
 
         Vector3 chosenVelocity = Vector3.Lerp(longTermVel, shortTermVel, aiConfidence);
-
         smoothedAimVelocity = Vector3.Lerp(smoothedAimVelocity, chosenVelocity, Time.deltaTime * aiAdaptationSpeed);
 
         Vector3 finalVelocity = smoothedAimVelocity;
@@ -503,7 +505,17 @@ public abstract class Enemy : MonoBehaviour
 
         float predictionDampening = Mathf.Lerp(0.0f, 1.0f, aiConfidence);
 
-        return targetPoint + (finalVelocity * timeToHit * predictionDampening);
+        Vector3 rawPrediction = targetPoint + (finalVelocity * timeToHit * predictionDampening);
+
+        Vector3 predictionDirection = rawPrediction - targetPoint;
+        float predictionDistance = predictionDirection.magnitude;
+
+        if (Physics.SphereCast(targetPoint, playerRadiusForPrediction, predictionDirection.normalized, out RaycastHit hit, predictionDistance, obstacleMask))
+        {
+            return hit.point + (hit.normal * playerRadiusForPrediction);
+        }
+
+        return rawPrediction;
     }
 
     private Vector3 GetVelocityOverWindow(float timeWindow)
