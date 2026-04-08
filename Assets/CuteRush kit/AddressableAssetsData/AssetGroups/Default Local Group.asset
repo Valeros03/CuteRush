@@ -42,15 +42,15 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: c10183dd5b8a9c74b9dd5f9ca29ec3ab
-    m_Address: SMG Preset 1
+    m_Address: SMG Preset 0
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 607a682fdf44adc4cb83aefec22d3e82
-    m_Address: Pistol Preset 1
+    m_Address: Pistol Preset 0
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 44f855b0e19d460478fc61fa2185d31c
-    m_Address: Railgun Preset 1
+    m_Address: Railgun Preset 0
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: e80344f6474160e4fb69c6ec1d5b29fe

@@ -56,6 +56,29 @@ public class WeaponSpawner : InteractableItem
 
         currentWeaponData = ChooseNextWeapon();
 
+
+        // --- INIZIO DEBUG ---
+        Debug.Log($"<color=cyan>[WeaponSpawner] Inizio Respawn. Arma scelta: {currentWeaponData.weaponName}</color>");
+
+        if (currentWeaponData.hologramRef == null)
+        {
+            Debug.LogError($"[WeaponSpawner] hologramRef per {currentWeaponData.weaponName} è VUOTO nell'Inspector!");
+        }
+        else if (!currentWeaponData.hologramRef.RuntimeKeyIsValid())
+        {
+            Debug.LogError($"[WeaponSpawner] La chiave dell'ologramma per {currentWeaponData.weaponName} NON E' VALIDA. Sicuro che il prefab sia segnato come Addressable?");
+        }
+        else
+        {
+            Debug.Log($"[WeaponSpawner] Ologramma valido. Inizio caricamento...");
+            AsyncOperationHandle<GameObject> hologramHandle = Addressables.InstantiateAsync(currentWeaponData.hologramRef, spawnPoint.position, spawnPoint.rotation, transform);
+            yield return hologramHandle;
+
+            currentHologram = hologramHandle.Result;
+            currentHologram.SetActive(false);
+            Debug.Log($"[WeaponSpawner] Ologramma caricato con successo!");
+        }
+
         if (currentWeaponData.hologramRef != null && currentWeaponData.hologramRef.RuntimeKeyIsValid())
         {
             AsyncOperationHandle<GameObject> hologramHandle = Addressables.InstantiateAsync(currentWeaponData.hologramRef, spawnPoint.position, spawnPoint.rotation, transform);

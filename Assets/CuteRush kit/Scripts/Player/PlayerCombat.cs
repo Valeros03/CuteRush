@@ -67,8 +67,6 @@ public class PlayerCombat : MonoBehaviour
         if (weaponHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
         {
             GameObject readyWeapon = weaponHandle.Result;
-            readyWeapon.transform.localPosition = Vector3.zero;
-            readyWeapon.transform.localRotation = Quaternion.identity;
 
             weaponAnimator = readyWeapon.GetComponent<Animator>();
             GunBase startingGun = readyWeapon.GetComponent<GunBase>();
@@ -349,9 +347,6 @@ public class PlayerCombat : MonoBehaviour
         }
 
         readyWeapon.transform.SetParent(weaponHolder.transform, false);
-        readyWeapon.transform.localPosition = Vector3.zero;
-        readyWeapon.transform.localRotation = Quaternion.identity;
-        readyWeapon.transform.localScale = Vector3.one;
         readyWeapon.SetActive(true);
 
         weaponAnimator = readyWeapon.GetComponent<Animator>();

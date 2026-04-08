@@ -105,21 +105,21 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 1
-    agentSlope: 30
-    agentClimb: 0.5
+    agentRadius: 0.95
+    agentHeight: 0.65
+    agentSlope: 33.3
+    agentClimb: 0.64
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
-    minRegionArea: 2
+    minRegionArea: 20
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.31666666
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 560fcea4488237849a8fc768973cd468, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 3b2b96478b824374a9a690c4fde22452, type: 2}
 --- !u!4 &9236152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 860005248876275174, guid: 22d3c055f1b39e646bc5809b74d22d41,
@@ -1393,12 +1393,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d941199d4a58fcb45adc75ea8e37c42c, type: 3}
---- !u!4 &451665273 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3196395982400417084, guid: d941199d4a58fcb45adc75ea8e37c42c,
-    type: 3}
-  m_PrefabInstance: {fileID: 451665272}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &487582823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4597,6 +4591,46 @@ PrefabInstance:
         type: 3}
       propertyPath: interactText
       value: Cambiare Arma
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911963889305948136, guid: 4b6d2b5848ea2874f80aa4d8e804bdbe,
+        type: 3}
+      propertyPath: availableWeapons.Array.data[1].hologramRef.m_AssetGUID
+      value: f17dc5b1dd669c34a83b060e54f9f17a
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911963889305948136, guid: 4b6d2b5848ea2874f80aa4d8e804bdbe,
+        type: 3}
+      propertyPath: availableWeapons.Array.data[1].realWeaponRef.m_AssetGUID
+      value: 051ee69b176b3de4f8755dec1afff34d
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911963889305948136, guid: 4b6d2b5848ea2874f80aa4d8e804bdbe,
+        type: 3}
+      propertyPath: availableWeapons.Array.data[0].realWeaponRef.m_AssetGUID
+      value: 759acd5866708494c82e5ede359c6580
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911963889305948136, guid: 4b6d2b5848ea2874f80aa4d8e804bdbe,
+        type: 3}
+      propertyPath: availableWeapons.Array.data[0].hologramRef.m_AssetGUID
+      value: 2cc77856985b29c4e984cbbe53b40a2e
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911963889305948136, guid: 4b6d2b5848ea2874f80aa4d8e804bdbe,
+        type: 3}
+      propertyPath: availableWeapons.Array.data[2].hologramRef.m_AssetGUID
+      value: 8b317748b3c69d046b8601be10b43d1d
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911963889305948136, guid: 4b6d2b5848ea2874f80aa4d8e804bdbe,
+        type: 3}
+      propertyPath: availableWeapons.Array.data[2].realWeaponRef.m_AssetGUID
+      value: 928263b02ccdb874ab93e49fd6ee12d9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911963889305948136, guid: 4b6d2b5848ea2874f80aa4d8e804bdbe,
+        type: 3}
+      propertyPath: availableWeapons.Array.data[0].weaponName
+      value: Pistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911963889305948136, guid: 4b6d2b5848ea2874f80aa4d8e804bdbe,
+        type: 3}
+      propertyPath: availableWeapons.Array.data[2].weaponName
+      value: Railgun
       objectReference: {fileID: 0}
     - target: {fileID: 4911963889305948137, guid: 4b6d2b5848ea2874f80aa4d8e804bdbe,
         type: 3}
@@ -12350,75 +12384,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22d3c055f1b39e646bc5809b74d22d41, type: 3}
---- !u!1001 &1915013423
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 451665273}
-    m_Modifications:
-    - target: {fileID: 4625643918831965447, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.081
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625643918831965447, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625643918831965447, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.618
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625643918831965447, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625643918831965447, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625643918831965447, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625643918831965447, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625643918831965447, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625643918831965447, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625643918831965447, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625643918831965447, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8388502902427339659, guid: 759acd5866708494c82e5ede359c6580,
-        type: 3}
-      propertyPath: m_Name
-      value: Pistola base
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 759acd5866708494c82e5ede359c6580, type: 3}
 --- !u!4 &1955701495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 860005248876275174, guid: 22d3c055f1b39e646bc5809b74d22d41,

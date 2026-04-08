@@ -583,6 +583,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   projectileRadius: 0.3
+  playerRadiusForPrediction: 0.5
   meleeRange: 1
 --- !u!135 &3361318816062773775
 SphereCollider:
