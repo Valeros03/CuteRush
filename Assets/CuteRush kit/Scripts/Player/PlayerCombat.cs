@@ -54,14 +54,14 @@ public class PlayerCombat : MonoBehaviour
         yield return Addressables.InitializeAsync();
 
         string selectedWeaponName = PlayerPrefs.GetString("Weapon", GameConstants.WEAPON_PISTOL);
-        string prefabPath = $"Assets/CuteRush kit/Prefab/Weapons/{selectedWeaponName}.prefab";
+        string prefabKey = $"{selectedWeaponName}";
 
         foreach (Transform child in weaponHolder.transform)
         {
             Destroy(child.gameObject);
         }
 
-        UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GameObject> weaponHandle = Addressables.InstantiateAsync(prefabPath, weaponHolder.transform);
+        UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GameObject> weaponHandle = Addressables.InstantiateAsync(prefabKey, weaponHolder.transform);
         yield return weaponHandle;
 
         if (weaponHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
@@ -94,23 +94,59 @@ public class PlayerCombat : MonoBehaviour
                     }
                 }
 
-                string addressablePath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{selectedWeaponName} Preset {level}.asset";
-                UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> statsHandle = Addressables.LoadAssetAsync<GunStats>(addressablePath);
-                yield return statsHandle;
+                string addressableKey = $"{selectedWeaponName} Preset {level}";
+                UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> statsHandle = default;
+                bool pathIsValid = true;
 
-                if (statsHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                try
                 {
-                    startingGun.stats = statsHandle.Result;
+                    statsHandle = Addressables.LoadAssetAsync<GunStats>(addressableKey);
                 }
-                else
+                catch (System.Exception e)
                 {
-                    Debug.LogWarning($"PlayerCombat Addressables failed to load weapon stats at {addressablePath}. Trying fallback.");
-                    string fallbackPath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{selectedWeaponName} Preset 1.asset";
-                    UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackPath);
-                    yield return fallbackHandle;
-                    if (fallbackHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                    Debug.LogError($"[PlayerCombat] Errore critico Addressables sulla chiave '{addressableKey}': {e.Message}");
+                    pathIsValid = false;
+                }
+
+                if (pathIsValid)
+                {
+                    yield return statsHandle;
+
+                    if (statsHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
                     {
-                        startingGun.stats = fallbackHandle.Result;
+                        startingGun.stats = statsHandle.Result;
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"PlayerCombat Addressables failed to load weapon stats at {addressableKey}. Trying fallback.");
+
+                        string fallbackKey = $"{selectedWeaponName} Preset 1";
+                        UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> fallbackHandle = default;
+                        bool fallbackPathIsValid = true;
+
+                        try
+                        {
+                            fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackKey);
+                        }
+                        catch (System.Exception e)
+                        {
+                            Debug.LogError($"[PlayerCombat] Fallita l'inizializzazione del fallback '{fallbackKey}': {e.Message}");
+                            fallbackPathIsValid = false;
+                        }
+
+                        if (fallbackPathIsValid)
+                        {
+                            yield return fallbackHandle;
+
+                            if (fallbackHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                            {
+                                startingGun.stats = fallbackHandle.Result;
+                            }
+                            else
+                            {
+                                Debug.LogError($"[PlayerCombat] Fallito anche il caricamento effettivo del fallback '{fallbackKey}'!");
+                            }
+                        }
                     }
                 }
 
@@ -131,7 +167,7 @@ public class PlayerCombat : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"Failed to load weapon prefab from Addressables at {prefabPath}");
+            Debug.LogError($"Failed to load weapon prefab from Addressables at {prefabKey}");
         }
 
         isInitialized = true;
