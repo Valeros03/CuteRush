@@ -61,24 +61,10 @@ public class PlayerCombat : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GameObject> weaponHandle = default;
-        bool weaponHandleValid = false;
-        try
-        {
-            weaponHandle = Addressables.InstantiateAsync(prefabPath, weaponHolder.transform);
-            weaponHandleValid = true;
-        }
-        catch (UnityEngine.AddressableAssets.InvalidKeyException)
-        {
-            Debug.LogError($"PlayerCombat Addressables InvalidKeyException at {prefabPath}.");
-        }
+        UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GameObject> weaponHandle = Addressables.InstantiateAsync(prefabPath, weaponHolder.transform);
+        yield return weaponHandle;
 
-        if (weaponHandleValid)
-        {
-            yield return weaponHandle;
-        }
-
-        if (weaponHandleValid && weaponHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+        if (weaponHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
         {
             GameObject readyWeapon = weaponHandle.Result;
             readyWeapon.transform.localPosition = Vector3.zero;
@@ -109,52 +95,20 @@ public class PlayerCombat : MonoBehaviour
                 }
 
                 string addressablePath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{selectedWeaponName} Preset {level}.asset";
-                UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> statsHandle = default;
-                bool statsHandleValid = false;
-                try
-                {
-                    statsHandle = Addressables.LoadAssetAsync<GunStats>(addressablePath);
-                    statsHandleValid = true;
-                }
-                catch (UnityEngine.AddressableAssets.InvalidKeyException)
-                {
-                    Debug.LogWarning($"PlayerCombat Addressables InvalidKeyException at {addressablePath}. Trying fallback.");
-                }
+                UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> statsHandle = Addressables.LoadAssetAsync<GunStats>(addressablePath);
+                yield return statsHandle;
 
-                if (statsHandleValid)
-                {
-                    yield return statsHandle;
-                }
-
-                if (statsHandleValid && statsHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                if (statsHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
                 {
                     startingGun.stats = statsHandle.Result;
                 }
                 else
                 {
-                    if (statsHandleValid)
-                    {
-                        Debug.LogWarning($"PlayerCombat Addressables failed to load weapon stats at {addressablePath}. Trying fallback.");
-                    }
+                    Debug.LogWarning($"PlayerCombat Addressables failed to load weapon stats at {addressablePath}. Trying fallback.");
                     string fallbackPath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{selectedWeaponName} Preset 1.asset";
-                    UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> fallbackHandle = default;
-                    bool fallbackHandleValid = false;
-                    try
-                    {
-                        fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackPath);
-                        fallbackHandleValid = true;
-                    }
-                    catch (UnityEngine.AddressableAssets.InvalidKeyException)
-                    {
-                        Debug.LogWarning($"PlayerCombat Addressables InvalidKeyException at {fallbackPath}.");
-                    }
-
-                    if (fallbackHandleValid)
-                    {
-                        yield return fallbackHandle;
-                    }
-
-                    if (fallbackHandleValid && fallbackHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                    UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GunStats> fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackPath);
+                    yield return fallbackHandle;
+                    if (fallbackHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
                     {
                         startingGun.stats = fallbackHandle.Result;
                     }
@@ -358,9 +312,10 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        readyWeapon.transform.SetParent(weaponHolder.transform);
+        readyWeapon.transform.SetParent(weaponHolder.transform, false);
         readyWeapon.transform.localPosition = Vector3.zero;
         readyWeapon.transform.localRotation = Quaternion.identity;
+        readyWeapon.transform.localScale = Vector3.one;
         readyWeapon.SetActive(true);
 
         weaponAnimator = readyWeapon.GetComponent<Animator>();

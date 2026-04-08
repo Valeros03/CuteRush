@@ -52,45 +52,27 @@ public class WeaponSpawner : InteractableItem
 
     private IEnumerator RespawnSequence(float waitTime)
     {
+        yield return Addressables.InitializeAsync();
+
         currentWeaponData = ChooseNextWeapon();
 
         if (currentWeaponData.hologramRef != null && currentWeaponData.hologramRef.RuntimeKeyIsValid())
         {
-            AsyncOperationHandle<GameObject> hologramHandle = default;
-            bool hologramHandleValid = false;
-            try
-            {
-                hologramHandle = Addressables.InstantiateAsync(currentWeaponData.hologramRef, spawnPoint.position, spawnPoint.rotation, transform);
-                hologramHandleValid = true;
-            }
-            catch (UnityEngine.AddressableAssets.InvalidKeyException) { }
+            AsyncOperationHandle<GameObject> hologramHandle = Addressables.InstantiateAsync(currentWeaponData.hologramRef, spawnPoint.position, spawnPoint.rotation, transform);
+            yield return hologramHandle;
 
-            if (hologramHandleValid)
-            {
-                yield return hologramHandle;
-                currentHologram = hologramHandle.Result;
-                if (currentHologram != null) currentHologram.SetActive(false);
-            }
+            currentHologram = hologramHandle.Result;
+            currentHologram.SetActive(false);
         }
         if (currentWeaponData.realWeaponRef != null && currentWeaponData.realWeaponRef.RuntimeKeyIsValid())
         {
-            AsyncOperationHandle<GameObject> weaponHandle = default;
-            bool weaponHandleValid = false;
-            try
-            {
-                weaponHandle = Addressables.InstantiateAsync(currentWeaponData.realWeaponRef, spawnPoint.position, spawnPoint.rotation, transform);
-                weaponHandleValid = true;
-            }
-            catch (UnityEngine.AddressableAssets.InvalidKeyException) { }
+            AsyncOperationHandle<GameObject> weaponHandle = Addressables.InstantiateAsync(currentWeaponData.realWeaponRef, spawnPoint.position, spawnPoint.rotation, transform);
+            yield return weaponHandle;
 
-            if (weaponHandleValid)
-            {
-                yield return weaponHandle;
-                preInstantiatedWeapon = weaponHandle.Result;
-                if (preInstantiatedWeapon != null) preInstantiatedWeapon.SetActive(false);
-            }
+            preInstantiatedWeapon = weaponHandle.Result;
+            preInstantiatedWeapon.SetActive(false);
 
-            GunBase gunComponent = preInstantiatedWeapon != null ? preInstantiatedWeapon.GetComponent<GunBase>() : null;
+            GunBase gunComponent = preInstantiatedWeapon.GetComponent<GunBase>();
             if (gunComponent != null)
             {
                 string weaponName = currentWeaponData.weaponName;
@@ -114,61 +96,26 @@ public class WeaponSpawner : InteractableItem
                 }
 
                 string addressablePath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponName} Preset {level}.asset";
-                AsyncOperationHandle<GunStats> statsHandle = default;
-                bool statsHandleValid = false;
-                try
-                {
-                    statsHandle = Addressables.LoadAssetAsync<GunStats>(addressablePath);
-                    statsHandleValid = true;
-                }
-                catch (UnityEngine.AddressableAssets.InvalidKeyException)
-                {
-                    Debug.LogWarning($"Addressables InvalidKeyException at {addressablePath}. Trying fallback.");
-                }
+                AsyncOperationHandle<GunStats> statsHandle = Addressables.LoadAssetAsync<GunStats>(addressablePath);
+                yield return statsHandle;
 
-                if (statsHandleValid)
-                {
-                    yield return statsHandle;
-                }
-
-                if (statsHandleValid && statsHandle.Status == AsyncOperationStatus.Succeeded)
+                if (statsHandle.Status == AsyncOperationStatus.Succeeded)
                 {
                     gunComponent.stats = statsHandle.Result;
                 }
                 else
                 {
-                    if (statsHandleValid)
-                    {
-                        Debug.LogWarning($"Addressables failed to load weapon stats at {addressablePath}. Trying fallback.");
-                    }
+                    Debug.LogWarning($"Addressables failed to load weapon stats at {addressablePath}. Trying fallback.");
                     string fallbackPath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponName} Preset 1.asset";
-                    AsyncOperationHandle<GunStats> fallbackHandle = default;
-                    bool fallbackHandleValid = false;
-                    try
-                    {
-                        fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackPath);
-                        fallbackHandleValid = true;
-                    }
-                    catch (UnityEngine.AddressableAssets.InvalidKeyException)
-                    {
-                        Debug.LogWarning($"Addressables InvalidKeyException at {fallbackPath}.");
-                    }
-
-                    if (fallbackHandleValid)
-                    {
-                        yield return fallbackHandle;
-                    }
-
-                    if (fallbackHandleValid && fallbackHandle.Status == AsyncOperationStatus.Succeeded)
+                    AsyncOperationHandle<GunStats> fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackPath);
+                    yield return fallbackHandle;
+                    if (fallbackHandle.Status == AsyncOperationStatus.Succeeded)
                     {
                         gunComponent.stats = fallbackHandle.Result;
                     }
                     else
                     {
-                        if (fallbackHandleValid)
-                        {
-                            Debug.LogError($"Fallback Addressables failed to load at {fallbackPath}.");
-                        }
+                        Debug.LogError($"Fallback Addressables failed to load at {fallbackPath}.");
                     }
                 }
             }
