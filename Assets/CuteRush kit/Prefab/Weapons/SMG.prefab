@@ -191,6 +191,7 @@ MonoBehaviour:
   tracer: {fileID: 7378615310817722096}
   tracerDuration: 0.05
   stats: {fileID: 11400000, guid: c10183dd5b8a9c74b9dd5f9ca29ec3ab, type: 2}
+  baseAnimReloadDuration: 1.2
   currentBulletCount: 0
   isReloading: 0
 --- !u!1 &4787169507164838053

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ChargeGun : GunBase
 {
+    [Header("Base Timings (For Scaling)")]
+    [Tooltip("La durata ORIGINALE del tempo di carica (shootDelay) prima degli upgrade. Serve per scalare l'audio.")]
+    public float baseChargeDuration = 1.0f;
+
     private Coroutine chargeCoroutine;
-    [Header("Charge Gun Settings")]
-    [SerializeField] private float sphereRadius = 0.3f;
-    [SerializeField] private float penetrationFalloff = 0.75f;
-    [SerializeField] private int maxPenetrations = 5;
 
     protected override void Shoot()
     {
@@ -19,13 +19,33 @@ public class ChargeGun : GunBase
     private IEnumerator ChargeRoutine()
     {
         IsInShotCooldown = true;
-        audioController?.PlayCharge();
+
+        float currentDelay = Mathf.Max(0.001f, stats.shootDelay);
+        float speedMultiplier = baseChargeDuration / currentDelay;
+
+        AudioSource audioSource = null;
+        float originalPitch = 1f;
+
+        if (audioController != null)
+        {
+            audioSource = audioController.GetComponent<AudioSource>();
+            if (audioSource != null)
+            {
+                originalPitch = audioSource.pitch;
+                audioSource.pitch = speedMultiplier;
+            }
+
+            audioController.PlayCharge();
+        }
+
         float elapsed = 0f;
 
         while (elapsed < stats.shootDelay)
         {
             if (!gameObject.activeSelf || isReloading)
             {
+                if (audioSource != null) audioSource.pitch = originalPitch;
+
                 IsInShotCooldown = false;
                 chargeCoroutine = null;
                 yield break;
@@ -33,6 +53,8 @@ public class ChargeGun : GunBase
             elapsed += Time.deltaTime;
             yield return null;
         }
+
+        if (audioSource != null) audioSource.pitch = originalPitch;
 
         if (gameObject.activeInHierarchy)
             SpawnBulletVisualsAndRaycast();
@@ -51,6 +73,12 @@ public class ChargeGun : GunBase
             StopCoroutine(chargeCoroutine);
             chargeCoroutine = null;
             IsInShotCooldown = false;
+
+            if (audioController != null)
+            {
+                AudioSource src = audioController.GetComponent<AudioSource>();
+                if (src != null) src.pitch = 1f;
+            }
         }
     }
 
@@ -66,7 +94,7 @@ public class ChargeGun : GunBase
 
         RaycastHit[] hits = Physics.SphereCastAll(
             firePoint.position,
-            sphereRadius,
+            stats.sphereRadius,
             direction,
             stats.range,
             hitLayers
@@ -75,7 +103,7 @@ public class ChargeGun : GunBase
         hits = hits.OrderBy(h => h.distance).ToArray();
 
         Vector3 tracerEnd = hits.Length > 0
-            ? hits[Mathf.Min(hits.Length - 1, maxPenetrations - 1)].point
+            ? hits[Mathf.Min(hits.Length - 1, stats.maxPenetrations - 1)].point
             : firePoint.position + direction * stats.range;
 
         DrawTracer(firePoint.position, tracerEnd);
@@ -91,10 +119,10 @@ public class ChargeGun : GunBase
             {
                 Vector3 shotDir = (hit.point - firePoint.position).normalized;
                 enemy.TakeDamage(currentDamage, shotDir, hit.point);
-                currentDamage *= penetrationFalloff;
+                currentDamage *= stats.penetrationFalloff;
                 enemiesHit++;
 
-                if (enemiesHit >= maxPenetrations)
+                if (enemiesHit >= stats.maxPenetrations)
                     break;
             }
             else

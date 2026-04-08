@@ -51,6 +51,8 @@ public class PlayerCombat : MonoBehaviour
 
     private System.Collections.IEnumerator InitWeaponRoutine()
     {
+        yield return Addressables.InitializeAsync();
+
         string selectedWeaponName = PlayerPrefs.GetString("Weapon", GameConstants.WEAPON_PISTOL);
         string prefabPath = $"Assets/CuteRush kit/Prefab/Weapons/{selectedWeaponName}.prefab";
 

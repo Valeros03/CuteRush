@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e516c5e759d9d884eb6b34c892f6102a, type: 3}
   m_Name: SMG Preset 1
   m_EditorClassIdentifier: 
-  totalAmmo: 300
-  magazineSize: 60
-  damage: 10
-  range: 40
-  reloadDuration: 1.2
-  shootDelay: 0
+  totalAmmo: 340
+  magazineSize: 70
+  damage: 16
+  range: 45
+  reloadDuration: 1
+  shootDelay: 0.1
   bulletSpeed: 200
-  fireRate: 10
+  fireRate: 9
   fireMode: 1
   baseBloomSpread: 0.25
-  crosshairShootBloomKick: 70
+  crosshairShootBloomKick: 75
+  sphereRadius: 0.3
+  penetrationFalloff: 0.75
+  maxPenetrations: 5

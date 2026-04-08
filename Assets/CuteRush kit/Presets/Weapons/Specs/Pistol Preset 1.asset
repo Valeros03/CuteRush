@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e516c5e759d9d884eb6b34c892f6102a, type: 3}
   m_Name: Pistol Preset 1
   m_EditorClassIdentifier: 
-  totalAmmo: 48
-  magazineSize: 24
-  damage: 25
-  range: 50
-  reloadDuration: 1.5
-  shootDelay: 0
-  bulletSpeed: 50
-  fireRate: 4
+  totalAmmo: 56
+  magazineSize: 28
+  damage: 30
+  range: 55
+  reloadDuration: 1.3
+  shootDelay: 0.1
+  bulletSpeed: 55
+  fireRate: 4.5
   fireMode: 0
   baseBloomSpread: 0.1
-  crosshairShootBloomKick: 2
+  crosshairShootBloomKick: 1.8
+  sphereRadius: 0.3
+  penetrationFalloff: 0.75
+  maxPenetrations: 5

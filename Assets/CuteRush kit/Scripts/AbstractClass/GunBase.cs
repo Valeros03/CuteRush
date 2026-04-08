@@ -26,6 +26,8 @@ public abstract class GunBase : MonoBehaviour
     [Header("Stats")]
     public GunStats stats;
 
+    public float baseAnimReloadDuration = 2.0f;
+
     [HideInInspector] public int currentBulletCount;
     protected int currentMagLeft;
 
@@ -181,21 +183,39 @@ public abstract class GunBase : MonoBehaviour
     {
         onGunReloadStart?.Invoke();
         isReloading = true;
-        if (animator != null) animator.SetTrigger(GameConstants.ANIM_RECHARGE);
 
-        float audioDelay = audioController != null ? audioController.Recharge.length : 0f;
-        if (stats.reloadDuration > audioDelay)
+        float speedMultiplier = baseAnimReloadDuration / stats.reloadDuration;
+
+        if (animator != null)
         {
-            yield return new WaitForSeconds(stats.reloadDuration - audioDelay);
-            audioController?.PlayRecharge();
-            yield return new WaitForSeconds(audioDelay);
+            animator.SetFloat("ReloadSpeed", speedMultiplier);
+            animator.SetTrigger(GameConstants.ANIM_RECHARGE);
+        }
+
+        if (audioController != null && audioController.Recharge != null)
+        {
+            AudioSource reloadSource = audioController.GetComponent<AudioSource>();
+
+            if (reloadSource != null)
+            {
+                float originalPitch = reloadSource.pitch;
+                reloadSource.pitch = speedMultiplier;
+
+                audioController.PlayRecharge();
+
+                yield return new WaitForSeconds(stats.reloadDuration);
+                reloadSource.pitch = originalPitch;
+            }
+            else
+            {
+                audioController.PlayRecharge();
+                yield return new WaitForSeconds(stats.reloadDuration);
+            }
         }
         else
         {
-            audioController?.PlayRecharge();
             yield return new WaitForSeconds(stats.reloadDuration);
         }
-
         if (currentMagLeft > 0)
         {
             int needed = stats.magazineSize - currentBulletCount;

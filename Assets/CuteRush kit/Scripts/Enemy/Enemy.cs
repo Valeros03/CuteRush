@@ -478,6 +478,10 @@ public abstract class Enemy : MonoBehaviour
 
     protected Vector3 GetPredictedPlayerPosition(float bulletSpeed, Vector3 fireOrigin)
     {
+        if (player == null)
+        {
+            return fireOrigin + transform.forward;
+        }
         Vector3 targetPoint = player.position + Vector3.up * 0.5f;
 
         Vector3 shortTermVel = GetVelocityOverWindow(shortWindowTime);
@@ -504,7 +508,7 @@ public abstract class Enemy : MonoBehaviour
 
     private Vector3 GetVelocityOverWindow(float timeWindow)
     {
-        if (playerHistory.Count < 2) return Vector3.zero;
+        if (player == null || playerHistory.Count < 2) return Vector3.zero;
 
         float targetTime = Time.time - timeWindow;
         PlayerRecord pastRecord = playerHistory[playerHistory.Count - 1];

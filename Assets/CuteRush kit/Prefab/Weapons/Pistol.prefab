@@ -508,7 +508,7 @@ GameObject:
   - component: {fileID: 3837914804021574036}
   - component: {fileID: 4792911739500385081}
   m_Layer: 14
-  m_Name: Pistola base
+  m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -550,6 +550,7 @@ MonoBehaviour:
   tracer: {fileID: 174680115784635392}
   tracerDuration: 0.05
   stats: {fileID: 11400000, guid: 607a682fdf44adc4cb83aefec22d3e82, type: 2}
+  baseAnimReloadDuration: 1.5
   currentBulletCount: 0
   isReloading: 0
   shotCooldown: 0.2

@@ -5,10 +5,11 @@ using UnityEngine;
 public class DifficultySetter : MonoBehaviour
 {
     [SerializeField] private int difficulty;
+    [SerializeField] private MainMenu menu;
     public void OnClick()
     {
         PlayerPrefs.SetInt("DifficultyProfile", difficulty);
-        Debug.Log(PlayerPrefs.GetInt("DifficultyProfile"));
+        menu.MarkDifficultyAsSelected();
     }
 
 }
