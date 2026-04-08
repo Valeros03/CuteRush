@@ -64,6 +64,7 @@ public class WeaponSpawner : InteractableItem
             currentHologram = hologramHandle.Result;
             currentHologram.SetActive(false);
         }
+
         if (currentWeaponData.realWeaponRef != null && currentWeaponData.realWeaponRef.RuntimeKeyIsValid())
         {
             AsyncOperationHandle<GameObject> weaponHandle = Addressables.InstantiateAsync(currentWeaponData.realWeaponRef, spawnPoint.position, spawnPoint.rotation, transform);
@@ -81,41 +82,64 @@ public class WeaponSpawner : InteractableItem
                 if (SaveManager.Instance != null && SaveManager.Instance.currentSave != null && SaveManager.Instance.currentSave.weaponUpgrades != null)
                 {
                     WeaponUpgradesSave upgrades = SaveManager.Instance.currentSave.weaponUpgrades;
-                    if (weaponName == GameConstants.WEAPON_PISTOL)
-                    {
-                        level = upgrades.pistolLevel;
-                    }
-                    else if (weaponName == GameConstants.WEAPON_SMG)
-                    {
-                        level = upgrades.smgLevel;
-                    }
-                    else if (weaponName == GameConstants.WEAPON_RAILGUN)
-                    {
-                        level = upgrades.railgunLevel;
-                    }
+                    if (weaponName == GameConstants.WEAPON_PISTOL) level = upgrades.pistolLevel;
+                    else if (weaponName == GameConstants.WEAPON_SMG) level = upgrades.smgLevel;
+                    else if (weaponName == GameConstants.WEAPON_RAILGUN) level = upgrades.railgunLevel;
                 }
 
-                string addressablePath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponName} Preset {level}.asset";
-                AsyncOperationHandle<GunStats> statsHandle = Addressables.LoadAssetAsync<GunStats>(addressablePath);
-                yield return statsHandle;
+                string addressableKey = $"{weaponName} Preset {level}";
+                AsyncOperationHandle<GunStats> statsHandle = default;
+                bool pathIsValid = true;
 
-                if (statsHandle.Status == AsyncOperationStatus.Succeeded)
+                try
                 {
-                    gunComponent.stats = statsHandle.Result;
+                    statsHandle = Addressables.LoadAssetAsync<GunStats>(addressableKey);
                 }
-                else
+                catch (System.Exception e)
                 {
-                    Debug.LogWarning($"Addressables failed to load weapon stats at {addressablePath}. Trying fallback.");
-                    string fallbackPath = $"Assets/CuteRush kit/Presets/Weapons/Specs/{weaponName} Preset 1.asset";
-                    AsyncOperationHandle<GunStats> fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackPath);
-                    yield return fallbackHandle;
-                    if (fallbackHandle.Status == AsyncOperationStatus.Succeeded)
+                    Debug.LogError($"[WeaponSpawner] Errore critico Addressables sulla chiave '{addressableKey}': {e.Message}");
+                    pathIsValid = false;
+                }
+
+                if (pathIsValid)
+                {
+                    yield return statsHandle;
+
+                    if (statsHandle.Status == AsyncOperationStatus.Succeeded)
                     {
-                        gunComponent.stats = fallbackHandle.Result;
+                        gunComponent.stats = statsHandle.Result;
                     }
                     else
                     {
-                        Debug.LogError($"Fallback Addressables failed to load at {fallbackPath}.");
+                        Debug.LogWarning($"Addressables ha fallito il caricamento di '{addressableKey}'. Tento il fallback al livello 1.");
+
+                        string fallbackKey = $"{weaponName} Preset 1";
+                        AsyncOperationHandle<GunStats> fallbackHandle = default;
+                        bool fallbackPathIsValid = true;
+
+                        try
+                        {
+                            fallbackHandle = Addressables.LoadAssetAsync<GunStats>(fallbackKey);
+                        }
+                        catch (System.Exception e)
+                        {
+                            Debug.LogError($"[WeaponSpawner] Fallita l'inizializzazione del fallback '{fallbackKey}': {e.Message}");
+                            fallbackPathIsValid = false;
+                        }
+
+                        if (fallbackPathIsValid)
+                        {
+                            yield return fallbackHandle;
+
+                            if (fallbackHandle.Status == AsyncOperationStatus.Succeeded)
+                            {
+                                gunComponent.stats = fallbackHandle.Result;
+                            }
+                            else
+                            {
+                                Debug.LogError($"[WeaponSpawner] Fallito anche il caricamento effettivo del fallback '{fallbackKey}'!");
+                            }
+                        }
                     }
                 }
             }

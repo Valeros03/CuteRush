@@ -375,22 +375,22 @@ PrefabInstance:
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[0].spawnWeight
-      value: 0
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[1].spawnWeight
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: enemyTypes.Array.data[2].spawnWeight
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: maxConcurrentEnemies
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6133025322619975029, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
@@ -542,12 +542,12 @@ PrefabInstance:
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: maxConcurrentEnemies
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: initialSpawnCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6133025322619975029, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
@@ -4301,12 +4301,12 @@ PrefabInstance:
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: maxConcurrentEnemies
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: initialSpawnCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6133025322619975029, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
@@ -12536,12 +12536,12 @@ PrefabInstance:
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: maxConcurrentEnemies
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 270362570199547995, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}
       propertyPath: initialSpawnCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6133025322619975029, guid: 639edc5ac3d28c84b98d7f4b619e53c5,
         type: 3}

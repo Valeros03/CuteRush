@@ -18,75 +18,75 @@ MonoBehaviour:
   m_GUID: 2d11114db7cf80440b135523f99d3077
   m_SerializeEntries:
   - m_GUID: 051ee69b176b3de4f8755dec1afff34d
-    m_Address: Assets/CuteRush kit/Prefab/Weapons/SMG.prefab
+    m_Address: SMG
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 928263b02ccdb874ab93e49fd6ee12d9
-    m_Address: Assets/CuteRush kit/Prefab/Weapons/Railgun.prefab
+    m_Address: Railgun
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 759acd5866708494c82e5ede359c6580
-    m_Address: Assets/CuteRush kit/Prefab/Weapons/Pistol.prefab
+    m_Address: Pistol
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 8b317748b3c69d046b8601be10b43d1d
-    m_Address: Assets/CuteRush kit/Prefab/Weapons/RailgunHologram.prefab
+    m_Address: RailgunHologram
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: f17dc5b1dd669c34a83b060e54f9f17a
-    m_Address: Assets/CuteRush kit/Prefab/Weapons/SMGHologram.prefab
+    m_Address: SMGHologram
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 2cc77856985b29c4e984cbbe53b40a2e
-    m_Address: Assets/CuteRush kit/Prefab/Weapons/BaseGunHologram.prefab
+    m_Address: BaseGunHologram
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: c10183dd5b8a9c74b9dd5f9ca29ec3ab
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/SMG Preset 1.asset
+    m_Address: SMG Preset 1
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 607a682fdf44adc4cb83aefec22d3e82
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/Pistol Preset 1.asset
+    m_Address: Pistol Preset 1
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 44f855b0e19d460478fc61fa2185d31c
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/Railgun Preset 1.asset
+    m_Address: Railgun Preset 1
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: e80344f6474160e4fb69c6ec1d5b29fe
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/Pistol Preset 1.asset
+    m_Address: Pistol Preset 1
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 9fcaf6b9f32de5b409a7d83cfefb7a7b
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/Pistol Preset 2.asset
+    m_Address: Pistol Preset 2
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: c3e67be338fc99545808651ab138638a
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/Pistol Preset 3.asset
+    m_Address: Pistol Preset 3
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: cdf45f0f9339cc246bf1c1b652502931
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/SMG Preset 1.asset
+    m_Address: SMG Preset 1
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 23871b051a41e57498fa6e95b5b9e179
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/SMG Preset 2.asset
+    m_Address: SMG Preset 2
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: c4fc6bde91df3f64481bccd35dc815a8
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/SMG Preset 3.asset
+    m_Address: SMG Preset 3
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: d9029fd30b8fe454faa206c1d6165cf0
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/Railgun Preset 1.asset
+    m_Address: Railgun Preset 1
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 2270ddf761d8f9246bfb9596c08eef20
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/Railgun Preset 3.asset
+    m_Address: Railgun Preset 3
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 43f7a2eb1ad861d41b7b269665225f9b
-    m_Address: Assets/CuteRush kit/Presets/Weapons/Specs/Railgun Preset 2.asset
+    m_Address: Railgun Preset 2
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
