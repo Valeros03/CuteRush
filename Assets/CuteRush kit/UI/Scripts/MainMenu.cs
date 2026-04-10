@@ -7,6 +7,7 @@ public class MainMenu : UIPanel
 {
     [Header("Panels")]
     [SerializeField] private GameObject PlayPanel;
+    [SerializeField] private GameObject SettingsPanel;
     [SerializeField] private UIPlayerUpgradesPanel UpgradePanel;
 
     [Header("Map Selection")]
@@ -58,6 +59,7 @@ public class MainMenu : UIPanel
     {
         if (UpgradePanel.gameObject.activeInHierarchy) return;
         PlayPanel.SetActive(false);
+        SettingsPanel.SetActive(false);
         UpgradePanel.Show();
     }
 
@@ -65,7 +67,16 @@ public class MainMenu : UIPanel
     {
         if (PlayPanel.activeInHierarchy) return;
         UpgradePanel.Hide();
+        SettingsPanel.SetActive(false);
         PlayPanel.SetActive(true);
+    }
+
+    public void SwitchToSettings()
+    {
+        if (SettingsPanel.activeInHierarchy) return;
+        UpgradePanel.Hide();
+        PlayPanel.SetActive(false);
+        SettingsPanel.SetActive(true);
     }
 
     public void OnPlayButtonClicked()
