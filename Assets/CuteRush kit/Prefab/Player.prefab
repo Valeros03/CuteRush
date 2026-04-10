@@ -823,15 +823,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3484ed68d8ac0345a1f8e8903a0646e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedLevel: 1
+  movementSpeedLevel: 0
   jumpLevel: 1
   medkitLevel: 1
+  maxHealthLevel: 0
+  flitchLevel: 0
+  maxMaxHealthLevel: 4
   maxSpeedLevel: 5
   maxJumpLevel: 3
   maxMedkitLevel: 4
+  maxFlitchLevel: 3
   extraSpeedPerLevel: 1
   extraJumpPerLevel: 1.5
   extraHealingPerLevel: 5
+  extraHealthPerLevel: 25
 --- !u!114 &7726861994258034351
 MonoBehaviour:
   m_ObjectHideFlags: 0
