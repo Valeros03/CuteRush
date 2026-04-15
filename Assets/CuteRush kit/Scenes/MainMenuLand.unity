@@ -429,7 +429,7 @@ MonoBehaviour:
   baseCostJump: 500
   baseCostMedkitHeal: 500
   baseCostFlitch: 500
-  baseCostBoricAcid: 0
+  baseCostBoricAcid: 1000
   baseCostPistol: 500
   baseCostSmg: 500
   baseCostRailgun: 500

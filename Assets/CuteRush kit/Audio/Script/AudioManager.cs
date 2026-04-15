@@ -100,23 +100,27 @@ public class AudioManager : MonoBehaviour
     {
         MasterVolume = linear;
         mixer.SetFloat(MASTER_VOL_PARAM, LinearToDecibel(linear));
+        SaveManager.Instance.currentSave.audioSettings.MasterVolume = linear;
     }
     public void SetMusicVolume(float linear)
     {
         MusicVolume = linear;
         mixer.SetFloat(MUSIC_VOL_PARAM, LinearToDecibel(linear));
+        SaveManager.Instance.currentSave.audioSettings.MusicVolume = linear;
     }
 
     public void SetSFXVolume(float linear)
     {
         SFXVolume = linear;
         mixer.SetFloat(SFX_VOL_PARAM, LinearToDecibel(linear));
+        SaveManager.Instance.currentSave.audioSettings.SFXVolume = linear;
     }
 
     public void SetAmbientVolume(float linear)
     {
         AmbientVolume = linear;
         mixer.SetFloat(AMBIENT_VOL_PARAM, LinearToDecibel(linear));
+        SaveManager.Instance.currentSave.audioSettings.AmbientVolume = linear;
     }
 
     private float LinearToDecibel(float linear)

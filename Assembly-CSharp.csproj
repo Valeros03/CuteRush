@@ -67,6 +67,7 @@
     <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_Camera.cs" />
     <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_CamNav.cs" />
     <Compile Include="Assets\AQUAS-Lite\Scripts\AQUAS_Lite_Reflection.cs" />
+    <Compile Include="Assets\AudioLabelModifier.cs" />
     <Compile Include="Assets\CuteRush kit\Audio\Script\AudioGunController.cs" />
     <Compile Include="Assets\CuteRush kit\Audio\Script\AudioListenerManager.cs" />
     <Compile Include="Assets\CuteRush kit\Audio\Script\AudioManager.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\GunSpawner.cs" />
     <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\Name TMP Rotation.cs" />
     <Compile Include="Assets\The Developer Train\Sci Fi Guns\Scripts\Bullet.cs" />
+    <Compile Include="Assets\TutorialManager.cs" />
     <None Include="Assets\Kawaii Slimes\Shader\Unity-chan Shader Ver 1.2.1\Unitychan_chara_eye.shader" />
     <None Include="Assets\CuteRush kit\Mappa\Low Poly Water\LowPoly Island\Credits.txt" />
     <None Include="Assets\Kawaii Slimes\Shader\UnityURPToonLitShader\NiloInvLerpRemap.hlsl" />

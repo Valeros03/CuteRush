@@ -94,7 +94,5 @@ public class UIManager : MonoBehaviour
         CreditScreen.SetActive(!CreditScreen.activeInHierarchy);
         if (CreditScreen.activeInHierarchy) saveMenu.Hide();
         else saveMenu.Show();
-
     }
-
 }

@@ -462,7 +462,7 @@ public abstract class Enemy : MonoBehaviour
             animator.SetTrigger(GameConstants.ANIM_DIE);
         }
 
-        StartCoroutine(DisableAfterTime(3f));
+        StartCoroutine(DisableAfterTime(1.2f));
     }
 
     protected IEnumerator DisableAfterTime(float delay)

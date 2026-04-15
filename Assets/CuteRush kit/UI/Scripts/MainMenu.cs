@@ -20,7 +20,6 @@ public class MainMenu : UIPanel
     private bool isMapExplicitlySelected = false;
     private bool isDifficultyExplicitlySelected = false;
 
-    
     public void OnEnable()
     {
         if (errorMissingSelectionText != null)

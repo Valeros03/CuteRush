@@ -9,6 +9,9 @@ public class MainMenuSaveIntegration : UIPanel
     [Tooltip("Il pannello che contiene i bottoni principali (Nuova Partita, Carica, Esci)")]
     public GameObject mainButtonsPanel;
 
+    [SerializeField] private GameObject Tutorial1;
+    [SerializeField] private GameObject Titolo;
+
     [Tooltip("Il pannello dove inserisci il nome per la nuova partita")]
     public GameObject newGamePanel;
 
@@ -123,4 +126,20 @@ public class MainMenuSaveIntegration : UIPanel
         }
     }
 
+    private void active(bool attivo)
+    {
+        Titolo.SetActive(!attivo);
+        mainButtonsPanel.SetActive(!attivo);
+        Tutorial1.SetActive(attivo);
+    }
+
+    public void TutorialButtonClicked()
+    {
+        active(true);
+    }
+
+    public void BackToMenu()
+    {
+        active(false);
+    }
 }
