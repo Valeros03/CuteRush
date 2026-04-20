@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e516c5e759d9d884eb6b34c892f6102a, type: 3}
   m_Name: Pistol Preset 1
   m_EditorClassIdentifier: 
-  totalAmmo: 56
+  totalAmmo: 140
   magazineSize: 28
   damage: 30
   range: 55

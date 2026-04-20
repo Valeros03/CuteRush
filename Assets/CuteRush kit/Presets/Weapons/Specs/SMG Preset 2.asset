@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e516c5e759d9d884eb6b34c892f6102a, type: 3}
   m_Name: SMG Preset 2
   m_EditorClassIdentifier: 
-  totalAmmo: 380
-  magazineSize: 75
+  totalAmmo: 400
+  magazineSize: 80
   damage: 22
   range: 50
   reloadDuration: 0.8

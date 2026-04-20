@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e516c5e759d9d884eb6b34c892f6102a, type: 3}
   m_Name: Railgun Preset 3
   m_EditorClassIdentifier: 
-  totalAmmo: 48
+  totalAmmo: 40
   magazineSize: 8
   damage: 180
   range: 200
