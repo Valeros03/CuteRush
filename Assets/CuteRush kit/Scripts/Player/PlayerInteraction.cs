@@ -45,7 +45,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (vitals != null && inventory != null)
         {
-            if (vitals.currentHealth < 100 && inventory.removeMedkit())
+            if (vitals.currentHealth < vitals.maxHealth && inventory.removeMedkit())
             {
                 vitals.UseMedikit();
             }
