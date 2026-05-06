@@ -8,6 +8,7 @@ public class SaveManager : MonoBehaviour
     public SaveData currentSave;
     public GlobalLeaderboardData globalLeaderboard;
     public string GlobalSavePath => Path.Combine(Application.persistentDataPath, "Global\\GlobalLeaderboard.json");
+    public string GlobalPath => Path.Combine(Application.persistentDataPath, "Global");
 
     private void Awake()
     {
@@ -20,7 +21,10 @@ public class SaveManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        if (!Directory.Exists(GlobalPath))
+        {
+            Directory.CreateDirectory(GlobalPath);
+        }
         LoadGlobalLeaderboard();
     }
     public void LoadGlobalLeaderboard()

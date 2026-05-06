@@ -17,5 +17,5 @@ MonoBehaviour:
   scalingIncrement: 0.1
   dropRateMultiplier: 1
   goldEarnedMultiplier: 0.5
-  scoreMultiplier: 1
+  scoreMultiplier: 0.5
   kpmMultiplier: 10

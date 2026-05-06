@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         finalScore = Mathf.FloorToInt((currentScore + Mathf.FloorToInt((killNumber / Mathf.Max((Time.time - levelStartTime) / 60f, 0.01f)) * currentDifficulty.kpmMultiplier)) * currentDifficulty.scoreMultiplier);
         SaveLastMatch();
-        UIManager.Instance.EndGameSequence(Time.time-levelStartTime, currentScore, killNumber, currentDifficulty.scoreMultiplier, currentDifficulty.kpmMultiplier);
+        UIManager.Instance.EndGameSequence(Time.time-levelStartTime, currentScore, killNumber, currentDifficulty.startingMultiplier, currentDifficulty.kpmMultiplier);
 
     }
 
