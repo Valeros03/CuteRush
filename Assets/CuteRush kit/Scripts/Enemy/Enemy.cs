@@ -236,7 +236,8 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         if (isDead || player == null || isTakingDamage) return;
-
+        
+        CheckAndRestoreNavMesh();
         TrackPlayerHistory();
 
         if (agent == null || !agent.isOnNavMesh) return;
@@ -401,6 +402,7 @@ public abstract class Enemy : MonoBehaviour
         if (hitRecoil != null) hitRecoil.ApplyHit(shotDirection, hitPoint);
 
         yield return new WaitForSeconds(flinchDuration);
+        CheckAndRestoreNavMesh();
 
         isTakingDamage = false;
         flinchCoroutine = null;
@@ -581,5 +583,20 @@ public abstract class Enemy : MonoBehaviour
         yield return new WaitForSeconds(delay);
         particle.gameObject.SetActive(false);
         particle.transform.SetParent(transform);
+    }
+
+    protected void CheckAndRestoreNavMesh()
+    {
+        if (agent == null || agent.isOnNavMesh) return;
+
+        NavMeshHit hit;
+        float searchRadius = 5f;
+        if (NavMesh.SamplePosition(transform.position, out hit, searchRadius, NavMesh.AllAreas))
+        {
+            agent.enabled = false;
+            transform.position = hit.position;
+            agent.enabled = true;
+            Debug.Log($"{gameObject.name} era fuori NavMesh ed è stato riposizionato.");
+        }
     }
 }
