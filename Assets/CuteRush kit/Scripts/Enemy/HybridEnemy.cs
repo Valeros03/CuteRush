@@ -15,8 +15,11 @@ public class HybridEnemy : Enemy
     public GameObject bulletPrefab;
     public Transform firePoint;
     public AnimationCurve projectileForceCurve;
-    public int rangedAttackDamage = 1; 
+    public int rangedAttackDamage = 1;
 
+    [Header("Smart Pathfinding")]
+    public float pathUpdateDelay = 0.25f;
+    private float lastPathUpdateTime;
 
     [Header("Pooling")]
     public int bulletPoolSize = 5;
@@ -34,6 +37,7 @@ public class HybridEnemy : Enemy
         if (agent != null)
         {
             agent.stoppingDistance = meleeRange;
+            agent.autoBraking = false;
         }
     }
 
@@ -51,6 +55,7 @@ public class HybridEnemy : Enemy
         projectileForce = projectileForceCurve.Evaluate(diffMult);
         lastRangedAttackTime = Time.time;
         SetFace(faces.attackFace);
+
     }
 
     void InitializeBulletPool()
@@ -75,23 +80,18 @@ public class HybridEnemy : Enemy
     {
         if (!agent.isOnNavMesh) return;
 
-        agent.SetDestination(player.position);
-
-        bool isPathComplete = agent.pathStatus == NavMeshPathStatus.PathComplete;
-        bool isPathPending = agent.pathPending;
-        bool canReachPlayer = isPathComplete || isPathPending;
-
         float distanceSqr = (transform.position - player.position).sqrMagnitude;
         float meleeRangeSqr = meleeRange * meleeRange;
         float rangedRangeSqr = rangedRange * rangedRange;
 
         float heightDifference = Mathf.Abs(transform.position.y - player.position.y);
-        bool isMeleeValid = distanceSqr <= meleeRangeSqr * 1.1f && canReachPlayer && heightDifference < 1.5f;
+        bool canReachPlayer = agent.pathStatus == NavMeshPathStatus.PathComplete || agent.pathPending;
+        bool trulyReachable = canReachPlayer && heightDifference < 1.5f;
 
         Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
         bool hasClearShot = HasClearShot(firePoint.position, predictedTarget);
 
-        if (isMeleeValid)
+        if (trulyReachable && distanceSqr <= meleeRangeSqr * 1.1f)
         {
             agent.isStopped = true;
             FaceTarget(player.position);
@@ -103,44 +103,50 @@ public class HybridEnemy : Enemy
                 animator.SetTrigger(GameConstants.ANIM_ATTACK);
             }
         }
-        else if (distanceSqr <= rangedRangeSqr * 1.1f)
+        else if (distanceSqr <= rangedRangeSqr * 1.1f && hasClearShot)
         {
-      
-            if (!canReachPlayer && hasClearShot)
-            {
-                agent.isStopped = true;
-                animator.SetFloat(GameConstants.ANIM_SPEED, 0f);
+            agent.isStopped = true;
+            agent.stoppingDistance = meleeRange;
+            animator.SetFloat(GameConstants.ANIM_SPEED, 0f);
 
-                FaceTarget(predictedTarget);
-                TryShoot(predictedTarget);
-            }
-            else
-            {
-                agent.isStopped = false;
-                agent.stoppingDistance = meleeRange;
-                animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
+            FaceTarget(predictedTarget);
 
-                if (hasClearShot)
+            Vector3 planarForward = transform.forward.WithY(0);
+            Vector3 planarDir = predictedTarget - transform.position; planarDir.y = 0;
+
+            if (Vector3.Angle(planarForward, planarDir) <= aimTolerance)
+            {
+                if (Time.time - lastRangedAttackTime >= rangedAttackCooldown)
                 {
-                    FaceTarget(predictedTarget);
-                    TryShoot(predictedTarget);
-                }
-                else
-                {
-                    SetFace(faces.WalkFace);
+                    lastRangedAttackTime = Time.time + Random.Range(-0.1f, 0.2f);
+                    animator.SetTrigger(GameConstants.ANIM_SHOOT);
+                    StartCoroutine(faceShootAnimate());
                 }
             }
         }
         else
         {
-            // --- FUORI RAGGIO: INSEGUE ---
             agent.isStopped = false;
-            agent.stoppingDistance = meleeRange;
-            animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
+            agent.stoppingDistance = 0.5f;
+
+            if (Time.time - lastPathUpdateTime > pathUpdateDelay)
+            {
+                lastPathUpdateTime = Time.time;
+
+                NavMeshPath path = new NavMeshPath();
+                if (NavMesh.CalculatePath(transform.position, player.position, NavMesh.AllAreas, path))
+                {
+                    if (path.status != NavMeshPathStatus.PathInvalid)
+                    {
+                        agent.SetPath(path);
+                    }
+                }
+            }
+
             SetFace(faces.WalkFace);
+            animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
         }
     }
-
 
     protected override void PerformAttack()
     {
