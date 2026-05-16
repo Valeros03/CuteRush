@@ -75,11 +75,23 @@ public class HybridEnemy : Enemy
     {
         if (!agent.isOnNavMesh) return;
 
+        agent.SetDestination(player.position);
+
+        bool isPathComplete = agent.pathStatus == NavMeshPathStatus.PathComplete;
+        bool isPathPending = agent.pathPending;
+        bool canReachPlayer = isPathComplete || isPathPending;
+
         float distanceSqr = (transform.position - player.position).sqrMagnitude;
         float meleeRangeSqr = meleeRange * meleeRange;
         float rangedRangeSqr = rangedRange * rangedRange;
 
-        if (distanceSqr <= meleeRangeSqr * 1.1f)
+        float heightDifference = Mathf.Abs(transform.position.y - player.position.y);
+        bool isMeleeValid = distanceSqr <= meleeRangeSqr * 1.1f && canReachPlayer && heightDifference < 1.5f;
+
+        Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
+        bool hasClearShot = HasClearShot(firePoint.position, predictedTarget);
+
+        if (isMeleeValid)
         {
             agent.isStopped = true;
             FaceTarget(player.position);
@@ -93,41 +105,37 @@ public class HybridEnemy : Enemy
         }
         else if (distanceSqr <= rangedRangeSqr * 1.1f)
         {
-            agent.isStopped = false;
-            agent.stoppingDistance = meleeRange;
-            agent.SetDestination(player.position);
-            animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
-
-            Vector3 predictedTarget = GetPredictedPlayerPosition(projectileForce, firePoint.position);
-
-            if (HasClearShot(firePoint.position, predictedTarget))
+      
+            if (!canReachPlayer && hasClearShot)
             {
+                agent.isStopped = true;
+                animator.SetFloat(GameConstants.ANIM_SPEED, 0f);
+
                 FaceTarget(predictedTarget);
-
-                Vector3 planarForward = transform.forward.WithY(0);
-                Vector3 planarDir = predictedTarget - transform.position; planarDir.y = 0;
-
-                if (Vector3.Angle(planarForward, planarDir) <= aimTolerance)
-                {
-                    if (Time.time - lastRangedAttackTime >= rangedAttackCooldown)
-                    {
-                        lastRangedAttackTime = Time.time + Random.Range(-0.1f, 0.2f);
-                        animator.SetTrigger(GameConstants.ANIM_SHOOT);
-                        StartCoroutine(faceShootAnimate());
-                    }
-                }
+                TryShoot(predictedTarget);
             }
             else
             {
-                SetFace(faces.WalkFace);
-            }
-        }else
-        {
+                agent.isStopped = false;
+                agent.stoppingDistance = meleeRange;
+                animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
 
+                if (hasClearShot)
+                {
+                    FaceTarget(predictedTarget);
+                    TryShoot(predictedTarget);
+                }
+                else
+                {
+                    SetFace(faces.WalkFace);
+                }
+            }
+        }
+        else
+        {
+            // --- FUORI RAGGIO: INSEGUE ---
             agent.isStopped = false;
             agent.stoppingDistance = meleeRange;
-
-            agent.SetDestination(player.position);
             animator.SetFloat(GameConstants.ANIM_SPEED, agent.velocity.magnitude);
             SetFace(faces.WalkFace);
         }
@@ -170,6 +178,22 @@ public class HybridEnemy : Enemy
 
         Vector3 dir = (finalTarget - firePoint.position).normalized;
         bullet.Fire(dir, scaledRangedDamage, projectileForce, transform.position);
+    }
+
+    private void TryShoot(Vector3 target)
+    {
+        Vector3 planarForward = transform.forward.WithY(0);
+        Vector3 planarDir = target - transform.position; planarDir.y = 0;
+
+        if (Vector3.Angle(planarForward, planarDir) <= aimTolerance)
+        {
+            if (Time.time - lastRangedAttackTime >= rangedAttackCooldown)
+            {
+                lastRangedAttackTime = Time.time + Random.Range(-0.1f, 0.2f);
+                animator.SetTrigger(GameConstants.ANIM_SHOOT);
+                StartCoroutine(faceShootAnimate());
+            }
+        }
     }
 
     IEnumerator faceShootAnimate()

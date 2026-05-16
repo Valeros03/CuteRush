@@ -60,5 +60,6 @@ public class GameBootstrapper : MonoBehaviour
                 spawner.InitSpawner();
             }
         }
+
     }
 }

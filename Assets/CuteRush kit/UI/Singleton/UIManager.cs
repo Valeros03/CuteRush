@@ -95,4 +95,10 @@ public class UIManager : MonoBehaviour
         if (CreditScreen.activeInHierarchy) saveMenu.Hide();
         else saveMenu.Show();
     }
+
+    public void ExitGame()
+    {
+        Debug.Log("PREMUTO!");
+        Application.Quit();
+    }
 }

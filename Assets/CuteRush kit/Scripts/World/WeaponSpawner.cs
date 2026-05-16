@@ -56,21 +56,22 @@ public class WeaponSpawner : InteractableItem
 
         currentWeaponData = ChooseNextWeapon();
 
-
         // --- INIZIO DEBUG ---
         Debug.Log($"<color=cyan>[WeaponSpawner] Inizio Respawn. Arma scelta: {currentWeaponData.weaponName}</color>");
 
+        // 1. GESTIONE OLOGRAMMA (Solo questo serve che stia sullo spawnPoint)
         if (currentWeaponData.hologramRef == null)
         {
             Debug.LogError($"[WeaponSpawner] hologramRef per {currentWeaponData.weaponName} è VUOTO nell'Inspector!");
         }
         else if (!currentWeaponData.hologramRef.RuntimeKeyIsValid())
         {
-            Debug.LogError($"[WeaponSpawner] La chiave dell'ologramma per {currentWeaponData.weaponName} NON E' VALIDA. Sicuro che il prefab sia segnato come Addressable?");
+            Debug.LogError($"[WeaponSpawner] La chiave dell'ologramma per {currentWeaponData.weaponName} NON E' VALIDA.");
         }
         else
         {
             Debug.Log($"[WeaponSpawner] Ologramma valido. Inizio caricamento...");
+            // L'ologramma lo posizioniamo nello spawnPoint perché è quello che il giocatore deve vedere
             AsyncOperationHandle<GameObject> hologramHandle = Addressables.InstantiateAsync(currentWeaponData.hologramRef, spawnPoint.position, spawnPoint.rotation, transform);
             yield return hologramHandle;
 
@@ -79,22 +80,17 @@ public class WeaponSpawner : InteractableItem
             Debug.Log($"[WeaponSpawner] Ologramma caricato con successo!");
         }
 
-        if (currentWeaponData.hologramRef != null && currentWeaponData.hologramRef.RuntimeKeyIsValid())
-        {
-            AsyncOperationHandle<GameObject> hologramHandle = Addressables.InstantiateAsync(currentWeaponData.hologramRef, spawnPoint.position, spawnPoint.rotation, transform);
-            yield return hologramHandle;
-
-            currentHologram = hologramHandle.Result;
-            currentHologram.SetActive(false);
-        }
-
+        // 2. GESTIONE ARMA VERA
         if (currentWeaponData.realWeaponRef != null && currentWeaponData.realWeaponRef.RuntimeKeyIsValid())
         {
-            AsyncOperationHandle<GameObject> weaponHandle = Addressables.InstantiateAsync(currentWeaponData.realWeaponRef, spawnPoint.position, spawnPoint.rotation, transform);
+            // === LA RIGA CORRETTA È QUESTA! ===
+            // Non passiamo spawnPoint.position! Passiamo solo il transform padre e 'false' (instantiateInWorldSpace).
+            // In questo modo il prefab mantiene i suoi offset locali originali, perfetti per le mani del player.
+            AsyncOperationHandle<GameObject> weaponHandle = Addressables.InstantiateAsync(currentWeaponData.realWeaponRef, transform, false);
             yield return weaponHandle;
 
             preInstantiatedWeapon = weaponHandle.Result;
-            preInstantiatedWeapon.SetActive(false);
+            preInstantiatedWeapon.SetActive(false); // La nascondiamo subito, quindi non ci importa dove "fisicamente" si trovi rispetto allo spawner
 
             GunBase gunComponent = preInstantiatedWeapon.GetComponent<GunBase>();
             if (gunComponent != null)
@@ -167,6 +163,7 @@ public class WeaponSpawner : InteractableItem
                 }
             }
         }
+
         yield return new WaitForSeconds(waitTime);
 
         isReady = true;

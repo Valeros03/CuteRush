@@ -70,6 +70,10 @@ public class GameManager : MonoBehaviour
         ResetLevelTimer();
         levelStartTime = Time.time;
         timerCoroutine = StartCoroutine(TimerRoutine());
+
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void StopLevelTimer()
@@ -96,6 +100,9 @@ public class GameManager : MonoBehaviour
 
         currentState = GameState.GameOver;
         StopLevelTimer();
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
         if (AudioManager.Instance != null)
         {
@@ -147,23 +154,6 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-    void Update()
-    {
-        if (currentState == GameState.Playing)
-        {
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-            }
-            if (Input.GetMouseButtonDown(0))
-            {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-        }
     }
 
     private void SaveLastMatch()

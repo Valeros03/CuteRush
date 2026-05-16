@@ -105,7 +105,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.1
+    agentRadius: 0.52
     agentHeight: 0.5
     agentSlope: 16.9
     agentClimb: 0.49
@@ -1765,6 +1765,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shelter
       objectReference: {fileID: 0}
+    - target: {fileID: 154704, guid: a3d360ea73a17dd45b7ddae3a7a0488b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 428944, guid: a3d360ea73a17dd45b7ddae3a7a0488b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20.279
@@ -1830,6 +1834,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2266459623250164781, guid: d941199d4a58fcb45adc75ea8e37c42c,
+        type: 3}
+      propertyPath: visionLossMaxEffect
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2266459623250164781, guid: d941199d4a58fcb45adc75ea8e37c42c,
+        type: 3}
+      propertyPath: detailLossEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2266459623250164781, guid: d941199d4a58fcb45adc75ea8e37c42c,
+        type: 3}
+      propertyPath: colorLossTowardRedStartsAt
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2266459623250164781, guid: d941199d4a58fcb45adc75ea8e37c42c,
+        type: 3}
+      propertyPath: doubleVisionWaving
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2266459623250164781, guid: d941199d4a58fcb45adc75ea8e37c42c,
+        type: 3}
+      propertyPath: doubleVisionMaxEffect
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3156040107336455275, guid: d941199d4a58fcb45adc75ea8e37c42c,
+        type: 3}
+      propertyPath: m_Depth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3156040107336455275, guid: d941199d4a58fcb45adc75ea8e37c42c,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3156040107336455275, guid: d941199d4a58fcb45adc75ea8e37c42c,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 65063
+      objectReference: {fileID: 0}
     - target: {fileID: 3362827368680789125, guid: d941199d4a58fcb45adc75ea8e37c42c,
         type: 3}
       propertyPath: maxHealth
@@ -7235,6 +7279,21 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2071357537528405644, guid: 26f2a216890e8e847a0d5785443d27ae,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071357537528405644, guid: 26f2a216890e8e847a0d5785443d27ae,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071357537528405644, guid: 26f2a216890e8e847a0d5785443d27ae,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 2307268245568123022, guid: 26f2a216890e8e847a0d5785443d27ae,
         type: 3}
       propertyPath: m_Name
@@ -12157,17 +12216,17 @@ PrefabInstance:
     - target: {fileID: 2071357537528405644, guid: 26f2a216890e8e847a0d5785443d27ae,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.22881
+      value: -0.77
       objectReference: {fileID: 0}
     - target: {fileID: 2071357537528405644, guid: 26f2a216890e8e847a0d5785443d27ae,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.0788
+      value: 1.08
       objectReference: {fileID: 0}
     - target: {fileID: 2071357537528405644, guid: 26f2a216890e8e847a0d5785443d27ae,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.2507
+      value: -1.25
       objectReference: {fileID: 0}
     - target: {fileID: 2071357537528405644, guid: 26f2a216890e8e847a0d5785443d27ae,
         type: 3}

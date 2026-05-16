@@ -8,17 +8,26 @@ public class Bootstrapper : MonoBehaviour
 
     public string uiSceneName = GameConstants.SCENE_UI;
     public string mainMenuEnvironment = GameConstants.SCENE_MAIN_MENU;
-  
+
     private string currentLoadedEnvironment = "";
     private bool continueLoad = false;
 
     [SerializeField] private AudioListenerManager listenerManager;
+    private Camera loadingCamera;
 
     void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        GameObject camObj = new GameObject("LoadingCamera");
+        camObj.transform.SetParent(transform);
+        loadingCamera = camObj.AddComponent<Camera>();
+        loadingCamera.clearFlags = CameraClearFlags.SolidColor;
+        loadingCamera.backgroundColor = Color.black;
+        loadingCamera.depth = -100;
+        loadingCamera.gameObject.SetActive(true);
 
         SceneManager.LoadScene(uiSceneName, LoadSceneMode.Additive);
     }

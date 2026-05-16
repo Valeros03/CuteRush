@@ -346,7 +346,7 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        readyWeapon.transform.SetParent(weaponHolder.transform, false);
+        readyWeapon.transform.SetParent(weaponHolder.transform, true);
         readyWeapon.SetActive(true);
 
         weaponAnimator = readyWeapon.GetComponent<Animator>();
