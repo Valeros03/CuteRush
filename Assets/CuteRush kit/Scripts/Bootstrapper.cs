@@ -13,6 +13,7 @@ public class Bootstrapper : MonoBehaviour
     private bool continueLoad = false;
 
     [SerializeField] private AudioListenerManager listenerManager;
+    private Camera loadingCamera;
 
     void Awake()
     {
@@ -44,6 +45,18 @@ public class Bootstrapper : MonoBehaviour
 
     private IEnumerator TransitionSceneRoutine(string newSceneName)
     {
+        if (loadingCamera == null)
+        {
+            GameObject camObj = new GameObject("BootstrapperLoadingCamera");
+            camObj.transform.SetParent(transform);
+            loadingCamera = camObj.AddComponent<Camera>();
+            loadingCamera.clearFlags = CameraClearFlags.SolidColor;
+            loadingCamera.backgroundColor = Color.black;
+            loadingCamera.cullingMask = 0;
+            loadingCamera.depth = -100;
+        }
+        loadingCamera.enabled = true;
+
         if (UIManager.Instance != null)
             UIManager.Instance.ShowLoadingScreen();
 
@@ -79,5 +92,10 @@ public class Bootstrapper : MonoBehaviour
         currentLoadedEnvironment = newSceneName;
         Time.timeScale = 1f;
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(newSceneName));
+
+        if (loadingCamera != null)
+        {
+            loadingCamera.enabled = false;
+        }
     }
 }
