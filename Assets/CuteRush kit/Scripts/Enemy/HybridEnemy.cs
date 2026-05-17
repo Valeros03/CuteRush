@@ -132,13 +132,21 @@ public class HybridEnemy : Enemy
             if (Time.time - lastPathUpdateTime > pathUpdateDelay)
             {
                 lastPathUpdateTime = Time.time;
-
                 NavMeshPath path = new NavMeshPath();
-                if (NavMesh.CalculatePath(transform.position, player.position, NavMesh.AllAreas, path))
+
+                if (NavMesh.CalculatePath(transform.position, player.position, NavMesh.AllAreas, path) && path.status != NavMeshPathStatus.PathInvalid)
                 {
-                    if (path.status != NavMeshPathStatus.PathInvalid)
+                    agent.SetPath(path);
+                }
+                else
+                {
+                    NavMeshHit hit;
+                    if (NavMesh.SamplePosition(player.position, out hit, 15f, NavMesh.AllAreas))
                     {
-                        agent.SetPath(path);
+                        if (NavMesh.CalculatePath(transform.position, hit.position, NavMesh.AllAreas, path))
+                        {
+                            agent.SetPath(path);
+                        }
                     }
                 }
             }

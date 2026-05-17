@@ -1,13 +1,13 @@
 Caratteristiche e Funzionalità in CuteRush kit
 ==============================================
 
-## Impostazioni generali
+Impostazioni generali
 -Build mobile: Il gioco supporta l'input mobile. Riferimenti: `Assets/CuteRush kit/Scripts/Player/PlayerInput.cs` e la mappatura Input System nei package Unity.
 -Splash Screen: Impostato nelle proprietà globali del progetto `ProjectSettings/ProjectSettings.asset` (riga 23: `m_ShowUnitySplashScreen: 1`, `m_SplashScreenBackgroundColor`).
 -Icona gioco: Presente nelle impostazioni di Player Settings nel progetto Unity.
 
 
-## Main menu
+Main menu
 -Load Game: Gestito in `Assets/CuteRush kit/Scripts/SaveSystem/MainMenuSaveIntegration.cs` (riga 51: `ShowLoadGamePanel()`, riga 94: `HandleLoadGame()`).
 -Options - Sound/Music: Slider gestiti nel `Assets/CuteRush kit/UI/Scripts/MainMenu.cs` interfacciati con `Assets/CuteRush kit/Audio/Script/AudioManager.cs` (es. `SetMasterVolume()`, `SetMusicVolume()`).
 -Classifica (Ordinata con rimpiazzo dinamico):
@@ -15,7 +15,7 @@ Caratteristiche e Funzionalità in CuteRush kit
   - `Assets/CuteRush kit/Scripts/SaveSystem/SaveManager.cs` (riga 76: `SubmitScore`, limita la classifica locale e globale con logica di rimpiazzo dinamico).
 
 
-## GamePlay
+GamePlay
 -Score: Incrementato in `Assets/CuteRush kit/Scripts/GameManager.cs` (riga 84: `AddKillScore(int points)`) e richiamato da `Assets/CuteRush kit/Scripts/Enemy/Enemy.cs` (riga 437: `GameManager.Instance.AddKillScore(killPoints)`).
 -PowerUp/Shop/Bonus giocatore:
   - Upgrades gestiti in `Assets/CuteRush kit/Scripts/Upgrades/UpgradeManager.cs`.
@@ -30,10 +30,10 @@ Caratteristiche e Funzionalità in CuteRush kit
   - File: `Assets/CuteRush kit/Scripts/Enemy/RangedEnemy.cs` (riga 54: `PerformChaseLogic()` -> riga 61: `Vector3 predictedTarget = GetPredictedPlayerPosition(...)`).
   - Funzione chiave: `GetPredictedPlayerPosition` presente in `Assets/CuteRush kit/Scripts/Enemy/Enemy.cs` (riga 483), che esegue un'analisi `GetVelocityOverWindow` per sparare in anticipo rispetto al movimento del player.
 
-## Tutorial
+Tutorial
 - 3 Schermate statiche visualizzabili nel main menù (MainMenuLoadSave)
 
-## Strutture
+Strutture
 -PlayerPrefs:
   - `Assets/CuteRush kit/Scripts/SaveSystem/SaveManager.cs` (riga 120, 134, 168).
   - `Assets/CuteRush kit/Scripts/Difficulty/DifficultySetter.cs` (riga 11).
@@ -100,9 +100,31 @@ Caratteristiche e Funzionalità in CuteRush kit
 -User Interface:
   - AcidBarItem.cs, SaveSlotUI.cs, PlayerInfoUpdater.cs, UIPlayerUpgradesPanel.cs, HUD.cs, LatterboxRequester.cs, GameOverScreen.cs, UiAcidoBorico.cs, DamageIndicator.cs, MainMenu.cs, LoadingScreenController.cs. Tutte in `Assets/CuteRush kit/UI/Scripts/`.
 
-## EXTRA
+EXTRA
 -Particelle:
   - Nemici (sangue/hit): `Assets/CuteRush kit/Scripts/Enemy/Enemy.cs` (riga 35: `ParticleSystem hitParticlePrefab`).
   - Falò (World/Ambiente): `Assets/CuteRush kit/Scripts/World/Bonfire.cs` (riga 10: `ParticleSystem[] allFireParticleSystems`).
   - Armi (Spari/Bossoli): `Assets/CuteRush kit/Scripts/AbstractClass/GunBase.cs` (riga 11: `ParticleSystem[] gunParticleSystems`).
+
+
+NOTE
+-Nuovo Input System (Unity Package):
+
+Riferimenti: "Assets/CuteRush kit/Scripts/Player/PlayerInput.cs", "Assets/PlayerControl.cs" (classe C# auto-generata dall'Input Action Asset).
+
+Perché usare il nuovo sistema invece del vecchio "InputManager" ("Input.GetAxis", "Input.GetKeyDown")?
+
+Action-Based (Event-Driven): Invece di interrogare la tastiera 60 volte al secondo nell'"Update()" (Polling), il nuovo sistema si basa sugli eventi (es. "OnJump", "OnMove"). Questo approccio è molto più pulito, reattivo e meno esoso per la CPU.
+
+Cross-Platform Nativo: Astrae completamente l'hardware. L'azione "Move" funziona in automatico sia con i tasti WASD che con la levetta analogica di un Gamepad, senza dover scrivere righe di codice separate per periferiche diverse.
+
+-Addressable Asset System:
+
+Perché usare gli Addressables invece dei classici riferimenti diretti (Direct References nell'Inspector) o della cartella "Resources"?
+
+Gestione Asincrona della Memoria: Gli Addressables caricano gli asset (es. prefab di nemici, armi pesanti, menu UI) in modo asincrono solo nel momento esatto in cui servono, e permettono di "scaricarli" (Release) dalla RAM quando non sono più utilizzati. I riferimenti diretti, al contrario, caricano tutto il peso dell'oggetto in memoria non appena la scena viene aperta, causando picchi di consumo RAM.
+
+Ottimizzazione della Build: Evita il noto "collo di bottiglia" della cartella "Resources". Tutto ciò che si trova in "Resources" viene indicizzato da Unity, aumentando i tempi di caricamento e gonfiando le dimensioni della build base.
+
+Disaccoppiamento e Flessibilità: Il codice chiama un "indirizzo testuale" (Address) anziché un percorso fisico. Questo significa che è possibile spostare i file nel progetto, raggrupparli o (in futuro) persino scaricarli da un server remoto (DLC/Updates) senza dover modificare e ricompilare una singola riga di codice C#.
 

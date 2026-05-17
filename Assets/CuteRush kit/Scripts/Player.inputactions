@@ -68,6 +68,22 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "Press"
+                },
+                {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "975a2d58-2571-4bd2-ae1c-09a20efa72f2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Submit",
+                    "type": "Button",
+                    "id": "6ff030e3-5663-4d6c-89e1-384068473608",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -76,6 +92,28 @@
                     "id": "258a29c7-3397-4072-8a27-23e62674d953",
                     "path": "<Keyboard>/g",
                     "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipGranade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02c43452-01f0-43e0-84ed-7cb75eff22ec",
+                    "path": "<DualShockGamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipGranade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fcd89aab-8793-4b3f-837a-f1531c8e0c14",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "EquipGranade",
@@ -106,6 +144,28 @@
                 },
                 {
                     "name": "",
+                    "id": "db5e1f13-c62f-4caa-a886-c48cb4bfa447",
+                    "path": "<XInputController>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1fad7da-3711-49d6-8bdc-2dc9a359ed0b",
+                    "path": "<DualShockGamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "0843586d-e673-44fd-856c-b635bf57157f",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -117,8 +177,52 @@
                 },
                 {
                     "name": "",
+                    "id": "8c805de2-76a1-4ca3-9bef-9ca3a9971c80",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3fd888ca-2d15-43af-9081-249cb034be89",
+                    "path": "<DualShockGamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ad4aecd9-2b6f-4561-b195-d5405b8ecb86",
                     "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e97dd368-7c92-490b-b3c1-e5f8d1b4cf7f",
+                    "path": "<DualShockGamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "884744a5-f194-4a4b-be98-e62a1518c211",
+                    "path": "<XInputController>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -150,8 +254,30 @@
                 },
                 {
                     "name": "",
+                    "id": "05844f12-5bc6-42d0-ba87-8a3528ee0301",
+                    "path": "<XInputController>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Heal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0fdfb330-e5fe-4a5c-93a3-c6465862f4be",
+                    "path": "<DualShockGamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Heal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "86a0fdec-456e-4f3f-bf81-35cc5fa8cb9b",
-                    "path": "",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -213,6 +339,61 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "25a5976f-eba6-4263-b7b7-f1eed2fda85d",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2f26b567-f70c-41e3-9128-faa4e5f96f44",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92a49187-04b1-4a08-aaee-f6bb0f6f8431",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6cdd86d3-62ea-4ece-8766-5f6f77133d8b",
+                    "path": "<DualShockGamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1e43339e-a2d6-4b20-a8ef-c1967751b89d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

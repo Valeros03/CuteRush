@@ -94,7 +94,6 @@
      <Compile Include="Assets\CuteRush kit\Scripts\Interface\IPickable.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\InventoryPlayer.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerCombat.cs" />
-     <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerControl.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerInput.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerInteraction.cs" />
      <Compile Include="Assets\CuteRush kit\Scripts\Player\PlayerMovement.cs" />
@@ -139,13 +138,6 @@
      <Compile Include="Assets\CuteRush kit\UI\Scripts\UIPlayerUpgradesPanel.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Singleton\UIManager.cs" />
      <Compile Include="Assets\CuteRush kit\UI\Static\UIEvents.cs" />
-     <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Models\Low Poly Survival Essentials\Example\Scripts\AnimatedFire.cs" />
-     <Compile Include="Assets\Free Survivak Zombie Kit\Resources\Textures &amp; Sprites\UI\Radial Slider UI\Scripts\RadialSlider.cs" />
-     <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\Inventory.cs" />
-     <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\InventorySlot.cs" />
-     <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\InventoryUI.cs" />
-     <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Inventory\ItemPickup.cs" />
-     <Compile Include="Assets\Free Survivak Zombie Kit\Scripts\Items\Item.cs" />
      <Compile Include="Assets\IconAssetGenerator.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\AbstractTargetFollower.cs" />
      <Compile Include="Assets\Kawaii Slimes\Cameras\Scripts\FreeLookCam.cs" />
@@ -156,6 +148,7 @@
      <Compile Include="Assets\LowHealth\LowHealthDirectAccess.cs" />
      <Compile Include="Assets\MapToggleData.cs" />
      <Compile Include="Assets\Nokobot\Modern Guns - Handgun\_Demo Assets\SimpleShoot.cs" />
+     <Compile Include="Assets\PlayerControl.cs" />
      <Compile Include="Assets\TextureConverter.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\Camera Controller.cs" />
      <Compile Include="Assets\The Developer Train\Sci Fi Guns\Demo\Scripts\GunRotation.cs" />

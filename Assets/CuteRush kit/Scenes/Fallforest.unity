@@ -1834,6 +1834,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1828369749774696620, guid: d941199d4a58fcb45adc75ea8e37c42c,
+        type: 3}
+      propertyPath: lookAction
+      value: 
+      objectReference: {fileID: -999558311877978278, guid: d85d21c46af982141bbaf009ee99325c,
+        type: 3}
+    - target: {fileID: 1828369749774696620, guid: d941199d4a58fcb45adc75ea8e37c42c,
+        type: 3}
+      propertyPath: xSensitivity
+      value: 7.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828369749774696620, guid: d941199d4a58fcb45adc75ea8e37c42c,
+        type: 3}
+      propertyPath: ySensitivity
+      value: 7.53
+      objectReference: {fileID: 0}
     - target: {fileID: 2266459623250164781, guid: d941199d4a58fcb45adc75ea8e37c42c,
         type: 3}
       propertyPath: visionLossMaxEffect

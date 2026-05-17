@@ -128,6 +128,7 @@ public class HUD : UIPanel
         UIEvents.OnShowNotification -= ShowMessage;
         UIEvents.OnRequestInteract -= ShowInteract;
         UIEvents.OnHideInteract -= HideInteract;
+        ClearDamageIndicators();
     }
 
     private void UpdateAmmoUI(int current, int total)
@@ -209,6 +210,18 @@ public class HUD : UIPanel
             newInd.Initialize(enemyPos);
             _activeIndicators.Add(newInd);
         }
+    }
+
+    public void ClearDamageIndicators()
+    {
+        foreach (DamageIndicator indicator in _activeIndicators)
+        {
+            if (indicator != null)
+            {
+                Destroy(indicator.gameObject);
+            }
+        }
+        _activeIndicators.Clear();
     }
 
     private void UpdateTimerDisplay(int minutes, int seconds)
